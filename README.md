@@ -1,2 +1,2 @@
-# homeCareMiniProgram
-一款提供医护上门服务的小程序
+# wisdomLivingMiniProgram
+一款通过连接各种监测硬件，为居家人员提供各种健康监测数据的小程序

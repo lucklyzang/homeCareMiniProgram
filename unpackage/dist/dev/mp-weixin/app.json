@@ -1,0 +1,115 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/service/service",
+    "pages/message/message",
+    "pages/orderForm/orderForm",
+    "pages/personInfo/personInfo"
+  ],
+  "subPackages": [
+    {
+      "root": "messagePackage",
+      "pages": [
+        "pages/message/index/index"
+      ],
+      "name": "rootMessagePackage"
+    },
+    {
+      "root": "servicePackage",
+      "pages": [
+        "pages/service/index/index"
+      ],
+      "name": "rootServicePackage"
+    },
+    {
+      "root": "orderFormPackage",
+      "pages": [
+        "pages/orderForm/index/index"
+      ],
+      "name": "rootOrderFormPackage"
+    },
+    {
+      "root": "minePackage",
+      "pages": [
+        "pages/mine/index/index"
+      ],
+      "name": "rootMinePackage"
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#FFFFFF",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#A7A7A7",
+    "selectedColor": "#F16C8C",
+    "backgroundColor": "#fff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/img/home-icon.png",
+        "selectedIconPath": "static/img/home-icon-active.png"
+      },
+      {
+        "pagePath": "pages/service/service",
+        "text": "服务",
+        "iconPath": "static/img/service-icon.png",
+        "selectedIconPath": "static/img/service-icon-active.png"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息",
+        "iconPath": "static/img/message-icon.png",
+        "selectedIconPath": "static/img/message-icon-active.png"
+      },
+      {
+        "pagePath": "pages/orderForm/orderForm",
+        "text": "订单",
+        "iconPath": "static/img/order-form-icon.png",
+        "selectedIconPath": "static/img/order-form-icon-active.png"
+      },
+      {
+        "pagePath": "pages/personInfo/personInfo",
+        "text": "我的",
+        "iconPath": "static/img/my-icon.png",
+        "selectedIconPath": "static/img/my-icon-active.png"
+      }
+    ]
+  },
+  "preloadRule": {
+    "servicePackage/pages/service/index/index": {
+      "network": "all",
+      "packages": [
+        "rootServicePackage"
+      ]
+    },
+    "messagePackage/pages/message/index/index": {
+      "network": "all",
+      "packages": [
+        "rootMessagePackage"
+      ]
+    },
+    "orderFormPackage/pages/orderForm/index/index": {
+      "network": "all",
+      "packages": [
+        "rootOrderFormPackage"
+      ]
+    },
+    "minePackage/pages/mine/index/index": {
+      "network": "all",
+      "packages": [
+        "rootMinePackage"
+      ]
+    }
+  },
+  "permission": {},
+  "usingComponents": {
+    "our-loading": "/components/our-loading/our-loading"
+  }
+}

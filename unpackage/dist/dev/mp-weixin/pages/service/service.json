@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "服务",
+  "navigationBarBackgroundColor": "#75b0f0",
+  "navigationBarTextStyle": "white",
+  "backgroundColorBottom": "#f7f7f7",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-search": "/node-modules/uview-ui/components/u-search/u-search",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
+}

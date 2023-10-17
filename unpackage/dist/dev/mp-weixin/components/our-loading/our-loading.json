@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "loop": "/components/our-loading/loaders/loop",
+    "shrink-rect": "/components/our-loading/loaders/shrink-rect"
+  },
+  "component": true
+}
