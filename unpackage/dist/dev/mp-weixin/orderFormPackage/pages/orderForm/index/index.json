@@ -3,5 +3,11 @@
   "navigationBarBackgroundColor": "#ffffff",
   "backgroundColorTop": "#fff,",
   "backgroundColorBottom": "#fff",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-loading": "/node-modules/uview-ui/components/u-loading/u-loading",
+    "u-steps": "/node-modules/uview-ui/components/u-steps/u-steps",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
 }

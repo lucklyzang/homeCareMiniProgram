@@ -9483,7 +9483,7 @@ internalMixin(Vue);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/@dcloudio/webpack-uni-pages-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'D:\\工作项目\\homeCareMiniProgram\\pages.json'");
+
 
 /***/ }),
 /* 27 */,
@@ -10750,24 +10750,1863 @@ module.exports = index_cjs;
   !*** D:/工作项目/homeCareMiniProgram/api/user.js ***!
   \***********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader/index.js):\nError: ENOENT: no such file or directory, open 'D:\\工作项目\\homeCareMiniProgram\\api\\user.js'");
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addMobile = addMobile;
+exports.createUserBootUpData = createUserBootUpData;
+exports.createUserDeviceBind = createUserDeviceBind;
+exports.createUserFamily = createUserFamily;
+exports.createUserRoom = createUserRoom;
+exports.createVisitPageData = createVisitPageData;
+exports.deleteMobile = deleteMobile;
+exports.deleteUserDeviceBind = deleteUserDeviceBind;
+exports.deleteUserFamily = deleteUserFamily;
+exports.deleteUserRoom = deleteUserRoom;
+exports.exitPageData = exitPageData;
+exports.getUserBannerList = getUserBannerList;
+exports.getUserDeviceBind = getUserDeviceBind;
+exports.getUserDeviceCount = getUserDeviceCount;
+exports.getUserDeviceMessage = getUserDeviceMessage;
+exports.getUserFamily = getUserFamily;
+exports.getUserFamilyList = getUserFamilyList;
+exports.getUserMessage = getUserMessage;
+exports.getUserPresetsRoomList = getUserPresetsRoomList;
+exports.getUserRoom = getUserRoom;
+exports.getUserRoomDevices = getUserRoomDevices;
+exports.getUserRoomList = getUserRoomList;
+exports.updateMobile = updateMobile;
+exports.updateUserAvatar = updateUserAvatar;
+exports.updateUserDeviceBind = updateUserDeviceBind;
+exports.updateUserFamily = updateUserFamily;
+exports.updateUserMessage = updateUserMessage;
+exports.updateUserRoom = updateUserRoom;
+var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 32));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 39));
+// 获的banner列表
+function getUserBannerList() {
+  return (0, _request.default)({
+    url: '/app-api/radar/banner/list',
+    method: 'get'
+  });
+}
+;
+
+// 获取用户基本信息
+function getUserMessage() {
+  return (0, _request.default)({
+    url: '/app-api/member/user/get',
+    method: 'get'
+  });
+}
+;
+
+// 修改用户信息
+function updateUserMessage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/user/update',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 修改用户头像
+function updateUserAvatar(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/user/update-avatar',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 获取用户房间
+function getUserRoom() {
+  return (0, _request.default)({
+    url: '/app-api/member/room/get',
+    method: 'get'
+  });
+}
+;
+
+// 获取用户房间列表
+function getUserRoomList(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/list',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取预设房间
+function getUserPresetsRoomList() {
+  return (0, _request.default)({
+    url: '/app-api/member/room/presets-room',
+    method: 'get'
+  });
+}
+;
+
+// 创建用户房间
+function createUserRoom(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 更新用户房间
+function updateUserRoom(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除用户房间
+function deleteUserRoom(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获取用户家庭
+function getUserFamily() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/get',
+    method: 'get'
+  });
+}
+;
+
+// 获取用户家庭列表
+function getUserFamilyList() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/list',
+    method: 'get'
+  });
+}
+;
+
+// 创建用户家庭
+function createUserFamily(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 更新用户家庭
+function updateUserFamily(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除用户家庭
+function deleteUserFamily(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 新增手机号
+function addMobile(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/add-mobile',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 修改手机号
+function updateMobile(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/update-mobile',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除手机号
+function deleteMobile(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/delete-mobile',
+    method: 'delete',
+    data: data
+  });
+}
+;
+
+// 获取用户设备数量
+function getUserDeviceCount() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/device-count',
+    method: 'get'
+  });
+}
+;
+
+// 获取用户设备信息
+function getUserDeviceMessage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/devices',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取用户设备和房间列表
+function getUserRoomDevices(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/room-devices',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 创建设备和用户绑定
+function createUserDeviceBind(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 更新设备和用户绑定
+function updateUserDeviceBind(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除设备和用户绑定
+function deleteUserDeviceBind(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获取设备和用户绑定
+function getUserDeviceBind() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/get',
+    method: 'get'
+  });
+}
+;
+
+// 创建用户启动数据
+function createUserBootUpData() {
+  return (0, _request.default)({
+    url: '/app-api/member/boot-up/create',
+    method: 'post'
+  });
+}
+;
+
+// 创建页面访问数据
+function createVisitPageData(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/visit-page/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 退出页面
+function exitPageData(id) {
+  return (0, _request.default)({
+    url: "/app-api/member/visit-page/exit?id=".concat(id),
+    method: 'post'
+  });
+}
+;
 
 /***/ }),
-/* 32 */,
-/* 33 */,
+/* 32 */
+/*!**************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/api/request.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 33));
+var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 34));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 39));
+var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var instance = _axiosMiniprogram.default.create({
+  // 生产域名 https://blinktech.cn/nblink
+  // 开发域名 https://blink.blinktech.cn/nblink
+  // 准生产域名 https://ver.blinktech.cn/nblink
+  // 测试域名 https://show.blinktech.cn/nblink
+  baseURL: 'https://blink.blinktech.cn/radar',
+  retry: 3,
+  // 网络请求异常后，重试次数 
+  retryDelay: 1000,
+  // 每次重试间隔时间
+  timeout: 30000,
+  headers: {
+    // common: {    
+    //   'Accept': 'application/json, test/plain,'
+    // }
+    // post: {
+    //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    // }
+  }
+});
+
+// 计算是否快要过期
+var isTokenExpired = function isTokenExpired() {
+  var expireTime = new Date(_store.default.getters.userInfo['expiresTime']).getTime();
+  var timeDifference = expireTime - Date.now();
+  if (expireTime && timeDifference < 60000) {
+    return true;
+  }
+  ;
+  return false;
+};
+
+// 是否正在刷新的标记 -- 防止重复发出刷新token接口--节流阀
+var isRefreshing = false;
+
+// 失效后同时发送请求的容器 -- 缓存接口
+var subscribers = [];
+
+// 刷新 token 后, 将缓存的接口重新请求一次
+function onAccessTokenFetched(newToken) {
+  subscribers.forEach(function (callback) {
+    callback(newToken);
+  });
+  // 清空缓存接口
+  subscribers = [];
+}
+;
+
+// 添加缓存接口
+function addSubscriber(callback) {
+  subscribers.push(callback);
+}
+;
+
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  config.headers['tenant-id'] = 1;
+  if (config['url'] == 'auth/login') {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  }
+  ;
+  // 请求头添加token
+  if (_store.default.getters.token) {
+    config.headers['Authorization'] = "Bearer ".concat(_store.default.getters.token);
+  }
+  ;
+  if (isTokenExpired() && _store.default.getters.userInfo['refreshToken'] && _store.default.getters.isLogin) {
+    // 如果token快过期了
+    if (!isRefreshing) {
+      // 控制重复获取token
+      isRefreshing = true;
+      (0, _axiosMiniprogram.default)({
+        headers: {
+          'tenant-id': 1
+        },
+        baseURL: 'https://blink.blinktech.cn/radar',
+        method: 'post',
+        url: "app-api/member/auth/refresh-token?refreshToken=".concat(_store.default.getters.userInfo['refreshToken'])
+      }).then(function (res) {
+        if (res && res.data.code === 0) {
+          isRefreshing = false;
+          var result = res.data.data;
+          // token存储到vuex
+          if (result) {
+            // token信息存入store
+            _store.default.commit('changeToken', result.accessToken);
+            // 登录用户信息存入store
+            _store.default.commit('storeUserInfo', result);
+            onAccessTokenFetched(result.accessToken);
+          }
+        } else {
+          // 清空store和localStorage
+          (0, _utils.removeAllLocalStorage)();
+          _store.default.dispatch('resetDeviceState');
+          _store.default.dispatch('resetLoginState');
+          uni.redirectTo({
+            url: '/pages/login/login'
+          }); // 失败就跳转登陆
+          isRefreshing = true;
+        }
+      }).catch(function (err) {
+        // 清空store和localStorage
+        (0, _utils.removeAllLocalStorage)();
+        _store.default.dispatch('resetDeviceState');
+        _store.default.dispatch('resetLoginState');
+        uni.redirectTo({
+          url: '/pages/login/login'
+        }); // 失败就跳转登陆
+        isRefreshing = true;
+      });
+    }
+    ;
+    // 将其他接口缓存起来 -- 这个Promise函数很关键
+    var retryRequest = new Promise(function (resolve) {
+      // 这里是将其他接口缓存起来的关键, 返回Promise并且让其状态一直为等待状态,
+      // 只有当token刷新成功后, 就会调用通过addSubscriber函数添加的缓存接口,
+      // 此时, Promise的状态就会变成resolve
+      addSubscriber(function (newToken) {
+        // 表示用新的token去替换掉原来的token
+        config.headers['Authorization'] = "Bearer ".concat(newToken);
+        // 替换掉url -- 因为baseURL会扩展请求url
+        config.url = config.url.replace(config.baseURL, '');
+        // 返回重新封装的config, 就会将新配置去发送请求
+        resolve(config);
+      });
+    });
+    return retryRequest;
+  }
+  ;
+  return config;
+}, function (error) {
+  //处理请求错误
+  return Promise.reject(error.response);
+});
+
+// 添加响应拦截器
+instance.interceptors.response.use(function (response) {
+  if (response.headers['token']) {
+    _store.default.commit('changeToken', response.headers['token']);
+    (0, _utils.setCache)('token', response.headers['token']);
+  }
+  ;
+  if (response.data.code == '401') {
+    // 清空store和localStorage
+    (0, _utils.removeAllLocalStorage)();
+    _store.default.dispatch('resetDeviceState');
+    if (!_store.default.getters.overDueWay) {
+      uni.showToast({
+        title: 'token已过期,请重新登录!',
+        duration: 1000
+      });
+      setTimeout(function () {
+        uni.redirectTo({
+          url: '/pages/login/login'
+        });
+      }, 2000);
+    } else {
+      uni.redirectTo({
+        url: '/pages/login/login'
+      });
+    }
+  }
+  ;
+  return response;
+}, function (error) {
+  if (Object.prototype.toString.call(error.response) === '[object Object]') {
+    if (error.response.hasOwnProperty('status')) {
+      if (error.response.status === 401) {
+        // 清空store和localStorage
+        _store.default.dispatch('resetDeviceState');
+        if (!_store.default.getters.overDueWay) {
+          uni.showToast({
+            title: 'token已过期,请重新登录!',
+            duration: 1000
+          });
+          setTimeout(function () {
+            uni.redirectTo({
+              url: '/pages/login/login'
+            });
+          }, 2000);
+        } else {
+          uni.redirectTo({
+            url: '/pages/login/login'
+          });
+        }
+      }
+    }
+  }
+  ;
+  // 处理响应错误
+  var config = error.config;
+  // 判断是否配置了重试
+  if (!config || !config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
+  ;
+  if (!config.shouldRetry || typeof config.shouldRetry != 'function') {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
+  ;
+  //判断是否满足重试条件
+  if (!config.shouldRetry(error)) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
+  ;
+  // 设置重置次数，默认为0
+  config.__retryCount = config.__retryCount || 0;
+  // 判断是否超过了重试次数
+  if (config.__retryCount > config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
+  ;
+  //重试次数自增
+  config.__retryCount += 1;
+  //延时处理
+  var backoff = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, config.retryDelay || 1);
+  });
+  //重新发起axios请求
+  return backoff.then(function () {
+    return service(config);
+  });
+});
+var _default = instance;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 33 */
+/*!******************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/node_modules/axios-miniprogram/es/index.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni, wx) {
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+  return keys;
+}
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+  return target;
+}
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
+}
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+  return _construct.apply(null, arguments);
+}
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+      _cache.set(Class, Wrapper);
+    }
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+  return _wrapNativeSuper(Class);
+}
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+function _possibleConstructorReturn(self, call) {
+  if (call && ((0, _typeof2.default)(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+  return _assertThisInitialized(self);
+}
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+  return _arr;
+}
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+  return arr2;
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+var _toString = Object.prototype.toString;
+/**
+ * 对字符串进行编码转换
+ *
+ * @param str 字符串
+ */
+
+function encode(str) {
+  return encodeURIComponent(str).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+/**
+ * 是不是一个日期对象
+ *
+ * @param date 判断目标
+ */
+
+function isDate(date) {
+  return _toString.call(date) === '[object Date]';
+}
+/**
+ * 是不是一个普通对象
+ *
+ * @param obj 判断目标
+ */
+
+function isPlainObject(obj) {
+  return _toString.call(obj) === '[object Object]';
+}
+/**
+ * 深度合并多个对象
+ *
+ * @param objs n 个对象
+ */
+
+function deepMerge() {
+  var result = {};
+  function assignValue(key, val) {
+    // 如果当前结果和当前值都为普通对象
+    // 递归进行深度合并
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
+      result[key] = deepMerge(result[key], val);
+    } // 如果只有当前值为普通对象
+    // 直接深拷贝当前值
+    else if (isPlainObject(val)) {
+      result[key] = deepMerge({}, val);
+    } // 如果都不是普通对象
+    // 直接赋值
+    else {
+      result[key] = val;
+    }
+  }
+  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
+    objs[_key] = arguments[_key];
+  }
+  objs.forEach(function assignObj(obj) {
+    Object.entries(obj).forEach(function assignKey(_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
+      assignValue(key, value);
+    });
+  });
+  return result;
+}
+/**
+ * 从对象中提取一部分属性
+ *
+ * @param obj  源对象
+ * @param keys 需要提取的 key
+ */
+
+function pick(obj) {
+  var _pick = {};
+  for (var _len2 = arguments.length, keys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    keys[_key2 - 1] = arguments[_key2];
+  }
+  keys.forEach(function pickKey(key) {
+    _pick[key] = obj[key];
+  });
+  return _pick;
+}
+/**
+ * 从对象中剔除一部分属性
+ *
+ * @param obj  源对象
+ * @param keys 需要剔除的 key
+ */
+
+function omit(obj) {
+  var _omit = _objectSpread2({}, obj);
+  for (var _len3 = arguments.length, keys = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    keys[_key3 - 1] = arguments[_key3];
+  }
+  keys.forEach(function omitKey(key) {
+    delete _omit[key];
+  });
+  return _omit;
+}
+
+/**
+ * 通过请求地址和序列化参数生成新的请求地址
+ *
+ * @param url              请求地址
+ * @param serializedParams 序列化参数
+ */
+
+function generateURL(url, serializedParams) {
+  // 移除 hash
+  var hashIndex = url.indexOf('#');
+  if (hashIndex !== -1) {
+    url = url.slice(0, hashIndex);
+  }
+  if (serializedParams === '') {
+    return url;
+  } // 拼接前缀
+
+  var prefix = url.indexOf('?') === -1 ? '?' : '&';
+  serializedParams = "".concat(prefix).concat(serializedParams);
+  return "".concat(url).concat(serializedParams);
+}
+/**
+ * 默认参数序列化
+ *
+ * @param params 请求参数
+ */
+
+function paramsSerialization(params) {
+  var parts = [];
+  Object.entries(params).forEach(function encodeKeyValue(_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      value = _ref2[1];
+    if (value === null || value === void 0 || value !== value) {
+      return;
+    } // 如果值是一个数组, 则特殊处理 key
+
+    if (Array.isArray(value)) {
+      key += '[]';
+    } // 转成数组统一处理
+
+    var values = [].concat(value);
+    values.forEach(function (val) {
+      if (isPlainObject(val)) {
+        val = JSON.stringify(val);
+      } else if (isDate(val)) {
+        val = val.toISOString();
+      }
+      parts.push("".concat(encode(key), "=").concat(encode(val)));
+    });
+  });
+  return parts.join('&');
+}
+/**
+ * 处理 URL 参数
+ *
+ * @param url              请求地址
+ * @param params           请求参数
+ * @param paramsSerializer 自定义参数序列化
+ */
+
+function buildURL(url) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var paramsSerializer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : paramsSerialization;
+  return generateURL(url, paramsSerializer(params));
+}
+
+/**
+ * 只取 config2 中的配置
+ *
+ * @param keys
+ * @param config
+ * @param config2
+ */
+
+function onlyFromConfig2(keys, config, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    }
+  });
+}
+/**
+ * 优先取 config2 中的配置, config2 中没有就取 config1
+ *
+ * @param keys
+ * @param config
+ * @param config1
+ * @param config2
+ */
+
+function priorityFromConfig2(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    } else if (config1[key] !== void 0) {
+      config[key] = config1[key];
+    }
+  });
+}
+/**
+ * 深度合并配置
+ *
+ * @param keys
+ * @param config
+ * @param config1
+ * @param config2
+ */
+
+function deepMergeConfig(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (isPlainObject(config2[key])) {
+      var _config1$key;
+      config[key] = deepMerge((_config1$key = config1[key]) !== null && _config1$key !== void 0 ? _config1$key : {}, config2[key]);
+    } else if (isPlainObject(config1[key])) {
+      config[key] = deepMerge(config1[key]);
+    }
+  });
+}
+/**
+ * 合并 Axios 请求配置
+ *
+ * @param config1 Axios 请求配置1
+ * @param config2 Axios 请求配置2
+ */
+
+function mergeConfig() {
+  var config1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var config = {};
+  var onlyFromConfig2Keys = ['url', 'data'];
+  var priorityFromConfig2Keys = ['adapter', 'baseURL', 'method', 'validateStatus', 'paramsSerializer', 'transformRequest', 'transformResponse', 'errorHandler', 'cancelToken', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'];
+  var deepMergeConfigKeys = ['headers', 'params'];
+  onlyFromConfig2(onlyFromConfig2Keys, config, config2);
+  priorityFromConfig2(priorityFromConfig2Keys, config, config1, config2);
+  deepMergeConfig(deepMergeConfigKeys, config, config1, config2);
+  return config;
+}
+
+/**
+ * 拦截器管理器
+ */
+var InterceptorManagerClass = /*#__PURE__*/function () {
+  function InterceptorManagerClass() {
+    _classCallCheck(this, InterceptorManagerClass);
+
+    /**
+     * 生成拦截器 id
+     */
+    this._id = 0;
+    /**
+     * 拦截器集合
+     */
+
+    this._interceptors = {};
+  }
+  _createClass(InterceptorManagerClass, [{
+    key: "use",
+    value: function use(resolved, rejected) {
+      this._interceptors[++this._id] = {
+        resolved: resolved,
+        rejected: rejected
+      };
+      return this._id;
+    }
+  }, {
+    key: "eject",
+    value: function eject(id) {
+      delete this._interceptors[id];
+    }
+  }, {
+    key: "forEach",
+    value: function forEach(executor, reverse) {
+      var interceptors = Object.values(this._interceptors);
+      if (reverse === 'reverse') {
+        interceptors = interceptors.reverse();
+      }
+      interceptors.forEach(executor);
+    }
+  }]);
+  return InterceptorManagerClass;
+}();
+var CancelClass = /*#__PURE__*/function () {
+  /**
+   * @param message 取消信息
+   */
+  function CancelClass(message) {
+    _classCallCheck(this, CancelClass);
+    this.message = message;
+  }
+  _createClass(CancelClass, [{
+    key: "toString",
+    value: function toString() {
+      var message = this.message ? ": ".concat(this.message) : '';
+      return "Cancel".concat(message);
+    }
+  }]);
+  return CancelClass;
+}();
+
+/**
+ * 是否是取消请求实例
+ *
+ * @param value 判断的值
+ */
+
+function isCancel(value) {
+  return value instanceof CancelClass;
+}
+
+/**
+ * 请求方法转全小写
+ *
+ * @param config Axios 请求配置
+ */
+function methodToLowercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'get';
+  return method.toLowerCase();
+}
+/**
+ * 请求方法转全大写
+ *
+ * @param config Axios 请求配置
+ */
+
+function methodToUppercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'GET';
+  return method.toUpperCase();
+}
+
+/**
+ * 拉平请求头
+ *
+ * @param config Axios 请求配置
+ */
+
+function flattenHeaders(config) {
+  var _headers$common, _headers$method;
+  var headers = config.headers;
+  if (headers === void 0) {
+    return {};
+  }
+  var method = methodToLowercase(config.method);
+  return _objectSpread2(_objectSpread2(_objectSpread2({}, (_headers$common = headers.common) !== null && _headers$common !== void 0 ? _headers$common : {}), (_headers$method = headers[method]) !== null && _headers$method !== void 0 ? _headers$method : {}), omit(headers, 'common', 'options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'));
+}
+
+/**
+ * 转换数据
+ *
+ * @param data       请求数据/响应数据
+ * @param headers    请求头/响应头
+ * @param transforms 请求数据转换函数/响应数据转换函数
+ */
+function transformData(data, headers, transforms) {
+  if (transforms === void 0) {
+    return data;
+  }
+  if (!Array.isArray(transforms)) {
+    transforms = [transforms];
+  }
+  transforms.forEach(function (transform) {
+    data = transform(data, headers);
+  });
+  return data;
+}
+
+/**
+ * 检查是否是一个绝对 URL
+ *
+ * xxx:// 或者 "//" 开头,  视为绝对地址
+ *
+ * @param url 需要检查的 URL
+ */
+function isAbsoluteURL(url) {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+}
+
+/**
+ * 拼接 baseURL 和 url 获得完整的 URL
+ *
+ * combineURL('1/2///','////3/4') => '1/2/3/4'
+ */
+function combineURL(baseURL, url) {
+  return "".concat(baseURL.replace(/\/*$/, ''), "/").concat(url.replace(/^\/*/, ''));
+}
+
+/**
+ * 根据配置中的 baseURL 和 url 和 params 生成完整 URL
+ *
+ * @param config Axios 请求配置
+ */
+
+function transformURL(config) {
+  var _config$baseURL = config.baseURL,
+    baseURL = _config$baseURL === void 0 ? '' : _config$baseURL,
+    _config$url = config.url,
+    url = _config$url === void 0 ? '' : _config$url;
+  var fullURL = isAbsoluteURL(url) ? url : combineURL(baseURL, url);
+  return buildURL(fullURL, config.params, config.paramsSerializer);
+}
+/**
+ * Axios 请求配置转换成各大平台通用请求配置
+ *
+ * 抹平差异
+ *
+ * @param config Axios 请求配置
+ */
+
+function transformRequest(config) {
+  return _objectSpread2({
+    url: transformURL(config),
+    method: methodToUppercase(config.method),
+    header: config.headers
+  }, pick(config, 'data', 'headers', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'));
+}
+
+/**
+ * 各大平台通用响应体转成 Axios 响应体
+ *
+ * 抹平差异
+ *
+ * @param response 通用响应体
+ * @param config   Axios 请求配置
+ */
+
+function transformResponse(response, config) {
+  var _ref, _response$statusCode, _ref2, _response$header;
+  var status = (_ref = (_response$statusCode = response.statusCode) !== null && _response$statusCode !== void 0 ? _response$statusCode : response.status) !== null && _ref !== void 0 ? _ref : 400;
+  var headers = (_ref2 = (_response$header = response.header) !== null && _response$header !== void 0 ? _response$header : response.headers) !== null && _ref2 !== void 0 ? _ref2 : {};
+  var statusText = status === 200 ? 'OK' : status === 400 ? 'Bad Adapter' : '';
+  return _objectSpread2({
+    status: status,
+    statusText: statusText,
+    headers: headers,
+    config: config
+  }, pick(response, 'data', 'cookies', 'profile'));
+}
+
+/**
+ * AxiosError 继承自 Error
+ */
+var AxiosErrorClass = /*#__PURE__*/function (_Error) {
+  _inherits(AxiosErrorClass, _Error);
+  var _super = _createSuper(AxiosErrorClass);
+
+  /**
+   * @param message  错误信息
+   * @param config   Axios 请求配置
+   * @param request  通用请求配置
+   * @param response Axios 响应体
+   */
+  function AxiosErrorClass(message, config, request, response) {
+    var _this;
+    _classCallCheck(this, AxiosErrorClass);
+    _this = _super.call(this, message);
+    _this.config = config;
+    _this.request = request;
+    _this.response = response;
+    _this.isAxiosError = true; // 修复继承系统自带类 prototype 设置失败的问题
+
+    Object.setPrototypeOf(_assertThisInitialized(_this), AxiosErrorClass.prototype);
+    return _this;
+  }
+  return AxiosErrorClass;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+/**
+ * 创建 AxiosError 的工厂方法
+ *
+ * 返回一个新的 AxiosError 对象
+ *
+ * @param message  错误信息
+ * @param config   Axios 请求配置
+ * @param request  通用请求配置
+ * @param response Axios 响应体
+ */
+
+function createError(message, config, request, response) {
+  return new AxiosErrorClass(message, config, request, response);
+}
+
+/**
+ * 请求函数
+ *
+ * @param config Axios 请求配置
+ */
+
+function request(config) {
+  return new Promise(function dispatchAdapter(resolve, reject) {
+    var adapter = config.adapter,
+      cancelToken = config.cancelToken;
+    var requestConfig = transformRequest(config);
+    /**
+     * 捕获错误
+     *
+     * @param message  错误信息
+     * @param response Axios 响应体
+     */
+
+    function catchError(message, response) {
+      if (typeof message !== 'string') {
+        message = '配置不正确或者网络异常';
+      }
+      reject(createError(message, config, requestConfig, response));
+    }
+    if (adapter === void 0) {
+      catchError('平台适配失败，您需要参阅文档使用自定义适配器手动适配当前平台');
+      return;
+    }
+    /**
+     * 效验状态码
+     *
+     * @param res 请求结果
+     */
+
+    function handleResponse(res) {
+      var response = transformResponse(res, config);
+      if (config.validateStatus === void 0 || config.validateStatus(response.status)) {
+        resolve(response);
+      } else {
+        catchError("\u8BF7\u6C42\u5931\u8D25\uFF0C\u72B6\u6001\u7801\u4E3A ".concat(response.status), response);
+      }
+    } // 使用适配器发送请求
+
+    var task = adapter(_objectSpread2(_objectSpread2({}, requestConfig), {}, {
+      success: handleResponse,
+      fail: catchError
+    })); // 如果存在取消令牌
+    // 则调用取消令牌里的 listener 监听用户的取消操作
+
+    if (cancelToken !== void 0) {
+      cancelToken.listener.then(function onCanceled(reason) {
+        if (task !== void 0) {
+          task.abort();
+        }
+        reject(reason);
+      });
+    }
+  });
+}
+
+/**
+ * 如果已经取消, 则抛出取消对象
+ *
+ * @param config Axios 请求配置
+ */
+
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+/**
+ * 发送请求
+ *
+ * @param config Axios 请求配置
+ */
+
+function dispatchRequest(config) {
+  var _config$data;
+  throwIfCancellationRequested(config);
+  config.headers = flattenHeaders(config);
+  config.data = transformData((_config$data = config.data) !== null && _config$data !== void 0 ? _config$data : {}, config.headers, config.transformRequest);
+  function onResolved(response) {
+    throwIfCancellationRequested(config);
+    response.data = transformData(response.data, response.headers, config.transformResponse);
+    return response;
+  }
+  function onRejected(reason) {
+    var _config$errorHandler, _config$errorHandler2;
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+      if (reason.response !== void 0) {
+        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
+      }
+    }
+    return (_config$errorHandler = (_config$errorHandler2 = config.errorHandler) === null || _config$errorHandler2 === void 0 ? void 0 : _config$errorHandler2.call(config, reason)) !== null && _config$errorHandler !== void 0 ? _config$errorHandler : Promise.reject(reason);
+  }
+  return request(config).then(onResolved, onRejected);
+}
+var AxiosClass = /*#__PURE__*/function () {
+  /**
+   * @param defaults 自定义默认配置
+   */
+  function AxiosClass() {
+    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    _classCallCheck(this, AxiosClass);
+    this.defaults = defaults;
+    this.interceptors = {
+      request: new InterceptorManagerClass(),
+      response: new InterceptorManagerClass()
+    };
+  }
+  _createClass(AxiosClass, [{
+    key: "getUri",
+    value: function getUri(config) {
+      var _mergeConfig = mergeConfig(this.defaults, config),
+        _mergeConfig$url = _mergeConfig.url,
+        url = _mergeConfig$url === void 0 ? '' : _mergeConfig$url,
+        params = _mergeConfig.params,
+        paramsSerializer = _mergeConfig.paramsSerializer;
+      return buildURL(url, params, paramsSerializer).replace(/^\?/, '');
+    }
+  }, {
+    key: "request",
+    value: function request(config) {
+      var requestConfig = mergeConfig(this.defaults, config);
+      var promiseRequest = Promise.resolve(requestConfig); // 执行请求拦截器
+
+      this.interceptors.request.forEach(function executor(_ref) {
+        var resolved = _ref.resolved,
+          rejected = _ref.rejected;
+        promiseRequest = promiseRequest.then(resolved, rejected);
+      }, 'reverse'); // 发送请求
+
+      var promiseResponse = promiseRequest.then(dispatchRequest); // 执行响应拦截器
+
+      this.interceptors.response.forEach(function executor(_ref2) {
+        var resolved = _ref2.resolved,
+          rejected = _ref2.rejected;
+        promiseResponse = promiseResponse.then(resolved, rejected);
+      });
+      return promiseResponse;
+    }
+  }, {
+    key: "options",
+    value: function options(url, config) {
+      return this._requestMethodWithoutParams('options', url, void 0, config);
+    }
+  }, {
+    key: "get",
+    value: function get(url, params, config) {
+      return this._requestMethodWithoutParams('get', url, params, config);
+    }
+  }, {
+    key: "head",
+    value: function head(url, params, config) {
+      return this._requestMethodWithoutParams('head', url, params, config);
+    }
+  }, {
+    key: "post",
+    value: function post(url, data, config) {
+      return this._requestMethodWithoutData('post', url, data, config);
+    }
+  }, {
+    key: "put",
+    value: function put(url, data, config) {
+      return this._requestMethodWithoutData('put', url, data, config);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(url, params, config) {
+      return this._requestMethodWithoutParams('delete', url, params, config);
+    }
+  }, {
+    key: "trace",
+    value: function trace(url, config) {
+      return this._requestMethodWithoutParams('trace', url, void 0, config);
+    }
+  }, {
+    key: "connect",
+    value: function connect(url, config) {
+      return this._requestMethodWithoutParams('connect', url, void 0, config);
+    }
+    /**
+     * 合并配置后发送 HTTP 请求
+     *
+     * @param method 请求方法
+     * @param url    请求地址
+     * @param params 请求参数
+     * @param config 额外配置
+     */
+  }, {
+    key: "_requestMethodWithoutParams",
+    value: function _requestMethodWithoutParams(method, url, params) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        params: params
+      }));
+    }
+    /**
+     * 合并配置后发送 HTTP 请求
+     *
+     * @param method 请求方法
+     * @param url    请求地址
+     * @param data   请求数据
+     * @param config 额外配置
+     */
+  }, {
+    key: "_requestMethodWithoutData",
+    value: function _requestMethodWithoutData(method, url, data) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        data: data
+      }));
+    }
+  }]);
+  return AxiosClass;
+}();
+var CancelTokenClass = /*#__PURE__*/function () {
+  function CancelTokenClass(executor) {
+    var _this = this;
+    _classCallCheck(this, CancelTokenClass);
+    var action;
+    this.listener = new Promise(function (resolve) {
+      action = function action(message) {
+        // 防止重复取消
+        if (_this._reason) {
+          return;
+        }
+        _this._reason = new CancelClass(message);
+        resolve(_this._reason);
+      };
+    });
+    executor(action);
+  }
+  _createClass(CancelTokenClass, [{
+    key: "throwIfRequested",
+    value: function throwIfRequested() {
+      if (this._reason) {
+        throw this._reason;
+      }
+    }
+    /**
+     * 返回一个 CancelTokenSource
+     *
+     * CancelTokenSource.token 是一个 CancelToken 对象
+     *
+     * CancelTokenSource.cancel 是一个 CancelAction 函数
+     *
+     * 调用 CancelTokenSource.cancel('这里可以填写您的错误信息')
+     *
+     * 取消请求 CancelTokenSource.token
+     */
+  }], [{
+    key: "source",
+    value: function source() {
+      var cancel;
+      var token = new CancelTokenClass(function executor(action) {
+        cancel = action;
+      });
+      return {
+        token: token,
+        cancel: cancel
+      };
+    }
+  }]);
+  return CancelTokenClass;
+}();
+
+/**
+ * 自适应当前平台
+ */
+function adaptive() {
+  var stack = [function () {
+    return uni.request;
+  }, function () {
+    return wx.request;
+  }, function () {
+    return my.request;
+  }, function () {
+    return swan.request;
+  }, function () {
+    return tt.request;
+  }, function () {
+    return qq.request;
+  }];
+  var adapter;
+  while (stack.length !== 0 && adapter === void 0) {
+    try {
+      adapter = stack.shift()();
+    } catch (err) {}
+  }
+  return adapter;
+}
+var defaults = {
+  /**
+   * 适配器
+   */
+  adapter: adaptive(),
+  /**
+   * 请求方法
+   */
+  method: 'get',
+  /**
+   * 请求头
+   */
+  headers: {
+    common: {
+      Accept: 'application/json, test/plain, */*'
+    },
+    options: {},
+    get: {},
+    head: {},
+    post: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    },
+    put: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    },
+    "delete": {},
+    trace: {},
+    connect: {}
+  },
+  /**
+   * 状态码效验
+   *
+   * @param status 状态码
+   */
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
+  /**
+   * 超时时间
+   */
+  timeout: 10000,
+  /**
+   * 响应数据格式
+   */
+  dataType: 'json',
+  /**
+   * 响应数据类型
+   */
+  responseType: 'text',
+  /**
+   * 开启 http2
+   */
+  enableHttp2: false,
+  /**
+   * 开启 quic
+   */
+  enableQuic: false,
+  /**
+   * 开启 cache
+   */
+  enableCache: false,
+  /**
+   * 验证 ssl 证书
+   */
+  sslVerify: true
+};
+
+/**
+ * 创建一个新的 Axios 实例
+ *
+ * 返回一个 Axios 实例增强
+ */
+
+function createInstance(defaults) {
+  var instance = new AxiosClass(defaults);
+  /**
+   * 支持重载的 axios 函数
+   */
+
+  function axios(url) {
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    // 调用方式一处理请求配置
+    if (typeof url !== 'string') {
+      config = url;
+    } // 调用方式二处理请求配置
+    else {
+      config = _objectSpread2(_objectSpread2({}, config), {}, {
+        url: url
+      });
+    }
+    return instance.request(config);
+  } // instance 的属性合并到 axios 函数中
+
+  Object.assign(axios, instance); // instance 的方法合并到 axios 函数中
+
+  Object.setPrototypeOf(axios, Object.getPrototypeOf(instance));
+  return axios;
+}
+/**
+ * Axios 实例拓展
+ */
+
+var axios = createInstance(defaults); // 添加 create 工厂方法
+
+axios.create = function create() {
+  var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return createInstance(mergeConfig(axios.defaults, defaults));
+}; // 添加 Axios 类
+
+axios.Axios = AxiosClass; // 添加 CancelToken 类
+
+axios.CancelToken = CancelTokenClass; // 添加 检查错误是否来自取消请求 方法
+
+axios.isCancel = isCancel;
+var _default = axios;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
+
+/***/ }),
 /* 34 */
 /*!**************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/store/index.js ***!
   \**************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader/index.js):\nError: ENOENT: no such file or directory, open 'D:\\工作项目\\homeCareMiniProgram\\store\\index.js'");
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 30));
+var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 35));
+var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 38));
+_vue.default.use(_vuex.default);
+var _default = new _vuex.default.Store({
+  modules: {
+    login: _login.default,
+    device: _device.default
+  }
+});
+exports.default = _default;
 
 /***/ }),
-/* 35 */,
+/* 35 */
+/*!**************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/store/login.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 37);
+var _default = {
+  state: (0, _resetStore.getDefaultLoginState)(),
+  getters: {
+    userInfo: function userInfo(state) {
+      state.userInfo = (0, _utils.getCache)('userInfo') ? (0, _utils.getCache)('userInfo') : {};
+      return state.userInfo;
+    },
+    isLogin: function isLogin(state) {
+      state.isLogin = (0, _utils.getCache)('isLogin') ? (0, _utils.getCache)('isLogin') === 'false' ? false : true : false;
+      return state.isLogin;
+    },
+    token: function token(state) {
+      state.token = (0, _utils.getCache)('token') ? (0, _utils.getCache)('token') : null;
+      return state.token;
+    },
+    userBasicInfo: function userBasicInfo(state) {
+      state.userInfo = (0, _utils.getCache)('userBasicInfo') ? (0, _utils.getCache)('userBasicInfo') : {};
+      return state.userBasicInfo;
+    },
+    overDueWay: function overDueWay(state) {
+      return state.overDueWay;
+    }
+  },
+  mutations: {
+    storeUserInfo: function storeUserInfo(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('userInfo', playLoad);
+        state.userInfo = playLoad;
+      }
+    },
+    // 存储用户基本信息
+    changeUserBasicInfo: function changeUserBasicInfo(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('userBasicInfo', playLoad);
+        state.userBasicInfo = playLoad;
+      }
+    },
+    // 修改token状态
+    changeToken: function changeToken(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('token', playLoad);
+        state.token = playLoad;
+      }
+    },
+    // 修改是否登录状态
+    changeIsLogin: function changeIsLogin(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('isLogin', playLoad);
+        state.isLogin = playLoad;
+      }
+    },
+    // 修改过期方式
+    changeOverDueWay: function changeOverDueWay(state, playLoad) {
+      state.overDueWay = playLoad;
+    },
+    //重置登录信息的状态
+    resetLoginInfoState: function resetLoginInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultLoginState)());
+    }
+  },
+  actions: {
+    resetLoginState: function resetLoginState(_ref) {
+      var commit = _ref.commit;
+      commit('resetLoginInfoState');
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
 /* 36 */
 /*!******************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/common/js/utils.js ***!
@@ -10990,24 +12829,2410 @@ exports.removeAllLocalStorage = removeAllLocalStorage;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
+/* 37 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/common/js/resetStore/resetStore.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getDefaultDeviceState = getDefaultDeviceState;
+exports.getDefaultLoginState = getDefaultLoginState;
+// 设备信息store的初始值
+function getDefaultDeviceState() {
+  return {
+    timeMessage: {},
+    ossMessage: {},
+    enterAddRoomPageSource: '',
+    enterDeviceSetPageSource: '',
+    enterFamilyManagementPageSource: '',
+    familyId: '',
+    beforeAddDeviceMessage: {},
+    beforeAddBodyDetectionDeviceMessage: {},
+    beforeAddExistPerceptionRadarCompleteSet: {},
+    beforeAddSignMonitorRadarCompleteSet: {},
+    roomDetails: {},
+    warningMessagePhoneNumber: {},
+    currentNeedBindDevicesMessage: {},
+    deviceNoticeDetails: {},
+    familyMessage: {},
+    currentDeviceType: '',
+    deviceDataMessage: {}
+  };
+}
+;
+
+// 登录信息store的初始值
+function getDefaultLoginState() {
+  return {
+    userInfo: {},
+    token: null,
+    //请求token,
+    isLogin: false,
+    overDueWay: false,
+    userBasicInfo: null
+  };
+}
+;
+
+/***/ }),
+/* 38 */
+/*!***************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/store/device.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 37);
+var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _default = {
+  state: (0, _resetStore.getDefaultDeviceState)(),
+  getters: {
+    timeMessage: function timeMessage(state) {
+      return state.timeMessage;
+    },
+    ossMessage: function ossMessage(state) {
+      return state.ossMessage;
+    },
+    enterAddRoomPageSource: function enterAddRoomPageSource(state) {
+      return state.enterAddRoomPageSource;
+    },
+    enterDeviceSetPageSource: function enterDeviceSetPageSource(state) {
+      return state.enterDeviceSetPageSource;
+    },
+    enterFamilyManagementPageSource: function enterFamilyManagementPageSource(state) {
+      return state.enterFamilyManagementPageSource;
+    },
+    familyId: function familyId(state) {
+      state.familyId = (0, _utils.getCache)('familyId') ? (0, _utils.getCache)('familyId') : '';
+      return state.familyId;
+    },
+    beforeAddDeviceMessage: function beforeAddDeviceMessage(state) {
+      return state.beforeAddDeviceMessage;
+    },
+    beforeAddBodyDetectionDeviceMessage: function beforeAddBodyDetectionDeviceMessage(state) {
+      return state.beforeAddBodyDetectionDeviceMessage;
+    },
+    beforeAddExistPerceptionRadarCompleteSet: function beforeAddExistPerceptionRadarCompleteSet(state) {
+      return state.beforeAddExistPerceptionRadarCompleteSet;
+    },
+    beforeAddSignMonitorRadarCompleteSet: function beforeAddSignMonitorRadarCompleteSet(state) {
+      return state.beforeAddSignMonitorRadarCompleteSet;
+    },
+    roomDetails: function roomDetails(state) {
+      return state.roomDetails;
+    },
+    warningMessagePhoneNumber: function warningMessagePhoneNumber(state) {
+      return state.warningMessagePhoneNumber;
+    },
+    currentNeedBindDevicesMessage: function currentNeedBindDevicesMessage(state) {
+      return state.currentNeedBindDevicesMessage;
+    },
+    deviceNoticeDetails: function deviceNoticeDetails(state) {
+      return state.deviceNoticeDetails;
+    },
+    deviceDataMessage: function deviceDataMessage(state) {
+      return state.deviceDataMessage;
+    },
+    familyMessage: function familyMessage(state) {
+      state.familyMessage = (0, _utils.getCache)('familyMessage') ? (0, _utils.getCache)('familyMessage') : {};
+      return state.familyMessage;
+    },
+    currentDeviceType: function currentDeviceType(state) {
+      return state.currentDeviceType;
+    }
+  },
+  mutations: {
+    changeTimeMessage: function changeTimeMessage(state, playLoad) {
+      state.timeMessage = playLoad;
+    },
+    changeOssMessage: function changeOssMessage(state, playLoad) {
+      state.ossMessage = playLoad;
+    },
+    changeFamilyId: function changeFamilyId(state, playLoad) {
+      (0, _utils.setCache)('familyId', playLoad);
+      state.familyId = playLoad;
+    },
+    changeEnterAddRoomPageSource: function changeEnterAddRoomPageSource(state, playLoad) {
+      state.enterAddRoomPageSource = playLoad;
+    },
+    changeEnterDeviceSetPageSource: function changeEnterDeviceSetPageSource(state, playLoad) {
+      state.enterDeviceSetPageSource = playLoad;
+    },
+    changeEnterFamilyManagementPageSource: function changeEnterFamilyManagementPageSource(state, playLoad) {
+      state.enterFamilyManagementPageSource = playLoad;
+    },
+    // 保存添加设备前选择的房间和自定义设备名称信息
+    changeBeforeAddDeviceMessage: function changeBeforeAddDeviceMessage(state, playLoad) {
+      state.beforeAddDeviceMessage = playLoad;
+    },
+    // 保存进入设备数据页的信息
+    changeDeviceDataMessage: function changeDeviceDataMessage(state, playLoad) {
+      state.deviceDataMessage = playLoad;
+    },
+    // 保存添加人体检测设备前选择的房间和自定义设备名称信息
+    changeBeforeAddBodyDetectionDeviceMessage: function changeBeforeAddBodyDetectionDeviceMessage(state, playLoad) {
+      state.beforeAddBodyDetectionDeviceMessage = playLoad;
+    },
+    // 保存添加人员存在感知设备前选择的房间和自定义设备名称信息
+    changeBeforeAddExistPerceptionRadarCompleteSet: function changeBeforeAddExistPerceptionRadarCompleteSet(state, playLoad) {
+      state.beforeAddExistPerceptionRadarCompleteSet = playLoad;
+    },
+    // 保存体征监测设备前选择的房间和自定义设备名称信息
+    changeBeforeAddSignMonitorRadarCompleteSet: function changeBeforeAddSignMonitorRadarCompleteSet(state, playLoad) {
+      state.beforeAddSignMonitorRadarCompleteSet = playLoad;
+    },
+    // 保存房间详情信息
+    changeRoomDetails: function changeRoomDetails(state, playLoad) {
+      state.roomDetails = playLoad;
+    },
+    // 保存报警手机号信息
+    changeWarningMessagePhoneNumber: function changeWarningMessagePhoneNumber(state, playLoad) {
+      state.warningMessagePhoneNumber = playLoad;
+    },
+    // 保存当前需要绑定设备的信息
+    changeCurrentNeedBindDevicesMessage: function changeCurrentNeedBindDevicesMessage(state, playLoad) {
+      state.currentNeedBindDevicesMessage = playLoad;
+    },
+    // 保存当前设备类型
+    changeCurrentDeviceType: function changeCurrentDeviceType(state, playLoad) {
+      state.currentDeviceType = playLoad;
+    },
+    // 保存设备通知信息
+    changeDeviceNoticeDetails: function changeDeviceNoticeDetails(state, playLoad) {
+      state.deviceNoticeDetails = playLoad;
+    },
+    // 保存家庭信息
+    changeFamilyMessage: function changeFamilyMessage(state, playLoad) {
+      (0, _utils.setCache)('familyMessage', playLoad);
+      state.familyMessage = playLoad;
+    },
+    //重置设备的状态
+    resetDeviceInfoState: function resetDeviceInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultDeviceState)());
+    }
+  },
+  actions: {
+    resetDeviceState: function resetDeviceState(_ref) {
+      var commit = _ref.commit;
+      commit('resetDeviceInfoState');
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 39 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ 40);
+var parse = __webpack_require__(/*! ./parse */ 54);
+var formats = __webpack_require__(/*! ./formats */ 53);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 40 */
+/*!******************************************!*\
+  !*** ./node_modules/qs/lib/stringify.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getSideChannel = __webpack_require__(/*! side-channel */ 41);
+var utils = __webpack_require__(/*! ./utils */ 52);
+var formats = __webpack_require__(/*! ./formats */ 53);
+var has = Object.prototype.hasOwnProperty;
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    comma: 'comma',
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var isArray = Array.isArray;
+var split = String.prototype.split;
+var push = Array.prototype.push;
+var pushToArray = function (arr, valueOrArray) {
+    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaultFormat = formats['default'];
+var defaults = {
+    addQueryPrefix: false,
+    allowDots: false,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    format: defaultFormat,
+    formatter: formats.formatters[defaultFormat],
+    // deprecated
+    indices: false,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
+    return typeof v === 'string'
+        || typeof v === 'number'
+        || typeof v === 'boolean'
+        || typeof v === 'symbol'
+        || typeof v === 'bigint';
+};
+
+var sentinel = {};
+
+var stringify = function stringify(
+    object,
+    prefix,
+    generateArrayPrefix,
+    commaRoundTrip,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    format,
+    formatter,
+    encodeValuesOnly,
+    charset,
+    sideChannel
+) {
+    var obj = object;
+
+    var tmpSc = sideChannel;
+    var step = 0;
+    var findFlag = false;
+    while ((tmpSc = tmpSc.get(sentinel)) !== void undefined && !findFlag) {
+        // Where object last appeared in the ref tree
+        var pos = tmpSc.get(object);
+        step += 1;
+        if (typeof pos !== 'undefined') {
+            if (pos === step) {
+                throw new RangeError('Cyclic object value');
+            } else {
+                findFlag = true; // Break while
+            }
+        }
+        if (typeof tmpSc.get(sentinel) === 'undefined') {
+            step = 0;
+        }
+    }
+
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        obj = utils.maybeMap(obj, function (value) {
+            if (value instanceof Date) {
+                return serializeDate(value);
+            }
+            return value;
+        });
+    }
+
+    if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key', format) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
+            if (generateArrayPrefix === 'comma' && encodeValuesOnly) {
+                var valuesArray = split.call(String(obj), ',');
+                var valuesJoined = '';
+                for (var i = 0; i < valuesArray.length; ++i) {
+                    valuesJoined += (i === 0 ? '' : ',') + formatter(encoder(valuesArray[i], defaults.encoder, charset, 'value', format));
+                }
+                return [formatter(keyValue) + (commaRoundTrip && isArray(obj) && valuesArray.length === 1 ? '[]' : '') + '=' + valuesJoined];
+            }
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        // we need to join elements in
+        objKeys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
+    } else if (isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    var adjustedPrefix = commaRoundTrip && isArray(obj) && obj.length === 1 ? prefix + '[]' : prefix;
+
+    for (var j = 0; j < objKeys.length; ++j) {
+        var key = objKeys[j];
+        var value = typeof key === 'object' && typeof key.value !== 'undefined' ? key.value : obj[key];
+
+        if (skipNulls && value === null) {
+            continue;
+        }
+
+        var keyPrefix = isArray(obj)
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix
+            : adjustedPrefix + (allowDots ? '.' + key : '[' + key + ']');
+
+        sideChannel.set(object, step);
+        var valueSideChannel = getSideChannel();
+        valueSideChannel.set(sentinel, sideChannel);
+        pushToArray(values, stringify(
+            value,
+            keyPrefix,
+            generateArrayPrefix,
+            commaRoundTrip,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            format,
+            formatter,
+            encodeValuesOnly,
+            charset,
+            valueSideChannel
+        ));
+    }
+
+    return values;
+};
+
+var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.encoder !== null && typeof opts.encoder !== 'undefined' && typeof opts.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var charset = opts.charset || defaults.charset;
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+
+    var format = formats['default'];
+    if (typeof opts.format !== 'undefined') {
+        if (!has.call(formats.formatters, opts.format)) {
+            throw new TypeError('Unknown format option provided.');
+        }
+        format = opts.format;
+    }
+    var formatter = formats.formatters[format];
+
+    var filter = defaults.filter;
+    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+        filter = opts.filter;
+    }
+
+    return {
+        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
+        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
+        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+        filter: filter,
+        format: format,
+        formatter: formatter,
+        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
+        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+        sort: typeof opts.sort === 'function' ? opts.sort : null,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = normalizeStringifyOptions(opts);
+
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if (opts && 'indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+    if (opts && 'commaRoundTrip' in opts && typeof opts.commaRoundTrip !== 'boolean') {
+        throw new TypeError('`commaRoundTrip` must be a boolean, or absent');
+    }
+    var commaRoundTrip = generateArrayPrefix === 'comma' && opts && opts.commaRoundTrip;
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (options.sort) {
+        objKeys.sort(options.sort);
+    }
+
+    var sideChannel = getSideChannel();
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (options.skipNulls && obj[key] === null) {
+            continue;
+        }
+        pushToArray(keys, stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            commaRoundTrip,
+            options.strictNullHandling,
+            options.skipNulls,
+            options.encode ? options.encoder : null,
+            options.filter,
+            options.sort,
+            options.allowDots,
+            options.serializeDate,
+            options.format,
+            options.formatter,
+            options.encodeValuesOnly,
+            options.charset,
+            sideChannel
+        ));
+    }
+
+    var joined = keys.join(options.delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    if (options.charsetSentinel) {
+        if (options.charset === 'iso-8859-1') {
+            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
+            prefix += 'utf8=%26%2310003%3B&';
+        } else {
+            // encodeURIComponent('✓')
+            prefix += 'utf8=%E2%9C%93&';
+        }
+    }
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+/* 41 */
+/*!********************************************!*\
+  !*** ./node_modules/side-channel/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 42);
+var callBound = __webpack_require__(/*! call-bind/callBound */ 48);
+var inspect = __webpack_require__(/*! object-inspect */ 50);
+
+var $TypeError = GetIntrinsic('%TypeError%');
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+var $Map = GetIntrinsic('%Map%', true);
+
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+var $mapGet = callBound('Map.prototype.get', true);
+var $mapSet = callBound('Map.prototype.set', true);
+var $mapHas = callBound('Map.prototype.has', true);
+
+/*
+ * This function traverses the list returning the node corresponding to the
+ * given key.
+ *
+ * That node is also moved to the head of the list, so that if it's accessed
+ * again we don't need to traverse the whole list. By doing so, all the recently
+ * used nodes can be accessed relatively quickly.
+ */
+var listGetNode = function (list, key) { // eslint-disable-line consistent-return
+	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+		if (curr.key === key) {
+			prev.next = curr.next;
+			curr.next = list.next;
+			list.next = curr; // eslint-disable-line no-param-reassign
+			return curr;
+		}
+	}
+};
+
+var listGet = function (objects, key) {
+	var node = listGetNode(objects, key);
+	return node && node.value;
+};
+var listSet = function (objects, key, value) {
+	var node = listGetNode(objects, key);
+	if (node) {
+		node.value = value;
+	} else {
+		// Prepend the new node to the beginning of the list
+		objects.next = { // eslint-disable-line no-param-reassign
+			key: key,
+			next: objects.next,
+			value: value
+		};
+	}
+};
+var listHas = function (objects, key) {
+	return !!listGetNode(objects, key);
+};
+
+module.exports = function getSideChannel() {
+	var $wm;
+	var $m;
+	var $o;
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		get: function (key) { // eslint-disable-line consistent-return
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapGet($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapGet($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listGet($o, key);
+				}
+			}
+		},
+		has: function (key) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapHas($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapHas($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listHas($o, key);
+				}
+			}
+			return false;
+		},
+		set: function (key, value) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if (!$wm) {
+					$wm = new $WeakMap();
+				}
+				$weakMapSet($wm, key, value);
+			} else if ($Map) {
+				if (!$m) {
+					$m = new $Map();
+				}
+				$mapSet($m, key, value);
+			} else {
+				if (!$o) {
+					/*
+					 * Initialize the linked list as an empty node, so that we don't have
+					 * to special-case handling of the first node: we can always refer to
+					 * it as (previous node).next, instead of something like (list).head
+					 */
+					$o = { key: {}, next: null };
+				}
+				listSet($o, key, value);
+			}
+		}
+	};
+	return channel;
+};
+
+
+/***/ }),
+/* 42 */
+/*!*********************************************!*\
+  !*** ./node_modules/get-intrinsic/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var undefined;
+
+var $SyntaxError = SyntaxError;
+var $Function = Function;
+var $TypeError = TypeError;
+
+// eslint-disable-next-line consistent-return
+var getEvalledConstructor = function (expressionSyntax) {
+	try {
+		return $Function('"use strict"; return (' + expressionSyntax + ').constructor;')();
+	} catch (e) {}
+};
+
+var $gOPD = Object.getOwnPropertyDescriptor;
+if ($gOPD) {
+	try {
+		$gOPD({}, '');
+	} catch (e) {
+		$gOPD = null; // this is IE 8, which has a broken gOPD
+	}
+}
+
+var throwTypeError = function () {
+	throw new $TypeError();
+};
+var ThrowTypeError = $gOPD
+	? (function () {
+		try {
+			// eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+			arguments.callee; // IE 8 does not throw here
+			return throwTypeError;
+		} catch (calleeThrows) {
+			try {
+				// IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
+				return $gOPD(arguments, 'callee').get;
+			} catch (gOPDthrows) {
+				return throwTypeError;
+			}
+		}
+	}())
+	: throwTypeError;
+
+var hasSymbols = __webpack_require__(/*! has-symbols */ 43)();
+
+var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
+
+var needsEval = {};
+
+var TypedArray = typeof Uint8Array === 'undefined' ? undefined : getProto(Uint8Array);
+
+var INTRINSICS = {
+	'%AggregateError%': typeof AggregateError === 'undefined' ? undefined : AggregateError,
+	'%Array%': Array,
+	'%ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer,
+	'%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
+	'%AsyncFromSyncIteratorPrototype%': undefined,
+	'%AsyncFunction%': needsEval,
+	'%AsyncGenerator%': needsEval,
+	'%AsyncGeneratorFunction%': needsEval,
+	'%AsyncIteratorPrototype%': needsEval,
+	'%Atomics%': typeof Atomics === 'undefined' ? undefined : Atomics,
+	'%BigInt%': typeof BigInt === 'undefined' ? undefined : BigInt,
+	'%Boolean%': Boolean,
+	'%DataView%': typeof DataView === 'undefined' ? undefined : DataView,
+	'%Date%': Date,
+	'%decodeURI%': decodeURI,
+	'%decodeURIComponent%': decodeURIComponent,
+	'%encodeURI%': encodeURI,
+	'%encodeURIComponent%': encodeURIComponent,
+	'%Error%': Error,
+	'%eval%': eval, // eslint-disable-line no-eval
+	'%EvalError%': EvalError,
+	'%Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
+	'%Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
+	'%FinalizationRegistry%': typeof FinalizationRegistry === 'undefined' ? undefined : FinalizationRegistry,
+	'%Function%': $Function,
+	'%GeneratorFunction%': needsEval,
+	'%Int8Array%': typeof Int8Array === 'undefined' ? undefined : Int8Array,
+	'%Int16Array%': typeof Int16Array === 'undefined' ? undefined : Int16Array,
+	'%Int32Array%': typeof Int32Array === 'undefined' ? undefined : Int32Array,
+	'%isFinite%': isFinite,
+	'%isNaN%': isNaN,
+	'%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
+	'%JSON%': typeof JSON === 'object' ? JSON : undefined,
+	'%Map%': typeof Map === 'undefined' ? undefined : Map,
+	'%MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
+	'%Math%': Math,
+	'%Number%': Number,
+	'%Object%': Object,
+	'%parseFloat%': parseFloat,
+	'%parseInt%': parseInt,
+	'%Promise%': typeof Promise === 'undefined' ? undefined : Promise,
+	'%Proxy%': typeof Proxy === 'undefined' ? undefined : Proxy,
+	'%RangeError%': RangeError,
+	'%ReferenceError%': ReferenceError,
+	'%Reflect%': typeof Reflect === 'undefined' ? undefined : Reflect,
+	'%RegExp%': RegExp,
+	'%Set%': typeof Set === 'undefined' ? undefined : Set,
+	'%SetIteratorPrototype%': typeof Set === 'undefined' || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
+	'%SharedArrayBuffer%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer,
+	'%String%': String,
+	'%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
+	'%Symbol%': hasSymbols ? Symbol : undefined,
+	'%SyntaxError%': $SyntaxError,
+	'%ThrowTypeError%': ThrowTypeError,
+	'%TypedArray%': TypedArray,
+	'%TypeError%': $TypeError,
+	'%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array,
+	'%Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
+	'%Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
+	'%Uint32Array%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array,
+	'%URIError%': URIError,
+	'%WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
+	'%WeakRef%': typeof WeakRef === 'undefined' ? undefined : WeakRef,
+	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet
+};
+
+var doEval = function doEval(name) {
+	var value;
+	if (name === '%AsyncFunction%') {
+		value = getEvalledConstructor('async function () {}');
+	} else if (name === '%GeneratorFunction%') {
+		value = getEvalledConstructor('function* () {}');
+	} else if (name === '%AsyncGeneratorFunction%') {
+		value = getEvalledConstructor('async function* () {}');
+	} else if (name === '%AsyncGenerator%') {
+		var fn = doEval('%AsyncGeneratorFunction%');
+		if (fn) {
+			value = fn.prototype;
+		}
+	} else if (name === '%AsyncIteratorPrototype%') {
+		var gen = doEval('%AsyncGenerator%');
+		if (gen) {
+			value = getProto(gen.prototype);
+		}
+	}
+
+	INTRINSICS[name] = value;
+
+	return value;
+};
+
+var LEGACY_ALIASES = {
+	'%ArrayBufferPrototype%': ['ArrayBuffer', 'prototype'],
+	'%ArrayPrototype%': ['Array', 'prototype'],
+	'%ArrayProto_entries%': ['Array', 'prototype', 'entries'],
+	'%ArrayProto_forEach%': ['Array', 'prototype', 'forEach'],
+	'%ArrayProto_keys%': ['Array', 'prototype', 'keys'],
+	'%ArrayProto_values%': ['Array', 'prototype', 'values'],
+	'%AsyncFunctionPrototype%': ['AsyncFunction', 'prototype'],
+	'%AsyncGenerator%': ['AsyncGeneratorFunction', 'prototype'],
+	'%AsyncGeneratorPrototype%': ['AsyncGeneratorFunction', 'prototype', 'prototype'],
+	'%BooleanPrototype%': ['Boolean', 'prototype'],
+	'%DataViewPrototype%': ['DataView', 'prototype'],
+	'%DatePrototype%': ['Date', 'prototype'],
+	'%ErrorPrototype%': ['Error', 'prototype'],
+	'%EvalErrorPrototype%': ['EvalError', 'prototype'],
+	'%Float32ArrayPrototype%': ['Float32Array', 'prototype'],
+	'%Float64ArrayPrototype%': ['Float64Array', 'prototype'],
+	'%FunctionPrototype%': ['Function', 'prototype'],
+	'%Generator%': ['GeneratorFunction', 'prototype'],
+	'%GeneratorPrototype%': ['GeneratorFunction', 'prototype', 'prototype'],
+	'%Int8ArrayPrototype%': ['Int8Array', 'prototype'],
+	'%Int16ArrayPrototype%': ['Int16Array', 'prototype'],
+	'%Int32ArrayPrototype%': ['Int32Array', 'prototype'],
+	'%JSONParse%': ['JSON', 'parse'],
+	'%JSONStringify%': ['JSON', 'stringify'],
+	'%MapPrototype%': ['Map', 'prototype'],
+	'%NumberPrototype%': ['Number', 'prototype'],
+	'%ObjectPrototype%': ['Object', 'prototype'],
+	'%ObjProto_toString%': ['Object', 'prototype', 'toString'],
+	'%ObjProto_valueOf%': ['Object', 'prototype', 'valueOf'],
+	'%PromisePrototype%': ['Promise', 'prototype'],
+	'%PromiseProto_then%': ['Promise', 'prototype', 'then'],
+	'%Promise_all%': ['Promise', 'all'],
+	'%Promise_reject%': ['Promise', 'reject'],
+	'%Promise_resolve%': ['Promise', 'resolve'],
+	'%RangeErrorPrototype%': ['RangeError', 'prototype'],
+	'%ReferenceErrorPrototype%': ['ReferenceError', 'prototype'],
+	'%RegExpPrototype%': ['RegExp', 'prototype'],
+	'%SetPrototype%': ['Set', 'prototype'],
+	'%SharedArrayBufferPrototype%': ['SharedArrayBuffer', 'prototype'],
+	'%StringPrototype%': ['String', 'prototype'],
+	'%SymbolPrototype%': ['Symbol', 'prototype'],
+	'%SyntaxErrorPrototype%': ['SyntaxError', 'prototype'],
+	'%TypedArrayPrototype%': ['TypedArray', 'prototype'],
+	'%TypeErrorPrototype%': ['TypeError', 'prototype'],
+	'%Uint8ArrayPrototype%': ['Uint8Array', 'prototype'],
+	'%Uint8ClampedArrayPrototype%': ['Uint8ClampedArray', 'prototype'],
+	'%Uint16ArrayPrototype%': ['Uint16Array', 'prototype'],
+	'%Uint32ArrayPrototype%': ['Uint32Array', 'prototype'],
+	'%URIErrorPrototype%': ['URIError', 'prototype'],
+	'%WeakMapPrototype%': ['WeakMap', 'prototype'],
+	'%WeakSetPrototype%': ['WeakSet', 'prototype']
+};
+
+var bind = __webpack_require__(/*! function-bind */ 45);
+var hasOwn = __webpack_require__(/*! has */ 47);
+var $concat = bind.call(Function.call, Array.prototype.concat);
+var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
+var $replace = bind.call(Function.call, String.prototype.replace);
+var $strSlice = bind.call(Function.call, String.prototype.slice);
+var $exec = bind.call(Function.call, RegExp.prototype.exec);
+
+/* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
+var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+var reEscapeChar = /\\(\\)?/g; /** Used to match backslashes in property paths. */
+var stringToPath = function stringToPath(string) {
+	var first = $strSlice(string, 0, 1);
+	var last = $strSlice(string, -1);
+	if (first === '%' && last !== '%') {
+		throw new $SyntaxError('invalid intrinsic syntax, expected closing `%`');
+	} else if (last === '%' && first !== '%') {
+		throw new $SyntaxError('invalid intrinsic syntax, expected opening `%`');
+	}
+	var result = [];
+	$replace(string, rePropName, function (match, number, quote, subString) {
+		result[result.length] = quote ? $replace(subString, reEscapeChar, '$1') : number || match;
+	});
+	return result;
+};
+/* end adaptation */
+
+var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
+	var intrinsicName = name;
+	var alias;
+	if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
+		alias = LEGACY_ALIASES[intrinsicName];
+		intrinsicName = '%' + alias[0] + '%';
+	}
+
+	if (hasOwn(INTRINSICS, intrinsicName)) {
+		var value = INTRINSICS[intrinsicName];
+		if (value === needsEval) {
+			value = doEval(intrinsicName);
+		}
+		if (typeof value === 'undefined' && !allowMissing) {
+			throw new $TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
+		}
+
+		return {
+			alias: alias,
+			name: intrinsicName,
+			value: value
+		};
+	}
+
+	throw new $SyntaxError('intrinsic ' + name + ' does not exist!');
+};
+
+module.exports = function GetIntrinsic(name, allowMissing) {
+	if (typeof name !== 'string' || name.length === 0) {
+		throw new $TypeError('intrinsic name must be a non-empty string');
+	}
+	if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
+		throw new $TypeError('"allowMissing" argument must be a boolean');
+	}
+
+	if ($exec(/^%?[^%]*%?$/, name) === null) {
+		throw new $SyntaxError('`%` may not be present anywhere but at the beginning and end of the intrinsic name');
+	}
+	var parts = stringToPath(name);
+	var intrinsicBaseName = parts.length > 0 ? parts[0] : '';
+
+	var intrinsic = getBaseIntrinsic('%' + intrinsicBaseName + '%', allowMissing);
+	var intrinsicRealName = intrinsic.name;
+	var value = intrinsic.value;
+	var skipFurtherCaching = false;
+
+	var alias = intrinsic.alias;
+	if (alias) {
+		intrinsicBaseName = alias[0];
+		$spliceApply(parts, $concat([0, 1], alias));
+	}
+
+	for (var i = 1, isOwn = true; i < parts.length; i += 1) {
+		var part = parts[i];
+		var first = $strSlice(part, 0, 1);
+		var last = $strSlice(part, -1);
+		if (
+			(
+				(first === '"' || first === "'" || first === '`')
+				|| (last === '"' || last === "'" || last === '`')
+			)
+			&& first !== last
+		) {
+			throw new $SyntaxError('property names with quotes must have matching quotes');
+		}
+		if (part === 'constructor' || !isOwn) {
+			skipFurtherCaching = true;
+		}
+
+		intrinsicBaseName += '.' + part;
+		intrinsicRealName = '%' + intrinsicBaseName + '%';
+
+		if (hasOwn(INTRINSICS, intrinsicRealName)) {
+			value = INTRINSICS[intrinsicRealName];
+		} else if (value != null) {
+			if (!(part in value)) {
+				if (!allowMissing) {
+					throw new $TypeError('base intrinsic for ' + name + ' exists, but the property is not available.');
+				}
+				return void undefined;
+			}
+			if ($gOPD && (i + 1) >= parts.length) {
+				var desc = $gOPD(value, part);
+				isOwn = !!desc;
+
+				// By convention, when a data property is converted to an accessor
+				// property to emulate a data property that does not suffer from
+				// the override mistake, that accessor's getter is marked with
+				// an `originalValue` property. Here, when we detect this, we
+				// uphold the illusion by pretending to see that original data
+				// property, i.e., returning the value rather than the getter
+				// itself.
+				if (isOwn && 'get' in desc && !('originalValue' in desc.get)) {
+					value = desc.get;
+				} else {
+					value = value[part];
+				}
+			} else {
+				isOwn = hasOwn(value, part);
+				value = value[part];
+			}
+
+			if (isOwn && !skipFurtherCaching) {
+				INTRINSICS[intrinsicRealName] = value;
+			}
+		}
+	}
+	return value;
+};
+
+
+/***/ }),
+/* 43 */
+/*!*******************************************!*\
+  !*** ./node_modules/has-symbols/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var origSymbol = typeof Symbol !== 'undefined' && Symbol;
+var hasSymbolSham = __webpack_require__(/*! ./shams */ 44);
+
+module.exports = function hasNativeSymbols() {
+	if (typeof origSymbol !== 'function') { return false; }
+	if (typeof Symbol !== 'function') { return false; }
+	if (typeof origSymbol('foo') !== 'symbol') { return false; }
+	if (typeof Symbol('bar') !== 'symbol') { return false; }
+
+	return hasSymbolSham();
+};
+
+
+/***/ }),
+/* 44 */
+/*!*******************************************!*\
+  !*** ./node_modules/has-symbols/shams.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint complexity: [2, 18], max-statements: [2, 33] */
+module.exports = function hasSymbols() {
+	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+	var obj = {};
+	var sym = Symbol('test');
+	var symObj = Object(sym);
+	if (typeof sym === 'string') { return false; }
+
+	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+	// if (sym instanceof Symbol) { return false; }
+	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+	// if (!(symObj instanceof Symbol)) { return false; }
+
+	// if (typeof Symbol.prototype.toString !== 'function') { return false; }
+	// if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+	var symVal = 42;
+	obj[sym] = symVal;
+	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+	var syms = Object.getOwnPropertySymbols(obj);
+	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+	}
+
+	return true;
+};
+
+
+/***/ }),
+/* 45 */
+/*!*********************************************!*\
+  !*** ./node_modules/function-bind/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var implementation = __webpack_require__(/*! ./implementation */ 46);
+
+module.exports = Function.prototype.bind || implementation;
+
+
+/***/ }),
+/* 46 */
+/*!******************************************************!*\
+  !*** ./node_modules/function-bind/implementation.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint no-invalid-this: 1 */
+
+var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
+var slice = Array.prototype.slice;
+var toStr = Object.prototype.toString;
+var funcType = '[object Function]';
+
+module.exports = function bind(that) {
+    var target = this;
+    if (typeof target !== 'function' || toStr.call(target) !== funcType) {
+        throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slice.call(arguments, 1);
+
+    var bound;
+    var binder = function () {
+        if (this instanceof bound) {
+            var result = target.apply(
+                this,
+                args.concat(slice.call(arguments))
+            );
+            if (Object(result) === result) {
+                return result;
+            }
+            return this;
+        } else {
+            return target.apply(
+                that,
+                args.concat(slice.call(arguments))
+            );
+        }
+    };
+
+    var boundLength = Math.max(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i = 0; i < boundLength; i++) {
+        boundArgs.push('$' + i);
+    }
+
+    bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
+
+    if (target.prototype) {
+        var Empty = function Empty() {};
+        Empty.prototype = target.prototype;
+        bound.prototype = new Empty();
+        Empty.prototype = null;
+    }
+
+    return bound;
+};
+
+
+/***/ }),
+/* 47 */
+/*!***************************************!*\
+  !*** ./node_modules/has/src/index.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(/*! function-bind */ 45);
+
+module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
+
+
+/***/ }),
+/* 48 */
+/*!*********************************************!*\
+  !*** ./node_modules/call-bind/callBound.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 42);
+
+var callBind = __webpack_require__(/*! ./ */ 49);
+
+var $indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
+
+module.exports = function callBoundIntrinsic(name, allowMissing) {
+	var intrinsic = GetIntrinsic(name, !!allowMissing);
+	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.') > -1) {
+		return callBind(intrinsic);
+	}
+	return intrinsic;
+};
+
+
+/***/ }),
+/* 49 */
+/*!*****************************************!*\
+  !*** ./node_modules/call-bind/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(/*! function-bind */ 45);
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 42);
+
+var $apply = GetIntrinsic('%Function.prototype.apply%');
+var $call = GetIntrinsic('%Function.prototype.call%');
+var $reflectApply = GetIntrinsic('%Reflect.apply%', true) || bind.call($call, $apply);
+
+var $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
+var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
+var $max = GetIntrinsic('%Math.max%');
+
+if ($defineProperty) {
+	try {
+		$defineProperty({}, 'a', { value: 1 });
+	} catch (e) {
+		// IE 8 has a broken defineProperty
+		$defineProperty = null;
+	}
+}
+
+module.exports = function callBind(originalFunction) {
+	var func = $reflectApply(bind, $call, arguments);
+	if ($gOPD && $defineProperty) {
+		var desc = $gOPD(func, 'length');
+		if (desc.configurable) {
+			// original length, plus the receiver, minus any additional arguments (after the receiver)
+			$defineProperty(
+				func,
+				'length',
+				{ value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) }
+			);
+		}
+	}
+	return func;
+};
+
+var applyBind = function applyBind() {
+	return $reflectApply(bind, $apply, arguments);
+};
+
+if ($defineProperty) {
+	$defineProperty(module.exports, 'apply', { value: applyBind });
+} else {
+	module.exports.apply = applyBind;
+}
+
+
+/***/ }),
+/* 50 */
+/*!**********************************************!*\
+  !*** ./node_modules/object-inspect/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var hasMap = typeof Map === 'function' && Map.prototype;
+var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
+var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
+var mapForEach = hasMap && Map.prototype.forEach;
+var hasSet = typeof Set === 'function' && Set.prototype;
+var setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, 'size') : null;
+var setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get === 'function' ? setSizeDescriptor.get : null;
+var setForEach = hasSet && Set.prototype.forEach;
+var hasWeakMap = typeof WeakMap === 'function' && WeakMap.prototype;
+var weakMapHas = hasWeakMap ? WeakMap.prototype.has : null;
+var hasWeakSet = typeof WeakSet === 'function' && WeakSet.prototype;
+var weakSetHas = hasWeakSet ? WeakSet.prototype.has : null;
+var hasWeakRef = typeof WeakRef === 'function' && WeakRef.prototype;
+var weakRefDeref = hasWeakRef ? WeakRef.prototype.deref : null;
+var booleanValueOf = Boolean.prototype.valueOf;
+var objectToString = Object.prototype.toString;
+var functionToString = Function.prototype.toString;
+var $match = String.prototype.match;
+var $slice = String.prototype.slice;
+var $replace = String.prototype.replace;
+var $toUpperCase = String.prototype.toUpperCase;
+var $toLowerCase = String.prototype.toLowerCase;
+var $test = RegExp.prototype.test;
+var $concat = Array.prototype.concat;
+var $join = Array.prototype.join;
+var $arrSlice = Array.prototype.slice;
+var $floor = Math.floor;
+var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
+var gOPS = Object.getOwnPropertySymbols;
+var symToString = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? Symbol.prototype.toString : null;
+var hasShammedSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'object';
+// ie, `has-tostringtag/shams
+var toStringTag = typeof Symbol === 'function' && Symbol.toStringTag && (typeof Symbol.toStringTag === hasShammedSymbols ? 'object' : 'symbol')
+    ? Symbol.toStringTag
+    : null;
+var isEnumerable = Object.prototype.propertyIsEnumerable;
+
+var gPO = (typeof Reflect === 'function' ? Reflect.getPrototypeOf : Object.getPrototypeOf) || (
+    [].__proto__ === Array.prototype // eslint-disable-line no-proto
+        ? function (O) {
+            return O.__proto__; // eslint-disable-line no-proto
+        }
+        : null
+);
+
+function addNumericSeparator(num, str) {
+    if (
+        num === Infinity
+        || num === -Infinity
+        || num !== num
+        || (num && num > -1000 && num < 1000)
+        || $test.call(/e/, str)
+    ) {
+        return str;
+    }
+    var sepRegex = /[0-9](?=(?:[0-9]{3})+(?![0-9]))/g;
+    if (typeof num === 'number') {
+        var int = num < 0 ? -$floor(-num) : $floor(num); // trunc(num)
+        if (int !== num) {
+            var intStr = String(int);
+            var dec = $slice.call(str, intStr.length + 1);
+            return $replace.call(intStr, sepRegex, '$&_') + '.' + $replace.call($replace.call(dec, /([0-9]{3})/g, '$&_'), /_$/, '');
+        }
+    }
+    return $replace.call(str, sepRegex, '$&_');
+}
+
+var utilInspect = __webpack_require__(/*! ./util.inspect */ 51);
+var inspectCustom = utilInspect.custom;
+var inspectSymbol = isSymbol(inspectCustom) ? inspectCustom : null;
+
+module.exports = function inspect_(obj, options, depth, seen) {
+    var opts = options || {};
+
+    if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
+        throw new TypeError('option "quoteStyle" must be "single" or "double"');
+    }
+    if (
+        has(opts, 'maxStringLength') && (typeof opts.maxStringLength === 'number'
+            ? opts.maxStringLength < 0 && opts.maxStringLength !== Infinity
+            : opts.maxStringLength !== null
+        )
+    ) {
+        throw new TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
+    }
+    var customInspect = has(opts, 'customInspect') ? opts.customInspect : true;
+    if (typeof customInspect !== 'boolean' && customInspect !== 'symbol') {
+        throw new TypeError('option "customInspect", if provided, must be `true`, `false`, or `\'symbol\'`');
+    }
+
+    if (
+        has(opts, 'indent')
+        && opts.indent !== null
+        && opts.indent !== '\t'
+        && !(parseInt(opts.indent, 10) === opts.indent && opts.indent > 0)
+    ) {
+        throw new TypeError('option "indent" must be "\\t", an integer > 0, or `null`');
+    }
+    if (has(opts, 'numericSeparator') && typeof opts.numericSeparator !== 'boolean') {
+        throw new TypeError('option "numericSeparator", if provided, must be `true` or `false`');
+    }
+    var numericSeparator = opts.numericSeparator;
+
+    if (typeof obj === 'undefined') {
+        return 'undefined';
+    }
+    if (obj === null) {
+        return 'null';
+    }
+    if (typeof obj === 'boolean') {
+        return obj ? 'true' : 'false';
+    }
+
+    if (typeof obj === 'string') {
+        return inspectString(obj, opts);
+    }
+    if (typeof obj === 'number') {
+        if (obj === 0) {
+            return Infinity / obj > 0 ? '0' : '-0';
+        }
+        var str = String(obj);
+        return numericSeparator ? addNumericSeparator(obj, str) : str;
+    }
+    if (typeof obj === 'bigint') {
+        var bigIntStr = String(obj) + 'n';
+        return numericSeparator ? addNumericSeparator(obj, bigIntStr) : bigIntStr;
+    }
+
+    var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
+    if (typeof depth === 'undefined') { depth = 0; }
+    if (depth >= maxDepth && maxDepth > 0 && typeof obj === 'object') {
+        return isArray(obj) ? '[Array]' : '[Object]';
+    }
+
+    var indent = getIndent(opts, depth);
+
+    if (typeof seen === 'undefined') {
+        seen = [];
+    } else if (indexOf(seen, obj) >= 0) {
+        return '[Circular]';
+    }
+
+    function inspect(value, from, noIndent) {
+        if (from) {
+            seen = $arrSlice.call(seen);
+            seen.push(from);
+        }
+        if (noIndent) {
+            var newOpts = {
+                depth: opts.depth
+            };
+            if (has(opts, 'quoteStyle')) {
+                newOpts.quoteStyle = opts.quoteStyle;
+            }
+            return inspect_(value, newOpts, depth + 1, seen);
+        }
+        return inspect_(value, opts, depth + 1, seen);
+    }
+
+    if (typeof obj === 'function' && !isRegExp(obj)) { // in older engines, regexes are callable
+        var name = nameOf(obj);
+        var keys = arrObjKeys(obj, inspect);
+        return '[Function' + (name ? ': ' + name : ' (anonymous)') + ']' + (keys.length > 0 ? ' { ' + $join.call(keys, ', ') + ' }' : '');
+    }
+    if (isSymbol(obj)) {
+        var symString = hasShammedSymbols ? $replace.call(String(obj), /^(Symbol\(.*\))_[^)]*$/, '$1') : symToString.call(obj);
+        return typeof obj === 'object' && !hasShammedSymbols ? markBoxed(symString) : symString;
+    }
+    if (isElement(obj)) {
+        var s = '<' + $toLowerCase.call(String(obj.nodeName));
+        var attrs = obj.attributes || [];
+        for (var i = 0; i < attrs.length; i++) {
+            s += ' ' + attrs[i].name + '=' + wrapQuotes(quote(attrs[i].value), 'double', opts);
+        }
+        s += '>';
+        if (obj.childNodes && obj.childNodes.length) { s += '...'; }
+        s += '</' + $toLowerCase.call(String(obj.nodeName)) + '>';
+        return s;
+    }
+    if (isArray(obj)) {
+        if (obj.length === 0) { return '[]'; }
+        var xs = arrObjKeys(obj, inspect);
+        if (indent && !singleLineValues(xs)) {
+            return '[' + indentedJoin(xs, indent) + ']';
+        }
+        return '[ ' + $join.call(xs, ', ') + ' ]';
+    }
+    if (isError(obj)) {
+        var parts = arrObjKeys(obj, inspect);
+        if (!('cause' in Error.prototype) && 'cause' in obj && !isEnumerable.call(obj, 'cause')) {
+            return '{ [' + String(obj) + '] ' + $join.call($concat.call('[cause]: ' + inspect(obj.cause), parts), ', ') + ' }';
+        }
+        if (parts.length === 0) { return '[' + String(obj) + ']'; }
+        return '{ [' + String(obj) + '] ' + $join.call(parts, ', ') + ' }';
+    }
+    if (typeof obj === 'object' && customInspect) {
+        if (inspectSymbol && typeof obj[inspectSymbol] === 'function' && utilInspect) {
+            return utilInspect(obj, { depth: maxDepth - depth });
+        } else if (customInspect !== 'symbol' && typeof obj.inspect === 'function') {
+            return obj.inspect();
+        }
+    }
+    if (isMap(obj)) {
+        var mapParts = [];
+        mapForEach.call(obj, function (value, key) {
+            mapParts.push(inspect(key, obj, true) + ' => ' + inspect(value, obj));
+        });
+        return collectionOf('Map', mapSize.call(obj), mapParts, indent);
+    }
+    if (isSet(obj)) {
+        var setParts = [];
+        setForEach.call(obj, function (value) {
+            setParts.push(inspect(value, obj));
+        });
+        return collectionOf('Set', setSize.call(obj), setParts, indent);
+    }
+    if (isWeakMap(obj)) {
+        return weakCollectionOf('WeakMap');
+    }
+    if (isWeakSet(obj)) {
+        return weakCollectionOf('WeakSet');
+    }
+    if (isWeakRef(obj)) {
+        return weakCollectionOf('WeakRef');
+    }
+    if (isNumber(obj)) {
+        return markBoxed(inspect(Number(obj)));
+    }
+    if (isBigInt(obj)) {
+        return markBoxed(inspect(bigIntValueOf.call(obj)));
+    }
+    if (isBoolean(obj)) {
+        return markBoxed(booleanValueOf.call(obj));
+    }
+    if (isString(obj)) {
+        return markBoxed(inspect(String(obj)));
+    }
+    if (!isDate(obj) && !isRegExp(obj)) {
+        var ys = arrObjKeys(obj, inspect);
+        var isPlainObject = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
+        var protoTag = obj instanceof Object ? '' : 'null prototype';
+        var stringTag = !isPlainObject && toStringTag && Object(obj) === obj && toStringTag in obj ? $slice.call(toStr(obj), 8, -1) : protoTag ? 'Object' : '';
+        var constructorTag = isPlainObject || typeof obj.constructor !== 'function' ? '' : obj.constructor.name ? obj.constructor.name + ' ' : '';
+        var tag = constructorTag + (stringTag || protoTag ? '[' + $join.call($concat.call([], stringTag || [], protoTag || []), ': ') + '] ' : '');
+        if (ys.length === 0) { return tag + '{}'; }
+        if (indent) {
+            return tag + '{' + indentedJoin(ys, indent) + '}';
+        }
+        return tag + '{ ' + $join.call(ys, ', ') + ' }';
+    }
+    return String(obj);
+};
+
+function wrapQuotes(s, defaultStyle, opts) {
+    var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
+    return quoteChar + s + quoteChar;
+}
+
+function quote(s) {
+    return $replace.call(String(s), /"/g, '&quot;');
+}
+
+function isArray(obj) { return toStr(obj) === '[object Array]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isDate(obj) { return toStr(obj) === '[object Date]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isRegExp(obj) { return toStr(obj) === '[object RegExp]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isError(obj) { return toStr(obj) === '[object Error]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isString(obj) { return toStr(obj) === '[object String]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isNumber(obj) { return toStr(obj) === '[object Number]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+
+// Symbol and BigInt do have Symbol.toStringTag by spec, so that can't be used to eliminate false positives
+function isSymbol(obj) {
+    if (hasShammedSymbols) {
+        return obj && typeof obj === 'object' && obj instanceof Symbol;
+    }
+    if (typeof obj === 'symbol') {
+        return true;
+    }
+    if (!obj || typeof obj !== 'object' || !symToString) {
+        return false;
+    }
+    try {
+        symToString.call(obj);
+        return true;
+    } catch (e) {}
+    return false;
+}
+
+function isBigInt(obj) {
+    if (!obj || typeof obj !== 'object' || !bigIntValueOf) {
+        return false;
+    }
+    try {
+        bigIntValueOf.call(obj);
+        return true;
+    } catch (e) {}
+    return false;
+}
+
+var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
+function has(obj, key) {
+    return hasOwn.call(obj, key);
+}
+
+function toStr(obj) {
+    return objectToString.call(obj);
+}
+
+function nameOf(f) {
+    if (f.name) { return f.name; }
+    var m = $match.call(functionToString.call(f), /^function\s*([\w$]+)/);
+    if (m) { return m[1]; }
+    return null;
+}
+
+function indexOf(xs, x) {
+    if (xs.indexOf) { return xs.indexOf(x); }
+    for (var i = 0, l = xs.length; i < l; i++) {
+        if (xs[i] === x) { return i; }
+    }
+    return -1;
+}
+
+function isMap(x) {
+    if (!mapSize || !x || typeof x !== 'object') {
+        return false;
+    }
+    try {
+        mapSize.call(x);
+        try {
+            setSize.call(x);
+        } catch (s) {
+            return true;
+        }
+        return x instanceof Map; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isWeakMap(x) {
+    if (!weakMapHas || !x || typeof x !== 'object') {
+        return false;
+    }
+    try {
+        weakMapHas.call(x, weakMapHas);
+        try {
+            weakSetHas.call(x, weakSetHas);
+        } catch (s) {
+            return true;
+        }
+        return x instanceof WeakMap; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isWeakRef(x) {
+    if (!weakRefDeref || !x || typeof x !== 'object') {
+        return false;
+    }
+    try {
+        weakRefDeref.call(x);
+        return true;
+    } catch (e) {}
+    return false;
+}
+
+function isSet(x) {
+    if (!setSize || !x || typeof x !== 'object') {
+        return false;
+    }
+    try {
+        setSize.call(x);
+        try {
+            mapSize.call(x);
+        } catch (m) {
+            return true;
+        }
+        return x instanceof Set; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isWeakSet(x) {
+    if (!weakSetHas || !x || typeof x !== 'object') {
+        return false;
+    }
+    try {
+        weakSetHas.call(x, weakSetHas);
+        try {
+            weakMapHas.call(x, weakMapHas);
+        } catch (s) {
+            return true;
+        }
+        return x instanceof WeakSet; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isElement(x) {
+    if (!x || typeof x !== 'object') { return false; }
+    if (typeof HTMLElement !== 'undefined' && x instanceof HTMLElement) {
+        return true;
+    }
+    return typeof x.nodeName === 'string' && typeof x.getAttribute === 'function';
+}
+
+function inspectString(str, opts) {
+    if (str.length > opts.maxStringLength) {
+        var remaining = str.length - opts.maxStringLength;
+        var trailer = '... ' + remaining + ' more character' + (remaining > 1 ? 's' : '');
+        return inspectString($slice.call(str, 0, opts.maxStringLength), opts) + trailer;
+    }
+    // eslint-disable-next-line no-control-regex
+    var s = $replace.call($replace.call(str, /(['\\])/g, '\\$1'), /[\x00-\x1f]/g, lowbyte);
+    return wrapQuotes(s, 'single', opts);
+}
+
+function lowbyte(c) {
+    var n = c.charCodeAt(0);
+    var x = {
+        8: 'b',
+        9: 't',
+        10: 'n',
+        12: 'f',
+        13: 'r'
+    }[n];
+    if (x) { return '\\' + x; }
+    return '\\x' + (n < 0x10 ? '0' : '') + $toUpperCase.call(n.toString(16));
+}
+
+function markBoxed(str) {
+    return 'Object(' + str + ')';
+}
+
+function weakCollectionOf(type) {
+    return type + ' { ? }';
+}
+
+function collectionOf(type, size, entries, indent) {
+    var joinedEntries = indent ? indentedJoin(entries, indent) : $join.call(entries, ', ');
+    return type + ' (' + size + ') {' + joinedEntries + '}';
+}
+
+function singleLineValues(xs) {
+    for (var i = 0; i < xs.length; i++) {
+        if (indexOf(xs[i], '\n') >= 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function getIndent(opts, depth) {
+    var baseIndent;
+    if (opts.indent === '\t') {
+        baseIndent = '\t';
+    } else if (typeof opts.indent === 'number' && opts.indent > 0) {
+        baseIndent = $join.call(Array(opts.indent + 1), ' ');
+    } else {
+        return null;
+    }
+    return {
+        base: baseIndent,
+        prev: $join.call(Array(depth + 1), baseIndent)
+    };
+}
+
+function indentedJoin(xs, indent) {
+    if (xs.length === 0) { return ''; }
+    var lineJoiner = '\n' + indent.prev + indent.base;
+    return lineJoiner + $join.call(xs, ',' + lineJoiner) + '\n' + indent.prev;
+}
+
+function arrObjKeys(obj, inspect) {
+    var isArr = isArray(obj);
+    var xs = [];
+    if (isArr) {
+        xs.length = obj.length;
+        for (var i = 0; i < obj.length; i++) {
+            xs[i] = has(obj, i) ? inspect(obj[i], obj) : '';
+        }
+    }
+    var syms = typeof gOPS === 'function' ? gOPS(obj) : [];
+    var symMap;
+    if (hasShammedSymbols) {
+        symMap = {};
+        for (var k = 0; k < syms.length; k++) {
+            symMap['$' + syms[k]] = syms[k];
+        }
+    }
+
+    for (var key in obj) { // eslint-disable-line no-restricted-syntax
+        if (!has(obj, key)) { continue; } // eslint-disable-line no-restricted-syntax, no-continue
+        if (isArr && String(Number(key)) === key && key < obj.length) { continue; } // eslint-disable-line no-restricted-syntax, no-continue
+        if (hasShammedSymbols && symMap['$' + key] instanceof Symbol) {
+            // this is to prevent shammed Symbols, which are stored as strings, from being included in the string key section
+            continue; // eslint-disable-line no-restricted-syntax, no-continue
+        } else if ($test.call(/[^\w$]/, key)) {
+            xs.push(inspect(key, obj) + ': ' + inspect(obj[key], obj));
+        } else {
+            xs.push(key + ': ' + inspect(obj[key], obj));
+        }
+    }
+    if (typeof gOPS === 'function') {
+        for (var j = 0; j < syms.length; j++) {
+            if (isEnumerable.call(obj, syms[j])) {
+                xs.push('[' + inspect(syms[j]) + ']: ' + inspect(obj[syms[j]], obj));
+            }
+        }
+    }
+    return xs;
+}
+
+
+/***/ }),
+/* 51 */
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 52 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/utils.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var formats = __webpack_require__(/*! ./formats */ 53);
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    while (queue.length > 1) {
+        var item = queue.pop();
+        var obj = item.obj[item.prop];
+
+        if (isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    /* eslint no-param-reassign: 0 */
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (isArray(target)) {
+            target.push(source);
+        } else if (target && typeof target === 'object') {
+            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (!target || typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (isArray(target) && !isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (isArray(target) && isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                var targetItem = target[i];
+                if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
+                    target[i] = merge(targetItem, item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str, decoder, charset) {
+    var strWithoutPlus = str.replace(/\+/g, ' ');
+    if (charset === 'iso-8859-1') {
+        // unescape never throws, no try...catch needed:
+        return strWithoutPlus.replace(/%[0-9a-f]{2}/gi, unescape);
+    }
+    // utf-8
+    try {
+        return decodeURIComponent(strWithoutPlus);
+    } catch (e) {
+        return strWithoutPlus;
+    }
+};
+
+var encode = function encode(str, defaultEncoder, charset, kind, format) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = str;
+    if (typeof str === 'symbol') {
+        string = Symbol.prototype.toString.call(str);
+    } else if (typeof str !== 'string') {
+        string = String(str);
+    }
+
+    if (charset === 'iso-8859-1') {
+        return escape(string).replace(/%u[0-9a-f]{4}/gi, function ($0) {
+            return '%26%23' + parseInt($0.slice(2), 16) + '%3B';
+        });
+    }
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+            || (format === formats.RFC1738 && (c === 0x28 || c === 0x29)) // ( )
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        /* eslint operator-linebreak: [2, "before"] */
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    compactQueue(queue);
+
+    return value;
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+var combine = function combine(a, b) {
+    return [].concat(a, b);
+};
+
+var maybeMap = function maybeMap(val, fn) {
+    if (isArray(val)) {
+        var mapped = [];
+        for (var i = 0; i < val.length; i += 1) {
+            mapped.push(fn(val[i]));
+        }
+        return mapped;
+    }
+    return fn(val);
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    combine: combine,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    maybeMap: maybeMap,
+    merge: merge
+};
+
+
+/***/ }),
+/* 53 */
+/*!****************************************!*\
+  !*** ./node_modules/qs/lib/formats.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+var Format = {
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+module.exports = {
+    'default': Format.RFC3986,
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return String(value);
+        }
+    },
+    RFC1738: Format.RFC1738,
+    RFC3986: Format.RFC3986
+};
+
+
+/***/ }),
+/* 54 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/parse.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 52);
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    allowSparse: false,
+    arrayLimit: 20,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    comma: false,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    ignoreQueryPrefix: false,
+    interpretNumericEntities: false,
+    parameterLimit: 1000,
+    parseArrays: true,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var interpretNumericEntities = function (str) {
+    return str.replace(/&#(\d+);/g, function ($0, numberStr) {
+        return String.fromCharCode(parseInt(numberStr, 10));
+    });
+};
+
+var parseArrayValue = function (val, options) {
+    if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
+        return val.split(',');
+    }
+
+    return val;
+};
+
+// This is what browsers will submit when the ✓ character occurs in an
+// application/x-www-form-urlencoded body and the encoding of the page containing
+// the form is iso-8859-1, or when the submitted form has an accept-charset
+// attribute of iso-8859-1. Presumably also with other charsets that do not contain
+// the ✓ character, such as us-ascii.
+var isoSentinel = 'utf8=%26%2310003%3B'; // encodeURIComponent('&#10003;')
+
+// These are the percent-encoded utf-8 octets representing a checkmark, indicating that the request actually is utf-8 encoded.
+var charsetSentinel = 'utf8=%E2%9C%93'; // encodeURIComponent('✓')
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+    var skipIndex = -1; // Keep track of where the utf8 sentinel was found
+    var i;
+
+    var charset = options.charset;
+    if (options.charsetSentinel) {
+        for (i = 0; i < parts.length; ++i) {
+            if (parts[i].indexOf('utf8=') === 0) {
+                if (parts[i] === charsetSentinel) {
+                    charset = 'utf-8';
+                } else if (parts[i] === isoSentinel) {
+                    charset = 'iso-8859-1';
+                }
+                skipIndex = i;
+                i = parts.length; // The eslint settings do not allow break;
+            }
+        }
+    }
+
+    for (i = 0; i < parts.length; ++i) {
+        if (i === skipIndex) {
+            continue;
+        }
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder, charset, 'key');
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
+            val = utils.maybeMap(
+                parseArrayValue(part.slice(pos + 1), options),
+                function (encodedVal) {
+                    return options.decoder(encodedVal, defaults.decoder, charset, 'value');
+                }
+            );
+        }
+
+        if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
+            val = interpretNumericEntities(val);
+        }
+
+        if (part.indexOf('[]=') > -1) {
+            val = isArray(val) ? [val] : val;
+        }
+
+        if (has.call(obj, key)) {
+            obj[key] = utils.combine(obj[key], val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options, valuesParsed) {
+    var leaf = valuesParsed ? val : parseArrayValue(val, options);
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]' && options.parseArrays) {
+            obj = [].concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (!options.parseArrays && cleanRoot === '') {
+                obj = { 0: leaf };
+            } else if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else if (cleanRoot !== '__proto__') {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesParsed) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = options.depth > 0 && brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options, valuesParsed);
+};
+
+var normalizeParseOptions = function normalizeParseOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+    var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
+
+    return {
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
+        allowSparse: typeof opts.allowSparse === 'boolean' ? opts.allowSparse : defaults.allowSparse,
+        arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+        decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
+        delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
+        // eslint-disable-next-line no-implicit-coercion, no-extra-parens
+        depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
+        ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
+        interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
+        parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
+        parseArrays: opts.parseArrays !== false,
+        plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (str, opts) {
+    var options = normalizeParseOptions(opts);
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options, typeof str === 'string');
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    if (options.allowSparse === true) {
+        return obj;
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
 /* 55 */,
 /* 56 */,
 /* 57 */
@@ -13449,9 +17674,94 @@ exports.default = _default;
   !*** D:/工作项目/homeCareMiniProgram/api/login.js ***!
   \************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader/index.js):\nError: ENOENT: no such file or directory, open 'D:\\工作项目\\homeCareMiniProgram\\api\\login.js'");
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.logIn = logIn;
+exports.logInByCode = logInByCode;
+exports.resetPassword = resetPassword;
+exports.sendPhoneCode = sendPhoneCode;
+exports.setPassword = setPassword;
+exports.userSignOut = userSignOut;
+exports.weixinLogIn = weixinLogIn;
+exports.weixinMiniAppLogin = weixinMiniAppLogin;
+var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 32));
+// 账号密码登录
+function logIn(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/login',
+    method: 'post',
+    data: data
+  });
+}
+
+// 账号验证码登录
+function logInByCode(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/sms-login',
+    method: 'post',
+    data: data
+  });
+}
+
+// 发送手机验证码
+function sendPhoneCode(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/send-sms-code',
+    method: 'post',
+    data: data
+  });
+}
+
+// 重置密码
+function resetPassword(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/reset-password',
+    method: 'post',
+    data: data
+  });
+}
+
+// 设置密码
+function setPassword(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/set-password',
+    method: 'post',
+    data: data
+  });
+}
+
+// 用户退出登录
+function userSignOut() {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/logout',
+    method: 'post'
+  });
+}
+;
+
+// 微信登录
+function weixinLogIn(code) {
+  return (0, _request.default)({
+    url: "login/wx/".concat(code),
+    method: 'get'
+  });
+}
+
+// 微信小程序一键登录
+function weixinMiniAppLogin(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/weixin-mini-app-login',
+    method: 'post',
+    data: data
+  });
+}
 
 /***/ }),
 /* 94 */

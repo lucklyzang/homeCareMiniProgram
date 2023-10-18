@@ -4,5 +4,11 @@
   "navigationBarTextStyle": "white",
   "backgroundColorBottom": "#f7f7f7",
   "navigationStyle": "custom",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-loading": "/node-modules/uview-ui/components/u-loading/u-loading",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
 }

@@ -25,7 +25,8 @@
     {
       "root": "orderFormPackage",
       "pages": [
-        "pages/orderForm/index/index"
+        "pages/orderForm/index/index",
+        "pages/orderFormCancelOrRefund/orderFormCancelOrRefund"
       ],
       "name": "rootOrderFormPackage"
     },

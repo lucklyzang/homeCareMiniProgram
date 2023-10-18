@@ -15,7 +15,7 @@
 						<text>婴儿全身按摩</text>
 					</view>
 					<view class="order-form-status">
-						<text>派单中</text>
+						<text>已退款</text>
 					</view>
 				</view>
 				<view class="order-form-center">
@@ -77,14 +77,6 @@
 					</view>
 				</view>
 			</view>
-			<view class="order-flow">
-				<view class="order-flow-title">
-					<text>订单流程</text>
-				</view>
-				<view class="order-flow-content">
-					<u-steps :list="orderFormTypeList" un-active-color="#D9DBE0" active-color="#fff" :current="1"></u-steps>
-				</view>
-			</view>
 			<view class="order-message">
 				<view class="order-message-top">
 					<view class="order-message-title">
@@ -113,12 +105,23 @@
 						<text>付款时间</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
+					<view class="order-message-one">
+						<text>派单时间</text>
+						<text>2012-05-09 19:45:20</text>
+					</view>
+					<view class="order-message-one">
+						<text>完成服务时间</text>
+						<text>2012-05-09 19:45:20</text>
+					</view>
+					<view class="order-message-one">
+						<text>退款时间</text>
+						<text>2012-05-09 19:45:20</text>
+					</view>
 				</view>
 			</view>
 			<view class="btn-area">
-				<text>申请退款</text>
-				<text>取消订单</text>
-				<text>提醒</text>
+				<text>删除订单</text>
+				<text>再次预约</text>
 			</view>
 		</view>
 	</view>
@@ -142,30 +145,7 @@
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
-				showLoadingHint: false,
-				orderFormTypeList: [
-					{
-						name: '已支付'
-					},
-					{
-						name: '派单中'
-					},
-					{
-						name: '待出发'
-					},
-					{
-						name: '待服务'
-					},
-					{
-						name: '服务中'
-					},
-					{
-						name: '待评价'
-					},
-					{
-						name: '已完成'
-					}
-				]
+				showLoadingHint: false
 			}
 		},
 		computed: {
@@ -403,30 +383,6 @@
 							color: #E82050;
 							font-size: 16px;
 							font-weight: bold;
-						}
-					}
-				}
-			}
-		};
-		.order-flow {
-			height: 113px;
-			background: #EB3E67;
-			margin-bottom: 10px;
-			padding: 6px 16px 10px 16px;
-			box-sizing: border-box;
-			.order-flow-title {
-				padding-left: 4px;
-				box-sizing: border-box;
-				font-size: 14px;
-				color: #fff;
-				margin-bottom: 20px
-			};
-			.order-flow-content {
-				::v-deep .u-steps {
-					.u-steps__item {
-						.u-steps__item__line {
-							left: 50% !important;
-							width: 100% !important
 						}
 					}
 				}
