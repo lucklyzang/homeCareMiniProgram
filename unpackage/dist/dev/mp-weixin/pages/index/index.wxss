@@ -190,10 +190,6 @@ page {
   align-items: center;
   justify-content: space-between;
 }
-.content-box .center-area .recommend-service .service-list .service-list-left  .u-image {
-  width: 63px !important;
-  height: 63px !important;
-}
 .content-box .center-area .recommend-service .service-list .service-list-right {
   flex: 1;
   display: flex;
@@ -250,6 +246,9 @@ page {
   color: #101010;
   font-weight: bold;
   margin-right: 10px;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-title .nurse-practitioner-title-right {
+  display: flex;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-title .nurse-practitioner-title-right > text {
   font-size: 12px;

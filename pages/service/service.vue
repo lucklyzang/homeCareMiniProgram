@@ -8,7 +8,7 @@
 				</nav-bar> 
 			</view>
 			<view class="search-box">
-				<u-search placeholder="搜索服务名称" height="60" shape="square" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" v-model="searchValue"></u-search>
+				<u-search placeholder="搜索服务名称" height="30" shape="square" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" v-model="searchValue"></u-search>
 			</view>
 			<image :src="loginBackgroundPng"></image>
 		</view>
@@ -21,7 +21,11 @@
 			<view class="content-right">
 				<view class="content-list">
 					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" ></u-image>
+						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
+						</u-image>
 					</view>
 					<view class="content-list-right">
 						<view class="service-introduce">
@@ -39,7 +43,11 @@
 				</view>
 				<view class="content-list">
 					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" ></u-image>
+						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
+						</u-image>
 					</view>
 					<view class="content-list-right">
 						<view class="service-introduce">
@@ -200,8 +208,8 @@
 					@include bottom-border-1px(rgba(157, 156, 156, 0.8));
 					.content-list-left {
 						::v-deep .u-image {
-							width: 70px !important;
-							height: 70px !important
+							// width: 70px !important;
+							// height: 70px !important
 						}
 					};
 					.content-list-right {

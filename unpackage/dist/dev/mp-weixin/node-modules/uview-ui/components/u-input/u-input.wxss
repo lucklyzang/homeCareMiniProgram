@@ -24,43 +24,70 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+view.data-v-fdbb9fe6, scroll-view.data-v-fdbb9fe6, swiper-item.data-v-fdbb9fe6 {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
 .u-input.data-v-fdbb9fe6 {
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+.u-input--radius.data-v-fdbb9fe6, .u-input--square.data-v-fdbb9fe6 {
+  border-radius: 4px;
+}
+.u-input--no-radius.data-v-fdbb9fe6 {
+  border-radius: 0;
+}
+.u-input--circle.data-v-fdbb9fe6 {
+  border-radius: 100px;
+}
+.u-input__content.data-v-fdbb9fe6 {
   flex: 1;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
-.u-input__input.data-v-fdbb9fe6 {
-  font-size: 28rpx;
-  color: #303133;
+.u-input__content__field-wrapper.data-v-fdbb9fe6 {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
   flex: 1;
 }
-.u-input__textarea.data-v-fdbb9fe6 {
-  width: auto;
-  font-size: 28rpx;
+.u-input__content__field-wrapper__field.data-v-fdbb9fe6 {
+  line-height: 26px;
+  text-align: left;
   color: #303133;
-  padding: 10rpx 0;
-  line-height: normal;
+  height: 24px;
+  font-size: 15px;
   flex: 1;
 }
-.u-input--border.data-v-fdbb9fe6 {
-  border-radius: 6rpx;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
+.u-input__content__clear.data-v-fdbb9fe6 {
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+  background-color: #c6c7cb;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  -webkit-transform: scale(0.82);
+          transform: scale(0.82);
+  margin-left: 4px;
 }
-.u-input--error.data-v-fdbb9fe6 {
-  border-color: #fa3534 !important;
+.u-input__content__subfix-icon.data-v-fdbb9fe6 {
+  margin-left: 4px;
 }
-.u-input__right-icon__item.data-v-fdbb9fe6 {
-  margin-left: 10rpx;
-}
-.u-input__right-icon--select.data-v-fdbb9fe6 {
-  transition: -webkit-transform .4s;
-  transition: transform .4s;
-  transition: transform .4s, -webkit-transform .4s;
-}
-.u-input__right-icon--select--reverse.data-v-fdbb9fe6 {
-  -webkit-transform: rotate(-180deg);
-          transform: rotate(-180deg);
+.u-input__content__prefix-icon.data-v-fdbb9fe6 {
+  margin-right: 4px;
 }
 

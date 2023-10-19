@@ -11,7 +11,8 @@
     {
       "root": "messagePackage",
       "pages": [
-        "pages/message/index/index"
+        "pages/message/index/index",
+        "pages/latestNewsDetails/latestNewsDetails"
       ],
       "name": "rootMessagePackage"
     },
@@ -26,7 +27,8 @@
       "root": "orderFormPackage",
       "pages": [
         "pages/orderForm/index/index",
-        "pages/orderFormCancelOrRefund/orderFormCancelOrRefund"
+        "pages/orderFormCancelOrRefund/orderFormCancelOrRefund",
+        "pages/orderFormComplete/orderFormComplete"
       ],
       "name": "rootOrderFormPackage"
     },

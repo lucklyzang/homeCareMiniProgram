@@ -10,10 +10,12 @@
 		</view>
 		<view class="message-list-wrapper">
 			<u-empty text="暂无消息" mode="list" v-show="isShowNoData"></u-empty>
-			<view class="message-list">
+			<view class="message-list" @click="enterMessageListEvent">
 				<view class="message-photo">
-					<u-image src="@/static/img/health-nurse.png">
-						<u-loading slot="loading"></u-loading>
+					<u-image src="@/static/img/health-nurse.png" width="46" height="46">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
 					</u-image>
 				</view>
 				<view class="message-content">
@@ -39,8 +41,10 @@
 			</view>
 			<view class="message-list">
 				<view class="message-photo">
-					<u-image src="@/static/img/health-nurse.png">
-						<u-loading slot="loading"></u-loading>
+					<u-image src="@/static/img/health-nurse.png" width="46" height="46">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
 					</u-image>
 				</view>
 				<view class="message-content">
@@ -103,7 +107,14 @@
 		},
 		methods: {
 			...mapMutations([
-			])
+			]),
+			
+			// 进入消息列表事件
+			enterMessageListEvent () {
+				uni.redirectTo({
+					url: '/messagePackage/pages/message/index/index'
+				})
+			}
 		}
 	}
 </script>
@@ -155,8 +166,8 @@
 				.message-photo {
 					margin-right: 10px;
 					::v-deep .u-image {
-						width: 46px !important;
-						height: 46px !important
+						// width: 46px !important;
+						// height: 46px !important
 					}
 				};
 				.message-content {

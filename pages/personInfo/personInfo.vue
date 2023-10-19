@@ -30,7 +30,7 @@
 					<text>{{ item.name }}</text>
 				</view>
 				<view class="function-item-right">
-					<u-icon name="arrow-right" color="#737373" size="36"></u-icon>
+					<u-icon name="arrow-right" color="#737373" size="20"></u-icon>
 				</view>
 			</view>
 		</view>

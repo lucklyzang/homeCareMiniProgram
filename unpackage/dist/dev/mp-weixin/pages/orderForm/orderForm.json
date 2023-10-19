@@ -6,11 +6,12 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
+    "u-textarea": "/node-modules/uview-ui/components/u-textarea/u-textarea",
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "u-tabs": "/node-modules/uview-ui/components/u-tabs/u-tabs",
     "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
     "u-image": "/node-modules/uview-ui/components/u-image/u-image",
-    "u-loading": "/node-modules/uview-ui/components/u-loading/u-loading",
+    "u-loading-icon": "/node-modules/uview-ui/components/u-loading-icon/u-loading-icon",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }

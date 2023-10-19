@@ -24,39 +24,66 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-model.data-v-713d0fd3 {
-  height: auto;
+view.data-v-713d0fd3, scroll-view.data-v-713d0fd3, swiper-item.data-v-713d0fd3 {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-modal.data-v-713d0fd3 {
+  width: 650rpx;
+  border-radius: 6px;
   overflow: hidden;
-  font-size: 32rpx;
-  background-color: #fff;
 }
-.u-model__btn--hover.data-v-713d0fd3 {
-  background-color: #e6e6e6;
-}
-.u-model__title.data-v-713d0fd3 {
-  padding-top: 48rpx;
-  font-weight: 500;
-  text-align: center;
-  color: #303133;
-}
-.u-model__content__message.data-v-713d0fd3 {
-  padding: 48rpx;
-  font-size: 30rpx;
-  text-align: center;
+.u-modal__title.data-v-713d0fd3 {
+  font-size: 16px;
+  font-weight: bold;
   color: #606266;
+  text-align: center;
+  padding-top: 25px;
 }
-.u-model__footer.data-v-713d0fd3 {
+.u-modal__content.data-v-713d0fd3 {
+  padding: 12px 25px 25px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.u-modal__content__text.data-v-713d0fd3 {
+  font-size: 15px;
+  color: #606266;
+  flex: 1;
+}
+.u-modal__button-group.data-v-713d0fd3 {
   display: flex;
   flex-direction: row;
 }
-.u-model__footer__button.data-v-713d0fd3 {
+.u-modal__button-group--confirm-button.data-v-713d0fd3 {
+  flex-direction: column;
+  padding: 0px 25px 15px 25px;
+}
+.u-modal__button-group__wrapper.data-v-713d0fd3 {
   flex: 1;
-  height: 100rpx;
-  line-height: 100rpx;
-  font-size: 32rpx;
-  box-sizing: border-box;
-  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+}
+.u-modal__button-group__wrapper--confirm.data-v-713d0fd3, .u-modal__button-group__wrapper--only-cancel.data-v-713d0fd3 {
+  border-bottom-right-radius: 6px;
+}
+.u-modal__button-group__wrapper--cancel.data-v-713d0fd3, .u-modal__button-group__wrapper--only-confirm.data-v-713d0fd3 {
+  border-bottom-left-radius: 6px;
+}
+.u-modal__button-group__wrapper--hover.data-v-713d0fd3 {
+  background-color: #f3f4f6;
+}
+.u-modal__button-group__wrapper__text.data-v-713d0fd3 {
+  color: #606266;
+  font-size: 16px;
   text-align: center;
-  border-radius: 4rpx;
 }
 

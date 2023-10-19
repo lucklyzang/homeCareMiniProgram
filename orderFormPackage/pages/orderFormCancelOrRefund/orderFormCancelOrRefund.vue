@@ -20,8 +20,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -90,7 +92,7 @@
 						</view>
 						<view class="order-message-one-special-right">
 							<text>asasa34343</text>
-							<text>复制</text>
+							<text  @click="copyContent(copyValue)">复制</text>
 						</view>
 					</view>
 					<view class="order-message-one">
@@ -145,6 +147,7 @@
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
+				copyValue: '复制测试',
 				showLoadingHint: false
 			}
 		},
@@ -162,6 +165,21 @@
 		methods: {
 			...mapMutations([
 			]),
+			
+			copyContent(data) {
+				uni.setClipboardData({
+					data,
+					success: () => {
+						uni.getClipboardData({ 
+							success: (res) => {
+								uni.showToast({
+										title: "复制成功"
+								})
+							}
+						})
+					}
+				})
+			},
 			
 			// 顶部导航返回事件
 			backTo () {
@@ -248,8 +266,8 @@
 					.order-form-center-left {
 						margin-right: 10px;
 						::v-deep .u-image {
-							width: 88px !important;
-							height: 88px !important
+							// width: 88px !important;
+							// height: 88px !important
 						}
 					};
 					.order-form-center-right {

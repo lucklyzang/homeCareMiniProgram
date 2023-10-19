@@ -127,10 +127,6 @@ page {
   -webkit-transform: scaleY(0.5);
           transform: scaleY(0.5);
 }
-.content-box .content-area-box .content-right .content-list .content-list-left  .u-image {
-  width: 70px !important;
-  height: 70px !important;
-}
 .content-box .content-area-box .content-right .content-list .content-list-right {
   margin-left: 10px;
   padding-right: 10px;

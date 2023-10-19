@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["node-modules/uview-ui/components/u-input/u-input"],{
 
-/***/ 229:
+/***/ 360:
 /*!****************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue ***!
   \****************************************************************************************/
@@ -9,10 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& */ 230);
-/* harmony import */ var _u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./u-input.vue?vue&type=script&lang=js& */ 232);
+/* harmony import */ var _u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& */ 361);
+/* harmony import */ var _u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./u-input.vue?vue&type=script&lang=js& */ 363);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& */ 234);
+/* harmony import */ var _u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& */ 366);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 57);
 
 var renderjs
@@ -41,7 +41,7 @@ component.options.__file = "node_modules/uview-ui/components/u-input/u-input.vue
 
 /***/ }),
 
-/***/ 230:
+/***/ 361:
 /*!***********************************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& ***!
   \***********************************************************************************************************************************/
@@ -50,7 +50,7 @@ component.options.__file = "node_modules/uview-ui/components/u-input/u-input.vue
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& */ 231);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& */ 362);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_template_id_fdbb9fe6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -63,7 +63,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 231:
+/***/ 362:
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=template&id=fdbb9fe6&scoped=true& ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -80,7 +80,7 @@ var components
 try {
   components = {
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 190))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 319))
     },
   }
 } catch (e) {
@@ -104,13 +104,8 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var s0 = _vm.type == "textarea" ? _vm.__get_style([_vm.getStyle]) : null
-  var s1 = !(_vm.type == "textarea") ? _vm.__get_style([_vm.getStyle]) : null
-  if (!_vm._isMounted) {
-    _vm.e0 = function ($event) {
-      _vm.showPassword = !_vm.showPassword
-    }
-  }
+  var s0 = _vm.__get_style([_vm.wrapperStyle])
+  var s1 = _vm.__get_style([_vm.inputStyle])
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -129,7 +124,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 232:
+/***/ 363:
 /*!*****************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************************************************/
@@ -138,14 +133,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=script&lang=js& */ 233);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=script&lang=js& */ 364);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 233:
+/***/ 364:
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=script&lang=js& ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -153,14 +148,15 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _emitter = _interopRequireDefault(__webpack_require__(/*! ../../libs/util/emitter.js */ 223));
+var _props = _interopRequireDefault(__webpack_require__(/*! ./props.js */ 365));
+//
 //
 //
 //
@@ -237,276 +233,209 @@ var _emitter = _interopRequireDefault(__webpack_require__(/*! ../../libs/util/em
 //
 //
 /**
- * input 输入框
- * @description 此组件为一个输入框，默认没有边框和样式，是专门为配合表单组件u-form而设计的，利用它可以快速实现表单验证，输入内容，下拉选择等功能。
- * @tutorial http://uviewui.com/components/input.html
- * @property {String} type 模式选择，见官网说明
- * @property {Boolean} clearable 是否显示右侧的清除图标(默认true)
- * @property {} v-model 用于双向绑定输入框的值
- * @property {String} input-align 输入框文字的对齐方式(默认left)
- * @property {String} placeholder placeholder显示值(默认 '请输入内容')
- * @property {Boolean} disabled 是否禁用输入框(默认false)
- * @property {String Number} maxlength 输入框的最大可输入长度(默认140)
- * @property {String Number} selection-start 光标起始位置，自动聚焦时有效，需与selection-end搭配使用（默认-1）
- * @property {String Number} maxlength 光标结束位置，自动聚焦时有效，需与selection-start搭配使用（默认-1）
- * @property {String Number} cursor-spacing 指定光标与键盘的距离，单位px(默认0)
- * @property {String} placeholderStyle placeholder的样式，字符串形式，如"color: red;"(默认 "color: #c0c4cc;")
- * @property {String} confirm-type 设置键盘右下角按钮的文字，仅在type为text时生效(默认done)
- * @property {Object} custom-style 自定义输入框的样式，对象形式
- * @property {Boolean} focus 是否自动获得焦点(默认false)
- * @property {Boolean} fixed 如果type为textarea，且在一个"position:fixed"的区域，需要指明为true(默认false)
- * @property {Boolean} password-icon type为password时，是否显示右侧的密码查看图标(默认true)
- * @property {Boolean} border 是否显示边框(默认false)
- * @property {String} border-color 输入框的边框颜色(默认#dcdfe6)
- * @property {Boolean} auto-height 是否自动增高输入区域，type为textarea时有效(默认true)
- * @property {String Number} height 高度，单位rpx(text类型时为70，textarea时为100)
- * @example <u-input v-model="value" :type="type" :border="border" />
+ * Input 输入框
+ * @description  此组件为一个输入框，默认没有边框和样式，是专门为配合表单组件u-form而设计的，利用它可以快速实现表单验证，输入内容，下拉选择等功能。
+ * @tutorial https://uviewui.com/components/input.html
+ * @property {String | Number}	value					输入的值
+ * @property {String}			type					输入框类型，见上方说明 （ 默认 'text' ）
+ * @property {Boolean}			fixed					如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序 （ 默认 false ）
+ * @property {Boolean}			disabled				是否禁用输入框 （ 默认 false ）
+ * @property {String}			disabledColor			禁用状态时的背景色（ 默认 '#f5f7fa' ）
+ * @property {Boolean}			clearable				是否显示清除控件 （ 默认 false ）
+ * @property {Boolean}			password				是否密码类型 （ 默认 false ）
+ * @property {String | Number}	maxlength				最大输入长度，设置为 -1 的时候不限制最大长度 （ 默认 -1 ）
+ * @property {String}			placeholder				输入框为空时的占位符
+ * @property {String}			placeholderClass		指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/ （ 默认 'input-placeholder' ）
+ * @property {String | Object}	placeholderStyle		指定placeholder的样式，字符串/对象形式，如"color: red;"
+ * @property {Boolean}			showWordLimit			是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效 （ 默认 false ）
+ * @property {String}			confirmType				设置右下角按钮的文字，兼容性详见uni-app文档 （ 默认 'done' ）
+ * @property {Boolean}			confirmHold				点击键盘右下角按钮时是否保持键盘不收起，H5无效 （ 默认 false ）
+ * @property {Boolean}			holdKeyboard			focus时，点击页面的时候不收起键盘，微信小程序有效 （ 默认 false ）
+ * @property {Boolean}			focus					自动获取焦点，在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点 （ 默认 false ）
+ * @property {Boolean}			autoBlur				键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效 （ 默认 false ）
+ * @property {Boolean}			disableDefaultPadding	是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效 （ 默认 false ）
+ * @property {String ｜ Number}	cursor					指定focus时光标的位置（ 默认 -1 ）
+ * @property {String ｜ Number}	cursorSpacing			输入框聚焦时底部与键盘的距离 （ 默认 30 ）
+ * @property {String ｜ Number}	selectionStart			光标起始位置，自动聚集时有效，需与selection-end搭配使用 （ 默认 -1 ）
+ * @property {String ｜ Number}	selectionEnd			光标结束位置，自动聚集时有效，需与selection-start搭配使用 （ 默认 -1 ）
+ * @property {Boolean}			adjustPosition			键盘弹起时，是否自动上推页面 （ 默认 true ）
+ * @property {String}			inputAlign				输入框内容对齐方式（ 默认 'left' ）
+ * @property {String | Number}	fontSize				输入框字体的大小 （ 默认 '15px' ）
+ * @property {String}			color					输入框字体颜色	（ 默认 '#303133' ）
+ * @property {Function}			formatter			    内容式化函数
+ * @property {String}			prefixIcon				输入框前置图标
+ * @property {String | Object}	prefixIconStyle			前置图标样式，对象或字符串
+ * @property {String}			suffixIcon				输入框后置图标
+ * @property {String | Object}	suffixIconStyle			后置图标样式，对象或字符串
+ * @property {String}			border					边框类型，surround-四周边框，bottom-底部边框，none-无边框 （ 默认 'surround' ）
+ * @property {Boolean}			readonly				是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会 （ 默认 false ）
+ * @property {String}			shape					输入框形状，circle-圆形，square-方形 （ 默认 'square' ）
+ * @property {Object}			customStyle				定义需要用到的外部样式
+ * @property {Boolean}			ignoreCompositionEvent	是否忽略组件内对文本合成系统事件的处理。
+ * @example <u-input v-model="value" :password="true" suffix-icon="lock-fill" />
  */
-var _default2 = {
-  name: 'u-input',
-  mixins: [_emitter.default],
-  props: {
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-    // 输入框的类型，textarea，text，number
-    type: {
-      type: String,
-      default: 'text'
-    },
-    inputAlign: {
-      type: String,
-      default: 'left'
-    },
-    placeholder: {
-      type: String,
-      default: '请输入内容'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    maxlength: {
-      type: [Number, String],
-      default: 140
-    },
-    placeholderStyle: {
-      type: String,
-      default: 'color: #c0c4cc;'
-    },
-    confirmType: {
-      type: String,
-      default: 'done'
-    },
-    // 输入框的自定义样式
-    customStyle: {
-      type: Object,
-      default: function _default() {
-        return {};
-      }
-    },
-    // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true
-    fixed: {
-      type: Boolean,
-      default: false
-    },
-    // 是否自动获得焦点
-    focus: {
-      type: Boolean,
-      default: false
-    },
-    // 密码类型时，是否显示右侧的密码图标
-    passwordIcon: {
-      type: Boolean,
-      default: true
-    },
-    // input|textarea是否显示边框
-    border: {
-      type: Boolean,
-      default: false
-    },
-    // 输入框的边框颜色
-    borderColor: {
-      type: String,
-      default: '#dcdfe6'
-    },
-    autoHeight: {
-      type: Boolean,
-      default: true
-    },
-    // type=select时，旋转右侧的图标，标识当前处于打开还是关闭select的状态
-    // open-打开，close-关闭
-    selectOpen: {
-      type: Boolean,
-      default: false
-    },
-    // 高度，单位rpx
-    height: {
-      type: [Number, String],
-      default: ''
-    },
-    // 是否可清空
-    clearable: {
-      type: Boolean,
-      default: true
-    },
-    // 指定光标与键盘的距离，单位 px
-    cursorSpacing: {
-      type: [Number, String],
-      default: 0
-    },
-    // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
-    selectionStart: {
-      type: [Number, String],
-      default: -1
-    },
-    // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
-    selectionEnd: {
-      type: [Number, String],
-      default: -1
-    },
-    // 是否自动去除两端的空格
-    trim: {
-      type: Boolean,
-      default: true
-    },
-    // 是否显示键盘上方带有”完成“按钮那一栏
-    showConfirmbar: {
-      type: Boolean,
-      default: true
-    },
-    // 弹出键盘时是否自动调节高度，uni-app默认值是true
-    adjustPosition: {
-      type: Boolean,
-      default: true
-    }
-  },
+var _default = {
+  name: "u-input",
+  mixins: [uni.$u.mpMixin, uni.$u.mixin, _props.default],
   data: function data() {
     return {
-      defaultValue: this.value,
-      inputHeight: 70,
-      // input的高度
-      textareaHeight: 100,
-      // textarea的高度
-      validateState: false,
-      // 当前input的验证状态，用于错误时，边框是否改为红色
+      // 输入框的值
+      innerValue: "",
+      // 是否处于获得焦点状态
       focused: false,
-      // 当前是否处于获得焦点的状态
-      showPassword: false,
-      // 是否预览密码
-      lastValue: '' // 用于头条小程序，判断@input中，前后的值是否发生了变化，因为头条中文下，按下键没有输入内容，也会触发@input时间
+      // value是否第一次变化，在watch中，由于加入immediate属性，会在第一次触发，此时不应该认为value发生了变化
+      firstChange: true,
+      // value绑定值的变化是由内部还是外部引起的
+      changeFromInner: false,
+      // 过滤处理方法
+      innerFormatter: function innerFormatter(value) {
+        return value;
+      }
     };
   },
-
   watch: {
-    value: function value(nVal, oVal) {
-      this.defaultValue = nVal;
-      // 当值发生变化，且为select类型时(此时input被设置为disabled，不会触发@input事件)，模拟触发@input事件
-      if (nVal != oVal && this.type == 'select') this.handleInput({
-        detail: {
-          value: nVal
-        }
-      });
+    value: {
+      immediate: true,
+      handler: function handler(newVal, oldVal) {
+        this.innerValue = newVal;
+        this.firstChange = false;
+        // 重置changeFromInner的值为false，标识下一次引起默认为外部引起的
+        this.changeFromInner = false;
+      }
     }
   },
   computed: {
-    // 因为uniapp的input组件的maxlength组件必须要数值，这里转为数值，给用户可以传入字符串数值
-    inputMaxlength: function inputMaxlength() {
-      return Number(this.maxlength);
+    // 是否显示清除控件
+    isShowClear: function isShowClear() {
+      var clearable = this.clearable,
+        readonly = this.readonly,
+        focused = this.focused,
+        innerValue = this.innerValue;
+      return !!clearable && !readonly && !!focused && innerValue !== "";
     },
-    getStyle: function getStyle() {
+    // 组件的类名
+    inputClass: function inputClass() {
+      var classes = [],
+        border = this.border,
+        disabled = this.disabled,
+        shape = this.shape;
+      border === "surround" && (classes = classes.concat(["u-border", "u-input--radius"]));
+      classes.push("u-input--".concat(shape));
+      border === "bottom" && (classes = classes.concat(["u-border-bottom", "u-input--no-radius"]));
+      return classes.join(" ");
+    },
+    // 组件的样式
+    wrapperStyle: function wrapperStyle() {
       var style = {};
-      // 如果没有自定义高度，就根据type为input还是textarea来分配一个默认的高度
-      style.minHeight = this.height ? this.height + 'rpx' : this.type == 'textarea' ? this.textareaHeight + 'rpx' : this.inputHeight + 'rpx';
-      style = Object.assign(style, this.customStyle);
+      // 禁用状态下，被背景色加上对应的样式
+      if (this.disabled) {
+        style.backgroundColor = this.disabledColor;
+      }
+      // 无边框时，去除内边距
+      if (this.border === "none") {
+        style.padding = "0";
+      } else {
+        // 由于uni-app的iOS开发者能力有限，导致需要分开写才有效
+        style.paddingTop = "6px";
+        style.paddingBottom = "6px";
+        style.paddingLeft = "9px";
+        style.paddingRight = "9px";
+      }
+      return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle));
+    },
+    // 输入框的样式
+    inputStyle: function inputStyle() {
+      var style = {
+        color: this.color,
+        fontSize: uni.$u.addUnit(this.fontSize),
+        textAlign: this.inputAlign
+      };
       return style;
-    },
-    //
-    getCursorSpacing: function getCursorSpacing() {
-      return Number(this.cursorSpacing);
-    },
-    // 光标起始位置
-    uSelectionStart: function uSelectionStart() {
-      return String(this.selectionStart);
-    },
-    // 光标结束位置
-    uSelectionEnd: function uSelectionEnd() {
-      return String(this.selectionEnd);
     }
-  },
-  created: function created() {
-    // 监听u-form-item发出的错误事件，将输入框边框变红色
-    this.$on('on-form-item-error', this.onFormItemError);
   },
   methods: {
-    /**
-     * change 事件
-     * @param event
-     */
-    handleInput: function handleInput(event) {
+    // 在微信小程序中，不支持将函数当做props参数，故只能通过ref形式调用
+    setFormatter: function setFormatter(e) {
+      this.innerFormatter = e;
+    },
+    // 当键盘输入时，触发input事件
+    onInput: function onInput(e) {
       var _this = this;
-      var value = event.detail.value;
-      // 判断是否去除空格
-      if (this.trim) value = this.$u.trim(value);
-      // vue 原生的方法 return 出去
-      this.$emit('input', value);
-      // 当前model 赋值
-      this.defaultValue = value;
-      // 过一个生命周期再发送事件给u-form-item，否则this.$emit('input')更新了父组件的值，但是微信小程序上
-      // 尚未更新到u-form-item，导致获取的值为空，从而校验混论
-      // 这里不能延时时间太短，或者使用this.$nextTick，否则在头条上，会造成混乱
-      setTimeout(function () {
-        // 头条小程序由于自身bug，导致中文下，每按下一个键(尚未完成输入)，都会触发一次@input，导致错误，这里进行判断处理
-
-        // 将当前的值发送到 u-form-item 进行校验
-        _this.dispatch('u-form-item', 'on-form-change', value);
-      }, 40);
+      var _ref = e.detail || {},
+        _ref$value = _ref.value,
+        value = _ref$value === void 0 ? "" : _ref$value;
+      // 格式化过滤方法
+      var formatter = this.formatter || this.innerFormatter;
+      var formatValue = formatter(value);
+      // 为了避免props的单向数据流特性，需要先将innerValue值设置为当前值，再在$nextTick中重新赋予设置后的值才有效
+      this.innerValue = value;
+      this.$nextTick(function () {
+        _this.innerValue = formatValue;
+        _this.valueChange();
+      });
     },
-    /**
-     * blur 事件
-     * @param event
-     */
-    handleBlur: function handleBlur(event) {
+    // 输入框失去焦点时触发
+    onBlur: function onBlur(event) {
       var _this2 = this;
-      // 最开始使用的是监听图标@touchstart事件，自从hx2.8.4后，此方法在微信小程序出错
-      // 这里改为监听点击事件，手点击清除图标时，同时也发生了@blur事件，导致图标消失而无法点击，这里做一个延时
-      var value = event.detail.value;
-      setTimeout(function () {
+      this.$emit("blur", event.detail.value);
+      // H5端的blur会先于点击清除控件的点击click事件触发，导致focused
+      // 瞬间为false，从而隐藏了清除控件而无法被点击到
+      uni.$u.sleep(50).then(function () {
         _this2.focused = false;
-      }, 100);
-      // vue 原生的方法 return 出去
-      this.$emit('blur', value);
-      setTimeout(function () {
-        // 头条小程序由于自身bug，导致中文下，每按下一个键(尚未完成输入)，都会触发一次@input，导致错误，这里进行判断处理
-
-        // 将当前的值发送到 u-form-item 进行校验
-        _this2.dispatch('u-form-item', 'on-form-blur', value);
-      }, 40);
+      });
+      // 尝试调用u-form的验证方法
+      uni.$u.formValidate(this, "blur");
     },
-    onFormItemError: function onFormItemError(status) {
-      this.validateState = status;
-    },
+    // 输入框聚焦时触发
     onFocus: function onFocus(event) {
       this.focused = true;
-      this.$emit('focus');
+      this.$emit("focus");
     },
-    onConfirm: function onConfirm(e) {
-      this.$emit('confirm', e.detail.value);
+    // 点击完成按钮时触发
+    onConfirm: function onConfirm(event) {
+      this.$emit("confirm", this.innerValue);
     },
-    onClear: function onClear(event) {
-      this.$emit('input', '');
+    // 键盘高度发生变化的时候触发此事件
+    // 兼容性：微信小程序2.7.0+、App 3.1.0+
+    onkeyboardheightchange: function onkeyboardheightchange() {
+      this.$emit("keyboardheightchange");
     },
-    inputClick: function inputClick() {
-      this.$emit('click');
-    }
+    // 内容发生变化，进行处理
+    valueChange: function valueChange() {
+      var _this3 = this;
+      var value = this.innerValue;
+      this.$nextTick(function () {
+        _this3.$emit("input", value);
+        // 标识value值的变化是由内部引起的
+        _this3.changeFromInner = true;
+        _this3.$emit("change", value);
+        // 尝试调用u-form的验证方法
+        uni.$u.formValidate(_this3, "change");
+      });
+    },
+    // 点击清除控件
+    onClear: function onClear() {
+      var _this4 = this;
+      this.innerValue = "";
+      this.$nextTick(function () {
+        _this4.valueChange();
+        _this4.$emit("clear");
+      });
+    },
+    /**
+     * 在安卓nvue上，事件无法冒泡
+     * 在某些时间，我们希望监听u-from-item的点击事件，此时会导致点击u-form-item内的u-input后
+     * 无法触发u-form-item的点击事件，这里通过手动调用u-form-item的方法进行触发
+     */
+    clickHandler: function clickHandler() {}
   }
 };
-exports.default = _default2;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 
-/***/ 234:
+/***/ 366:
 /*!**************************************************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& ***!
   \**************************************************************************************************************************************************/
@@ -515,14 +444,14 @@ exports.default = _default2;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& */ 235);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& */ 367);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_input_vue_vue_type_style_index_0_id_fdbb9fe6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 235:
+/***/ 367:
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-input/u-input.vue?vue&type=style&index=0&id=fdbb9fe6&lang=scss&scoped=true& ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -541,7 +470,7 @@ __webpack_require__.r(__webpack_exports__);
     'node-modules/uview-ui/components/u-input/u-input-create-component',
     {
         'node-modules/uview-ui/components/u-input/u-input-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('2')['createComponent'](__webpack_require__(229))
+            __webpack_require__('2')['createComponent'](__webpack_require__(360))
         })
     },
     [['node-modules/uview-ui/components/u-input/u-input-create-component']]

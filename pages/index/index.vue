@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="banner-area-box">
-			<u-swiper :list="bannerList"></u-swiper>
+			<u-swiper  keyName="image"  indicator :list="bannerList"></u-swiper>
 		</view>
 		<view class="center-area">
 			<view class="nurse-type">
@@ -23,7 +23,7 @@
 			</view>
 			<view class="latest-news">
 				<view class="latest-news-left">
-					<image src="@/static/img/latest-news.png" ></image>
+					<image src="@/static/img/latest-news.png" @click="enterMessageListEvent"></image>
 				</view>
 				<view class="latest-news-right">
 					<view class="new-content-list">
@@ -41,8 +41,10 @@
 				</view>
 				<view class="service-list">
 					<view class="service-list-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="service-list-right">
@@ -57,8 +59,10 @@
 				</view>
 				<view class="service-list">
 					<view class="service-list-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="service-list-right">
@@ -79,13 +83,15 @@
 					</view>
 					<view class="nurse-practitioner-title-right">
 						<text>查看更多</text>
-						<u-icon name="arrow-right" color="#3B9DF9" size="26"></u-icon>
+						<u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon>
 					</view>
 				</view>
 				<view class="nurse-practitioner-list">
 					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="nurse-practitioner-list-right">
@@ -121,8 +127,10 @@
 				</view>
 				<view class="nurse-practitioner-list">
 					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="nurse-practitioner-list-right">
@@ -223,6 +231,13 @@
 		methods: {
 			...mapMutations([
 			]),
+			
+			// 进入最新资讯列表事件
+			enterMessageListEvent () {
+				uni.redirectTo({
+					url: '/messagePackage/pages/message/index/index'
+				})
+			},
 			
 			// 获取首页banner列表
 			queryUserBannerList () {
@@ -422,8 +437,8 @@
 					justify-content: space-between;
 					.service-list-left {
 						::v-deep .u-image {
-							width: 63px !important;
-							height: 63px !important
+							// width: 63px !important;
+							// height: 63px !important
 						}
 					};
 					.service-list-right {
@@ -486,6 +501,7 @@
 						}
 					};
 					.nurse-practitioner-title-right {
+						display: flex;
 						>text {
 							font-size: 12px;
 							color: #3B9DF9;

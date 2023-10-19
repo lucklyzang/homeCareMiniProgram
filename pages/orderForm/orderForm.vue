@@ -2,10 +2,42 @@
 	<view class="content-box">
 		<!-- 删除订单提示 -->
 		<view class="delete-info">
-			<u-modal v-model="deleteShow" :content-style="{fontSize: '16px',color: '#838C97',textAlign: 'left'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :content="deleteInfoContent" :show-cancel-button="true" title="是否删除订单" :title-style="{color: '#101010',fontSize: '18px'}">
+			<u-modal v-model="deleteShow" :content-style="{fontSize: '14px',color: '#838C97',textAlign: 'left'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :content="deleteInfoContent" :show-cancel-button="true" title="是否删除订单" :title-style="{color: '#101010',fontSize: '16px'}">
 			</u-modal>
 		</view>
-		<!-- 删除订单提示 -->
+		<!-- 取消订单提示 -->
+		<view class="cancel-info">
+			<u-modal v-model="cancelOrderFormShow" :content-style="{fontSize: '14px',padding: '14px',boxSizing: 'border-box',color: '#838C97',textAlign: 'left'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="取消订单" :title-style="{color: '#101010',fontSize: '16px'}">
+				<view class="slot-content">
+					为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。<br/>
+					今日剩余 3 次，确认取消订单吗？
+				</view>
+			</u-modal>
+		</view>
+		<!-- 申请退款提示 -->
+		<view class="apply-refund-info">
+			<u-modal v-model="applyRefundShow" :placeholder-style="{fontSize: '12px',color: '#757575'}" :content-style="{fontSize: '14px',padding: '14px',boxSizing: 'border-box',color: '#838C97',textAlign: 'center'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="申请退款" :title-style="{color: '#101010',fontSize: '16px'}">
+				<view class="slot-content">
+					<u-textarea v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
+					<!-- <u-field
+						v-model="refundReason"
+						:auto-height="false"
+						placeholder="请填写申请退款理由"
+						type="textarea"
+					>
+					</u-field> -->
+				</view>
+			</u-modal>
+		</view>
+		<!-- 退出支付提示 -->
+		<view class="quit-pay-info">
+			<u-modal v-model="quitPayShow" :content-style="{fontSize: '14px',textAlign: 'center',padding: '30px',boxSizing: 'border-box',color: '#838C97'}" cancel-text="确定" confirm-text="取消" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="当前订单还未支付" :title-style="{color: '#101010',fontSize: '16px'}">
+				<view class="slot-content">
+					确定退出支付吗？
+				</view>
+			</u-modal>
+		</view>
+		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
 			<u-modal v-model="haveDeleteShow" :content-style="{fontSize: '18px',color: '#101010'}" confirm-text="确定" confirm-color="#EB3E67" :content="haveDeleteInfoContent" title="是否删除订单" :show-title="false">
 			</u-modal>
@@ -19,7 +51,16 @@
 		  </view>
 		</view>
 		<view class="order-form-tabs">
-			<u-tabs :list="list" :offset="[2,0]" bar-height="6" inactive-color="#444444" bar-width="80" active-color="#FF698C" :current="current" @change="change"></u-tabs>
+			<u-tabs :list="list" :current="current" @change="change"
+				lineWidth="50"
+				lineColor="#FF698C"
+				:activeStyle="{
+					color: '#FF698C'
+				}"
+				:inactiveStyle="{
+					color: '#444444'
+				}"
+			></u-tabs>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 0">
 			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
@@ -34,8 +75,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -88,8 +131,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -139,8 +184,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -185,8 +232,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -230,8 +279,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -275,8 +326,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -320,8 +373,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -366,8 +421,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -409,8 +466,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -452,8 +511,10 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png">
-							<u-loading slot="loading"></u-loading>
+						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+							 <template v-slot:loading>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -508,12 +569,19 @@
 				showLoadingHint: false,
 				deleteShow: false,
 				haveDeleteShow: false,
+				cancelOrderFormShow: false,
+				quitPayShow: false,
+				applyRefundShow: true,
+				refundReason: '',
 				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员资讯',
 				haveDeleteInfoContent: '已删除订单',
 				isShowNoData: false,
 				list: [
 					{
-						name: '全部'
+						name: '全部',
+						badge: {
+							value: 5
+						}
 					}, 
 					{
 						name: '待付款'
@@ -552,13 +620,18 @@
 			
 			// 订单类型切换事件
 			change(index) {
-				this.current = index
+				this.current = index.index
 			},
 			
-			// 订单详情点击事件(派单中)
+			// 订单详情点击事件
 			enterOrderDetailsEvent () {
+				// 派单中
+				// uni.redirectTo({
+				// 	url: '/orderFormPackage/pages/orderForm/index/index'
+				// })
+				// 已完成
 				uni.redirectTo({
-					url: '/orderFormPackage/pages/orderForm/index/index'
+					url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
 				})
 			},
 			
@@ -579,6 +652,56 @@
 		height: 100%;
 	};
 	.content-box {
+		::v-deep .u-drawer {
+			.u-mode-center-box {
+				.u-drawer__scroll-view {
+					.u-model {
+						.u-border-top:after {
+							display: none
+						};
+						.u-model__footer {
+							height: 50px;
+							justify-content: center;
+							.u-model__footer__button {
+								flex: none !important;
+								font-size: 14px;
+								width: 100px !important;
+								height: 34px !important;
+								line-height: 34px !important;
+								border-radius: 7px !important;
+								border: 1px solid #FF698C !important;
+								color: #FF698C !important
+							};
+							.hairline-left {
+								margin-left: 30px;
+								background: #FF698C !important;
+								border: none !important;
+								color: #fff !important
+							}
+						}
+					}
+				}
+			}
+		};
+		.apply-refund-info {
+			::v-deep .u-drawer {
+				.u-mode-center-box {
+					.u-drawer__scroll-view {
+						.u-model {
+							.slot-content {
+								.u-field {
+									border-radius: 4px;
+									border: 1px solid #BBBBBB;
+									.u-label {
+										flex: none !important
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
 		@include content-wrapper;
 		.top-area-box {
 			position: relative;
@@ -601,9 +724,10 @@
 		.order-form-tabs {
 			box-shadow: 0 2px 6px 0 rgba(202, 200, 200, 0.4);
 			::v-deep .u-tabs {
-				.u-scroll-view {
-					.u-tab-item {
+				.uni-scroll-view {
+					.u-tabs__wrapper__nav__item {
 						.u-badge {
+							margin-top: -20px !important;
 							background: #fff !important;
 							border: 1px solid #D84959;
 							color: #D84959 !important
@@ -669,8 +793,6 @@
 					.order-form-center-left {
 						margin-right: 10px;
 						::v-deep .u-image {
-							width: 88px !important;
-							height: 88px !important
 						}
 					};
 					.order-form-center-right {

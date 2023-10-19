@@ -36,61 +36,67 @@ page {
   flex-direction: column;
   font-size: 14px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content {
+.container  .u-popup {
+  flex: none !important;
+}
+.container .privacy-policy-box  .u-popup {
+  flex: none !important;
+}
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content {
   padding: 20px 10px;
   box-sizing: border-box;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .privacy-policy-title {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .privacy-policy-title {
   font-size: 18px;
   color: #101010;
   font-weight: bold;
   margin-bottom: 10px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .privacy-policy-content {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .privacy-policy-content {
   text-align: justify;
   margin-bottom: 10px;
   line-height: 26px;
   font-size: 14px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .privilege-box {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .privilege-box {
   margin-bottom: 10px;
   line-height: 26px;
   font-size: 14px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .account-box {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .account-box {
   text-align: justify;
   margin-bottom: 10px;
   line-height: 26px;
   font-size: 14px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .info-title {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .info-title {
   margin-bottom: 10px;
   font-size: 14px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .info-title text:first-child {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .info-title text:first-child {
   color: #101010;
   font-weight: bold;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .info-title text:nth-child(2) {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .info-title text:nth-child(2) {
   color: #0079FF;
   font-weight: bold;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .info-title text:nth-child(3) {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .info-title text:nth-child(3) {
   color: #101010;
   font-weight: bold;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .info-title text:nth-child(4) {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .info-title text:nth-child(4) {
   color: #0079FF;
   font-weight: bold;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .btn-box {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .btn-box {
   margin: 0 auto;
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
   width: 90%;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .btn-box button {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .btn-box button {
   width: 110px;
   font-size: 16px;
   color: #000000;
@@ -101,7 +107,7 @@ page {
   line-height: 36px;
   border-radius: 10px;
 }
-.container .privacy-policy-box  .u-drawer .u-drawer-content .btn-box button:last-child {
+.container .privacy-policy-box  .u-popup .u-transition .u-popup__content .btn-box button:last-child {
   color: #289E8E;
 }
 .container .weixin-authorization-info-box  .u-drawer .u-drawer-content {
@@ -289,13 +295,27 @@ page {
   font-size: 14px;
   color: #289E8E;
 }
+.container .container-content .form-box  .u-form .u-form-item .u-line {
+  border-bottom: 1px solid #BBBBBB !important;
+}
+.container .container-content .form-box  .u-form .u-form-item .item__body__right__content__icon {
+  font-size: 14px;
+  color: #289E8E;
+}
+.container .container-content .form-box  .u-form .u-form-item .uni-input-placeholder {
+  color: #101010 !important;
+  font-size: 14px !important;
+}
 .container .container-content .form-box  .u-form u-form-item .u-form-item {
   margin-bottom: 20px;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-line {
+  border-bottom: 1px solid #BBBBBB !important;
 }
 .container .container-content .form-box  .u-form u-form-item .u-form-item .u-input {
   background: #fff;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__icon {
+.container .container-content .form-box  .u-form u-form-item .u-form-item .item__body__right__content__icon {
   font-size: 14px;
   color: #289E8E;
 }
@@ -335,7 +355,7 @@ page {
   border-radius: 10px;
 }
 .container .container-content .form-btn .form-btn-info-text {
-  margin-top: 4px;
+  margin-top: 8px;
   align-items: center;
   align-items: center;
   display: flex;
@@ -345,14 +365,10 @@ page {
   width: 15px !important;
   height: 15px !important;
 }
-.container .container-content .form-btn .form-btn-info-text  .u-checkbox-group .u-checkbox .u-checkbox__label {
-  font-size: 12px;
-  margin-right: 0 !important;
-  color: #252525;
-}
 .container .container-content .form-btn .form-btn-info-text > text {
   color: #0097E6;
   font-size: 12px;
+  margin-top: -1px;
 }
 .container .container-content .enter-home-btn {
   width: 80%;

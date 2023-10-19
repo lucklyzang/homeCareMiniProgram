@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["node-modules/uview-ui/components/u-checkbox/u-checkbox"],{
 
-/***/ 243:
+/***/ 376:
 /*!**********************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue ***!
   \**********************************************************************************************/
@@ -9,10 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& */ 244);
-/* harmony import */ var _u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=script&lang=js& */ 246);
+/* harmony import */ var _u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& */ 377);
+/* harmony import */ var _u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=script&lang=js& */ 379);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& */ 248);
+/* harmony import */ var _u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& */ 382);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 57);
 
 var renderjs
@@ -41,7 +41,7 @@ component.options.__file = "node_modules/uview-ui/components/u-checkbox/u-checkb
 
 /***/ }),
 
-/***/ 244:
+/***/ 377:
 /*!*****************************************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& ***!
   \*****************************************************************************************************************************************/
@@ -50,7 +50,7 @@ component.options.__file = "node_modules/uview-ui/components/u-checkbox/u-checkb
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& */ 245);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& */ 378);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_template_id_532d01c7_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -63,7 +63,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 245:
+/***/ 378:
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=template&id=532d01c7&scoped=true& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -80,7 +80,7 @@ var components
 try {
   components = {
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 190))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 319))
     },
   }
 } catch (e) {
@@ -105,15 +105,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var s0 = _vm.__get_style([_vm.checkboxStyle])
-  var s1 = _vm.__get_style([_vm.iconStyle])
-  var g0 = _vm.$u.addUnit(_vm.labelSize)
+  var s1 = _vm.__get_style([_vm.iconWrapStyle])
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         s0: s0,
         s1: s1,
-        g0: g0,
       },
     }
   )
@@ -126,7 +124,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 246:
+/***/ 379:
 /*!***********************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************/
@@ -135,14 +133,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=script&lang=js& */ 247);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=script&lang=js& */ 380);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_13_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 247:
+/***/ 380:
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--13-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=script&lang=js& ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -150,12 +148,34 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
 
-
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _props = _interopRequireDefault(__webpack_require__(/*! ./props.js */ 381));
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -170,197 +190,211 @@ exports.default = void 0;
 //
 //
 /**
- * checkbox 复选框
- * @description 该组件需要搭配checkboxGroup组件使用，以便用户进行操作时，获得当前复选框组的选中情况。
- * @tutorial https://www.uviewui.com/components/checkbox.html
- * @property {String Number} icon-size 图标大小，单位rpx（默认20）
- * @property {String Number} label-size label字体大小，单位rpx（默认28）
- * @property {String Number} name checkbox组件的标示符
- * @property {String} shape 形状，见官网说明（默认circle）
- * @property {Boolean} disabled 是否禁用
- * @property {Boolean} label-disabled 是否禁止点击文本操作checkbox
- * @property {String} active-color 选中时的颜色，如设置CheckboxGroup的active-color将失效
- * @event {Function} change 某个checkbox状态发生变化时触发，回调为一个对象
+ * checkbox  复选框
+ * @description 复选框组件一般用于需要多个选择的场景，该组件功能完整，使用方便
+ * @tutorial https://uviewui.com/components/checkbox.html
+ * @property {String | Number | Boolean}	name			checkbox组件的标示符
+ * @property {String}						shape			形状，square为方形，circle为圆型
+ * @property {String | Number}				size			整体的大小
+ * @property {Boolean}						checked			是否默认选中
+ * @property {String | Boolean}				disabled		是否禁用
+ * @property {String}						activeColor		选中状态下的颜色，如设置此值，将会覆盖parent的activeColor值
+ * @property {String}						inactiveColor	未选中的颜色
+ * @property {String | Number}				iconSize		图标的大小，单位px
+ * @property {String}						iconColor		图标颜色
+ * @property {String | Number}				label			label提示文字，因为nvue下，直接slot进来的文字，由于特殊的结构，无法修改样式
+ * @property {String}						labelColor 		label的颜色
+ * @property {String | Number}				labelSize		label的字体大小，px单位
+ * @property {String | Boolean}				labelDisabled	是否禁止点击提示语选中复选框
+ * @property {Object}						customStyle		定义需要用到的外部样式
+ * 
+ * @event {Function}	change	任一个checkbox状态发生变化时触发，回调为一个对象
  * @example <u-checkbox v-model="checked" :disabled="false">天涯</u-checkbox>
  */
 var _default = {
   name: "u-checkbox",
-  props: {
-    // checkbox的名称
-    name: {
-      type: [String, Number],
-      default: ''
-    },
-    // 形状，square为方形，circle为原型
-    shape: {
-      type: String,
-      default: ''
-    },
-    // 是否为选中状态
-    value: {
-      type: Boolean,
-      default: false
-    },
-    // 是否禁用
-    disabled: {
-      type: [String, Boolean],
-      default: ''
-    },
-    // 是否禁止点击提示语选中复选框
-    labelDisabled: {
-      type: [String, Boolean],
-      default: ''
-    },
-    // 选中状态下的颜色，如设置此值，将会覆盖checkboxGroup的activeColor值
-    activeColor: {
-      type: String,
-      default: ''
-    },
-    // 图标的大小，单位rpx
-    iconSize: {
-      type: [String, Number],
-      default: ''
-    },
-    // label的字体大小，rpx单位
-    labelSize: {
-      type: [String, Number],
-      default: ''
-    },
-    // 组件的整体大小
-    size: {
-      type: [String, Number],
-      default: ''
-    }
-  },
+  mixins: [uni.$u.mpMixin, uni.$u.mixin, _props.default],
   data: function data() {
     return {
-      parentDisabled: false,
-      newParams: {}
+      isChecked: false,
+      // 父组件的默认值，因为头条小程序不支持在computed中使用this.parent.shape的形式
+      // 故只能使用如此方法
+      parentData: {
+        iconSize: 12,
+        labelDisabled: null,
+        disabled: null,
+        shape: 'square',
+        activeColor: null,
+        inactiveColor: null,
+        size: 18,
+        value: null,
+        iconColor: null,
+        placement: 'row',
+        borderBottom: false,
+        iconPlacement: 'left'
+      }
     };
   },
-  created: function created() {
-    // 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环应用
-    this.parent = this.$u.$parent.call(this, 'u-checkbox-group');
-    // 如果存在u-checkbox-group，将本组件的this塞进父组件的children中
-    this.parent && this.parent.children.push(this);
-  },
   computed: {
-    // 是否禁用，如果父组件u-checkbox-group禁用的话，将会忽略子组件的配置
-    isDisabled: function isDisabled() {
-      return this.disabled !== '' ? this.disabled : this.parent ? this.parent.disabled : false;
+    // 是否禁用，如果父组件u-raios-group禁用的话，将会忽略子组件的配置
+    elDisabled: function elDisabled() {
+      return this.disabled !== '' ? this.disabled : this.parentData.disabled !== null ? this.parentData.disabled : false;
     },
     // 是否禁用label点击
-    isLabelDisabled: function isLabelDisabled() {
-      return this.labelDisabled !== '' ? this.labelDisabled : this.parent ? this.parent.labelDisabled : false;
+    elLabelDisabled: function elLabelDisabled() {
+      return this.labelDisabled !== '' ? this.labelDisabled : this.parentData.labelDisabled !== null ? this.parentData.labelDisabled : false;
     },
-    // 组件尺寸，对应size的值，默认值为34rpx
-    checkboxSize: function checkboxSize() {
-      return this.size ? this.size : this.parent ? this.parent.size : 34;
+    // 组件尺寸，对应size的值，默认值为21px
+    elSize: function elSize() {
+      return this.size ? this.size : this.parentData.size ? this.parentData.size : 21;
     },
-    // 组件的勾选图标的尺寸，默认20
-    checkboxIconSize: function checkboxIconSize() {
-      return this.iconSize ? this.iconSize : this.parent ? this.parent.iconSize : 20;
+    // 组件的勾选图标的尺寸，默认12px
+    elIconSize: function elIconSize() {
+      return this.iconSize ? this.iconSize : this.parentData.iconSize ? this.parentData.iconSize : 12;
     },
     // 组件选中激活时的颜色
     elActiveColor: function elActiveColor() {
-      return this.activeColor ? this.activeColor : this.parent ? this.parent.activeColor : 'primary';
+      return this.activeColor ? this.activeColor : this.parentData.activeColor ? this.parentData.activeColor : '#2979ff';
+    },
+    // 组件选未中激活时的颜色
+    elInactiveColor: function elInactiveColor() {
+      return this.inactiveColor ? this.inactiveColor : this.parentData.inactiveColor ? this.parentData.inactiveColor : '#c8c9cc';
+    },
+    // label的颜色
+    elLabelColor: function elLabelColor() {
+      return this.labelColor ? this.labelColor : this.parentData.labelColor ? this.parentData.labelColor : '#606266';
     },
     // 组件的形状
     elShape: function elShape() {
-      return this.shape ? this.shape : this.parent ? this.parent.shape : 'square';
+      return this.shape ? this.shape : this.parentData.shape ? this.parentData.shape : 'circle';
     },
-    iconStyle: function iconStyle() {
-      var style = {};
-      // 既要判断是否手动禁用，还要判断用户v-model绑定的值，如果绑定为false，那么也无法选中
-      if (this.elActiveColor && this.value && !this.isDisabled) {
-        style.borderColor = this.elActiveColor;
-        style.backgroundColor = this.elActiveColor;
+    // label大小
+    elLabelSize: function elLabelSize() {
+      return uni.$u.addUnit(this.labelSize ? this.labelSize : this.parentData.labelSize ? this.parentData.labelSize : '15');
+    },
+    elIconColor: function elIconColor() {
+      var iconColor = this.iconColor ? this.iconColor : this.parentData.iconColor ? this.parentData.iconColor : '#ffffff';
+      // 图标的颜色
+      if (this.elDisabled) {
+        // disabled状态下，已勾选的checkbox图标改为elInactiveColor
+        return this.isChecked ? this.elInactiveColor : 'transparent';
+      } else {
+        return this.isChecked ? iconColor : 'transparent';
       }
-      style.width = this.$u.addUnit(this.checkboxSize);
-      style.height = this.$u.addUnit(this.checkboxSize);
-      return style;
     },
-    // checkbox内部的勾选图标，如果选中状态，为白色，否则为透明色即可
-    iconColor: function iconColor() {
-      return this.value ? '#ffffff' : 'transparent';
-    },
-    iconClass: function iconClass() {
+    iconClasses: function iconClasses() {
       var classes = [];
+      // 组件的形状
       classes.push('u-checkbox__icon-wrap--' + this.elShape);
-      if (this.value == true) classes.push('u-checkbox__icon-wrap--checked');
-      if (this.isDisabled) classes.push('u-checkbox__icon-wrap--disabled');
-      if (this.value && this.isDisabled) classes.push('u-checkbox__icon-wrap--disabled--checked');
-      // 支付宝小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
-      return classes.join(' ');
+      if (this.elDisabled) {
+        classes.push('u-checkbox__icon-wrap--disabled');
+      }
+      if (this.isChecked && this.elDisabled) {
+        classes.push('u-checkbox__icon-wrap--disabled--checked');
+      }
+      // 支付宝，头条小程序无法动态绑定一个数组类名，否则解析出来的结果会带有","，而导致失效
+
+      return classes;
+    },
+    iconWrapStyle: function iconWrapStyle() {
+      // checkbox的整体样式
+      var style = {};
+      style.backgroundColor = this.isChecked && !this.elDisabled ? this.elActiveColor : '#ffffff';
+      style.borderColor = this.isChecked && !this.elDisabled ? this.elActiveColor : this.elInactiveColor;
+      style.width = uni.$u.addUnit(this.elSize);
+      style.height = uni.$u.addUnit(this.elSize);
+      // 如果是图标在右边的话，移除它的右边距
+      if (this.parentData.iconPlacement === 'right') {
+        style.marginRight = 0;
+      }
+      return style;
     },
     checkboxStyle: function checkboxStyle() {
       var style = {};
-      if (this.parent && this.parent.width) {
-        style.width = this.parent.width;
-
-        // 各家小程序因为它们特殊的编译结构，使用float布局
-        style.float = 'left';
+      if (this.parentData.borderBottom && this.parentData.placement === 'row') {
+        uni.$u.error('检测到您将borderBottom设置为true，需要同时将u-checkbox-group的placement设置为column才有效');
       }
-      if (this.parent && this.parent.wrap) {
-        style.width = '100%';
+      // 当父组件设置了显示下边框并且排列形式为纵向时，给内容和边框之间加上一定间隔
+      if (this.parentData.borderBottom && this.parentData.placement === 'column') {
+        style.paddingBottom = '8px';
       }
-      return style;
+      return uni.$u.deepMerge(style, uni.$u.addStyle(this.customStyle));
     }
   },
+  mounted: function mounted() {
+    this.init();
+  },
   methods: {
-    onClickLabel: function onClickLabel() {
-      if (!this.isLabelDisabled && !this.isDisabled) {
-        this.setValue();
+    init: function init() {
+      var _this = this;
+      // 支付宝小程序不支持provide/inject，所以使用这个方法获取整个父组件，在created定义，避免循环引用
+      this.updateParentData();
+      if (!this.parent) {
+        uni.$u.error('u-checkbox必须搭配u-checkbox-group组件使用');
+      }
+      // 设置初始化时，是否默认选中的状态，父组件u-checkbox-group的value可能是array，所以额外判断
+      if (this.checked) {
+        this.isChecked = true;
+      } else if (uni.$u.test.array(this.parentData.value)) {
+        // 查找数组是是否存在this.name元素值
+        this.isChecked = this.parentData.value.some(function (item) {
+          return item === _this.name;
+        });
       }
     },
-    toggle: function toggle() {
-      if (!this.isDisabled) {
-        this.setValue();
+    updateParentData: function updateParentData() {
+      this.getParentData('u-checkbox-group');
+    },
+    // 横向两端排列时，点击组件即可触发选中事件
+    wrapperClickHandler: function wrapperClickHandler(e) {
+      this.parentData.iconPlacement === 'right' && this.iconClickHandler(e);
+    },
+    // 点击图标
+    iconClickHandler: function iconClickHandler(e) {
+      this.preventEvent(e);
+      // 如果整体被禁用，不允许被点击
+      if (!this.elDisabled) {
+        this.setRadioCheckedStatus();
+      }
+    },
+    // 点击label
+    labelClickHandler: function labelClickHandler(e) {
+      this.preventEvent(e);
+      // 如果按钮整体被禁用或者label被禁用，则不允许点击文字修改状态
+      if (!this.elLabelDisabled && !this.elDisabled) {
+        this.setRadioCheckedStatus();
       }
     },
     emitEvent: function emitEvent() {
-      var _this = this;
-      this.$emit('change', {
-        value: !this.value,
-        name: this.name
+      var _this2 = this;
+      this.$emit('change', this.isChecked);
+      // 尝试调用u-form的验证方法，进行一定延迟，否则微信小程序更新可能会不及时
+      this.$nextTick(function () {
+        uni.$u.formValidate(_this2, 'change');
       });
-      // 执行父组件u-checkbox-group的事件方法
-      // 等待下一个周期再执行，因为this.$emit('input')作用于父组件，再反馈到子组件内部，需要时间
-      setTimeout(function () {
-        if (_this.parent && _this.parent.emitEvent) _this.parent.emitEvent();
-      }, 80);
     },
-    // 设置input的值，这里通过input事件，设置通过v-model绑定的组件的值
-    setValue: function setValue() {
-      // 判断是否超过了可选的最大数量
-      var checkedNum = 0;
-      if (this.parent && this.parent.children) {
-        // 只要父组件的某一个子元素的value为true，就加1(已有的选中数量)
-        this.parent.children.map(function (val) {
-          if (val.value) checkedNum++;
-        });
-      }
-      // 如果原来为选中状态，那么可以取消
-      if (this.value == true) {
-        this.emitEvent();
-        this.$emit('input', !this.value);
-      } else {
-        // 如果超出最多可选项，提示
-        if (this.parent && checkedNum >= this.parent.max) {
-          return this.$u.toast("\u6700\u591A\u53EF\u9009".concat(this.parent.max, "\u9879"));
-        }
-        // 如果原来为未选中状态，需要选中的数量少于父组件中设置的max值，才可以选中
-        this.emitEvent();
-        this.$emit('input', !this.value);
-      }
+    // 改变组件选中状态
+    // 这里的改变的依据是，更改本组件的checked值为true，同时通过父组件遍历所有u-checkbox实例
+    // 将本组件外的其他u-checkbox的checked都设置为false(都被取消选中状态)，因而只剩下一个为选中状态
+    setRadioCheckedStatus: function setRadioCheckedStatus() {
+      // 将本组件标记为与原来相反的状态
+      this.isChecked = !this.isChecked;
+      this.emitEvent();
+      typeof this.parent.unCheckedOther === 'function' && this.parent.unCheckedOther(this);
+    }
+  },
+  watch: {
+    checked: function checked() {
+      this.isChecked = this.checked;
     }
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 
-/***/ 248:
+/***/ 382:
 /*!********************************************************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& ***!
   \********************************************************************************************************************************************************/
@@ -369,14 +403,14 @@ exports.default = _default;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& */ 249);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& */ 383);
 /* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_u_checkbox_vue_vue_type_style_index_0_id_532d01c7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 249:
+/***/ 383:
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-checkbox/u-checkbox.vue?vue&type=style&index=0&id=532d01c7&lang=scss&scoped=true& ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -395,7 +429,7 @@ __webpack_require__.r(__webpack_exports__);
     'node-modules/uview-ui/components/u-checkbox/u-checkbox-create-component',
     {
         'node-modules/uview-ui/components/u-checkbox/u-checkbox-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('2')['createComponent'](__webpack_require__(243))
+            __webpack_require__('2')['createComponent'](__webpack_require__(376))
         })
     },
     [['node-modules/uview-ui/components/u-checkbox/u-checkbox-create-component']]

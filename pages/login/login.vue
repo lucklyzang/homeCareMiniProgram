@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 隐私政策概要内容弹框 -->
 		<view class="privacy-policy-box">
-			<u-popup v-model="privacyPolicyBoxShow" mode="bottom" border-radius="30" :mask-close-able="false" :safe-area-inset-bottom="true">
+			<u-popup :show="privacyPolicyBoxShow" mode="bottom" border-radius="30" :closeOnClickOverlay="false" :safeAreaInsetBottom="true">
 					<view class="privacy-policy-title">
 						<text>
 							守望家隐私政策概要
@@ -48,7 +48,7 @@
 						<text>守望家</text>
 					</view>
 					<view class="weixin-top-area-right">
-						<u-icon name="info-circle" size="34" color="#dbdbdb"></u-icon>
+						<u-icon name="info-circle" size="24" color="#dbdbdb"></u-icon>
 					</view>
 				</view>
 				<view class="account-info-area">
@@ -77,7 +77,7 @@
 				<image :src="loginBackgroundPng"></image>
 				<view class="title">
 					<view>
-						<u-icon name="arrow-left" color="#fff" size="40" @click="backTo" v-if="isForgetPassword || isSetPassword"></u-icon>
+						<u-icon name="arrow-left" color="#fff" size="24" @click="backTo" v-if="isForgetPassword || isSetPassword"></u-icon>
 						<text>
 							{{ isForgetPassword ? '忘记密码' : isSetPassword ? '设置密码' : isPasswordLogin ? '密 码 登 录' : '验 证 码 登 录 / 注 册' }}
 						</text>
@@ -95,24 +95,24 @@
 			</view>
 			<view class="form-box">
 				<u-form :model="form" ref="uForm">
-					<u-form-item  v-if="!isSetPassword" label="+86" :label-style="{'font-size':'12px','color': '#B5B5B5'}">
-						<u-input @blur="blurEvent" v-model="form.username" placeholder="请输入手机号" type="number" />
+					<u-form-item  v-if="!isSetPassword" borderBottom label="+86" :label-style="{'font-size':'12px','color': '#B5B5B5'}">
+						<u-input @blur="blurEvent" border="none" v-model="form.username" placeholder="请输入手机号" type="number" />
 					</u-form-item>
-					<u-form-item v-if="(isPasswordLogin && !isForgetPassword) || isSetPassword">
-						<u-input v-model="form.password" placeholder="请输入密码" type="password"/>
+					<u-form-item borderBottom v-if="(isPasswordLogin && !isForgetPassword) || isSetPassword">
+						<u-input v-model="form.password" border="none" placeholder="请输入密码" type="password"/>
 					</u-form-item>
-					<u-form-item v-if="(!isPasswordLogin || isForgetPassword) && !isSetPassword">
-						<u-input v-model="form.verificationCode" placeholder="请输入验证码" type="number"/>
+					<u-form-item borderBottom v-if="(!isPasswordLogin || isForgetPassword) && !isSetPassword">
+						<u-input v-model="form.verificationCode" border="none" placeholder="请输入验证码" type="number"/>
 						<template slot="right">
 							<text v-if="showGetVerificationCode" @click="$noMultipleClicks(getVerificationCodeEvent)">获取验证码</text>
 							<text v-if="!showGetVerificationCode" class="count">{{count}}s后重新获取</text>
 						</template>
 					</u-form-item>
-					<u-form-item v-if="isForgetPassword">
-						<u-input v-model="form.newPassword" placeholder="请输入新密码" type="password"/>
+					<u-form-item v-if="isForgetPassword" borderBottom>
+						<u-input v-model="form.newPassword" border="none" placeholder="请输入新密码" type="password"/>
 					</u-form-item>
-					<u-form-item v-if="isForgetPassword"> 
-						<u-input v-model="form.againPassword" placeholder="再次输入新密码" type="password"/>
+					<u-form-item v-if="isForgetPassword" borderBottom> 
+						<u-input v-model="form.againPassword" border="none" placeholder="再次输入新密码" type="password"/>
 					</u-form-item>
 				</u-form>
 				<view class="form-bottom-info-text" v-if="!isForgetPassword && !isSetPassword">
@@ -124,7 +124,7 @@
 				<button @click="$noMultipleClicks(sure)">{{ isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
 				<view class="form-btn-info-text">
 					<u-checkbox-group>
-						<u-checkbox v-model="isReadAgreeChecked" shape="circle" active-color="#289E8E">阅读并同意协议</u-checkbox>
+						<u-checkbox labelSize="12" labelColor="#252525" v-model="isReadAgreeChecked" shape="circle" active-color="#289E8E" label="阅读并同意协议"></u-checkbox>
 					</u-checkbox-group>
 					<text>《协议链接》</text>
 				</view>
@@ -133,7 +133,7 @@
 				<button @click="resetPasswordEvent">{{ isForgetPassword ? '确认' : '进入首页' }}</button>
 			</view>
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
-        <u-divider border-color="#DBDBDB" color="#919191">其他登录方式</u-divider>
+        <u-divider border-color="#DBDBDB" color="#919191" text="其他登录方式"></u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
 					<button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
 						<image src="/static/img/weixin.png">
@@ -658,6 +658,7 @@
 			
 			// 获取用户家庭列表
 			queryUserFamilyList () {
+				console.log('adsas');
 				this.showLoadingHint = true;
 				this.loadingText = '加载中...';
 				this.familyMemberList = [];
@@ -744,79 +745,85 @@
 	.container {
 		@include content-wrapper;
 		font-size: 14px;
+		::v-deep .u-popup {
+			flex: none !important;
+		};
 		.privacy-policy-box {
-			::v-deep .u-drawer {
-				.u-drawer-content {
-					padding: 20px 10px;
-					box-sizing: border-box;
-					.privacy-policy-title {
-						font-size: 18px;
-						color: #101010;
-						font-weight: bold;
-						margin-bottom: 10px
-					};
-					.privacy-policy-content {
-						text-align: justify;
-						margin-bottom: 10px;
-						line-height: 26px;
-						font-size: 14px
-					};
-					.privilege-box {
-						margin-bottom: 10px;
-						line-height: 26px;
-						font-size: 14px
-					};
-					.account-box {
-						text-align: justify;
-						margin-bottom: 10px;
-						line-height: 26px;
-						font-size: 14px
-					};
-					.info-title {
-						margin-bottom: 10px;
-						font-size: 14px;
-						text {
-							&:first-child {
-								color: #101010;
-								font-weight: bold;
-							};
-							&:nth-child(2) {
-								color: #0079FF;
-								font-weight: bold;
-							};
-							&:nth-child(3) {
-								color: #101010;
-								font-weight: bold;
-							};
-							&:nth-child(4) {
-								color: #0079FF;
-								font-weight: bold;
+			::v-deep .u-popup {
+				flex: none !important;
+				.u-transition {
+					.u-popup__content {
+						padding: 20px 10px;
+						box-sizing: border-box;
+						.privacy-policy-title {
+							font-size: 18px;
+							color: #101010;
+							font-weight: bold;
+							margin-bottom: 10px
+						};
+						.privacy-policy-content {
+							text-align: justify;
+							margin-bottom: 10px;
+							line-height: 26px;
+							font-size: 14px
+						};
+						.privilege-box {
+							margin-bottom: 10px;
+							line-height: 26px;
+							font-size: 14px
+						};
+						.account-box {
+							text-align: justify;
+							margin-bottom: 10px;
+							line-height: 26px;
+							font-size: 14px
+						};
+						.info-title {
+							margin-bottom: 10px;
+							font-size: 14px;
+							text {
+								&:first-child {
+									color: #101010;
+									font-weight: bold;
+								};
+								&:nth-child(2) {
+									color: #0079FF;
+									font-weight: bold;
+								};
+								&:nth-child(3) {
+									color: #101010;
+									font-weight: bold;
+								};
+								&:nth-child(4) {
+									color: #0079FF;
+									font-weight: bold;
+								}
 							}
-						}
-					};
-					.btn-box {
-						margin: 0 auto;
-						margin-top: 40px;
-						display: flex;
-						justify-content: space-between;
-						width: 90%;
-						button {
-							width: 110px;
-							font-size: 16px;
-							color: #000000;
-							background: #fff;
-							border: 1px solid #BBBBBB;
-							height: 36px;
-							text-align: center;
-							line-height: 36px;
-						  border-radius: 10px;
-							&:last-child {
-								color: #289E8E
+						};
+						.btn-box {
+							margin: 0 auto;
+							margin-top: 40px;
+							display: flex;
+							justify-content: space-between;
+							width: 90%;
+							button {
+								width: 110px;
+								font-size: 16px;
+								color: #000000;
+								background: #fff;
+								border: 1px solid #BBBBBB;
+								height: 36px;
+								text-align: center;
+								line-height: 36px;
+								border-radius: 10px;
+								&:last-child {
+									color: #289E8E
+								}
 							}
 						}
 					}
 				}
-			}
+			}	
 		};
 		.weixin-authorization-info-box {
 			::v-deep .u-drawer {
@@ -1018,15 +1025,29 @@
 						.u-form-item--right__content__icon {
 							font-size: 14px;
 							color: #289E8E
+						};
+						.u-line {
+							border-bottom: 1px solid #BBBBBB !important
+						};
+						.item__body__right__content__icon {
+							font-size: 14px;
+							color: #289E8E
+						};
+						.uni-input-placeholder {
+							color: #101010 !important;
+							font-size: 14px !important
 						}
 					};
 					u-form-item {
 						.u-form-item {
 							margin-bottom: 20px;
+							.u-line {
+								border-bottom: 1px solid #BBBBBB !important
+							};
 							.u-input {
 								background: #fff;
 							};
-							.u-form-item--right__content__icon {
+							.item__body__right__content__icon {
 								font-size: 14px;
 								color: #289E8E
 							};
@@ -1071,7 +1092,7 @@
           border-radius: 10px;
 				};
 				.form-btn-info-text {
-					margin-top: 4px;
+					margin-top: 8px;
 					align-items: center;
 					align-items: center;
 					display: flex;
@@ -1081,17 +1102,13 @@
 							.u-checkbox__icon-wrap {
 								width: 15px !important;
 								height: 15px !important
-							};
-							.u-checkbox__label {
-								font-size: 12px;
-								margin-right: 0 !important;
-								color: #252525
 							}
 						}
 					};
 					>text {
 						color: #0097E6;
-						font-size: 12px
+						font-size: 12px;
+						margin-top: -1px;
 					}
 				}
 			};
