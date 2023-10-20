@@ -88,7 +88,7 @@
 				<view class="order-message-content">
 					<view class="order-message-one-special">
 						<view class="order-message-one-special-left">
-							<text>订单编号</text>
+							<text>订单编号:</text>
 						</view>
 						<view class="order-message-one-special-right">
 							<text>asasa34343</text>
@@ -96,27 +96,27 @@
 						</view>
 					</view>
 					<view class="order-message-one">
-						<text>交易号</text>
+						<text>交易号:</text>
 						<text>飒飒飒飒</text>
 					</view>
 					<view class="order-message-one">
-						<text>创建时间</text>
+						<text>创建时间:</text>
 						<text>2012-01-10 12:45:23</text>
 					</view>
 					<view class="order-message-one">
-						<text>付款时间</text>
+						<text>付款时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
 					<view class="order-message-one">
-						<text>派单时间</text>
+						<text>派单时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
 					<view class="order-message-one">
-						<text>完成服务时间</text>
+						<text>完成服务时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
 					<view class="order-message-one">
-						<text>退款时间</text>
+						<text>退款时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
 				</view>

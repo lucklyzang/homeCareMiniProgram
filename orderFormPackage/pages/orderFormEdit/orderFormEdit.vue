@@ -1,16 +1,14 @@
 <template>
 	<view class="content-box">
-		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area-box">
 			<view class="nav">
-				<nav-bar :home="false" backState='3000' bgColor="none" title="最新资讯" @backClick="backTo">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="订单修改" @backClick="backTo">
 				</nav-bar> 
 		  </view>
 		</view>
-		<view class="message-content-wrapper">
-			最新资讯详情
-			<u-empty text="暂无消息" mode="list" v-if="isShowNoData"></u-empty>
+		<view class="order-form-list-wrapper">
+		</view>
+		<view class="submit-area">
 		</view>
 	</view>
 </template>
@@ -31,11 +29,6 @@
 		},
 		data() {
 			return {
-				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
-				infoText: '',
-				showLoadingHint: false,
-				status: 'nomore',
-				isShowNoData: false
 			}
 		},
 		computed: {
@@ -52,11 +45,11 @@
 		methods: {
 			...mapMutations([
 			]),
-
+			
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/messagePackage/pages/message/index/index'
+				uni.switchTab({
+					url: '/pages/orderForm/orderForm'
 				})
 			}
 		}
@@ -71,10 +64,13 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		::v-deep .u-popup {
+			flex: none !important
+		};
 		.top-area-box {
 			position: relative;
 			width: 100%;
-			height: 80px;
+			height: 100px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -88,21 +84,24 @@
 					}
 				}
 			}
-		};
-		.message-details-wrapper {
+		}
+		.order-form-list-wrapper {
 			flex: 1;
+			background: #F8F8F8;
 			overflow: auto;
+			width: 100%;
 			display: flex;
-			flex-direction: column;
-			padding: 16px 16px 16px 16px;
-			box-sizing: border-box;
-			position: relative;
-			 ::v-deep .u-empty {
-			 	position: absolute;
-			 	top: 50%;
-			 	left: 50%;
-			 	transform: translate(-50%,-50%)
-			 }
-		}	
+			align-items: center;
+			justify-content: center;
+		};
+		.submit-area {
+			background: #F8F8F8;
+			width: 100%;
+			margin: 0 auto;
+			height: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 </style>

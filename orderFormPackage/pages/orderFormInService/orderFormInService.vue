@@ -15,15 +15,15 @@
 						<text>婴儿全身按摩</text>
 					</view>
 					<view class="order-form-status">
-						<text>已完成</text>
+						<text>服务中</text>
 					</view>
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
 						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
 							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
+							    <u-loading-icon color="red"></u-loading-icon>
+							  </template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
@@ -79,64 +79,6 @@
 					</view>
 				</view>
 			</view>
-			<view class="evaluate-message">
-				<view class="evaluate-message-top">
-					<view class="evaluate-message-title">
-						<text>评价信息</text>
-					</view>
-				</view>
-				<view class="evaluate-message-bottom">
-					<view class="service-attitude">
-						<view class="service-attitude-title">
-							<text>服务态度</text>
-						</view>
-						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="serviceAttitudeValue"></u-rate>
-						</view>
-					</view>
-					<view class="service-attitude">
-						<view class="service-attitude-title">
-							<text>服务速度</text>
-						</view>
-						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="serviceSpeedValue"></u-rate>
-						</view>
-					</view>
-					<view class="service-attitude">
-						<view class="service-attitude-title">
-							<text>专业程度</text>
-						</view>
-						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="majorLevelValue"></u-rate>
-						</view>
-					</view>
-					<view class="evaluate-text">
-						<text>啥就看啥酷酷酷酷酷酷酷酷酷酷酷酷给大家都开始了萨迪克</text>
-					</view>
-					<view class="evaluate-picture">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-					</view>
-				</view>
-			</view>
 			<view class="order-flow">
 				<view class="order-flow-title">
 					<text>订单流程</text>
@@ -166,7 +108,9 @@
 						</view>
 						<view class="order-message-one-special-right">
 							<text>asasa34343</text>
-							<text  @click="copyContent(copyValue)">复制</text>
+							<text
+							 @click="copyContent(copyValue)"
+							>复制</text>
 						</view>
 					</view>
 					<view class="order-message-one">
@@ -185,16 +129,11 @@
 						<text>派单时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
-					<view class="order-message-one">
-						<text>完成服务时间:</text>
-						<text>2012-05-09 19:45:20</text>
-					</view>
 				</view>
 			</view>
 			<view class="btn-area">
-				<text>申请退款</text>
-				<text>删除订单</text>
-				<text>再次预约</text>
+				<text>联系护士</text>
+				<text>取消订单</text>
 			</view>
 		</view>
 	</view>
@@ -218,12 +157,8 @@
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
-				copyValue: '复制测试',
-				serviceAttitudeCount: 5,
-				serviceAttitudeValue: 4,
-				serviceSpeedValue: 3,
-				majorLevelValue: 2,
-				showLoadingHint: false
+				showLoadingHint: false,
+				copyValue: 'asasa34343'
 			}
 		},
 		computed: {
@@ -254,7 +189,7 @@
 						})
 					}
 				})
-			},
+			},	
 			
 			// 顶部导航返回事件
 			backTo () {
@@ -341,8 +276,8 @@
 					.order-form-center-left {
 						margin-right: 10px;
 						::v-deep .u-image {
-							width: 88px !important;
-							height: 88px !important
+							// width: 88px !important;
+							// height: 88px !important
 						}
 					};
 					.order-form-center-right {
@@ -476,76 +411,6 @@
 							color: #E82050;
 							font-size: 16px;
 							font-weight: bold;
-						}
-					}
-				}
-			}
-		};
-		.evaluate-message {
-			background: #fff;
-			margin-bottom: 10px;
-			.evaluate-message-top {
-				display: flex;
-				align-items: center;
-				height: 50px;
-				@include bottom-border-1px(#BBBBBB);
-				justify-content: space-between;
-				padding: 0 12px;
-				box-sizing: border-box;
-				.evaluate-message-title {
-					flex: 1;
-					@include no-wrap();
-					>text {
-						font-size: 16px;
-						color: #444444;
-						font-weight: bold
-					}
-				}
-			};
-			.evaluate-message-bottom {
-				padding: 6px 16px;
-				box-sizing: border-box;
-				.service-attitude {
-					display: flex;
-					justify-content: space-between;
-					margin-top: 6px;
-					align-items: center;
-					.service-attitude-title {
-						>text {
-							font-size: 14px;
-							color: #3E4248;
-							font-weight: bold;
-						}
-					};
-					.service-attitude-score {
-						flex: 1;
-						padding-left: 20px;
-						box-sizing: border-box;
-					}
-				};
-				.evaluate-text {
-					padding: 4px 6px;
-					margin-top: 20px;
-					box-sizing: border-box;
-					word-break: break-all;
-					border: 1px solid #BBBBBB
-				};
-				.evaluate-picture {
-					margin-top: 20px;
-					display: flex;
-					flex-wrap: wrap;
-					::v-deep .u-transition {
-						width: 32% !important;
-						height: 88px !important;
-						margin-right: 2%;
-						margin-bottom: 10px;
-						&:nth-child(3n+3) {
-							margin-right: 0 !important
-						};
-						.u-image {
-							.uni-image {
-								width: 100% !important
-							}
 						}
 					}
 				}

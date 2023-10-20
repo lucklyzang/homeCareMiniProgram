@@ -9,7 +9,7 @@
 		  </view>
 		</view>
 		<view class="message-list-wrapper">
-			<u-empty text="暂无消息" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无消息" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="message-list" @click="enterMessageListEvent">
 				<view class="message-photo">
 					<u-image src="@/static/img/health-nurse.png" width="46" height="46">

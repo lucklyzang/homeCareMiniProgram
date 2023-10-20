@@ -226,6 +226,10 @@ var _default = {
       noClick: true,
       loadingText: '登录中,请稍候···',
       userCode: '',
+      checkboxList: [{
+        name: '阅读并同意协议',
+        disabled: false
+      }],
       form: {
         username: '',
         password: '',
@@ -244,7 +248,7 @@ var _default = {
       privacyPolicyBoxShow: true,
       weixinAuthorizationInfoBoxShow: false,
       timer: null,
-      isReadAgreeChecked: false,
+      isReadAgreeChecked: [],
       showLoadingHint: false,
       modalShow: false,
       modalContent: '',
@@ -312,7 +316,7 @@ var _default = {
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
       if (!myreg.test(value)) {
         this.$refs.uToast.show({
-          title: '手机号格式有误,请重新输入!',
+          message: '手机号格式有误,请重新输入!',
           type: 'error',
           position: 'bottom'
         });
@@ -339,8 +343,8 @@ var _default = {
       var _this2 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入手机号码!',
-          type: 'warning',
+          message: '请输入手机号码!',
+          type: 'error',
           position: 'bottom'
         });
         return;
@@ -349,7 +353,7 @@ var _default = {
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
       if (!myreg.test(this.form.username)) {
         this.$refs.uToast.show({
-          title: '手机号格式有误,请重新输入!',
+          message: '手机号格式有误,请重新输入!',
           type: 'error',
           position: 'bottom'
         });
@@ -396,8 +400,8 @@ var _default = {
       var _this3 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入手机号',
-          type: 'warning',
+          message: '请输入手机号',
+          type: 'error',
           position: 'bottom'
         });
         return;
@@ -405,17 +409,17 @@ var _default = {
       ;
       if (!this.form.password) {
         this.$refs.uToast.show({
-          title: '请输入密码',
-          type: 'warning',
+          message: '请输入密码',
+          type: 'error',
           position: 'bottom'
         });
         return;
       }
       ;
-      if (!this.isReadAgreeChecked) {
+      if (this.isReadAgreeChecked.length == 0) {
         this.$refs.uToast.show({
-          title: '请阅读并同意协议!',
-          type: 'warning',
+          message: '请阅读并同意协议!',
+          type: 'error',
           position: 'bottom'
         });
         return;
@@ -482,8 +486,8 @@ var _default = {
       var _this5 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入手机号',
-          type: 'warning',
+          message: '请输入手机号',
+          type: 'error',
           position: 'bottom'
         });
         return;
@@ -491,17 +495,17 @@ var _default = {
       ;
       if (!this.form.verificationCode) {
         this.$refs.uToast.show({
-          title: '请输入验证码',
-          type: 'warning',
+          message: '请输入验证码',
+          type: 'error',
           position: 'bottom'
         });
         return;
       }
       ;
-      if (!this.isReadAgreeChecked) {
+      if (this.isReadAgreeChecked.length == 0) {
         this.$refs.uToast.show({
-          title: '请阅读并同意协议!',
-          type: 'warning',
+          message: '请阅读并同意协议!',
+          type: 'error',
           position: 'bottom'
         });
         return;
@@ -550,8 +554,8 @@ var _default = {
       var _this6 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入手机号',
-          type: 'warning',
+          message: '请输入手机号',
+          type: 'erroe',
           position: 'bottom'
         });
         return;
@@ -567,13 +571,13 @@ var _default = {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
             _this6.$refs.uToast.show({
-              title: '发送成功!',
-              type: 'success',
+              message: '发送成功!',
+              type: 'error',
               position: 'bottom'
             });
           } else {
             _this6.$refs.uToast.show({
-              title: res.data.msg,
+              message: res.data.msg,
               type: 'error',
               position: 'bottom'
             });
@@ -603,8 +607,8 @@ var _default = {
       if (this.isForgetPassword) {
         if (!this.form.username) {
           this.$refs.uToast.show({
-            title: '请输入手机号',
-            type: 'warning',
+            message: '请输入手机号',
+            type: 'error',
             position: 'bottom'
           });
           return;
@@ -612,8 +616,8 @@ var _default = {
         ;
         if (!this.form.verificationCode) {
           this.$refs.uToast.show({
-            title: '请输入验证码',
-            type: 'warning',
+            message: '请输入验证码',
+            type: 'error',
             position: 'bottom'
           });
           return;
@@ -621,8 +625,8 @@ var _default = {
         ;
         if (this.form.newPassword != this.form.againPassword) {
           this.$refs.uToast.show({
-            title: '两次密码输入不一致!',
-            type: 'warning',
+            message: '两次密码输入不一致!',
+            type: 'error',
             position: 'bottom'
           });
           return;
@@ -638,8 +642,8 @@ var _default = {
         (0, _login.resetPassword)(loginMessage).then(function (res) {
           if (res && res.data.code == 0) {
             _this7.$refs.uToast.show({
-              title: '密码重置成功!',
-              type: 'success',
+              message: '密码重置成功!',
+              type: 'error',
               position: 'bottom'
             });
             _this7.form = {
@@ -668,8 +672,8 @@ var _default = {
         // 设置密码
         if (!this.form.password) {
           this.$refs.uToast.show({
-            title: '请输入密码',
-            type: 'warning',
+            message: '请输入密码',
+            type: 'error',
             position: 'bottom'
           });
           return;
@@ -684,7 +688,7 @@ var _default = {
           (0, _login.setPassword)(_loginMessage).then(function (res) {
             if (res && (res.data.code == 0 || res.data.code == 401)) {
               _this7.$refs.uToast.show({
-                title: '密码设置成功!',
+                message: '密码设置成功!',
                 type: 'success',
                 position: 'bottom'
               });
@@ -744,7 +748,7 @@ var _default = {
           });
         } else {
           _this8.$refs.uToast.show({
-            title: res.data.msg,
+            message: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
@@ -754,7 +758,7 @@ var _default = {
       }).catch(function (err) {
         _this8.showLoadingHint = false;
         _this8.$refs.uToast.show({
-          title: err.message,
+          message: err.message,
           type: 'error',
           position: 'bottom'
         });

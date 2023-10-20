@@ -84,7 +84,15 @@
 					<text>订单流程</text>
 				</view>
 				<view class="order-flow-content">
-					<u-steps :list="orderFormTypeList" un-active-color="#D9DBE0" active-color="#fff" :current="1"></u-steps>
+					<u-steps current="4" dot inactiveColor="rgba(255, 255, 255, 0.5)" activeColor="#fff">
+						<u-steps-item title="已支付"></u-steps-item>
+						<u-steps-item title="派单中"></u-steps-item>
+						<u-steps-item title="待出发"></u-steps-item>
+						<u-steps-item title="待服务"></u-steps-item>
+						<u-steps-item title="服务中"></u-steps-item>
+						<u-steps-item title="待评价"></u-steps-item>
+						<u-steps-item title="已完成"></u-steps-item>
+					</u-steps>
 				</view>
 			</view>
 			<view class="order-message">
@@ -96,7 +104,7 @@
 				<view class="order-message-content">
 					<view class="order-message-one-special">
 						<view class="order-message-one-special-left">
-							<text>订单编号</text>
+							<text>订单编号:</text>
 						</view>
 						<view class="order-message-one-special-right">
 							<text>asasa34343</text>
@@ -106,15 +114,15 @@
 						</view>
 					</view>
 					<view class="order-message-one">
-						<text>交易号</text>
+						<text>交易号:</text>
 						<text>飒飒飒飒</text>
 					</view>
 					<view class="order-message-one">
-						<text>创建时间</text>
+						<text>创建时间:</text>
 						<text>2012-01-10 12:45:23</text>
 					</view>
 					<view class="order-message-one">
-						<text>付款时间</text>
+						<text>付款时间:</text>
 						<text>2012-05-09 19:45:20</text>
 					</view>
 				</view>
@@ -122,7 +130,7 @@
 			<view class="btn-area">
 				<text>申请退款</text>
 				<text>取消订单</text>
-				<text>提醒</text>
+				<text>提醒派单</text>
 			</view>
 		</view>
 	</view>
@@ -147,30 +155,7 @@
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
 				showLoadingHint: false,
-				copyValue: 'asasa34343',
-				orderFormTypeList: [
-					{
-						name: '已支付'
-					},
-					{
-						name: '派单中'
-					},
-					{
-						name: '待出发'
-					},
-					{
-						name: '待服务'
-					},
-					{
-						name: '服务中'
-					},
-					{
-						name: '待评价'
-					},
-					{
-						name: '已完成'
-					}
-				]
+				copyValue: 'asasa34343'
 			}
 		},
 		computed: {
@@ -443,10 +428,16 @@
 			};
 			.order-flow-content {
 				::v-deep .u-steps {
-					.u-steps__item {
-						.u-steps__item__line {
-							left: 50% !important;
-							width: 100% !important
+					.u-steps-item {
+						.u-steps-item__wrapper {
+							background: transparent !important
+						};
+						.u-steps-item__content {
+							.u-text {
+								.u-text__value {
+									color: #fff !important
+								}
+							}
 						}
 					}
 				}

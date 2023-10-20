@@ -8,6 +8,7 @@
     "u-image": "/node-modules/uview-ui/components/u-image/u-image",
     "u-loading-icon": "/node-modules/uview-ui/components/u-loading-icon/u-loading-icon",
     "u-steps": "/node-modules/uview-ui/components/u-steps/u-steps",
+    "u-steps-item": "/node-modules/uview-ui/components/u-steps-item/u-steps-item",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }

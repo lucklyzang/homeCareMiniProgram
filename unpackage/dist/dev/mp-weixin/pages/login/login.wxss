@@ -110,49 +110,49 @@ page {
 .container .privacy-policy-box  .u-popup .u-transition .u-popup__content .btn-box button:last-child {
   color: #289E8E;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content {
   padding: 10px 20px;
   box-sizing: border-box;
   background: #fff;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .uni-scroll-view-content {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .uni-scroll-view-content {
   display: flex;
   flex-direction: column;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .weixin-top-area {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .weixin-top-area {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .weixin-top-area .weixin-top-area-left {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .weixin-top-area .weixin-top-area-left {
   display: flex;
   align-items: center;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .weixin-top-area .weixin-top-area-left > image {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .weixin-top-area .weixin-top-area-left > image {
   width: 31px;
   height: 31px;
   margin-right: 6px;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .weixin-top-area .weixin-top-area-left > text {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .weixin-top-area .weixin-top-area-left > text {
   font-size: 14px;
   color: #101010;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .account-info-area {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .account-info-area {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .account-info-area > text:first-child {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .account-info-area > text:first-child {
   font-size: 16px;
   color: #101010;
   font-weight: bold;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .account-info-area > text:last-child {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .account-info-area > text:last-child {
   margin-top: 8px;
   font-size: 12px;
   color: #adadad;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .phone-number-area {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .phone-number-area {
   margin-top: 20px;
   background: #ffffd6;
   border: 2px solid #ffd17c;
@@ -165,14 +165,14 @@ page {
   font-size: 10px;
   color: #4c4c4c;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .phone-number-area > text:first-child {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .phone-number-area > text:first-child {
   font-size: 14px;
   margin-bottom: 2px;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .phone-number-area > text:last-child {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .phone-number-area > text:last-child {
   color: #cdcdcd;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .not-allow-area {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .not-allow-area {
   margin-top: 10px;
   background: #ffffd6;
   border: 2px solid #ffd17c;
@@ -184,7 +184,7 @@ page {
   font-size: 14px;
   color: #4c4c4c;
 }
-.container .weixin-authorization-info-box  .u-drawer .u-drawer-content .other-phone-number-area {
+.container .weixin-authorization-info-box  .u-transition .u-popup__content .other-phone-number-area {
   width: 100%;
   flex: 1;
   display: flex;
@@ -306,25 +306,22 @@ page {
   color: #101010 !important;
   font-size: 14px !important;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item {
+.container .container-content .form-box  .u-form .u-form-item {
   margin-bottom: 20px;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item .u-line {
+.container .container-content .form-box  .u-form .u-form-item .u-line {
   border-bottom: 1px solid #BBBBBB !important;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item .u-input {
+.container .container-content .form-box  .u-form .u-form-item .u-input {
   background: #fff;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item .item__body__right__content__icon {
+.container .container-content .form-box  .u-form .u-form-item .item__body__right__content__icon {
   font-size: 14px;
   color: #289E8E;
 }
-.container .container-content .form-box  .u-form u-form-item .u-form-item .uni-input-placeholder {
+.container .container-content .form-box  .u-form .u-form-item .uni-input-placeholder {
   color: #101010 !important;
   font-size: 14px !important;
-}
-.container .container-content .form-box  .u-form u-form-item:last-child .u-form-item {
-  margin-bottom: 0 !important;
 }
 .container .container-content .form-box  .u-form .u-border-bottom:after {
   border-bottom-color: #989898 !important;

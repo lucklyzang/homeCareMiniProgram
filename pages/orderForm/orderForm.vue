@@ -2,12 +2,12 @@
 	<view class="content-box">
 		<!-- 删除订单提示 -->
 		<view class="delete-info">
-			<u-modal v-model="deleteShow" :content-style="{fontSize: '14px',color: '#838C97',textAlign: 'left'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :content="deleteInfoContent" :show-cancel-button="true" title="是否删除订单" :title-style="{color: '#101010',fontSize: '16px'}">
+			<u-modal :show="deleteShow" @confirm="deleteShow=false" @cancel="deleteShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :content="deleteInfoContent" :showCancelButton="true" title="是否删除订单">
 			</u-modal>
 		</view>
 		<!-- 取消订单提示 -->
 		<view class="cancel-info">
-			<u-modal v-model="cancelOrderFormShow" :content-style="{fontSize: '14px',padding: '14px',boxSizing: 'border-box',color: '#838C97',textAlign: 'left'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="取消订单" :title-style="{color: '#101010',fontSize: '16px'}">
+			<u-modal :show="cancelOrderFormShow" @cancel="cancelOrderFormShow=false" @confirm="cancelOrderFormShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="取消订单">
 				<view class="slot-content">
 					为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。<br/>
 					今日剩余 3 次，确认取消订单吗？
@@ -16,22 +16,15 @@
 		</view>
 		<!-- 申请退款提示 -->
 		<view class="apply-refund-info">
-			<u-modal v-model="applyRefundShow" :placeholder-style="{fontSize: '12px',color: '#757575'}" :content-style="{fontSize: '14px',padding: '14px',boxSizing: 'border-box',color: '#838C97',textAlign: 'center'}" confirm-text="确定" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="申请退款" :title-style="{color: '#101010',fontSize: '16px'}">
+			<u-modal :show="applyRefundShow" @confirm="applyRefundShow=false" @cancel="applyRefundShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="申请退款">
 				<view class="slot-content">
-					<u-textarea v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
-					<!-- <u-field
-						v-model="refundReason"
-						:auto-height="false"
-						placeholder="请填写申请退款理由"
-						type="textarea"
-					>
-					</u-field> -->
+					<u-textarea height="100" v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
 				</view>
 			</u-modal>
 		</view>
 		<!-- 退出支付提示 -->
 		<view class="quit-pay-info">
-			<u-modal v-model="quitPayShow" :content-style="{fontSize: '14px',textAlign: 'center',padding: '30px',boxSizing: 'border-box',color: '#838C97'}" cancel-text="确定" confirm-text="取消" cancel-color="#838C97" confirm-color="#EB3E67" :show-cancel-button="true" title="当前订单还未支付" :title-style="{color: '#101010',fontSize: '16px'}">
+			<u-modal :show="quitPayShow" @confirm="quitPayShow=false" @cancel="quitPayShow=false" cancelText="确定" confirmText="取消" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="当前订单还未支付">
 				<view class="slot-content">
 					确定退出支付吗？
 				</view>
@@ -39,7 +32,20 @@
 		</view>
 		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
-			<u-modal v-model="haveDeleteShow" :content-style="{fontSize: '18px',color: '#101010'}" confirm-text="确定" confirm-color="#EB3E67" :content="haveDeleteInfoContent" title="是否删除订单" :show-title="false">
+			<u-modal :show="haveDeleteShow" @confirm="haveDeleteShow=false" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+			</u-modal>
+		</view>
+		<!-- 提醒派单提示 -->
+		<view class="remind-send-orders-info">
+			<u-modal :show="remindSendOrdersShow" @confirm="remindSendOrdersShow=false" confirmText="确定" confirmColor="#EB3E67">
+				<view class="slot-content">
+					<view>
+						已提醒派单
+					</view>
+					<view>
+						三分钟前已提醒了
+					</view>
+				</view>
 			</u-modal>
 		</view>
 		<u-toast ref="uToast" />
@@ -63,7 +69,7 @@
 			></u-tabs>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 0">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -112,14 +118,14 @@
 					</view>
 					<view class="btn-area-right">
 						<text>取消订单</text>
-						<text>修改订单</text>
+						<text @click="editOrderFormEvent">修改订单</text>
 						<text class="at-once-payment">立即付款</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 1">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -164,7 +170,7 @@
 				</view>
 				<view class="order-form-bottom">
 					<view class="btn-area-right">
-						<text>取消订单</text>
+						<text @click="remindSendOrdersEvent">提醒派单</text>
 						<text>修改订单</text>
 						<text class="at-once-payment">立即付款</text>
 					</view>
@@ -172,7 +178,7 @@
 			</view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 2">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list" @click="enterOrderDetailsEvent">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -220,7 +226,7 @@
 			</view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 3">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -361,7 +367,7 @@
 			</view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 4">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -403,13 +409,13 @@
 				<view class="order-form-bottom">
 					<view class="btn-area-right">
 						<text>再次预约</text>
-						<text class="evaluate">评价</text>
+						<text class="evaluate" @click="orderFormEvaluateEvent">评价</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 5">
-			<u-empty text="暂无订单" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
 			<view class="order-form-list" @click="enterOrderDetailsEventOther">
 				<view class="order-form-top">
 					<view class="order-form-title">
@@ -571,7 +577,8 @@
 				haveDeleteShow: false,
 				cancelOrderFormShow: false,
 				quitPayShow: false,
-				applyRefundShow: true,
+				applyRefundShow: false,
+				remindSendOrdersShow: false,
 				refundReason: '',
 				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员资讯',
 				haveDeleteInfoContent: '已删除订单',
@@ -588,7 +595,9 @@
 					}, 
 					{
 						name: '派单中',
-						count: 5
+						badge: {
+							value: 90
+						}
 					},
 					{
 						name: '服务中',
@@ -623,6 +632,25 @@
 				this.current = index.index
 			},
 			
+			// 提醒派单事件
+			remindSendOrdersEvent () {
+				this.remindSendOrdersShow = true
+			},
+			
+			// 订单评价事件
+			orderFormEvaluateEvent () {
+				uni.redirectTo({
+					url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate'
+				})
+			},
+			
+			// 修改订单事件
+			editOrderFormEvent () {
+				uni.redirectTo({
+					url: '/orderFormPackage/pages/orderFormEdit/orderFormEdit'
+				})
+			},
+			
 			// 订单详情点击事件
 			enterOrderDetailsEvent () {
 				// 派单中
@@ -633,6 +661,18 @@
 				uni.redirectTo({
 					url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
 				})
+				// 待付款
+				// uni.redirectTo({
+				// 	url: '/orderFormPackage/pages/orderFormStayPayment/orderFormStayPayment'
+				// });
+				// 服务中
+				// uni.redirectTo({
+				// 	url: '/orderFormPackage/pages/orderFormInService/orderFormInService'
+				// });
+				// 待评价
+				// uni.redirectTo({
+				// 	url: '/orderFormPackage/pages/orderFormStayEvaluate/orderFormStayEvaluate'
+				// })
 			},
 			
 			// 订单详情点击事件(取消|退款)
@@ -652,50 +692,111 @@
 		height: 100%;
 	};
 	.content-box {
-		::v-deep .u-drawer {
-			.u-mode-center-box {
-				.u-drawer__scroll-view {
-					.u-model {
-						.u-border-top:after {
-							display: none
-						};
-						.u-model__footer {
-							height: 50px;
-							justify-content: center;
-							.u-model__footer__button {
-								flex: none !important;
-								font-size: 14px;
-								width: 100px !important;
-								height: 34px !important;
-								line-height: 34px !important;
-								border-radius: 7px !important;
-								border: 1px solid #FF698C !important;
-								color: #FF698C !important
-							};
-							.hairline-left {
-								margin-left: 30px;
-								background: #FF698C !important;
-								border: none !important;
-								color: #fff !important
-							}
+		::v-deep .u-popup__content{
+			.u-modal {
+				.u-modal__title {
+					font-size: 16px !important;
+					color: #101010 !important
+				};
+				.u-line {
+					border: none !important
+				};
+				.u-modal__content {
+					padding: 20px 10px 30px 10px !important;
+					font-size: 14px !important;
+					color: #898C8C !important
+				};
+				.u-modal__button-group {
+					height: 50px;
+					justify-content: center;
+					.u-line {
+						border: none !important
+					};
+					.u-modal__button-group__wrapper--cancel {
+						flex: none !important;
+						width: 100px !important;
+						height: 34px !important;
+						line-height: 34px !important;
+						border-radius: 7px !important;
+						border: 1px solid #FF698C !important;
+						.u-modal__button-group__wrapper__text {
+							font-size: 14px;
+							color: #FF698C !important;
+						}
+					};
+					.u-modal__button-group__wrapper--confirm {
+						flex: none !important;
+						width: 100px !important;
+						height: 34px !important;
+						line-height: 34px !important;
+						border-radius: 7px !important;
+						margin-left: 30px;
+						background: #FF698C !important;
+						border: none !important;
+						.u-modal__button-group__wrapper__text {
+							font-size: 14px;
+							color: #fff !important;
 						}
 					}
 				}
 			}
 		};
 		.apply-refund-info {
-			::v-deep .u-drawer {
-				.u-mode-center-box {
-					.u-drawer__scroll-view {
-						.u-model {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.slot-content {
+							width: 280px
+						}
+					}
+				}
+			}
+		};
+		.have-delete-info {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.u-modal__content {
+							padding: 40px 10px !important;
+							box-sizing: border-box;
+							.u-modal__content__text {
+								font-size: 18px !important;
+								color: #101010 !important;
+								text-align: center !important
+							}
+						};
+						.u-modal__button-group {
+							.u-modal__button-group__wrapper--confirm {
+								margin-left: 0 !important
+							}
+						}
+					}
+				}
+			}
+		};
+		.remind-send-orders-info {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.u-modal__content {
+							padding: 40px 10px !important;
+							box-sizing: border-box;
 							.slot-content {
-								.u-field {
-									border-radius: 4px;
-									border: 1px solid #BBBBBB;
-									.u-label {
-										flex: none !important
+								>view {
+									text-align: center;
+									font-size: 18px !important;
+									color: #101010 !important;
+									&:first-child {
+										margin-bottom: 6px
 									}
 								}
+							}
+						};
+						.u-modal__button-group {
+							.u-modal__button-group__wrapper--confirm {
+								border-radius: 37px !important;
+								margin-left: 0 !important;
+								background: #EB3E67 !important
 							}
 						}
 					}
@@ -723,14 +824,28 @@
 		};
 		.order-form-tabs {
 			box-shadow: 0 2px 6px 0 rgba(202, 200, 200, 0.4);
+			z-index: 1;
 			::v-deep .u-tabs {
-				.uni-scroll-view {
+				.u-tabs__wrapper__scroll-view {
 					.u-tabs__wrapper__nav__item {
+						position: relative;
 						.u-badge {
-							margin-top: -20px !important;
+							position: absolute;
+							top: 0;
+							right: -6px;
 							background: #fff !important;
 							border: 1px solid #D84959;
-							color: #D84959 !important
+							color: #D84959 !important;
+							width: 16px !important;
+							height: 16px !important;
+							border-radius: 50%;
+							display: inline-block;
+							text-align: center;
+							line-height: 16px;
+							@include no-wrap
+						};
+						.u-badge--not-dot {
+							padding: 0 !important
 						}
 					}
 				}

@@ -67,7 +67,7 @@
 				</view>
 			</u-popup>
 		</view>
-		<u-toast ref="uToast" />
+		<u-toast ref="uToast"></u-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="loadingText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<u-modal v-model="modalShow" :content="modalContent"
 		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
@@ -123,8 +123,15 @@
 			<view class="form-btn" v-if="!isForgetPassword && !isSetPassword">
 				<button @click="$noMultipleClicks(sure)">{{ isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
 				<view class="form-btn-info-text">
-					<u-checkbox-group>
-						<u-checkbox labelSize="12" labelColor="#252525" v-model="isReadAgreeChecked" shape="circle" active-color="#289E8E" label="阅读并同意协议"></u-checkbox>
+					<u-checkbox-group v-model="isReadAgreeChecked">
+						<u-checkbox 
+							shape="circle" 
+							v-for="(item, index) in checkboxList"
+							:key="index"
+							:label="item.name"
+							:name="item.name"
+							active-color="#289E8E">
+						</u-checkbox>
 					</u-checkbox-group>
 					<text>《协议链接》</text>
 				</view>
@@ -160,6 +167,12 @@
 				noClick: true,
 				loadingText: '登录中,请稍候···',
 				userCode: '',
+				checkboxList: [
+					{
+						name: '阅读并同意协议',
+						disabled: false
+					}
+				],
 				form: {
 					username: '',
 					password: '',
@@ -178,7 +191,7 @@
 				privacyPolicyBoxShow: true,
 				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
-				isReadAgreeChecked: false,
+				isReadAgreeChecked: [],
 				showLoadingHint: false,
 				modalShow: false,
 				modalContent: '',
@@ -268,7 +281,7 @@
 				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!myreg.test(value)) {
 					this.$refs.uToast.show({
-						title: '手机号格式有误,请重新输入!',
+						message: '手机号格式有误,请重新输入!',
 						type: 'error',
 						position: 'bottom'
 					})
@@ -297,8 +310,8 @@
 			getVerificationCodeEvent () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入手机号码!',
-						type: 'warning',
+						message: '请输入手机号码!',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
@@ -306,7 +319,7 @@
 				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!myreg.test(this.form.username)) {
 					this.$refs.uToast.show({
-						title: '手机号格式有误,请重新输入!',
+						message: '手机号格式有误,请重新输入!',
 						type: 'error',
 						position: 'bottom'
 					});
@@ -356,24 +369,24 @@
 			accountLogin () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入手机号',
-						type: 'warning',
+						message: '请输入手机号',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
 				};
 				if (!this.form.password) {
 					this.$refs.uToast.show({
-						title: '请输入密码',
-						type: 'warning',
+						message: '请输入密码',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
 				};
-				if (!this.isReadAgreeChecked) {
+				if (this.isReadAgreeChecked.length == 0) {
 					this.$refs.uToast.show({
-						title: '请阅读并同意协议!',
-						type: 'warning',
+						message: '请阅读并同意协议!',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
@@ -440,24 +453,24 @@
 			codeLogin () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入手机号',
-						type: 'warning',
+						message: '请输入手机号',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
 				};
 				if (!this.form.verificationCode) {
 					this.$refs.uToast.show({
-						title: '请输入验证码',
-						type: 'warning',
+						message: '请输入验证码',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
 				};
-				if (!this.isReadAgreeChecked) {
+				if (this.isReadAgreeChecked.length == 0) {
 					this.$refs.uToast.show({
-						title: '请阅读并同意协议!',
-						type: 'warning',
+						message: '请阅读并同意协议!',
+						type: 'error',
 						position: 'bottom'
 					});
 					return
@@ -505,8 +518,8 @@
 			sendCodeEvent () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入手机号',
-						type: 'warning',
+						message: '请输入手机号',
+						type: 'erroe',
 						position: 'bottom'
 					});
 					return
@@ -521,13 +534,13 @@
 					if ( res && res.data.code == 0) {
 						if (res.data.data == true) {
 							this.$refs.uToast.show({
-								title: '发送成功!',
-								type: 'success',
+								message: '发送成功!',
+								type: 'error',
 								position: 'bottom'
 							})
 						} else {
 							this.$refs.uToast.show({
-								title: res.data.msg,
+								message: res.data.msg,
 								type: 'error',
 								position: 'bottom'
 							})
@@ -558,24 +571,24 @@
 				if (this.isForgetPassword) {
 					if (!this.form.username) {
 						this.$refs.uToast.show({
-							title: '请输入手机号',
-							type: 'warning',
+							message: '请输入手机号',
+							type: 'error',
 							position: 'bottom'
 						});
 						return
 					};
 					if (!this.form.verificationCode) {
 						this.$refs.uToast.show({
-							title: '请输入验证码',
-							type: 'warning',
+							message: '请输入验证码',
+							type: 'error',
 							position: 'bottom'
 						});
 						return
 					};
 					if (this.form.newPassword != this.form.againPassword) {
 						this.$refs.uToast.show({
-							title: '两次密码输入不一致!',
-							type: 'warning',
+							message: '两次密码输入不一致!',
+							type: 'error',
 							position: 'bottom'
 						});
 						return
@@ -590,8 +603,8 @@
 					resetPassword(loginMessage).then((res) => {
 						if ( res && res.data.code == 0) {
 							this.$refs.uToast.show({
-								title: '密码重置成功!',
-								type: 'success',
+								message: '密码重置成功!',
+								type: 'error',
 								position: 'bottom'
 							});
 							this.form = {
@@ -620,8 +633,8 @@
 					// 设置密码
 					if (!this.form.password) {
 						this.$refs.uToast.show({
-							title: '请输入密码',
-							type: 'warning',
+							message: '请输入密码',
+							type: 'error',
 							position: 'bottom'
 						});
 						return
@@ -635,7 +648,7 @@
 						setPassword(loginMessage).then((res) => {
 							if ( res && (res.data.code == 0 || res.data.code == 401) ) {
 								this.$refs.uToast.show({
-									title: '密码设置成功!',
+									message: '密码设置成功!',
 									type: 'success',
 									position: 'bottom'
 								});
@@ -685,7 +698,7 @@
 						})
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -695,7 +708,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -826,8 +839,8 @@
 			}	
 		};
 		.weixin-authorization-info-box {
-			::v-deep .u-drawer {
-				.u-drawer-content {
+			::v-deep .u-transition {
+				.u-popup__content {
 					padding: 10px 20px;
 					box-sizing: border-box;
 					background: #fff;
@@ -1038,28 +1051,21 @@
 							font-size: 14px !important
 						}
 					};
-					u-form-item {
-						.u-form-item {
-							margin-bottom: 20px;
-							.u-line {
-								border-bottom: 1px solid #BBBBBB !important
-							};
-							.u-input {
-								background: #fff;
-							};
-							.item__body__right__content__icon {
-								font-size: 14px;
-								color: #289E8E
-							};
-							.uni-input-placeholder {
-								color: #101010 !important;
-								font-size: 14px !important
-							}
+					.u-form-item {
+						margin-bottom: 20px;
+						.u-line {
+							border-bottom: 1px solid #BBBBBB !important
 						};
-						&:last-child {
-							.u-form-item {
-								margin-bottom: 0 !important
-							}
+						.u-input {
+							background: #fff;
+						};
+						.item__body__right__content__icon {
+							font-size: 14px;
+							color: #289E8E
+						};
+						.uni-input-placeholder {
+							color: #101010 !important;
+							font-size: 14px !important
 						}
 					};
 					.u-border-bottom:after {

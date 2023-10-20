@@ -9,7 +9,7 @@
 		  </view>
 		</view>
 		<view class="message-list-wrapper">
-			<u-empty text="暂无消息" mode="list" v-show="isShowNoData"></u-empty>
+			<u-empty text="暂无消息" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="message-list" @click="enterLatestNewsDetailsEvent">
 					<text>

@@ -104,22 +104,22 @@ try {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 335))
     },
     uTextarea: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-textarea/u-textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-textarea/u-textarea")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-textarea/u-textarea.vue */ 439))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-textarea/u-textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-textarea/u-textarea")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-textarea/u-textarea.vue */ 447))
     },
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 328))
     },
     uTabs: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 447))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 455))
     },
     uEmpty: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 431))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 439))
     },
     uImage: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 408))
     },
     uLoadingIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 511))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 416))
     },
   }
 } catch (e) {
@@ -143,6 +143,38 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function ($event) {
+      _vm.deleteShow = false
+    }
+    _vm.e1 = function ($event) {
+      _vm.deleteShow = false
+    }
+    _vm.e2 = function ($event) {
+      _vm.cancelOrderFormShow = false
+    }
+    _vm.e3 = function ($event) {
+      _vm.cancelOrderFormShow = false
+    }
+    _vm.e4 = function ($event) {
+      _vm.applyRefundShow = false
+    }
+    _vm.e5 = function ($event) {
+      _vm.applyRefundShow = false
+    }
+    _vm.e6 = function ($event) {
+      _vm.quitPayShow = false
+    }
+    _vm.e7 = function ($event) {
+      _vm.quitPayShow = false
+    }
+    _vm.e8 = function ($event) {
+      _vm.haveDeleteShow = false
+    }
+    _vm.e9 = function ($event) {
+      _vm.remindSendOrdersShow = false
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -190,7 +222,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 424));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 432));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -206,7 +238,8 @@ var _default = {
       haveDeleteShow: false,
       cancelOrderFormShow: false,
       quitPayShow: false,
-      applyRefundShow: true,
+      applyRefundShow: false,
+      remindSendOrdersShow: false,
       refundReason: '',
       deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员资讯',
       haveDeleteInfoContent: '已删除订单',
@@ -220,7 +253,9 @@ var _default = {
         name: '待付款'
       }, {
         name: '派单中',
-        count: 5
+        badge: {
+          value: 90
+        }
       }, {
         name: '服务中'
       }, {
@@ -241,6 +276,22 @@ var _default = {
     change: function change(index) {
       this.current = index.index;
     },
+    // 提醒派单事件
+    remindSendOrdersEvent: function remindSendOrdersEvent() {
+      this.remindSendOrdersShow = true;
+    },
+    // 订单评价事件
+    orderFormEvaluateEvent: function orderFormEvaluateEvent() {
+      uni.redirectTo({
+        url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate'
+      });
+    },
+    // 修改订单事件
+    editOrderFormEvent: function editOrderFormEvent() {
+      uni.redirectTo({
+        url: '/orderFormPackage/pages/orderFormEdit/orderFormEdit'
+      });
+    },
     // 订单详情点击事件
     enterOrderDetailsEvent: function enterOrderDetailsEvent() {
       // 派单中
@@ -251,6 +302,18 @@ var _default = {
       uni.redirectTo({
         url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
       });
+      // 待付款
+      // uni.redirectTo({
+      // 	url: '/orderFormPackage/pages/orderFormStayPayment/orderFormStayPayment'
+      // });
+      // 服务中
+      // uni.redirectTo({
+      // 	url: '/orderFormPackage/pages/orderFormInService/orderFormInService'
+      // });
+      // 待评价
+      // uni.redirectTo({
+      // 	url: '/orderFormPackage/pages/orderFormStayEvaluate/orderFormStayEvaluate'
+      // })
     },
     // 订单详情点击事件(取消|退款)
     enterOrderDetailsEventOther: function enterOrderDetailsEventOther() {
