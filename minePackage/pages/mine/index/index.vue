@@ -1,6 +1,6 @@
 <template>
 	<view class="wrapper-box">
-		我的首页
+		我的�
 	</view>
 </template>
 

@@ -39,7 +39,7 @@
 					<view class="service-title-left">推荐服务</view>
 					<view class="service-title-right">我们的每一位护工都是经过严格培训!</view>
 				</view>
-				<view class="service-list">
+				<view class="service-list" @click="enterServiceDetailsEvent">
 					<view class="service-list-left">
 						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
 							 <template v-slot:loading>
@@ -236,6 +236,13 @@
 			enterMessageListEvent () {
 				uni.redirectTo({
 					url: '/messagePackage/pages/message/index/index'
+				})
+			},
+			
+			// 进入服务详情事件
+			enterServiceDetailsEvent () {
+				uni.redirectTo({
+					url: '/servicePackage/pages/service/index/index'
 				})
 			},
 			
