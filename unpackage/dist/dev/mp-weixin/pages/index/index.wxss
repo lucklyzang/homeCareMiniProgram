@@ -55,7 +55,7 @@ page {
   padding: 10px;
   box-sizing: border-box;
   width: 100%;
-  margin: 44px 0 10px 0;
+  margin: 80px 0 10px 0;
 }
 .content-box .top-area .top-area-left {
   flex: 1;

@@ -5,6 +5,8 @@
   "backgroundColorBottom": "#fff",
   "usingComponents": {
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-tabs": "/node-modules/uview-ui/components/u-tabs/u-tabs",
+    "u-rate": "/node-modules/uview-ui/components/u-rate/u-rate",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }

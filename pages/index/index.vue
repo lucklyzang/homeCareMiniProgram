@@ -86,7 +86,7 @@
 						<u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon>
 					</view>
 				</view>
-				<view class="nurse-practitioner-list">
+				<view class="nurse-practitioner-list" @click="viewSpecialistDetailsEvent">
 					<view class="nurse-practitioner-list-left">
 						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
 							 <template v-slot:loading>
@@ -246,6 +246,13 @@
 				})
 			},
 			
+			// 查看护师详情事件
+			viewSpecialistDetailsEvent () {
+				uni.redirectTo({
+					url: '/servicePackage/pages/specialistDetails/specialistDetails'
+				})
+			},
+			
 			// 获取首页banner列表
 			queryUserBannerList () {
 				this.showLoadingHint = true;
@@ -313,7 +320,7 @@
 			padding: 10px;
 			box-sizing: border-box;
 			width: 100%;
-			margin: 44px 0 10px 0;
+			margin: 80px 0 10px 0;
 			.top-area-left {
 				flex: 1;
 				::v-deep .u-search {

@@ -19,7 +19,8 @@
     {
       "root": "servicePackage",
       "pages": [
-        "pages/service/index/index"
+        "pages/service/index/index",
+        "pages/specialistDetails/specialistDetails"
       ],
       "name": "rootServicePackage"
     },
