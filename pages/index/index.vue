@@ -81,7 +81,7 @@
 					<view class="nurse-practitioner-title-left">
 						<text>推荐护师</text>
 					</view>
-					<view class="nurse-practitioner-title-right">
+					<view class="nurse-practitioner-title-right" @click="viewMoreSpecialistEvent">
 						<text>查看更多</text>
 						<u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon>
 					</view>
@@ -250,6 +250,13 @@
 			viewSpecialistDetailsEvent () {
 				uni.redirectTo({
 					url: '/servicePackage/pages/specialistDetails/specialistDetails'
+				})
+			},
+			
+			// 查看更多护师事件
+			viewMoreSpecialistEvent () {
+				uni.redirectTo({
+					url: '/servicePackage/pages/moreSpecialist/moreSpecialist'
 				})
 			},
 			

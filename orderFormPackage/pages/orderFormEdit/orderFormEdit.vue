@@ -177,8 +177,8 @@
 		data() {
 			return {
 				count: 5,
-				sureCancelShow: false,
 				rateValue: 5,
+				sureCancelShow: false,
 				imgArr: [],
 				temporaryImgPathArr: [],
 				isReadAgreeChecked: [],

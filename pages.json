@@ -109,6 +109,24 @@
 						"backgroundColorTop": "#fff,",
 						"backgroundColorBottom": "#fff"
 					}
+				},
+				{
+					"path": "pages/moreSpecialist/moreSpecialist",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/moreUseEvaluate/moreUseEvaluate",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
 				}
 			]
 		},
