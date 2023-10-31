@@ -200,24 +200,19 @@
 				})
 			},
 			
-			// 底部功能区点击事件
+			//底部功能区点击事件
 			bottomFunctionClickEvent (name) {
-				if (name == '帮助与反馈') {
+				if (name == '我的医护') {
 					uni.redirectTo({
-						url: '/generalSetPackage/pages/generalSet/index/index'
+						url: '/servicePackage/pages/moreSpecialist/moreSpecialist'
 					})
-				} else if (name == '关于APP') {
+				} else if (name == '收藏') {
 					uni.redirectTo({
-						url: '/generalSetPackage/pages/aboutApp/aboutApp'
+						url: '/minePackage/pages/myCollect/myCollect'
 					})
-				} else if (name == '家庭管理') {
+				} else if (name == '我的地址') {
 					uni.redirectTo({
-						url: '/generalSetPackage/pages/familyManagement/familyManagement'
-					});
-					this.changeEnterFamilyManagementPageSource('/pages/personInfo/personInfo')
-				} else if (name == '通用设置') {
-					uni.redirectTo({
-						url: '/generalSetPackage/pages/generalSetting/generalSetting'
+						url: '/minePackage/pages/addressManagement/addressManagement'
 					})
 				}
 			}

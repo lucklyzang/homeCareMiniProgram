@@ -3,7 +3,7 @@
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area">
-			<view class="top-area-left">
+			<view class="top-area-left" @click="searchEvent">
 				<u-search placeholder="输入医院护士服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
 			</view>
 			<view class="top-area-right">
@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="banner-area-box">
-			<u-swiper  keyName="image"  indicator :list="bannerList"></u-swiper>
+			<u-swiper @click="swiperClickEvent" keyName="image"  indicator :list="bannerList"></u-swiper>
 		</view>
 		<view class="center-area">
 			<view class="nurse-type">
@@ -232,10 +232,24 @@
 			...mapMutations([
 			]),
 			
+			// 轮播图点击事件
+			swiperClickEvent (index) {
+				uni.redirectTo({
+					url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
+				})
+			},
+			
 			// 进入最新资讯列表事件
 			enterMessageListEvent () {
 				uni.redirectTo({
 					url: '/messagePackage/pages/message/index/index'
+				})
+			},
+			
+			// 进入搜索页事件
+			searchEvent () {
+				uni.redirectTo({
+					url: '/servicePackage/pages/searchDetails/searchDetails'
 				})
 			},
 			
@@ -347,7 +361,7 @@
 						margin-right: 14px
 					}
 				}
-			};
+			}
 		};
 		.banner-area-box {
 			padding: 0 10px 10px 10px;
