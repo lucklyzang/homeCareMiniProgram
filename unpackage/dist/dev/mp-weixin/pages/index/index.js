@@ -101,25 +101,25 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 412))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 445))
     },
     uSearch: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-search/u-search.vue */ 476))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-search/u-search.vue */ 509))
     },
     uSwiper: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 484))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 517))
     },
     uImage: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 492))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 525))
     },
     uLoadingIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 500))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 533))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 403))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 436))
     },
     uRate: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-rate/u-rate */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-rate/u-rate")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-rate/u-rate.vue */ 508))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-rate/u-rate */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-rate/u-rate")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-rate/u-rate.vue */ 541))
     },
   }
 } catch (e) {
@@ -230,10 +230,22 @@ var _default = {
     workerId: function workerId() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)([])), {}, {
+    // 轮播图点击事件
+    swiperClickEvent: function swiperClickEvent(index) {
+      uni.redirectTo({
+        url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
+      });
+    },
     // 进入最新资讯列表事件
     enterMessageListEvent: function enterMessageListEvent() {
       uni.redirectTo({
         url: '/messagePackage/pages/message/index/index'
+      });
+    },
+    // 进入搜索页事件
+    searchEvent: function searchEvent() {
+      uni.redirectTo({
+        url: '/servicePackage/pages/searchDetails/searchDetails'
       });
     },
     // 进入服务详情事件

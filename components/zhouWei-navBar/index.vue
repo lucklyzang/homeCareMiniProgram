@@ -412,11 +412,11 @@ export default {
 
 .header_left_back {
 	height: 100%;
+	width: 40px;
 	/* #ifndef APP-PLUS-NVUE */
 	display: flex;
 	/* #endif */
 	align-items: center;
-	justify-content: center;
 	>text {
 		font-size: 14px;
 		color: #f2f2f2;

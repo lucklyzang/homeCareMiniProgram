@@ -265,6 +265,51 @@
 						"backgroundColorTop": "#fff,",
 						"backgroundColorBottom": "#fff"
 					}
+				},
+				{
+					"path": "pages/addAddress/addAddress",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/mapChooseAddress/mapChooseAddress",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/aboutAgreement/aboutAgreement",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/myProtectedPersons/myProtectedPersons",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/addProtectedPersons/addProtectedPersons",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
 				}
 			]	
 		}

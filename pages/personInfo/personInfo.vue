@@ -214,6 +214,18 @@
 					uni.redirectTo({
 						url: '/minePackage/pages/addressManagement/addressManagement'
 					})
+				} else if (name == '相关协议') {
+					uni.redirectTo({
+						url: '/minePackage/pages/aboutAgreement/aboutAgreement'
+					})
+				} else if (name == '我的被护人') {
+					uni.redirectTo({
+						url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
+					})
+				} else if (name == '初步评估单管理') {
+					uni.redirectTo({
+						url: '/minePackage/pages/mine/index/index'
+					})
 				}
 			}
 		}

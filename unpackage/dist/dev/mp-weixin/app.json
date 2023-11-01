@@ -12,7 +12,8 @@
       "root": "messagePackage",
       "pages": [
         "pages/message/index/index",
-        "pages/latestNewsDetails/latestNewsDetails"
+        "pages/latestNewsDetails/latestNewsDetails",
+        "pages/advertisingDetails/advertisingDetails"
       ],
       "name": "rootMessagePackage"
     },
@@ -22,7 +23,8 @@
         "pages/service/index/index",
         "pages/specialistDetails/specialistDetails",
         "pages/moreSpecialist/moreSpecialist",
-        "pages/moreUseEvaluate/moreUseEvaluate"
+        "pages/moreUseEvaluate/moreUseEvaluate",
+        "pages/searchDetails/searchDetails"
       ],
       "name": "rootServicePackage"
     },
@@ -44,7 +46,14 @@
     {
       "root": "minePackage",
       "pages": [
-        "pages/mine/index/index"
+        "pages/mine/index/index",
+        "pages/myCollect/myCollect",
+        "pages/addressManagement/addressManagement",
+        "pages/addAddress/addAddress",
+        "pages/mapChooseAddress/mapChooseAddress",
+        "pages/aboutAgreement/aboutAgreement",
+        "pages/myProtectedPersons/myProtectedPersons",
+        "pages/addProtectedPersons/addProtectedPersons"
       ],
       "name": "rootMinePackage"
     }

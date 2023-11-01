@@ -70,9 +70,9 @@
 }
 .header_left_back {
   height: 100%;
+  width: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 .header_left_back > text {
   font-size: 14px;

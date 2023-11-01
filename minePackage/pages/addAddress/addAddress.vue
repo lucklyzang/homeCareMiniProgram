@@ -1,0 +1,229 @@
+<template>
+	<view class="content-box">
+		<u-toast ref="uToast" />
+		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
+		<view class="top-area-box">
+			<view class="nav">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="地址管理" @backClick="backTo">
+				</nav-bar> 
+		  </view>
+		</view>
+		<view class="address-list-box">
+			<view class="site-box">
+				<view class="site-left">
+					<text>省市地址</text>
+				</view>
+				<view class="site-center">
+					<text>点击选择所在地址</text>
+				</view>
+				<view class="site-right" @click="mapChooseSiteEvent">
+					<text>定位</text>
+					<image :src="addressBlackIconPng"></image>
+				</view>
+			</view>
+			<view class="details-site-box">
+				<text>详细地址</text>
+				<u--textarea  maxlength="500" height="200" v-model="detailSiteValue" :count="true" placeholder="请输入详细地址" ></u--textarea>
+			</view>
+			<view class="default-site-radio-box">
+				<text>默认地址</text>
+				<u-checkbox-group 
+						v-model="checked"
+						 @change="checkboxChange"
+						shape="circle">
+					<u-checkbox activeColor="#F16C8C" size="24" iconSize="20" name="默认地址"></u-checkbox>
+				</u-checkbox-group>
+			</view>
+		</view>
+		<view class="add-btn">
+			<text>确认保存</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {
+		mapGetters,
+		mapMutations
+	} from 'vuex'
+	import {
+		setCache,
+		removeAllLocalStorage
+	} from '@/common/js/utils'
+	import navBar from "@/components/zhouWei-navBar"
+	export default {
+		components: {
+			navBar
+		},
+		data() {
+			return {
+				showLoadingHint: false,
+				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
+				infoText: '加载中',
+				detailSiteValue: '',
+				checked: ["默认地址"]
+			}
+		},
+		computed: {
+			...mapGetters([
+				'userBasicInfo'
+			]),
+			userName() {
+			},
+			proId() {
+			}
+		},
+		onShow() {
+		},
+		methods: {
+			...mapMutations([
+			]),
+			
+			// 顶部导航返回事件
+			backTo () {
+				uni.redirectTo({
+					url: '/minePackage/pages/addressManagement/addressManagement'
+				})
+			},
+			
+			checkboxChange(n) {
+					console.log('change', n);
+			},
+			
+			// 地图选择地址事件
+			mapChooseSiteEvent () {
+				uni.redirectTo({
+					url: '/minePackage/pages/mapChooseAddress/mapChooseAddress'
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import "~@/common/stylus/variable.scss";
+	page {
+		width: 100%;
+		height: 100%;
+	};
+	.content-box {
+		@include content-wrapper;
+		background: #f1f1f1;
+		.top-area-box {
+			position: relative;
+			background: #F8F8F8;
+			width: 100%;
+			height: 100px;
+			::v-deep .nav {
+				width: 100%;
+				background: #F8F8F8;
+				position: absolute;
+				top: 0;
+				left: 0;
+				.header_title_center {
+					color: #101010 !important;
+					text {
+						color: #101010 !important;
+					}
+				}
+			}
+		};
+		.address-list-box {
+			flex: 1;
+			overflow: auto;
+			padding: 0 0 10px 0;
+			box-sizing: border-box;
+			.site-box {
+				height: 100px;
+				background: #fff;
+				display: flex;
+				align-items: center;
+				padding: 0 6px;
+				box-sizing: border-box;
+				margin-bottom: 2px;
+				.site-left {
+					font-size: 14px;
+					color: #333838
+				};
+				.site-center {
+					flex: 1;
+					margin: 0 10px;
+					height: 40px;
+					display: flex;
+					align-items: center;
+					padding-left: 14px;
+					box-sizing: border-box;
+					background: #E3E3E3;
+					border-radius: 4px;
+					>text {
+						font-size: 14px;
+						color: #020202;
+					}
+				};
+				.site-right {
+					font-size: 14px;
+					color: #686868;
+					>image {
+						width: 26px;
+						height: 33px;
+						vertical-align: middle;
+						margin-left: 2px;
+					}
+				}
+			};
+			.details-site-box {
+				height: 200px;
+				background: #fff;
+				display: flex;
+				padding: 10px 6px;
+				box-sizing: border-box;
+				>text {
+					padding-top: 20px;
+					box-sizing: border-box;
+					margin-right: 20px;
+					font-size: 14px;
+					color: #333838
+				};
+				::v-deep .u-textarea {
+					border: none !important;
+					background: #F8F8F8 !important;
+					padding: 20px 10px 10px 10px !important;
+					border-radius: 4px !important;
+					.u-textarea__count {
+						background: #F8F8F8 !important;
+					}
+				}
+			};
+			.default-site-radio-box {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 10px 6px;
+				box-sizing: border-box;
+				background: #fff;
+				height: 40px;
+				margin-top: 10px;
+				>text {
+					font-size: 14px;
+					color: #333838
+				}
+			}
+		};
+		.add-btn {
+			height: 100px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			>text {
+				width: 94%;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				font-size: 18px;
+				color: #FFFFFF;
+				background: #F16C8C;
+				border-radius: 10px;
+			}
+		}
+	}
+</style>
