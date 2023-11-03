@@ -24,7 +24,8 @@
         "pages/specialistDetails/specialistDetails",
         "pages/moreSpecialist/moreSpecialist",
         "pages/moreUseEvaluate/moreUseEvaluate",
-        "pages/searchDetails/searchDetails"
+        "pages/searchDetails/searchDetails",
+        "pages/reservationServiceList/reservationServiceList"
       ],
       "name": "rootServicePackage"
     },
@@ -53,7 +54,9 @@
         "pages/mapChooseAddress/mapChooseAddress",
         "pages/aboutAgreement/aboutAgreement",
         "pages/myProtectedPersons/myProtectedPersons",
-        "pages/addProtectedPersons/addProtectedPersons"
+        "pages/addProtectedPersons/addProtectedPersons",
+        "pages/evaluationFormList/evaluationFormList",
+        "pages/createEvaluationForm/createEvaluationForm"
       ],
       "name": "rootMinePackage"
     }

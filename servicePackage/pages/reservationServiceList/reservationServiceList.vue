@@ -1,5 +1,6 @@
 <template>
 	<view class="content-box">
+		<!-- 用户授权协议弹框 -->
 		<view class="user-license-agreement-box">
 			<u-modal :show="userLicenseAgreementShow" :showConfirmButton="false" width="690rpx">
 				<view class="slot-content">
@@ -25,10 +26,38 @@
 				</view>
 			</u-modal>
 		</view>
+		<!-- 期望服务时间选择弹框 -->
+		<view class="expectation-service-time-box">
+			<u-modal :show="expectationServiceTimeShow" :showConfirmButton="false" width="750rpx">
+				<view class="slot-content">
+					<view class="btn-area">
+						<view @click="expectationServiceTimeBoxCancel">
+							<text>取消</text>
+						</view>
+						<view @click="expectationServiceTimeBoxSure">
+							<text>确定</text>
+						</view>
+					</view>
+					<view class="expectation-service-time-content">
+						<view class="expectation-service-time-content-left">
+							<view class="date-list" :class="{'dateListStyle': currentDateIndex === index}" @click="dateItemClickEvent(item,index)" v-for="(item,index) in currentDateList">
+								<text>{{ item['showDate'] }}</text>
+							</view>
+						</view>
+						<view class="expectation-service-time-content-right">
+							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index}" @click="timeQuantumItemClickEvent(item,index)" v-for="(item,index) in timeQuantumList">
+								<text>{{ item }}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</u-modal>
+		</view>
+		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="sureCancelShow" title="确定删除此图片?" :showCancelButton="true" @confirm="sureCancel" @cancel="cancelSure"></u-modal>
 		<view class="top-area-box">
 			<view class="nav">
-				<nav-bar :home="false" backState='3000' bgColor="none" title="订单修改" @backClick="backTo">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="订单确认" @backClick="backTo">
 				</nav-bar> 
 		  </view>
 		</view>
@@ -48,7 +77,45 @@
 					</view>
 				</view>
 			</view>
-			<view class="nurse-practitioner-list">
+			<view class="serve-people-message">
+				<view class="serve-site">
+					<view class="serve-site-left">
+						<image :src="serviceSitePng"></image>
+						<text>服务地址</text>
+					</view>
+					<view class="serve-site-right">
+						上门服务详细地址
+					</view>
+				</view>
+				<view class="serve-site serve-person">
+					<view class="serve-site-left">
+						<image :src="serviceTimePng"></image>
+						<text>服务时间</text>
+					</view>
+					<view class="serve-site-right" @click="expectationServiceTimeClickEvent">
+						期望服务时间
+					</view>
+				</view>
+				<view class="serve-site evaluation-form">
+					<view class="serve-site-left">
+						<image :src="servedPersonPng"></image>
+						<text>被服务人</text>
+					</view>
+					<view class="serve-site-right">
+						请选择被服务人
+					</view>
+				</view>
+				<view class="serve-site serve-time">
+					<view class="serve-site-left">
+						<image :src="evaluationFormPng"></image>
+						<text>初步评估单</text>
+					</view>
+					<view class="serve-site-right">
+						点击填写评估单
+					</view>
+				</view>
+			</view>
+			<view class="nurse-practitioner-list-platform-recommend" v-if="isPlatformRecommendNurse">
 				<view class="nurse-practitioner-list-top">
 					<text>从业10年以上</text>
 				</view>
@@ -83,56 +150,33 @@
 								<text>345</text>
 								<text>小时</text>
 							</view>
-						</view>	
-						<view class="nurse-practitioner-performance-price">
-							<text>￥300.00</text>
 						</view>
 					</view>
 					<view class="good-territory">
 						<text>乳腺疏通</text>
 						<text>黄疸检测</text>
 					</view>
-					<view class="cut-nurse">
+					<view class="cut-nurse" @click="cutNurseEvent('指定')">
 						<image :src="cutIconPng"></image>
-						<text>切换为平台推荐护士</text>
+						<text>切换为指定护士</text>
 					</view>
 				</view>
 			</view>
-			<view class="serve-people-message">
-				<view class="serve-site">
-					<view class="serve-site-left">
-						<image :src="serviceSitePng"></image>
-						<text>服务地址</text>
-					</view>
-					<view class="serve-site-right">
-						环球中心1号门一单元1楼101
-					</view>
+			<view class="nurse-practitioner-list-platform-assign" v-else>
+				<view class="nurse-practitioner-list-platform-assign-left">
+					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
+					</u-image>
 				</view>
-				<view class="serve-site serve-person">
-					<view class="serve-site-left">
-						<image :src="serviceTimePng"></image>
-						<text>服务时间</text>
+				<view class="nurse-practitioner-list-platform-assign-right">
+					<view class="platform-assign-right-top">
+						<text>平台指派护士</text>
 					</view>
-					<view class="serve-site-right">
-						06月14日 (周三) 上午8:00 - 9:00
-					</view>
-				</view>
-				<view class="serve-site evaluation-form">
-					<view class="serve-site-left">
-						<image :src="servedPersonPng"></image>
-						<text>被服务人</text>
-					</view>
-					<view class="serve-site-right">
-						燕双鹰 男 26岁 16378299834
-					</view>
-				</view>
-				<view class="serve-site serve-time">
-					<view class="serve-site-left">
-						<image :src="evaluationFormPng"></image>
-						<text>初步评估单</text>
-					</view>
-					<view class="serve-site-right">
-						已填写
+					<view class="platform-assign-right-bottom" @click="cutNurseEvent('推荐')">
+						<image :src="cutIconPng"></image>
+						<text>切换为平台推荐护士</text>
 					</view>
 				</view>
 			</view>
@@ -209,12 +253,14 @@
 				temporaryImgPathArr: [],
 				isReadAgreeChecked: [],
 				userLicenseAgreementShow: false,
+				expectationServiceTimeShow: false,
 				checkboxList: [
 					{
 						name: '阅读并同意协议',
 						disabled: false
 					}
 				],
+				isPlatformRecommendNurse: false,
 				timeUserLicenseAgreement: null,
 				imgIndex: '',
 				countTime: '',
@@ -223,7 +269,19 @@
 				serviceSitePng: require("@/static/img/service-site.png"),
 				serviceTimePng: require("@/static/img/service-time.png"),
 				servedPersonPng: require("@/static/img/served-person.png"),
-				evaluationFormPng: require("@/static/img/evaluation-form.png")
+				evaluationFormPng: require("@/static/img/evaluation-form.png"),
+				currentTimeQuantumIndex: '',
+				currentDateIndex: 0,
+				currentSelectDate: '',
+				currentSelectTimeQuantum: '',
+				currentDateList: [],
+				currentMonth: '',
+				currentMonthDay: '',
+				currentDate: '',
+				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
+				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15 ：00',
+				'下午15：00—16：00','下午16：00—17：00','下午17：00—18：00'
+				]
 			}
 		},
 		computed: {
@@ -243,9 +301,52 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/orderForm/orderForm'
+				uni.redirectTo({
+					url: '/servicePackage/pages/service/index/index'
 				})
+			},
+			
+			// 切换护士类型事件
+			cutNurseEvent (text) {
+				if (text == '指定') {
+					this.isPlatformRecommendNurse = false
+				} else {
+					this.isPlatformRecommendNurse = true
+				}
+			},
+			
+			// 日期列表项点击事件
+			dateItemClickEvent (item,index) {
+				this.currentDateIndex = index;
+				this.currentSelectDate = item;
+				this.currentTimeQuantumIndex = 0
+			},
+			
+			// 时间段列表项点击事件
+			timeQuantumItemClickEvent (item,index) {
+				// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
+				if (this.currentDateIndex == 0) {
+					let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
+					if (new Date(fullDateTime).getTime() > new Date().getTime()) {
+						this.currentTimeQuantumIndex = index
+					} else {
+						this.$refs.uToast.show({
+							message: "当前选择时间段已过期,请重新选择!",
+						})
+					}
+				} else {
+					this.currentTimeQuantumIndex = index
+				}
+			},
+			
+			// 期望服务时间弹框取消事件
+			expectationServiceTimeBoxCancel () {
+				this.expectationServiceTimeShow = false
+			},
+			
+			// 期望服务时间弹框确定事件
+			expectationServiceTimeBoxSure () {
+				this.expectationServiceTimeShow = false
 			},
 			
 			// 用户授权协议确定事件
@@ -272,6 +373,97 @@
 					}, 1000)
 				};
 				this.userLicenseAgreementShow = true
+			},
+			
+			// 期望服务时间点击事件
+			expectationServiceTimeClickEvent () {
+				this.expectationServiceTimeShow = true;
+				this.getCurrentMonth();
+				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
+				this.createCurrentMonthDate();
+				this.currentSelectDate = this.currentDateList[0]
+			},
+			
+			// 获取当前月份和当前日期
+			getCurrentMonth () {
+				if (new Date().getMonth() + 1 < 10) {
+					this.currentMonth = `0${new Date().getMonth() + 1}`
+				} else {
+					this.currentMonth = new Date().getMonth() + 1
+				};
+				if (new Date().getDate() < 10) {
+					this.currentDate = `0${new Date().getDate()}`
+				} else {
+					this.currentDate = new Date().getDate()
+				}
+			},
+			
+			// 获取当前月的天数
+			getMonthDay (year, month) {
+			  let days = new Date(year, month, 0).getDate()
+			  this.currentMonthDay = days
+			},
+			
+			// 创建当前月的日期
+			createCurrentMonthDate () {
+				for (let i = new Date().getDate(); i <= this.currentMonthDay; i++) {
+					let currentDate = i < 10 ? `0${i}` : i;
+					let temporaryActualDate = `${new Date().getFullYear()}-${this.currentMonth}-${currentDate}`;
+					let temporaryShowDate = this.getNowFormatDateText(temporaryActualDate);
+					let temporaryWeek = this.judgeWeek(temporaryActualDate);
+					this.currentDateList.push(
+						{
+							actualDate: temporaryActualDate,
+							showDate: `${temporaryShowDate} (${temporaryWeek})`
+						}
+					)
+				}
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate,type) {
+				// type: 2(只展示月)
+				let currentdate;
+				let strDate = new Date(currentDate).getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let month = new Date(currentDate).getMonth() + 1;
+				let hour = new Date(currentDate).getHours();
+				if (type == 2) {
+					currentdate = month + seperator1
+				} else {
+					currentdate = month + seperator1 + strDate + seperator2
+				};
+				return currentdate
+			},
+			
+			// 判断周几
+			judgeWeek (currentDate) {
+				let date = new Date(currentDate);
+				let day = date.getDay();
+				switch (day) {
+					case 0:
+						return "周日"
+						break;
+					case 1:
+						return "周一"
+						break;
+					case 2:
+						return "周二"
+						break;
+					case 3:
+						return "周三"
+						break;
+					case 4:
+						return "周四"
+						break;
+					case 5:
+						return "周五"
+						break;
+					case 6:
+						return "周六"
+						break
+					}
 			},
 			
 			// 弹框确定按钮
@@ -394,6 +586,97 @@
 				}	
 			}
 		};
+		.expectation-service-time-box {
+			::v-deep .u-popup {
+				.u-popup__content {
+					border-radius: 0 !important;
+					border-top-left-radius: 20px !important;
+					border-top-right-radius: 20px !important;
+					position: fixed;
+					bottom: 0;
+					.u-modal {
+						height: 50vh;
+						.u-modal__content {
+							padding: 10px !important;
+							height: 100%;
+							box-sizing: border-box;
+							.slot-content {
+								width: 100%;
+								height: 100%;
+								display: flex;
+								flex-direction: column;
+								.btn-area {
+									display: flex;
+									height: 50px;
+									width: 100%;
+									>view {
+										flex: 1;
+										width: 0;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										&:first-child {
+											color: #101010;
+											font-size: 14px
+										};
+										&:last-child {
+											color: #F16C8C;
+											font-size: 14px
+										}
+									}
+								};
+								.expectation-service-time-content {
+									flex: 1;
+									height: 0;
+									display: flex;
+									>view {
+										flex: 1;
+										overflow: auto;
+									};
+									.expectation-service-time-content-left {
+										padding: 10px;
+										box-sizing: border-box;
+										border-radius: 10px;
+										.date-list {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											height: 30px;
+											font-size: 14px;
+											margin-bottom: 4px;
+											color: #101010
+										};
+										.dateListStyle {
+											background: #F1F1F1;
+											border-radius: 5px
+										}
+									};
+									.expectation-service-time-content-right {
+										padding: 10px;
+										box-sizing: border-box;
+										border-radius: 10px;
+										background: #F1F1F1;
+										.time-quantum-list {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											height: 30px;
+											font-size: 14px;
+											margin-bottom: 4px;
+											color: #101010
+										};
+										.timeQuantumListStyle {
+											background: #fff;
+											border-radius: 5px
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};	
 		.top-area-box {
 			position: relative;
 			width: 100%;
@@ -463,9 +746,54 @@
 					}
 				}
 			};
-			.nurse-practitioner-list {
+			.nurse-practitioner-list-platform-assign {
 				margin-top: 4px;
-				padding: 30px 6px 20px 6px;
+				padding: 30px 10px 20px 10px;
+				box-sizing: border-box;
+				background: #fff;
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				position: relative;
+				.nurse-practitioner-list-platform-assign-left {
+					width: 73px;
+					height: 73px;
+					margin-right: 10px;
+					border-radius: 50%;
+					::v-deep .u-image {
+						width: 73px !important;
+						height: 73px !important
+					}
+				};
+				.nurse-practitioner-list-platform-assign-right {
+					.platform-assign-right-top {
+						color: #000000;
+						font-size: 18px;
+					};
+					.platform-assign-right-bottom {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 185px;
+						height: 31px;
+						margin-top: 16px;
+						border-radius: 10px;
+						background: linear-gradient(to right, #ffa7c0, #FC4278);
+						>image {
+							width: 27px;
+							height: 22px;
+							margin-right: 8px
+						};
+						>text {
+							font-size: 12px;
+							color: #fff
+						}
+					}
+				};
+			};
+			.nurse-practitioner-list-platform-recommend {
+				margin-top: 4px;
+				padding: 30px 10px 20px 10px;
 				box-sizing: border-box;
 				background: #fff;
 				border-radius: 8px;
@@ -575,17 +903,6 @@
 									}
 								}
 							}
-						};
-						.nurse-practitioner-performance-price {
-							flex: 1;
-							text-align: right;
-							padding-right: 20px;
-							box-sizing: border-box;
-							>text {
-								font-size: 18px;
-								color: #E95E5E;
-								font-weight: bold
-							}
 						}
 					};
 					.good-territory {
@@ -655,8 +972,8 @@
 						box-sizing: border-box;
 						flex: 1;
 						word-break: break-all;
-						font-size: 15px;
-						color: #F16C8C
+						font-size: 14px;
+						color: #777777
 					}
 				}
 			};

@@ -24,7 +24,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
 var ourLoading = function ourLoading() {
   __webpack_require__.e(/*! require.ensure | components/our-loading/our-loading */ "components/our-loading/our-loading").then((function () {
-    return resolve(__webpack_require__(/*! @/components/our-loading/our-loading.vue */ 421));
+    return resolve(__webpack_require__(/*! @/components/our-loading/our-loading.vue */ 484));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 _vue.default.prototype.$noMultipleClicks = _utils.noMultipleClicks;

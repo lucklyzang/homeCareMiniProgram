@@ -118,7 +118,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="appointment-btn-area">
+		<view class="appointment-btn-area" @click="appointmentServiceEvent">
 			<text>预约</text>
 		</view>
 	</view>
@@ -184,6 +184,13 @@
 			// tab切换事件
 			tabClickEvent (item) {
 				this.current = item.index
+			},
+			
+			// 预约服务事件
+			appointmentServiceEvent () {
+				uni.redirectTo({
+					url: '/servicePackage/pages/reservationServiceList/reservationServiceList'
+				})
 			}
 		}
 	}
