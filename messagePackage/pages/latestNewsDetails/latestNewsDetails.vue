@@ -55,9 +55,7 @@
 
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/messagePackage/pages/message/index/index'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

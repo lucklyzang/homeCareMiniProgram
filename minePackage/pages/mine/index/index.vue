@@ -105,9 +105,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
 			},
 			
 			checkboxChange(n) {
@@ -116,10 +114,10 @@
 			
 			// 新增评估单事件
 			addEvaluationformEvent () {
-				// uni.redirectTo({
+				// uni.navigateTo({
 				// 	url: '/minePackage/pages/evaluationFormList/evaluationFormList'
 				// });
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/minePackage/pages/createEvaluationForm/createEvaluationForm'
 				})
 			}

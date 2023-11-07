@@ -46,7 +46,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import { getUserMessage, getUserDeviceCount } from '@/api/user.js'
+	import { getUserMessage } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -58,7 +58,6 @@
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
 				showLoadingHint: false,
-				deviceNumber: 0,
 				personPhotoSource: '',
 				niceNameValue: '张三',
 				functionList: [
@@ -131,19 +130,16 @@
 			} else {
 				this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
 				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
-			};
-			// 获取用户设备数量
-			this.queryUserDeviceNumber()
+			}
 		},
 		methods: {
 			...mapMutations([
-				'changeUserBasicInfo',
-				'changeEnterFamilyManagementPageSource'
+				'changeUserBasicInfo'
 			]),
 			
 			// 头像点击事件
 			enterPersonMessagePageEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/privateInfo/privateInfo'
 				})
 			},
@@ -176,54 +172,30 @@
 				})
 			},
 			
-			// 获取用户设备数量
-			queryUserDeviceNumber () {
-				getUserDeviceCount().then((res) => {
-					if ( res && res.data.code == 0) {
-						this.deviceNumber = res.data.data
-					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					}	
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						title: err.message,
-						type: 'error',
-						position: 'bottom'
-					})
-				})
-			},
-			
 			//底部功能区点击事件
 			bottomFunctionClickEvent (name) {
 				if (name == '我的医护') {
-					uni.redirectTo({
-						url: '/servicePackage/pages/moreSpecialist/moreSpecialist'
+					uni.navigateTo({
+						url: '/minePackage/pages/myNurse/myNurse'
 					})
 				} else if (name == '收藏') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/minePackage/pages/myCollect/myCollect'
 					})
 				} else if (name == '我的地址') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/minePackage/pages/addressManagement/addressManagement'
 					})
 				} else if (name == '相关协议') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/minePackage/pages/aboutAgreement/aboutAgreement'
 					})
 				} else if (name == '我的被护人') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
 					})
 				} else if (name == '初步评估单管理') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/minePackage/pages/mine/index/index'
 					})
 				}

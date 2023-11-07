@@ -7,10 +7,39 @@
 				<u-icon name="arrow-left" color="#101010" size="22"></u-icon>
 			</view>
 			<view class="search-box">
-				<u-search bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @search="searchEvent" :clearabled="true" :showAction="true"></u-search>
+				<u-search placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @search="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 		</view>
-		<view class="service-details-bottom">
+		<view class="search-init-box">
+			<view class="search-history-box">
+				<view class="search-history-title">
+					<view class="search-history-title-left">
+						<text>搜索历史</text>
+					</view>
+					<view class="search-history-title-right" @click="deleteHistorySearchEvent">
+						<u-icon name="trash" color="#101010" size="22"></u-icon>
+					</view>
+				</view>
+				<view class="search-history-content">
+					<view class="search-history-list" :key="index" v-for="(item,index) in searchHistoryList" @click="searchItemClickEvent(item,index,'history')">
+						<text>{{ item }}</text>
+					</view>
+				</view>
+			</view>
+			<view class="search-history-box search-hot-box">
+				<view class="search-history-title">
+					<view class="search-history-title-left">
+						<text>热门搜索</text>
+					</view>
+				</view>
+				<view class="search-history-content">
+					<view class="search-history-list" :key="index" v-for="(item,index) in searchHotList" @click="searchItemClickEvent(item,index,'hot')">
+						<text>{{ item }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- <view class="service-details-bottom">
 			<view class="tabs-area">
 				<u-tabs lineColor="#FF5F83" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
 				 :activeStyle="{color: '#101010',fontSize: '14px',fontWeight:'bold'}"
@@ -154,7 +183,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -180,6 +209,8 @@
 				searchValue: '',
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
 				infoText: '加载中',
+				searchHistoryList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
+				searchHotList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				current: 0,
 				listTabsName: [
 					{
@@ -211,9 +242,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
 			},
 			
 			// tab切换事件
@@ -223,6 +252,16 @@
 			
 			// 搜索事件
 			searchEvent () {},
+			
+			// 快捷搜索事件
+			searchItemClickEvent(item,index,type) {
+				if (type == 'history') {
+					
+				} else {}
+			},
+			
+			// 删除历史搜索事件
+			deleteHistorySearchEvent () {},
 			
 			// 搜索框值变化事件
 			searchInputEvent () {}
@@ -264,6 +303,53 @@
 				display: flex;
 				align-items: center;
 			}
+		};
+		.search-init-box {
+			padding: 10px 0;
+			flex: 1;
+			width: 92%;
+			margin: 0 auto;
+			overflow: auto;
+			box-sizing: border-box;
+			.search-history-box {
+				.search-history-title {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-bottom: 14px;
+					.search-history-title-left {
+						font-size: 16px;
+						color: #181818
+					};
+					.search-history-title-right {};
+				};
+				.search-history-content {
+					display: flex;
+					flex-wrap: wrap;
+					.search-history-list {
+						padding: 3px 16px;
+						box-sizing: border-box;
+						margin-right: 8px;
+						margin-bottom: 8px;
+						background: #F4F5F7;
+						border-radius: 20px;
+						font-size: 13px;
+						color: #101010
+					}
+				}
+			};
+			.search-hot-box {
+				margin-top: 10px;
+				.search-history-title {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-bottom: 14px;
+					.search-history-title-left {
+						font-size: 13px !important;
+					}
+				}
+			}		
 		};
 		.service-details-bottom {
 			padding: 10px 0;

@@ -121,9 +121,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
 			},
 			
 			checkboxChange(n) {
@@ -132,7 +130,7 @@
 			
 			// 添加地址事件
 			addSiteEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/minePackage/pages/addAddress/addAddress'
 				})
 			}

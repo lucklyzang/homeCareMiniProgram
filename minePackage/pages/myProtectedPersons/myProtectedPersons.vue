@@ -97,9 +97,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
 			},
 			
 			checkboxChange(n) {
@@ -108,7 +106,7 @@
 			
 			// 添加被护人事件
 			addProtectedPersonsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/minePackage/pages/addProtectedPersons/addProtectedPersons'
 				})
 			}

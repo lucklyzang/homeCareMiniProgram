@@ -83,7 +83,7 @@
 			
 			// 进入最新资讯详情事件
 			enterLatestNewsDetailsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/messagePackage/pages/latestNewsDetails/latestNewsDetails'
 				})
 			},
@@ -105,12 +105,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				// uni.navigateBack({
-				// 	delta: 1
-				// });
-				uni.switchTab({
-					url: '/pages/message/message'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

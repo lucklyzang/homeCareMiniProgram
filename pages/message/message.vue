@@ -111,7 +111,7 @@
 			
 			// 进入消息列表事件
 			enterMessageListEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/messagePackage/pages/message/index/index'
 				})
 			}

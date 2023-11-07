@@ -639,14 +639,14 @@
 			
 			// 订单评价事件
 			orderFormEvaluateEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate'
 				})
 			},
 			
 			// 修改订单事件
 			editOrderFormEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderFormEdit/orderFormEdit'
 				})
 			},
@@ -654,30 +654,30 @@
 			// 订单详情点击事件
 			enterOrderDetailsEvent () {
 				// 派单中
-				// uni.redirectTo({
+				// uni.navigateTo({
 				// 	url: '/orderFormPackage/pages/orderForm/index/index'
 				// })
 				// 已完成
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
 				})
 				// 待付款
-				// uni.redirectTo({
+				// uni.navigateTo({
 				// 	url: '/orderFormPackage/pages/orderFormStayPayment/orderFormStayPayment'
 				// });
 				// 服务中
-				// uni.redirectTo({
+				// uni.navigateTo({
 				// 	url: '/orderFormPackage/pages/orderFormInService/orderFormInService'
 				// });
 				// 待评价
-				// uni.redirectTo({
+				// uni.navigateTo({
 				// 	url: '/orderFormPackage/pages/orderFormStayEvaluate/orderFormStayEvaluate'
 				// })
 			},
 			
 			// 订单详情点击事件(取消|退款)
 			enterOrderDetailsEventOther () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderFormCancelOrRefund/orderFormCancelOrRefund'
 				})
 			}

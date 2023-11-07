@@ -155,7 +155,6 @@
 	import { mapGetters, mapMutations } from 'vuex'
 	import {logIn, logInByCode, weixinMiniAppLogin, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
-	import { getUserFamilyList, createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 	components: {
 	 },
@@ -194,32 +193,21 @@
 				isReadAgreeChecked: [],
 				showLoadingHint: false,
 				modalShow: false,
-				modalContent: '',
-				visitPageId: ''
+				modalContent: ''
 			}
 		},
 		
 		onShow () {
-			this.createVisitPage()
 		},
 		
 		onHide () {
-			if (!this.visitPageId && this.visitPageId !== 0) {
-				return
-			};
-			this.exitPage()
 		},
 		
 		destroyed () {
-			if (!this.visitPageId && this.visitPageId !== 0) {
-				return
-			};
-			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
-				'userInfo',
-				'familyMessage'
+				'userInfo'
 			])
 		},
 		mounted () {
@@ -231,34 +219,8 @@
 				'storeUserInfo',
 				'changeOverDueWay',
 				'changeToken',
-				'changeFamilyId',
-				'changeFamilyMessage',
 				'changeIsLogin'
 			]),
-			
-			// 创建页面访问数据
-			createVisitPage () {
-				createVisitPageData({
-					pageName: "登录",
-					pageKey: "login"
-				}).then((res) => {
-					if (res && res.data.code == 0) {
-						this.visitPageId = res.data.data
-					}
-				})
-				.catch((err) => {
-				})
-			},
-			
-			// 退出页面数据
-			exitPage () {
-				exitPageData(this.visitPageId).then((res) => {
-					if (res && res.data.code == 0) {
-					}
-				})
-				.catch((err) => {
-				})
-			},
 			
 			// 返回事件
 			backTo () {
@@ -406,8 +368,10 @@
 						this.changeToken(res.data.data.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
-						// 获取家庭设备信息
-						this.queryUserFamilyList()
+						this.changeIsLogin(true);
+						uni.switchTab({
+							url: '/pages/index/index'
+						})
 					} else {
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
@@ -435,8 +399,10 @@
 						this.changeToken(res.data.data.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
-						// 获取家庭设备信息
-						this.queryUserFamilyList()
+						this.changeIsLogin(true);
+						uni.switchTab({
+							url: '/pages/index/index'
+						})
 					} else {
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
@@ -497,8 +463,10 @@
 								this.isSetPassword = true;
 								this.form.password = ''
 							} else {
-								// 获取家庭设备信息
-								this.queryUserFamilyList()
+								this.changeIsLogin(true);
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
 							}
 						}
 					} else {
@@ -652,8 +620,10 @@
 									type: 'success',
 									position: 'bottom'
 								});
-								// 获取家庭设备信息
-								this.queryUserFamilyList()
+								this.changeIsLogin(true);
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
 							} else {
 							 this.modalShow = true;
 							 this.modalContent = `${res.data.msg}`
@@ -667,52 +637,6 @@
 						})
 					}
 				}
-			},
-			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
-				console.log('adsas');
-				this.showLoadingHint = true;
-				this.loadingText = '加载中...';
-				this.familyMemberList = [];
-				this.fullFamilyMemberList = [];
-				getUserFamilyList().then((res) => {
-					if ( res && res.data.code == 0) {
-						// 用户是否登录信息存入store
-						this.changeIsLogin(true);
-						this.fullFamilyMemberList = res.data.data;
-						for (let item of res.data.data) {
-							this.familyMemberList.push({
-								id: item.id,
-								value: item.name
-							})
-						};
-						this.initValue = this.familyMemberList[0]['value'];
-						this.changeFamilyId(this.familyMemberList[0]['id']);
-						let temporaryFamilyMessage = this.familyMessage;
-						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
-						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
-						this.changeFamilyMessage(temporaryFamilyMessage);
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
-					} else {
-						this.$refs.uToast.show({
-							message: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					};
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						message: err.message,
-						type: 'error',
-						position: 'bottom'
-					})
-				})
 			},
       
       // 微信授权登录事件

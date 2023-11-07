@@ -138,9 +138,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/orderForm/orderForm'
-				})
+				uni.navigateBack()
 			},
 			
 			// 弹框确定按钮
@@ -190,7 +188,7 @@
 			
 			// 提交评价事件
 			submitEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback'
 				})
 			}

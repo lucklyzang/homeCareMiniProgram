@@ -74,9 +74,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/minePackage/pages/mine/index/index'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

@@ -53,9 +53,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

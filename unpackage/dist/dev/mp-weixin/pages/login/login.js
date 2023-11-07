@@ -101,34 +101,34 @@ var components
 try {
   components = {
     uPopup: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 491))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 499))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 499))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 507))
     },
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 508))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 516))
     },
     uModal: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 515))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 523))
     },
     uForm: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form/u-form */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form/u-form")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 523))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form/u-form */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form/u-form")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 531))
     },
     uFormItem: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form-item/u-form-item.vue */ 532))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form-item/u-form-item.vue */ 540))
     },
     uInput: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 540))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 548))
     },
     uCheckboxGroup: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox-group/u-checkbox-group.vue */ 548))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox-group/u-checkbox-group.vue */ 556))
     },
     uCheckbox: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox/u-checkbox */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox/u-checkbox")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox/u-checkbox.vue */ 556))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox/u-checkbox */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox/u-checkbox")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox/u-checkbox.vue */ 564))
     },
     uDivider: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-divider/u-divider */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-divider/u-divider")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-divider/u-divider.vue */ 564))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-divider/u-divider */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-divider/u-divider")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-divider/u-divider.vue */ 572))
     },
   }
 } catch (e) {
@@ -210,10 +210,6 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _login = __webpack_require__(/*! @/api/login.js */ 189);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
-var _user = __webpack_require__(/*! @/api/user.js */ 31);
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _default = {
@@ -251,51 +247,18 @@ var _default = {
       isReadAgreeChecked: [],
       showLoadingHint: false,
       modalShow: false,
-      modalContent: '',
-      visitPageId: ''
+      modalContent: ''
     };
   },
-  onShow: function onShow() {
-    this.createVisitPage();
-  },
-  onHide: function onHide() {
-    if (!this.visitPageId && this.visitPageId !== 0) {
-      return;
-    }
-    ;
-    this.exitPage();
-  },
-  destroyed: function destroyed() {
-    if (!this.visitPageId && this.visitPageId !== 0) {
-      return;
-    }
-    ;
-    this.exitPage();
-  },
-  computed: _objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyMessage'])),
+  onShow: function onShow() {},
+  onHide: function onHide() {},
+  destroyed: function destroyed() {},
+  computed: _objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])),
   mounted: function mounted() {
     this.form.username = (0, _utils.getCache)('userName') ? (0, _utils.getCache)('userName') : '';
     this.form.password = (0, _utils.getCache)('userPassword') ? (0, _utils.getCache)('userPassword') : '';
   },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeFamilyId', 'changeFamilyMessage', 'changeIsLogin'])), {}, {
-    // 创建页面访问数据
-    createVisitPage: function createVisitPage() {
-      var _this = this;
-      (0, _user.createVisitPageData)({
-        pageName: "登录",
-        pageKey: "login"
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
-          _this.visitPageId = res.data.data;
-        }
-      }).catch(function (err) {});
-    },
-    // 退出页面数据
-    exitPage: function exitPage() {
-      (0, _user.exitPageData)(this.visitPageId).then(function (res) {
-        if (res && res.data.code == 0) {}
-      }).catch(function (err) {});
-    },
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeIsLogin'])), {}, {
     // 返回事件
     backTo: function backTo() {
       if (this.isForgetPassword) {
@@ -340,7 +303,7 @@ var _default = {
     },
     // 获取验证码事件
     getVerificationCodeEvent: function getVerificationCodeEvent() {
-      var _this2 = this;
+      var _this = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           message: '请输入手机号码!',
@@ -365,12 +328,12 @@ var _default = {
         this.count = TIME_COUNT;
         this.showGetVerificationCode = false;
         this.timer = setInterval(function () {
-          if (_this2.count > 0 && _this2.count <= TIME_COUNT) {
-            _this2.count--;
+          if (_this.count > 0 && _this.count <= TIME_COUNT) {
+            _this.count--;
           } else {
-            _this2.showGetVerificationCode = true;
-            clearInterval(_this2.timer);
-            _this2.timer = null;
+            _this.showGetVerificationCode = true;
+            clearInterval(_this.timer);
+            _this.timer = null;
           }
         }, 1000);
         this.sendCodeEvent();
@@ -397,7 +360,7 @@ var _default = {
     },
     // 手机号密码登录
     accountLogin: function accountLogin() {
-      var _this3 = this;
+      var _this2 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           message: '请输入手机号',
@@ -433,6 +396,37 @@ var _default = {
       this.loadingText = '登录中...';
       (0, _login.logIn)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
+          _this2.changeOverDueWay(false);
+          (0, _utils.setCache)('storeOverDueWay', false);
+          (0, _utils.setCache)('isLogin', true);
+          // token信息存入store
+          _this2.changeToken(res.data.data.accessToken);
+          // 登录用户信息存入store
+          _this2.storeUserInfo(res.data.data);
+          _this2.changeIsLogin(true);
+          uni.switchTab({
+            url: '/pages/index/index'
+          });
+        } else {
+          _this2.modalShow = true;
+          _this2.modalContent = res.data.msg;
+        }
+        ;
+        _this2.showLoadingHint = false;
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.modalShow = true;
+        _this2.modalContent = "".concat(err);
+      });
+    },
+    // 微信一键登录
+    weixinMiniAppLoginEvent: function weixinMiniAppLoginEvent(data) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.loadingText = '登录中...';
+      (0, _login.weixinMiniAppLogin)(data).then(function (res) {
+        _this3.showLoadingHint = false;
+        if (res && res.data.code == 0) {
           _this3.changeOverDueWay(false);
           (0, _utils.setCache)('storeOverDueWay', false);
           (0, _utils.setCache)('isLogin', true);
@@ -440,50 +434,23 @@ var _default = {
           _this3.changeToken(res.data.data.accessToken);
           // 登录用户信息存入store
           _this3.storeUserInfo(res.data.data);
-          // 获取家庭设备信息
-          _this3.queryUserFamilyList();
+          _this3.changeIsLogin(true);
+          uni.switchTab({
+            url: '/pages/index/index'
+          });
         } else {
           _this3.modalShow = true;
           _this3.modalContent = res.data.msg;
         }
-        ;
-        _this3.showLoadingHint = false;
       }).catch(function (err) {
         _this3.showLoadingHint = false;
         _this3.modalShow = true;
         _this3.modalContent = "".concat(err);
       });
     },
-    // 微信一键登录
-    weixinMiniAppLoginEvent: function weixinMiniAppLoginEvent(data) {
-      var _this4 = this;
-      this.showLoadingHint = true;
-      this.loadingText = '登录中...';
-      (0, _login.weixinMiniAppLogin)(data).then(function (res) {
-        _this4.showLoadingHint = false;
-        if (res && res.data.code == 0) {
-          _this4.changeOverDueWay(false);
-          (0, _utils.setCache)('storeOverDueWay', false);
-          (0, _utils.setCache)('isLogin', true);
-          // token信息存入store
-          _this4.changeToken(res.data.data.accessToken);
-          // 登录用户信息存入store
-          _this4.storeUserInfo(res.data.data);
-          // 获取家庭设备信息
-          _this4.queryUserFamilyList();
-        } else {
-          _this4.modalShow = true;
-          _this4.modalContent = res.data.msg;
-        }
-      }).catch(function (err) {
-        _this4.showLoadingHint = false;
-        _this4.modalShow = true;
-        _this4.modalContent = "".concat(err);
-      });
-    },
     // 手机号验证码登录
     codeLogin: function codeLogin() {
-      var _this5 = this;
+      var _this4 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           message: '请输入手机号',
@@ -519,39 +486,41 @@ var _default = {
       this.loadingText = '登录中...';
       (0, _login.logInByCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
-          _this5.changeOverDueWay(false);
+          _this4.changeOverDueWay(false);
           (0, _utils.setCache)('storeOverDueWay', false);
           (0, _utils.setCache)('isLogin', true);
           // token信息存入store
-          _this5.changeToken(res.data.data.accessToken);
+          _this4.changeToken(res.data.data.accessToken);
           // 登录用户信息存入store
-          _this5.storeUserInfo(res.data.data);
+          _this4.storeUserInfo(res.data.data);
           // 注册成功后进入设置密码环节
-          if (!_this5.isPasswordLogin) {
+          if (!_this4.isPasswordLogin) {
             // 第一次手机号验证码登录时，跳到密码设置界面
             if (res.data.data.first) {
-              _this5.isSetPassword = true;
-              _this5.form.password = '';
+              _this4.isSetPassword = true;
+              _this4.form.password = '';
             } else {
-              // 获取家庭设备信息
-              _this5.queryUserFamilyList();
+              _this4.changeIsLogin(true);
+              uni.switchTab({
+                url: '/pages/index/index'
+              });
             }
           }
         } else {
-          _this5.modalShow = true;
-          _this5.modalContent = res.data.msg;
+          _this4.modalShow = true;
+          _this4.modalContent = res.data.msg;
         }
         ;
-        _this5.showLoadingHint = false;
+        _this4.showLoadingHint = false;
       }).catch(function (err) {
-        _this5.showLoadingHint = false;
-        _this5.modalShow = true;
-        _this5.modalContent = "".concat(err);
+        _this4.showLoadingHint = false;
+        _this4.modalShow = true;
+        _this4.modalContent = "".concat(err);
       });
     },
     // 发送验证码事件
     sendCodeEvent: function sendCodeEvent() {
-      var _this6 = this;
+      var _this5 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           message: '请输入手机号',
@@ -570,28 +539,28 @@ var _default = {
       (0, _login.sendPhoneCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
-            _this6.$refs.uToast.show({
+            _this5.$refs.uToast.show({
               message: '发送成功!',
               type: 'error',
               position: 'bottom'
             });
           } else {
-            _this6.$refs.uToast.show({
+            _this5.$refs.uToast.show({
               message: res.data.msg,
               type: 'error',
               position: 'bottom'
             });
           }
         } else {
-          _this6.modalShow = true;
-          _this6.modalContent = res.data.msg;
+          _this5.modalShow = true;
+          _this5.modalContent = res.data.msg;
         }
         ;
-        _this6.showLoadingHint = false;
+        _this5.showLoadingHint = false;
       }).catch(function (err) {
-        _this6.showLoadingHint = false;
-        _this6.modalShow = true;
-        _this6.modalContent = "".concat(err);
+        _this5.showLoadingHint = false;
+        _this5.modalShow = true;
+        _this5.modalContent = "".concat(err);
       });
     },
     // 跳过事件
@@ -602,7 +571,7 @@ var _default = {
     },
     // 密码重置和设置密码事件
     resetPasswordEvent: function resetPasswordEvent() {
-      var _this7 = this;
+      var _this6 = this;
       // 密码重置
       if (this.isForgetPassword) {
         if (!this.form.username) {
@@ -641,32 +610,32 @@ var _default = {
         this.loadingText = '密码重置中...';
         (0, _login.resetPassword)(loginMessage).then(function (res) {
           if (res && res.data.code == 0) {
-            _this7.$refs.uToast.show({
+            _this6.$refs.uToast.show({
               message: '密码重置成功!',
               type: 'error',
               position: 'bottom'
             });
-            _this7.form = {
+            _this6.form = {
               username: '',
               password: '',
               verificationCode: '',
               newPassword: '',
               againPassword: ''
             };
-            _this7.showGetVerificationCode = true;
-            _this7.isSetPassword = false;
-            _this7.isPasswordLogin = true;
-            _this7.isForgetPassword = false;
+            _this6.showGetVerificationCode = true;
+            _this6.isSetPassword = false;
+            _this6.isPasswordLogin = true;
+            _this6.isForgetPassword = false;
           } else {
-            _this7.modalShow = true;
-            _this7.modalContent = "".concat(res.data.msg);
+            _this6.modalShow = true;
+            _this6.modalContent = "".concat(res.data.msg);
           }
           ;
-          _this7.showLoadingHint = false;
+          _this6.showLoadingHint = false;
         }).catch(function (err) {
-          _this7.showLoadingHint = false;
-          _this7.modalShow = true;
-          _this7.modalContent = "".concat(err);
+          _this6.showLoadingHint = false;
+          _this6.modalShow = true;
+          _this6.modalContent = "".concat(err);
         });
       } else {
         // 设置密码
@@ -687,82 +656,28 @@ var _default = {
           };
           (0, _login.setPassword)(_loginMessage).then(function (res) {
             if (res && (res.data.code == 0 || res.data.code == 401)) {
-              _this7.$refs.uToast.show({
+              _this6.$refs.uToast.show({
                 message: '密码设置成功!',
                 type: 'success',
                 position: 'bottom'
               });
-              // 获取家庭设备信息
-              _this7.queryUserFamilyList();
+              _this6.changeIsLogin(true);
+              uni.switchTab({
+                url: '/pages/index/index'
+              });
             } else {
-              _this7.modalShow = true;
-              _this7.modalContent = "".concat(res.data.msg);
+              _this6.modalShow = true;
+              _this6.modalContent = "".concat(res.data.msg);
             }
             ;
-            _this7.showLoadingHint = false;
+            _this6.showLoadingHint = false;
           }).catch(function (err) {
-            _this7.showLoadingHint = false;
-            _this7.modalShow = true;
-            _this7.modalContent = "".concat(err);
+            _this6.showLoadingHint = false;
+            _this6.modalShow = true;
+            _this6.modalContent = "".concat(err);
           });
         }
       }
-    },
-    // 获取用户家庭列表
-    queryUserFamilyList: function queryUserFamilyList() {
-      var _this8 = this;
-      console.log('adsas');
-      this.showLoadingHint = true;
-      this.loadingText = '加载中...';
-      this.familyMemberList = [];
-      this.fullFamilyMemberList = [];
-      (0, _user.getUserFamilyList)().then(function (res) {
-        if (res && res.data.code == 0) {
-          // 用户是否登录信息存入store
-          _this8.changeIsLogin(true);
-          _this8.fullFamilyMemberList = res.data.data;
-          var _iterator = _createForOfIteratorHelper(res.data.data),
-            _step;
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var item = _step.value;
-              _this8.familyMemberList.push({
-                id: item.id,
-                value: item.name
-              });
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
-          ;
-          _this8.initValue = _this8.familyMemberList[0]['value'];
-          _this8.changeFamilyId(_this8.familyMemberList[0]['id']);
-          var temporaryFamilyMessage = _this8.familyMessage;
-          temporaryFamilyMessage['familyMemberList'] = _this8.familyMemberList;
-          temporaryFamilyMessage['fullFamilyMemberList'] = _this8.fullFamilyMemberList;
-          _this8.changeFamilyMessage(temporaryFamilyMessage);
-          uni.switchTab({
-            url: '/pages/index/index'
-          });
-        } else {
-          _this8.$refs.uToast.show({
-            message: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        ;
-        _this8.showLoadingHint = false;
-      }).catch(function (err) {
-        _this8.showLoadingHint = false;
-        _this8.$refs.uToast.show({
-          message: err.message,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
     },
     // 微信授权登录事件
     weixinLoginEvent: function weixinLoginEvent() {

@@ -4,7 +4,7 @@
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area-box">
 			<view class="nav">
-				<nav-bar :home="false" backState='3000' bgColor="none" title="请选择专家" @backClick="backTo">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="我的医护" @backClick="backTo">
 				</nav-bar> 
 		  </view>
 		</view>

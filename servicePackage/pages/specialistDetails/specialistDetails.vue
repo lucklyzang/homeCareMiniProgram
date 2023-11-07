@@ -198,16 +198,14 @@
 			
 			// 查看更多用户评价事件
 			viewMoreUserEvaluateEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/servicePackage/pages/moreUseEvaluate/moreUseEvaluate'
 				})
 			},
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

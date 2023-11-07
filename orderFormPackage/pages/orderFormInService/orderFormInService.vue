@@ -193,9 +193,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/orderForm/orderForm'
-				})
+				uni.navigateBack()
 			}	
 		}
 	}

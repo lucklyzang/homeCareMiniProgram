@@ -87,7 +87,7 @@ instance.interceptors.request.use(function (config) {
 				} else {
 					// 清空store和localStorage
 					removeAllLocalStorage();
-					store.dispatch('resetDeviceState');
+					store.dispatch('resetServiceState');
 					store.dispatch('resetLoginState');
 					uni.redirectTo({
 						url: '/pages/login/login'
@@ -97,7 +97,7 @@ instance.interceptors.request.use(function (config) {
 			}).catch((err) => {
 				// 清空store和localStorage
 				removeAllLocalStorage();
-				store.dispatch('resetDeviceState');
+				store.dispatch('resetServiceState');
 				store.dispatch('resetLoginState');
 				uni.redirectTo({
 					url: '/pages/login/login'
@@ -136,7 +136,8 @@ instance.interceptors.response.use(function (response) {
 	if (response.data.code == '401') {
 		// 清空store和localStorage
 		removeAllLocalStorage();
-		store.dispatch('resetDeviceState');
+		store.dispatch('resetServiceState');
+		store.dispatch('resetLoginState');
 		if (!store.getters.overDueWay) { 
 			uni.showToast({
 				title: 'token已过期,请重新登录!',
@@ -159,7 +160,9 @@ instance.interceptors.response.use(function (response) {
 		if (error.response.hasOwnProperty('status')) {
 			if (error.response.status === 401) {
 				// 清空store和localStorage
-				store.dispatch('resetDeviceState');
+				removeAllLocalStorage();
+				store.dispatch('resetServiceState');
+				store.dispatch('resetLoginState');
 				if (!store.getters.overDueWay) { 
 					uni.showToast({
 						title: 'token已过期,请重新登录!',

@@ -220,9 +220,7 @@
 									
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/minePackage/pages/evaluationFormList/evaluationFormList'
-				})
+				uni.navigateBack()
 			},
 			
 			// 医院点击事件

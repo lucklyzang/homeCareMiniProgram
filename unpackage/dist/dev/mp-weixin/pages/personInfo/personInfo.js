@@ -101,10 +101,10 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 508))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 516))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 499))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 507))
     },
   }
 } catch (e) {
@@ -176,7 +176,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 612));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 620));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -189,7 +189,6 @@ var _default = {
       defaultPersonPhotoIconPng: __webpack_require__(/*! @/static/img/default-person-photo.png */ 223),
       infoText: '',
       showLoadingHint: false,
-      deviceNumber: 0,
       personPhotoSource: '',
       niceNameValue: '张三',
       functionList: [{
@@ -242,14 +241,11 @@ var _default = {
       this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
       this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname;
     }
-    ;
-    // 获取用户设备数量
-    this.queryUserDeviceNumber();
   },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeUserBasicInfo', 'changeEnterFamilyManagementPageSource'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeUserBasicInfo'])), {}, {
     // 头像点击事件
     enterPersonMessagePageEvent: function enterPersonMessagePageEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/generalSetPackage/pages/privateInfo/privateInfo'
       });
     },
@@ -280,53 +276,30 @@ var _default = {
         });
       });
     },
-    // 获取用户设备数量
-    queryUserDeviceNumber: function queryUserDeviceNumber() {
-      var _this2 = this;
-      (0, _user.getUserDeviceCount)().then(function (res) {
-        if (res && res.data.code == 0) {
-          _this2.deviceNumber = res.data.data;
-        } else {
-          _this2.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        _this2.showLoadingHint = false;
-      }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
-          title: err.message,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
     //底部功能区点击事件
     bottomFunctionClickEvent: function bottomFunctionClickEvent(name) {
       if (name == '我的医护') {
-        uni.redirectTo({
-          url: '/servicePackage/pages/moreSpecialist/moreSpecialist'
+        uni.navigateTo({
+          url: '/minePackage/pages/myNurse/myNurse'
         });
       } else if (name == '收藏') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/minePackage/pages/myCollect/myCollect'
         });
       } else if (name == '我的地址') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/minePackage/pages/addressManagement/addressManagement'
         });
       } else if (name == '相关协议') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/minePackage/pages/aboutAgreement/aboutAgreement'
         });
       } else if (name == '我的被护人') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
         });
       } else if (name == '初步评估单管理') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/minePackage/pages/mine/index/index'
         });
       }

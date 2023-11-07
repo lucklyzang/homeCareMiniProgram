@@ -174,9 +174,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
 			}
 		}
 	}
@@ -226,7 +224,7 @@
 			height: 0;
 			display: flex;
 			flex-direction: column;
-			margin-top: -180px;
+			margin-top: -130px;
 			background: #fff;
 			z-index: 10;
 			.tabs-box {

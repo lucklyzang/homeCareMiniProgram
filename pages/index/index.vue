@@ -234,42 +234,42 @@
 			
 			// 轮播图点击事件
 			swiperClickEvent (index) {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
 				})
 			},
 			
 			// 进入最新资讯列表事件
 			enterMessageListEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/messagePackage/pages/message/index/index'
 				})
 			},
 			
 			// 进入搜索页事件
 			searchEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/servicePackage/pages/searchDetails/searchDetails'
 				})
 			},
 			
 			// 进入服务详情事件
 			enterServiceDetailsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/servicePackage/pages/service/index/index'
 				})
 			},
 			
 			// 查看护师详情事件
 			viewSpecialistDetailsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/servicePackage/pages/specialistDetails/specialistDetails'
 				})
 			},
 			
 			// 查看更多护师事件
 			viewMoreSpecialistEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/servicePackage/pages/moreSpecialist/moreSpecialist'
 				})
 			},

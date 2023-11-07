@@ -45,7 +45,7 @@
 							</view>
 						</view>
 						<view class="expectation-service-time-content-right">
-							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index}" @click="timeQuantumItemClickEvent(item,index)" v-for="(item,index) in timeQuantumList">
+							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index}" @click="timeQuantumItemClickEvent(item,index)" :key="index" v-for="(item,index) in timeQuantumList">
 								<text>{{ item }}</text>
 							</view>
 						</view>
@@ -301,9 +301,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/servicePackage/pages/service/index/index'
-				})
+				uni.navigateBack()
 			},
 			
 			// 切换护士类型事件

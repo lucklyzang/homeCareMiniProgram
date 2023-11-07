@@ -56,7 +56,8 @@
         "pages/myProtectedPersons/myProtectedPersons",
         "pages/addProtectedPersons/addProtectedPersons",
         "pages/evaluationFormList/evaluationFormList",
-        "pages/createEvaluationForm/createEvaluationForm"
+        "pages/createEvaluationForm/createEvaluationForm",
+        "pages/myNurse/myNurse"
       ],
       "name": "rootMinePackage"
     }

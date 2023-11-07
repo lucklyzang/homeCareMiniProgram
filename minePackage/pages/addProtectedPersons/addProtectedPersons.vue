@@ -234,9 +234,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
-				})
+				uni.navigateBack()
 			},
 			
 			// 弹框取消按钮
@@ -306,7 +304,7 @@
 			
 			// 保存被护人事件
 			saveProtectedPersonsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/minePackage/pages/addAddress/addAddress'
 				})
 			}

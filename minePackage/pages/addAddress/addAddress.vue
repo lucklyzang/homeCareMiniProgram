@@ -81,9 +81,7 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.redirectTo({
-					url: '/minePackage/pages/addressManagement/addressManagement'
-				})
+				uni.navigateBack()
 			},
 			
 			checkboxChange(n) {
@@ -92,7 +90,7 @@
 			
 			// 地图选择地址事件
 			mapChooseSiteEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/minePackage/pages/mapChooseAddress/mapChooseAddress'
 				})
 			}
