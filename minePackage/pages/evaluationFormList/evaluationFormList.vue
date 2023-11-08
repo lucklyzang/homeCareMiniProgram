@@ -12,20 +12,18 @@
 			<!-- <view class="image-box">
 				<image :src="noProtectedPersonsPng"></image>
 			</view> -->
-			<u-index-list :index-list="indexList">
-					<template v-for="(item, index) in itemArr">
-						<!-- #ifdef APP-NVUE -->
+			<u-index-list :indexList="indexList" activeColor="#FF5F83">
+				<template v-for="(item, index) in itemArr">
+					<u-index-item :key="index">
 						<u-index-anchor :text="indexList[index]"></u-index-anchor>
-						<!-- #endif -->
-						<u-index-item>
-							<!-- #ifndef APP-NVUE -->
-							<u-index-anchor :text="indexList[index]"></u-index-anchor>
-							<!-- #endif -->
-							<view class="list-cell" v-for="(cell, index) in item">
-								{{cell}}
+						<view class="list" v-for="(item1, index1) in item" :key="index1" @click="evaluationFormClickEvent(item1, index1)">
+							<view class="list__item">
+								<text class="list__item__user-name">{{ item1.text }}</text>
 							</view>
-						</u-index-item>
-					</template>
+							<u-line></u-line>
+						</view>
+					</u-index-item>
+				</template>
 			</u-index-list>
 		</view>
 	</view>
@@ -40,7 +38,20 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	
+	import PinyinUtils from '@/common/js/pingyinUtils'
 	import navBar from "@/components/zhouWei-navBar"
+	const indexList = () => {
+		const indexList = [];
+		const charCodeOfA = 'A'.charCodeAt(0);
+		// indexList.push("↑")
+		// indexList.push("☆")
+		for (let i = 0; i < 26; i++) {
+			indexList.push(String.fromCharCode(charCodeOfA + i))
+		};
+		// indexList.push('#')
+		return indexList
+	};
 	export default {
 		components: {
 			navBar
@@ -49,12 +60,7 @@
 			return {
 				showLoadingHint: false,
 				infoText: '加载中',
-				indexList: ["A", "B", "C"],
-				itemArr: [
-					['列表A1','列表A2','列表A3'],
-					['列表B1','列表B2','列表B3'],
-					['列表C1','列表C2','列表C3']
-				]
+				indexList: indexList()
 			}
 		},
 		computed: {
@@ -64,9 +70,21 @@
 			userName() {
 			},
 			proId() {
+			},
+			itemArr() {
+				return this.indexList.map(item => {
+					const arr = []
+					for (let i = 0; i < 10; i++) {
+						arr.push({
+							text: item
+						})
+					};
+					return arr
+				})
 			}
 		},
 		onShow() {
+			console.log('dsa',PinyinUtils.chineseToPinYinFirst('点'))
 		},
 		methods: {
 			...mapMutations([
@@ -75,6 +93,13 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 评估单点击事件
+			evaluationFormClickEvent (item,index) {
+				uni.navigateTo({
+					url: '/minePackage/pages/createEvaluationForm/createEvaluationForm?parameter='+ JSON.stringify(item)
+				})
 			}
 		}
 	}
@@ -123,16 +148,17 @@
 					height: 334px
 				}
 			};
-			.list-cell {
-				display: flex;
-				box-sizing: border-box;
-				width: 100%;
-				padding: 10px 24rpx;
-				overflow: hidden;
-				color: #323233;
-				font-size: 14px;
-				line-height: 24px;
-				background-color: #fff;
+			.list {
+				&__item {
+					@include flex;
+					padding: 6px 12px;
+					align-items: center;
+					&__user-name {
+						font-size: 14px;
+						word-break: break-all;
+						color: #101010;
+					}
+				}
 			}
 		}
 	}

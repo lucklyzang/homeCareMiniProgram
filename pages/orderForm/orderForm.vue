@@ -24,7 +24,7 @@
 		</view>
 		<!-- 退出支付提示 -->
 		<view class="quit-pay-info">
-			<u-modal :show="quitPayShow" @confirm="quitPayShow=false" @cancel="quitPayShow=false" cancelText="确定" confirmText="取消" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="当前订单还未支付">
+			<u-modal :show="quitPayShow" @confirm="quitPayShow=false" :buttonReverse="true" @cancel="quitPayShow=false" confirmText="确定" cancelText="取消" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="当前订单还未支付">
 				<view class="slot-content">
 					确定退出支付吗？
 				</view>
@@ -730,7 +730,7 @@
 						height: 34px !important;
 						line-height: 34px !important;
 						border-radius: 7px !important;
-						margin-left: 30px;
+						margin-right: 30px;
 						background: #FF698C !important;
 						border: none !important;
 						.u-modal__button-group__wrapper__text {

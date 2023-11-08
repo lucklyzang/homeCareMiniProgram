@@ -21,7 +21,7 @@
 		<view class="evaluation-form-box">
 			<view class="evaluation-form">
 				<view class="evaluation-form-title">
-					<text>婴儿黄疸测定初步评估单</text>
+					<text>{{ `${evaluationFormName}初步评估单` }}</text>
 				</view>
 				<view class="evaluation-form-content">
 					<view class="hospital-area">
@@ -146,6 +146,7 @@
 				selectBirthDate: '请选择日期',
 				hospitalRemarkValue: '',
 				dataDialogShow: false,
+				evaluationFormName: '',
 				dateValue: Number(new Date()),
 				selectHospitalIndex: 0,
 				selecInpatientWard: 0,
@@ -170,7 +171,9 @@
 			proId() {
 			}
 		},
-		onReady() {
+		
+		onLoad(option) {
+			this.evaluationFormName = JSON.parse(option.parameter)['text']
 		},
 		
 		methods: {

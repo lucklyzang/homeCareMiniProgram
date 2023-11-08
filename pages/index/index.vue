@@ -16,7 +16,7 @@
 		</view>
 		<view class="center-area">
 			<view class="nurse-type">
-				<view class="nurse-type-list" v-for="(item,index) in nurseList" :key="index">
+				<view class="nurse-type-list" v-for="(item,index) in nurseList" :key="index" @click="enterServiceTypeEvent(item,index)">
 					<image :src="item.icon"></image>
 					<text>{{ item.text }}</text>
 				</view>
@@ -250,6 +250,13 @@
 			searchEvent () {
 				uni.navigateTo({
 					url: '/servicePackage/pages/searchDetails/searchDetails'
+				})
+			},
+			
+			// 进入服务类别大类事件
+			enterServiceTypeEvent (item,index) {
+				uni.switchTab({
+					url: '/pages/service/service'
 				})
 			},
 			

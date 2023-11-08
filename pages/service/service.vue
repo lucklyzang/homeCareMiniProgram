@@ -19,7 +19,7 @@
 				</view>
 			</view>
 			<view class="content-right">
-				<view class="content-list">
+				<view class="content-list" @click="enterServiceDetailsEvent">
 					<view class="content-list-left">
 						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
 							 <template v-slot:loading>
@@ -114,6 +114,13 @@
 			// 服务类型点击事件
 			serviceTypeClickEvent (item,index) {
 				this.currentIndex = index
+			},
+			
+			// 进入服务详情事件
+			enterServiceDetailsEvent () {
+				uni.navigateTo({
+					url: '/servicePackage/pages/service/index/index'
+				})
 			}
 		}
 	}
@@ -245,7 +252,7 @@
 						.collect-icon {}
 					}
 				}
-			};
+			}
 		}
 	}
 </style>

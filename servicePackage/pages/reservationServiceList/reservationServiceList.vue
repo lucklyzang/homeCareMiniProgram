@@ -83,8 +83,8 @@
 						<image :src="serviceSitePng"></image>
 						<text>服务地址</text>
 					</view>
-					<view class="serve-site-right">
-						上门服务详细地址
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceSite != '上门服务详细地址'}" @click="serviceSiteEvent">
+						{{ serviceSite }}
 					</view>
 				</view>
 				<view class="serve-site serve-person">
@@ -92,8 +92,8 @@
 						<image :src="serviceTimePng"></image>
 						<text>服务时间</text>
 					</view>
-					<view class="serve-site-right" @click="expectationServiceTimeClickEvent">
-						期望服务时间
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceDate != '期望服务时间'}" @click="expectationServiceTimeClickEvent">
+						{{ serviceDate }}
 					</view>
 				</view>
 				<view class="serve-site evaluation-form">
@@ -101,8 +101,8 @@
 						<image :src="servedPersonPng"></image>
 						<text>被服务人</text>
 					</view>
-					<view class="serve-site-right">
-						请选择被服务人
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : protectedPerson != '请选择被服务人'}" @click="chooseProtectedPersonEvent">
+						{{ protectedPerson }}
 					</view>
 				</view>
 				<view class="serve-site serve-time">
@@ -110,8 +110,8 @@
 						<image :src="evaluationFormPng"></image>
 						<text>初步评估单</text>
 					</view>
-					<view class="serve-site-right">
-						点击填写评估单
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : writeEvaluationForm != '点击填写评估单'}" @click="writeEvaluationFormEvent">
+						{{ writeEvaluationForm }}
 					</view>
 				</view>
 			</view>
@@ -249,6 +249,10 @@
 				rateValue: 5,
 				sureCancelShow: false,
 				isCanSure: false,
+				serviceSite: '上门服务详细地址',
+				serviceDate: '期望服务时间',
+				protectedPerson: '请选择被服务人',
+				writeEvaluationForm: '点击填写评估单',
 				imgArr: [],
 				temporaryImgPathArr: [],
 				isReadAgreeChecked: [],
@@ -270,10 +274,16 @@
 				serviceTimePng: require("@/static/img/service-time.png"),
 				servedPersonPng: require("@/static/img/served-person.png"),
 				evaluationFormPng: require("@/static/img/evaluation-form.png"),
-				currentTimeQuantumIndex: '',
-				currentDateIndex: 0,
-				currentSelectDate: '',
+				isInitTimeQuantumClick: true,
+				lastCurrentTimeQuantumIndex: '',
+				currentTimeQuantumIndex: null,
+				lastCurrentSelectTimeQuantum: '',
 				currentSelectTimeQuantum: '',
+				isInitCurrentDateClick: true,
+				lastCurrentDateIndex: '',
+				currentDateIndex: null,
+				lastCurrentSelectDate: '',
+				currentSelectDate: '',
 				currentDateList: [],
 				currentMonth: '',
 				currentMonthDay: '',
@@ -313,37 +323,109 @@
 				}
 			},
 			
+			// 服务地址点击事件
+			serviceSiteEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/addressManagement/addressManagement'
+				})
+			},
+			
+			// 选择被护人事件
+			chooseProtectedPersonEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
+				})
+			},
+			
+			// 填写评估单事件
+			writeEvaluationFormEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/mine/index/index'
+				})
+			},
+			
 			// 日期列表项点击事件
 			dateItemClickEvent (item,index) {
+				// 只存储初次点击的值
+				if (this.isInitCurrentDateClick) {
+					this.lastCurrentDateIndex = this.currentDateIndex;
+					this.lastCurrentSelectDate = this.currentSelectDate;
+				};
 				this.currentDateIndex = index;
 				this.currentSelectDate = item;
-				this.currentTimeQuantumIndex = 0
+				this.isInitCurrentDateClick = false;
+				if (this.isInitTimeQuantumClick) {
+					this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
+				};
+				this.currentTimeQuantumIndex = null
 			},
 			
 			// 时间段列表项点击事件
 			timeQuantumItemClickEvent (item,index) {
 				// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
-				if (this.currentDateIndex == 0) {
+				if (this.currentDateIndex === 0) {
 					let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
 					if (new Date(fullDateTime).getTime() > new Date().getTime()) {
-						this.currentTimeQuantumIndex = index
+						// 只存储第一次点击的值
+						if (this.isInitTimeQuantumClick) {
+							if (this.currentTimeQuantumIndex !== null) {
+								this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
+							};
+							this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
+							this.lastCurrentSelectTimeQuantum = this.currentSelectTimeQuantum;
+						};	
+						this.currentTimeQuantumIndex = index;
+						this.currentSelectTimeQuantum = item;
+						this.isInitTimeQuantumClick = false
 					} else {
 						this.$refs.uToast.show({
 							message: "当前选择时间段已过期,请重新选择!",
+							position: 'top'
 						})
 					}
 				} else {
-					this.currentTimeQuantumIndex = index
+					// 只存储第一次点击的值
+					if (this.isInitTimeQuantumClick) {
+						if (this.currentTimeQuantumIndex !== null) {
+							this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
+						};
+						this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
+						this.lastCurrentSelectTimeQuantum = this.currentSelectTimeQuantum;
+					};
+					this.currentTimeQuantumIndex = index;
+					this.currentSelectTimeQuantum = item;
+					this.isInitTimeQuantumClick = false
 				}
 			},
 			
 			// 期望服务时间弹框取消事件
 			expectationServiceTimeBoxCancel () {
-				this.expectationServiceTimeShow = false
+				this.expectationServiceTimeShow = false;
+				this.currentDateIndex = this.lastCurrentDateIndex;
+				this.currentSelectDate = this.lastCurrentSelectDate;
+				this.currentTimeQuantumIndex = this.lastCurrentTimeQuantumIndex;
+				this.currentSelectTimeQuantum = this.lastCurrentSelectTimeQuantum;
 			},
 			
 			// 期望服务时间弹框确定事件
 			expectationServiceTimeBoxSure () {
+				if (this.currentDateIndex === null) {
+					this.$refs.uToast.show({
+						message: "请选择日期!",
+						position: 'top'
+					});
+					return
+				};
+				if (this.currentTimeQuantumIndex === null) {
+					this.$refs.uToast.show({
+						message: "请选择时间段!",
+						position: 'top'
+					});
+					return
+				};
+				this.isInitCurrentDateClick = true;
+				this.isInitTimeQuantumClick = true;
+				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum}`;
 				this.expectationServiceTimeShow = false
 			},
 			
@@ -378,8 +460,7 @@
 				this.expectationServiceTimeShow = true;
 				this.getCurrentMonth();
 				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
-				this.createCurrentMonthDate();
-				this.currentSelectDate = this.currentDateList[0]
+				this.createCurrentMonthDate()
 			},
 			
 			// 获取当前月份和当前日期
@@ -404,6 +485,7 @@
 			
 			// 创建当前月的日期
 			createCurrentMonthDate () {
+				this.currentDateList = [];
 				for (let i = new Date().getDate(); i <= this.currentMonthDay; i++) {
 					let currentDate = i < 10 ? `0${i}` : i;
 					let temporaryActualDate = `${new Date().getFullYear()}-${this.currentMonth}-${currentDate}`;
@@ -787,7 +869,7 @@
 							color: #fff
 						}
 					}
-				};
+				}
 			};
 			.nurse-practitioner-list-platform-recommend {
 				margin-top: 4px;
@@ -972,6 +1054,9 @@
 						word-break: break-all;
 						font-size: 14px;
 						color: #777777
+					};
+					.serveSiteRightStyle {
+						color: #F16C8C !important
 					}
 				}
 			};

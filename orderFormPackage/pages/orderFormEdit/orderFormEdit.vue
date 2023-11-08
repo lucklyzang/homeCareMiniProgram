@@ -1,5 +1,13 @@
 <template>
 	<view class="content-box">
+		<!-- 退出支付提示 -->
+		<view class="quit-pay-info">
+			<u-modal :show="quitPayShow" @confirm="confirmQuitPayEvent" :buttonReverse="true" @cancel="quitPayShow=false" confirmText="确定" cancelText="取消" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="当前订单还未支付">
+				<view class="slot-content">
+					确定退出支付吗？
+				</view>
+			</u-modal>
+		</view>
 		<view class="user-license-agreement-box">
 			<u-modal :show="userLicenseAgreementShow" :showConfirmButton="false" width="690rpx">
 				<view class="slot-content">
@@ -48,7 +56,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="nurse-practitioner-list">
+			<view class="nurse-practitioner-list" v-if="isPlatformRecommendNurse">
 				<view class="nurse-practitioner-list-top">
 					<text>从业10年以上</text>
 				</view>
@@ -92,12 +100,30 @@
 						<text>乳腺疏通</text>
 						<text>黄疸检测</text>
 					</view>
-					<view class="cut-nurse">
+					<view class="cut-nurse" @click="cutNurseEvent('指定')">
 						<image :src="cutIconPng"></image>
 						<text>切换为平台推荐护士</text>
 					</view>
 				</view>
 			</view>
+			<view class="nurse-practitioner-list-platform-assign" v-else>
+				<view class="nurse-practitioner-list-platform-assign-left">
+					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
+					</u-image>
+				</view>
+				<view class="nurse-practitioner-list-platform-assign-right">
+					<view class="platform-assign-right-top">
+						<text>平台指派护士</text>
+					</view>
+					<view class="platform-assign-right-bottom" @click="cutNurseEvent('推荐')">
+						<image :src="cutIconPng"></image>
+						<text>切换为平台推荐护士</text>
+					</view>
+				</view>
+			</view>	
 			<view class="serve-people-message">
 				<view class="serve-site">
 					<view class="serve-site-left">
@@ -204,7 +230,9 @@
 				count: 5,
 				rateValue: 5,
 				sureCancelShow: false,
+				isPlatformRecommendNurse: false,
 				isCanSure: false,
+				quitPayShow: false,
 				imgArr: [],
 				temporaryImgPathArr: [],
 				isReadAgreeChecked: [],
@@ -243,6 +271,11 @@
 			
 			// 顶部导航返回事件
 			backTo () {
+				this.quitPayShow = true
+			},
+			
+			// 确定退出支付事件
+			confirmQuitPayEvent () {
 				uni.navigateBack()
 			},
 			
@@ -282,6 +315,15 @@
 			// 弹框取消按钮
 			cancelSure() {
 				this.sureCancelShow = false;
+			},
+			
+			// 切换护士类型事件
+			cutNurseEvent (text) {
+				if (text == '指定') {
+					this.isPlatformRecommendNurse = false
+				} else {
+					this.isPlatformRecommendNurse = true
+				}
 			},
 			
 			// 图片删除事件
@@ -330,6 +372,55 @@
 		@include content-wrapper;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-popup__content {
+			.u-modal {
+				.u-modal__title {
+					font-size: 16px !important;
+					color: #101010 !important
+				};
+				.u-line {
+					border: none !important
+				};
+				.u-modal__content {
+					padding: 20px 10px 30px 10px !important;
+					font-size: 14px !important;
+					color: #898C8C !important
+				};
+				.u-modal__button-group {
+					height: 50px;
+					justify-content: center;
+					.u-line {
+						border: none !important
+					};
+					.u-modal__button-group__wrapper--cancel {
+						flex: none !important;
+						width: 100px !important;
+						height: 34px !important;
+						line-height: 34px !important;
+						border-radius: 7px !important;
+						border: 1px solid #FF698C !important;
+						.u-modal__button-group__wrapper__text {
+							font-size: 14px;
+							color: #FF698C !important;
+						}
+					};
+					.u-modal__button-group__wrapper--confirm {
+						flex: none !important;
+						width: 100px !important;
+						height: 34px !important;
+						line-height: 34px !important;
+						border-radius: 7px !important;
+						margin-right: 30px;
+						background: #FF698C !important;
+						border: none !important;
+						.u-modal__button-group__wrapper__text {
+							font-size: 14px;
+							color: #fff !important;
+						}
+					}
+				}
+			}
 		};
 		.user-license-agreement-box {
 			::v-deep .u-popup {
@@ -604,6 +695,51 @@
 						}
 					};
 					.cut-nurse {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 185px;
+						height: 31px;
+						margin-top: 16px;
+						border-radius: 10px;
+						background: linear-gradient(to right, #ffa7c0, #FC4278);
+						>image {
+							width: 27px;
+							height: 22px;
+							margin-right: 8px
+						};
+						>text {
+							font-size: 12px;
+							color: #fff
+						}
+					}
+				}
+			};
+			.nurse-practitioner-list-platform-assign {
+				margin-top: 4px;
+				padding: 30px 10px 20px 10px;
+				box-sizing: border-box;
+				background: #fff;
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				position: relative;
+				.nurse-practitioner-list-platform-assign-left {
+					width: 73px;
+					height: 73px;
+					margin-right: 10px;
+					border-radius: 50%;
+					::v-deep .u-image {
+						width: 73px !important;
+						height: 73px !important
+					}
+				};
+				.nurse-practitioner-list-platform-assign-right {
+					.platform-assign-right-top {
+						color: #000000;
+						font-size: 18px;
+					};
+					.platform-assign-right-bottom {
 						display: flex;
 						align-items: center;
 						justify-content: center;

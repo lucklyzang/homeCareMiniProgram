@@ -114,11 +114,8 @@
 			
 			// 新增评估单事件
 			addEvaluationformEvent () {
-				// uni.navigateTo({
-				// 	url: '/minePackage/pages/evaluationFormList/evaluationFormList'
-				// });
 				uni.navigateTo({
-					url: '/minePackage/pages/createEvaluationForm/createEvaluationForm'
+					url: '/minePackage/pages/evaluationFormList/evaluationFormList'
 				})
 			}
 		}
