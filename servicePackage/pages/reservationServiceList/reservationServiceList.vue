@@ -274,22 +274,16 @@
 				serviceTimePng: require("@/static/img/service-time.png"),
 				servedPersonPng: require("@/static/img/served-person.png"),
 				evaluationFormPng: require("@/static/img/evaluation-form.png"),
-				isInitTimeQuantumClick: true,
-				lastCurrentTimeQuantumIndex: '',
 				currentTimeQuantumIndex: null,
-				lastCurrentSelectTimeQuantum: '',
 				currentSelectTimeQuantum: '',
-				isInitCurrentDateClick: true,
-				lastCurrentDateIndex: '',
 				currentDateIndex: null,
-				lastCurrentSelectDate: '',
 				currentSelectDate: '',
 				currentDateList: [],
 				currentMonth: '',
 				currentMonthDay: '',
 				currentDate: '',
 				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
-				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15 ：00',
+				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15：00',
 				'下午15：00—16：00','下午16：00—17：00','下午17：00—18：00'
 				]
 			}
@@ -346,18 +340,11 @@
 			
 			// 日期列表项点击事件
 			dateItemClickEvent (item,index) {
-				// 只存储初次点击的值
-				if (this.isInitCurrentDateClick) {
-					this.lastCurrentDateIndex = this.currentDateIndex;
-					this.lastCurrentSelectDate = this.currentSelectDate;
-				};
 				this.currentDateIndex = index;
 				this.currentSelectDate = item;
-				this.isInitCurrentDateClick = false;
-				if (this.isInitTimeQuantumClick) {
-					this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
-				};
-				this.currentTimeQuantumIndex = null
+				if (index == 0) {
+					this.currentTimeQuantumIndex = null
+				}
 			},
 			
 			// 时间段列表项点击事件
@@ -366,17 +353,8 @@
 				if (this.currentDateIndex === 0) {
 					let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
 					if (new Date(fullDateTime).getTime() > new Date().getTime()) {
-						// 只存储第一次点击的值
-						if (this.isInitTimeQuantumClick) {
-							if (this.currentTimeQuantumIndex !== null) {
-								this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
-							};
-							this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
-							this.lastCurrentSelectTimeQuantum = this.currentSelectTimeQuantum;
-						};	
 						this.currentTimeQuantumIndex = index;
 						this.currentSelectTimeQuantum = item;
-						this.isInitTimeQuantumClick = false
 					} else {
 						this.$refs.uToast.show({
 							message: "当前选择时间段已过期,请重新选择!",
@@ -384,27 +362,14 @@
 						})
 					}
 				} else {
-					// 只存储第一次点击的值
-					if (this.isInitTimeQuantumClick) {
-						if (this.currentTimeQuantumIndex !== null) {
-							this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
-						};
-						this.lastCurrentTimeQuantumIndex = this.currentTimeQuantumIndex;
-						this.lastCurrentSelectTimeQuantum = this.currentSelectTimeQuantum;
-					};
 					this.currentTimeQuantumIndex = index;
-					this.currentSelectTimeQuantum = item;
-					this.isInitTimeQuantumClick = false
+					this.currentSelectTimeQuantum = item
 				}
 			},
 			
 			// 期望服务时间弹框取消事件
 			expectationServiceTimeBoxCancel () {
-				this.expectationServiceTimeShow = false;
-				this.currentDateIndex = this.lastCurrentDateIndex;
-				this.currentSelectDate = this.lastCurrentSelectDate;
-				this.currentTimeQuantumIndex = this.lastCurrentTimeQuantumIndex;
-				this.currentSelectTimeQuantum = this.lastCurrentSelectTimeQuantum;
+				this.expectationServiceTimeShow = false
 			},
 			
 			// 期望服务时间弹框确定事件
@@ -423,8 +388,6 @@
 					});
 					return
 				};
-				this.isInitCurrentDateClick = true;
-				this.isInitTimeQuantumClick = true;
 				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum}`;
 				this.expectationServiceTimeShow = false
 			},
@@ -460,7 +423,17 @@
 				this.expectationServiceTimeShow = true;
 				this.getCurrentMonth();
 				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
-				this.createCurrentMonthDate()
+				this.createCurrentMonthDate();
+				// 回显当前显示日期和时间段所在列表的位置
+				if (this.serviceDate != '期望服务时间') {
+					let temporarayArr = this.serviceDate.split(" ");
+					// 日期
+					this.currentDateIndex = this.currentDateList.findIndex((item) => { return item.showDate == `${temporarayArr[0]} ${temporarayArr[1]}` });
+					this.currentSelectDate = this.currentDateList[this.currentDateIndex];
+					// 时间段
+					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == temporarayArr[2] });;
+					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex]
+				}
 			},
 			
 			// 获取当前月份和当前日期

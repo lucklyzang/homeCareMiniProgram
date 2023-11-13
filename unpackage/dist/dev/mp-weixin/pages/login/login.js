@@ -541,7 +541,7 @@ var _default = {
           if (res.data.data == true) {
             _this5.$refs.uToast.show({
               message: '发送成功!',
-              type: 'error',
+              type: 'success',
               position: 'bottom'
             });
           } else {
@@ -612,7 +612,7 @@ var _default = {
           if (res && res.data.code == 0) {
             _this6.$refs.uToast.show({
               message: '密码重置成功!',
-              type: 'error',
+              type: 'success',
               position: 'bottom'
             });
             _this6.form = {

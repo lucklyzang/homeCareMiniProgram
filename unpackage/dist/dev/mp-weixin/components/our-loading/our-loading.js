@@ -131,12 +131,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var loop = function loop() {
   __webpack_require__.e(/*! require.ensure | components/our-loading/loaders/loop */ "components/our-loading/loaders/loop").then((function () {
-    return resolve(__webpack_require__(/*! ./loaders/loop.vue */ 734));
+    return resolve(__webpack_require__(/*! ./loaders/loop.vue */ 726));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var shrinkRect = function shrinkRect() {
   __webpack_require__.e(/*! require.ensure | components/our-loading/loaders/shrink-rect */ "components/our-loading/loaders/shrink-rect").then((function () {
-    return resolve(__webpack_require__(/*! ./loaders/shrink-rect.vue */ 741));
+    return resolve(__webpack_require__(/*! ./loaders/shrink-rect.vue */ 733));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 // ==========在这里选一个你要的其他去掉也行==========

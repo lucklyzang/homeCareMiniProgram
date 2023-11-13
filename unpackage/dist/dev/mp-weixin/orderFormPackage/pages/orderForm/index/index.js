@@ -1,4 +1,4 @@
-require('../../../common/vendor.js');(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["orderFormPackage/pages/orderForm/index/index"],{
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["orderFormPackage/pages/orderForm/index/index"],{
 
 /***/ 334:
 /*!***********************************************************************************************************!*\

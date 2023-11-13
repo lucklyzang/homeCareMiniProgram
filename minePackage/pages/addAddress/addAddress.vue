@@ -14,7 +14,7 @@
 					<text>省市地址</text>
 				</view>
 				<view class="site-center">
-					<text>点击选择所在地址</text>
+					<text>{{ currentChooseAdress }}</text>
 				</view>
 				<view class="site-right" @click="mapChooseSiteEvent">
 					<text>定位</text>
@@ -60,6 +60,7 @@
 				showLoadingHint: false,
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
 				infoText: '加载中',
+				currentChooseAdress: '点击选择所在地址',
 				detailSiteValue: '',
 				checked: ["默认地址"]
 			}
@@ -88,6 +89,21 @@
 					console.log('change', n);
 			},
 			
+			prevDateFun (object) {
+				if(object){
+					let temporaryAddress = object;
+					let reg = /.+?(省|市|自治区|自治州|县|区)/g;
+					let regOther = /((.+?(省|市|自治区|自治州|县|区))+?|.+)/g;
+					let cutoutAddressArray = temporaryAddress['address'].match(reg);
+					let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|县|区)/g,'');
+					this.currentChooseAdress = cutoutAddressArray.join("");
+					this.detailSiteValue = `${cutoutAddressDetails}${temporaryAddress.name}`;
+				} else {
+					return
+				}
+			},
+
+
 			// 地图选择地址事件
 			mapChooseSiteEvent () {
 				uni.navigateTo({

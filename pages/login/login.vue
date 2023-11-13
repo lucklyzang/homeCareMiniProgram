@@ -503,7 +503,7 @@
 						if (res.data.data == true) {
 							this.$refs.uToast.show({
 								message: '发送成功!',
-								type: 'error',
+								type: 'success',
 								position: 'bottom'
 							})
 						} else {
@@ -572,7 +572,7 @@
 						if ( res && res.data.code == 0) {
 							this.$refs.uToast.show({
 								message: '密码重置成功!',
-								type: 'error',
+								type: 'success',
 								position: 'bottom'
 							});
 							this.form = {
