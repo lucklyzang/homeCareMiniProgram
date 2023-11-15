@@ -2,6 +2,7 @@
 	<view class="content-box">
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
+		<Winglau14-lotusAddress ref="lotusAddress" v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></Winglau14-lotusAddress>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='3000' bgColor="none" title="地址管理" @backClick="backTo">
@@ -13,8 +14,8 @@
 				<view class="site-left">
 					<text>省市地址</text>
 				</view>
-				<view class="site-center">
-					<text>{{ currentChooseAdress }}</text>
+				<view class="site-center" @click="openPicker">
+					<text>{{ region }}</text>
 				</view>
 				<view class="site-right" @click="mapChooseSiteEvent">
 					<text>定位</text>
@@ -59,8 +60,14 @@
 			return {
 				showLoadingHint: false,
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
+				lotusAddressData:{
+					visible: false,
+					provinceName:'',
+					cityName:'',
+					townName:''
+				},
+				region: '点击选择所在地址',
 				infoText: '加载中',
-				currentChooseAdress: '点击选择所在地址',
 				detailSiteValue: '',
 				checked: ["默认地址"]
 			}
@@ -85,18 +92,62 @@
 				uni.navigateBack()
 			},
 			
-			checkboxChange(n) {
-					console.log('change', n);
+			checkboxChange (n) {
+				console.log('change', n);
 			},
 			
+			// 打开地址选择弹框
+			openPicker () {
+				this.lotusAddressData.visible = true
+			},
+			
+			//回传已选的省市区的值
+			choseValue (res) {
+				//res数据源包括已选省市区与省市区code
+				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
+				//res.isChose = 1省市区已选 res.isChose = 0;未选
+				if (res.isChose || res.province == '海外') {
+					this.lotusAddressData.provinceName = res.province; //省
+					this.lotusAddressData.cityName = res.city; //市
+					this.lotusAddressData.townName = res.town; //区
+					this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
+				}
+			},
+			
+			// 地图选址地点后的回调函数
 			prevDateFun (object) {
 				if(object){
+					// this.$refs['lotusAddress'].initFn();
 					let temporaryAddress = object;
 					let reg = /.+?(省|市|自治区|自治州|县|区)/g;
-					let regOther = /((.+?(省|市|自治区|自治州|县|区))+?|.+)/g;
+					let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区))+?|.+)/g;
 					let cutoutAddressArray = temporaryAddress['address'].match(reg);
-					let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|县|区)/g,'');
-					this.currentChooseAdress = cutoutAddressArray.join("");
+					let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区)/g,'');
+					if (cutoutAddressArray[0] == '北京市' || cutoutAddressArray[0] == '重庆市' || cutoutAddressArray[0] == '上海市' || cutoutAddressArray[0] == '天津市') {
+						if (cutoutAddressArray[0] == '北京市') {
+							cutoutAddressArray.unshift('北京')
+						} else if (cutoutAddressArray[0] == '重庆市') {
+							cutoutAddressArray.unshift('重庆')
+						} else if (cutoutAddressArray[0] == '上海市') {
+							cutoutAddressArray.unshift('上海')
+						} else if (cutoutAddressArray[0] == '天津市') {
+							cutoutAddressArray.unshift('天津')
+						}
+					};
+					if (cutoutAddressArray.length == 3) {
+						this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+						this.lotusAddressData.cityName = cutoutAddressArray[1]; //市
+						this.lotusAddressData.townName = cutoutAddressArray[2]; //区/县
+					} else if (cutoutAddressArray.length == 2) {
+						this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+						this.lotusAddressData.cityName = cutoutAddressArray[1]; //市
+						this.lotusAddressData.townName = ''; //区/县
+					} else if (cutoutAddressArray.length == 1) {
+						this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+						this.lotusAddressData.cityName = ''; //市
+						this.lotusAddressData.townName = ''; //区/县
+					};
+					this.region = cutoutAddressArray.join(" ");
 					this.detailSiteValue = `${cutoutAddressDetails}${temporaryAddress.name}`;
 				} else {
 					return
@@ -169,9 +220,12 @@
 					box-sizing: border-box;
 					background: #E3E3E3;
 					border-radius: 4px;
+					@include no-wrap;
 					>text {
+						width: 100%;
 						font-size: 14px;
 						color: #020202;
+						@include no-wrap;
 					}
 				};
 				.site-right {

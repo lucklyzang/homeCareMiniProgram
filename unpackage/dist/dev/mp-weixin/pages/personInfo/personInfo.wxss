@@ -35,6 +35,67 @@ page {
   width: 100%;
   flex-direction: column;
 }
+.content-box  .u-popup .u-popup__content {
+  width: 90%;
+  padding: 30px 10px 20px 10px;
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+.content-box  .u-popup .u-popup__content .u-popup__content__close .u-icon__icon {
+  color: #101010 !important;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-top > image {
+  width: 106px;
+  height: 129px;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-top > text {
+  font-size: 18px;
+  color: #101010;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-top > text:nth-of-type(1) {
+  margin: 10px 0;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom {
+  display: flex;
+  margin-top: 20px;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left > image {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left > text {
+  font-size: 14px;
+  color: #4E9FD5;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-right > image {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-right > text {
+  font-size: 14px;
+  color: #4E9FD5;
+}
 .content-box .top-area-box {
   position: relative;
   width: 100%;

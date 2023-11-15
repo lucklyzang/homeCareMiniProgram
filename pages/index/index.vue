@@ -1,6 +1,28 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<!-- 我的客服弹框 -->
+		<view class="support-staff-box">
+			<u-popup :show="showSupportStaffBox" :closeable="true" mode="center"  @close="closeSupportStaffBox">
+				<view class="support-staff-content">
+					<view class="support-staff-top">
+							<image src="@/static/img/support-staff.png"></image>
+							<text>服务电话</text>
+							<text>409-5646-89893434</text>
+					</view>
+					<view class="support-staff-bottom">
+						<view class="support-staff-left">
+							<image src="@/static/img/message.png"></image>
+							<text>发送消息</text>
+						</view>
+						<view class="support-staff-right">
+							<image src="@/static/img/phone.png"></image>
+							<text>拨打电话</text>
+						</view>
+					</view>
+				</view>
+			</u-popup>
+		</view>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area">
 			<view class="top-area-left" @click="searchEvent">
@@ -8,7 +30,7 @@
 			</view>
 			<view class="top-area-right">
 				<image src="@/static/img/scan-icon.png"></image>
-				<image src="@/static/img/home-service-icon.png"></image>
+				<image src="@/static/img/home-service-icon.png" @click="showSupportStaffBox = true"></image>
 			</view>
 		</view>
 		<view class="banner-area-box">
@@ -185,6 +207,7 @@
 				count: 5,
 				value: 2,
 				bannerList: [],
+				showSupportStaffBox: false,
 				nurseList: [
 					{
 						text: '健康护理',
@@ -231,6 +254,11 @@
 		methods: {
 			...mapMutations([
 			]),
+			
+			//客服弹框关闭事件
+			closeSupportStaffBox () {
+				this.showSupportStaffBox = false
+			},
 			
 			// 轮播图点击事件
 			swiperClickEvent (index) {
@@ -339,6 +367,73 @@
 			width: 100%;
 			height: 100px; 
 			display: block;
+		};
+		::v-deep .u-popup {
+			.u-popup__content {
+				width: 90%;
+				padding: 30px 10px 20px 10px;
+				box-sizing: border-box;
+				border-radius: 14px;
+				.u-popup__content__close {
+					.u-icon__icon {
+						color: #101010 !important
+					}
+				};
+				.support-staff-content {
+					.support-staff-top {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						>image {
+							width: 106px;
+							height: 129px
+						};
+						>text {
+							font-size: 18px;
+							color: #101010;
+							&:nth-of-type(1) {
+								margin: 10px 0;
+							}
+						}
+					};
+					.support-staff-bottom {
+						display: flex;
+						margin-top: 20px;
+						.support-staff-left {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							>image {
+								width: 24px;
+								height: 24px;
+								margin-bottom: 6px
+							};
+							>text {
+								font-size: 14px;
+								color: #4E9FD5
+							}
+						};
+						.support-staff-right {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							>image {
+								width: 24px;
+								height: 24px;
+								margin-bottom: 6px
+							};
+							>text {
+								font-size: 14px;
+								color: #4E9FD5
+							}
+						}
+					}
+				}
+			}
 		};
 		.top-area {
 			height: 50px;
