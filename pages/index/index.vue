@@ -23,7 +23,6 @@
 				</view>
 			</u-popup>
 		</view>
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area">
 			<view class="top-area-left" @click="searchEvent">
 				<u-search placeholder="输入医院护士服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
