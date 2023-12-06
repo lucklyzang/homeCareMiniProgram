@@ -13,17 +13,6 @@ const app = new Vue({
 	...App,
 	store,
 	created () {
-		// 判断是否登录过
-		let login = getCache('isLogin');
-		if (login) {
-			uni.switchTab({
-				url: '/pages/index/index'
-			})
-		} else {
-			uni.redirectTo({
-				url: '/pages/login/login'
-			})
-		}
 	}
 });
 app.$mount();

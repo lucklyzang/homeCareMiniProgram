@@ -1012,9 +1012,8 @@
         margin-top: 50px;
 				button {
 					font-size: 16px;
-					color: #000000;
-					background: #fff;
-					border: 1px solid #BBBBBB;
+					color: #fff;
+					background: #FC8C8C;
 					height: 46px;
 					line-height: 46px;
           border-radius: 10px;
@@ -1046,9 +1045,8 @@
 				margin-top: 50px;
 				button {
 					font-size: 16px;
-					color: #000000;
-					background: #fff;
-					border: 1px solid #BBBBBB;
+					color: #fff;
+					background: #FC8C8C;
 					height: 46px;
 					line-height: 46px;
 				  border-radius: 10px;
