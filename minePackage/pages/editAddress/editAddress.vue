@@ -66,7 +66,7 @@
 					cityName:'',
 					townName:''
 				},
-				region: '点击选择所在地址',
+				region: '',
 				infoText: '加载中',
 				detailSiteValue: '',
 				checked: ["默认地址"]

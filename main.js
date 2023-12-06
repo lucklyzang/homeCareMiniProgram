@@ -1,13 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
-import ourLoading from '@/components/our-loading/our-loading.vue'
 import { getCache } from '@/common/js/utils'
 import { noMultipleClicks } from '@/common/js/utils'
 Vue.prototype.$noMultipleClicks = noMultipleClicks
 import uView from "uview-ui";
 Vue.use(uView);
-Vue.component('ourLoading', ourLoading);
 Vue.config.productionTip = false;
 App.mpType = 'app';
 

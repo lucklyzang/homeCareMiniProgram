@@ -134,8 +134,47 @@
 							<text>2023-02-12</text>
 						</view>
 					</view>
+					<view class="user-evaluate-list">
+						<view class="user-evaluate-list-left">
+							<view>
+								<u-rate :count="count" activeColor="#FFA903" v-model="value" readonly></u-rate>
+							</view>
+							<view>
+								<text>护师非常的负责</text>
+							</view>
+							<view>
+								<text>王先生</text>
+								<text>互联网预约</text>
+							</view>
+						</view>
+						<view class="user-evaluate-list-right">
+							<text>黄疸检测</text>
+							<text>2023-02-12</text>
+						</view>
+					</view>
+					<view class="user-evaluate-list">
+						<view class="user-evaluate-list-left">
+							<view>
+								<u-rate :count="count" activeColor="#FFA903" v-model="value" readonly></u-rate>
+							</view>
+							<view>
+								<text>护师非常的负责</text>
+							</view>
+							<view>
+								<text>王先生</text>
+								<text>互联网预约</text>
+							</view>
+						</view>
+						<view class="user-evaluate-list-right">
+							<text>黄疸检测</text>
+							<text>2023-02-12</text>
+						</view>
+					</view>
 				</view>
 			</view>
+		</view>
+		<view class="sure-choose-btn-box" v-if="isShowSureChooseBtn" @click="designateNurseEvent">
+			<text>确定选择</text>
 		</view>
 	</view>
 </template>
@@ -166,6 +205,7 @@
 				count: 1,
 				value: 1,
 				showLoadingHint: false,
+				isShowSureChooseBtn: false,
 				deviceNumber: 0,
 				personPhotoSource: ''
 			}
@@ -189,6 +229,11 @@
 		},
 		
 		onShow() {
+			let pages = getCurrentPages() // 获取栈实例
+			let currentRoute = pages[pages.length-2].route;
+			if (currentRoute == 'servicePackage/pages/chooseNurse/chooseNurse') {
+				this.isShowSureChooseBtn = true
+			}
 		},
 		methods: {
 			...mapMutations([
@@ -200,6 +245,13 @@
 			viewMoreUserEvaluateEvent () {
 				uni.navigateTo({
 					url: '/servicePackage/pages/moreUseEvaluate/moreUseEvaluate'
+				})
+			},
+			
+			// 选定护士事件
+			designateNurseEvent () {
+				uni.navigateBack({
+					delta: 2
 				})
 			},
 			
@@ -223,7 +275,7 @@
 		.top-area-box {
 			position: relative;
 			width: 100%;
-			height: 340px;
+			height: 330px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -315,6 +367,7 @@
 			};
 			.center-area-box {
 				width: 96%;
+				z-index: 100;
 				position: absolute;
 				left: 2%;
 				top: 180px;
@@ -376,12 +429,12 @@
 		.bottom-area-box {
 			width: 96%;
 			margin: 0 auto;
+			flex: 1;
 			overflow: auto;
 			.service-project {
 				padding: 0 10px 10px 10px;
 				box-sizing: border-box;
 				background: #fff;
-				margin-top: 10px;
 				border-radius: 8px;
 				box-shadow: 0px 2px 6px 0 rgba(202, 200, 200, 0.4);
 				.title-area {
@@ -494,6 +547,26 @@
 					}
 				}
 			}
+		};
+		.sure-choose-btn-box {
+			 width: 70%;
+			 margin: 0 auto;
+			 padding: 10px 0;
+			 box-sizing: border-box;
+			 display: flex;
+			 align-items: center;
+			 justify-content: center;
+			 >text {
+				 width: 100%;
+				 border-radius: 20px;
+				 background: #FC4278;
+				 display: inline-block;
+				 text-align: center;
+				 line-height: 40px;
+				 height: 40px;
+				 font-size: 12px;
+				 color: #fff
+			 }
 		}
 	}
 </style>

@@ -72,7 +72,7 @@
 		.top-area-box {
 			position: relative;
 			width: 100%;
-			height: 80px;
+			height: 100px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -87,12 +87,12 @@
 				}
 			}
 		};
-		.message-details-wrapper {
+		.message-content-wrapper {
 			flex: 1;
 			overflow: auto;
 			display: flex;
 			flex-direction: column;
-			padding: 16px 16px 16px 16px;
+			padding: 0 16px 16px 16px;
 			box-sizing: border-box;
 			position: relative;
 			 ::v-deep .u-empty {

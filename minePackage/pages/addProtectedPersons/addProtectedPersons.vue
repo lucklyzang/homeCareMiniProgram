@@ -304,9 +304,7 @@
 			
 			// 保存被护人事件
 			saveProtectedPersonsEvent () {
-				uni.navigateTo({
-					url: '/minePackage/pages/addAddress/addAddress'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

@@ -313,6 +313,9 @@
 				if (text == '指定') {
 					this.isPlatformRecommendNurse = false
 				} else {
+					uni.navigateTo({
+						url: '/servicePackage/pages/chooseNurse/chooseNurse'
+					});
 					this.isPlatformRecommendNurse = true
 				}
 			},

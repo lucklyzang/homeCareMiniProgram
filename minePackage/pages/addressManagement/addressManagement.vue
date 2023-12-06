@@ -36,8 +36,8 @@
 						<text>默认地址</text>
 					</view>
 					<view class="list-bottom-right">
-						<image :src="editBlackIconPng"></image>
-						<image :src="deleteBlackIconPng"></image>
+						<image :src="editBlackIconPng" @click="editAddressEvent"></image>
+						<image :src="deleteBlackIconPng" @click="deleteAddressEvent"></image>
 					</view>
 				</view>
 			</view>
@@ -127,6 +127,16 @@
 			checkboxChange(n) {
 				console.log('change', n);
 			},
+			
+			// 编辑地址事件
+			editAddressEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/editAddress/editAddress'
+				})
+			},
+			
+			// 删除地址事件
+			deleteAddressEvent () {},
 			
 			// 添加地址事件
 			addSiteEvent () {

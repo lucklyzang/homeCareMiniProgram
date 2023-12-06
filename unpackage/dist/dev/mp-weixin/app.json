@@ -25,7 +25,8 @@
         "pages/moreSpecialist/moreSpecialist",
         "pages/moreUseEvaluate/moreUseEvaluate",
         "pages/searchDetails/searchDetails",
-        "pages/reservationServiceList/reservationServiceList"
+        "pages/reservationServiceList/reservationServiceList",
+        "pages/chooseNurse/chooseNurse"
       ],
       "name": "rootServicePackage"
     },
@@ -51,12 +52,14 @@
         "pages/myCollect/myCollect",
         "pages/addressManagement/addressManagement",
         "pages/addAddress/addAddress",
+        "pages/editAddress/editAddress",
         "pages/mapChooseAddress/mapChooseAddress",
         "pages/aboutAgreement/aboutAgreement",
         "pages/myProtectedPersons/myProtectedPersons",
         "pages/addProtectedPersons/addProtectedPersons",
         "pages/evaluationFormList/evaluationFormList",
         "pages/createEvaluationForm/createEvaluationForm",
+        "pages/editEvaluationForm/editEvaluationForm",
         "pages/myNurse/myNurse"
       ],
       "name": "rootMinePackage"

@@ -30,8 +30,8 @@
 					</view>
 				</view>
 				<view class="evaluation-form-list-right">
-					<image :src="editBlackIconPng"></image>
-					<image :src="deleteBlackIconPng"></image>
+					<image :src="editBlackIconPng" @click="editEvaluationFormEvent"></image>
+					<image :src="deleteBlackIconPng" @click="deleteEvaluationFormEvent"></image>
 				</view>
 			</view>
 			<view class="evaluation-form-list">
@@ -110,6 +110,18 @@
 			
 			checkboxChange(n) {
 				console.log('change', n);
+			},
+			
+			// 编辑评估单事件
+			editEvaluationFormEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/editEvaluationForm/editEvaluationForm'
+				})
+			},
+			
+			// 删除评估单事件
+			deleteEvaluationFormEvent () {
+				
 			},
 			
 			// 新增评估单事件

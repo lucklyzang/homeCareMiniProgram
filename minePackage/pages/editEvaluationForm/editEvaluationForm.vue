@@ -264,9 +264,7 @@
 			
 			// 保存评估单事件
 			saveEvaluationformEvent () {
-				uni.navigateBack({
-					delta: 2
-				})
+				uni.navigateBack()
 			}
 		}
 	}
