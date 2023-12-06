@@ -1,7 +1,6 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<!-- 我的客服弹框 -->
 		<view class="support-staff-box">
 			<u-popup :show="showSupportStaffBox" :closeable="true" mode="center"  @close="closeSupportStaffBox">

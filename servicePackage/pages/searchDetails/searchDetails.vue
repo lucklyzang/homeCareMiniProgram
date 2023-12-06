@@ -1,7 +1,6 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area-box">
 			<view class="top-area-left" @click="backTo">
 				<u-icon name="arrow-left" color="#101010" size="22"></u-icon>

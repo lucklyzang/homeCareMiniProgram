@@ -1,7 +1,6 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<Winglau14-lotusAddress ref="lotusAddress" v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></Winglau14-lotusAddress>
 		<view class="top-area-box">
 			<view class="nav">

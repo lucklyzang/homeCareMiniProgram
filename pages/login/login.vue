@@ -68,7 +68,6 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast"></u-toast>
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="loadingText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<u-modal v-model="modalShow" :content="modalContent"
 		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
 		</u-modal>
