@@ -264,8 +264,8 @@ page {
   left: 10px;
 }
 .container .container-content .top-area-box .title > view:nth-child(2) {
-  width: 64px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   margin: 20px 0 10px 0;
 }
 .container .container-content .top-area-box .title > view:nth-child(2) image {
@@ -344,12 +344,14 @@ page {
 }
 .container .container-content .form-btn button {
   font-size: 16px;
-  color: #000000;
-  background: #fff;
-  border: 1px solid #BBBBBB;
+  color: #fff;
+  background: #FC8C8C;
   height: 46px;
   line-height: 46px;
   border-radius: 10px;
+}
+.container .container-content .form-btn .uniButtonStyle {
+  opacity: 0.5;
 }
 .container .container-content .form-btn .form-btn-info-text {
   margin-top: 8px;
@@ -374,12 +376,14 @@ page {
 }
 .container .container-content .enter-home-btn button {
   font-size: 16px;
-  color: #000000;
-  background: #fff;
-  border: 1px solid #BBBBBB;
+  color: #fff;
+  background: #FC8C8C;
   height: 46px;
   line-height: 46px;
   border-radius: 10px;
+}
+.container .container-content .enter-home-btn .uniButtonStyle {
+  opacity: 0.5;
 }
 .container .container-content .weixin-login {
   width: 80%;

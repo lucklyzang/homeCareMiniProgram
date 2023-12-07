@@ -32,6 +32,9 @@
 				<image src="@/static/img/home-service-icon.png" @click="showSupportStaffBox = true"></image>
 			</view>
 		</view>
+		<view class="loading-box">
+			<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
+		</view>
 		<view class="banner-area-box">
 			<u-swiper @click="swiperClickEvent" keyName="image"  indicator :list="bannerList"></u-swiper>
 		</view>
@@ -202,9 +205,6 @@
 		},
 		data() {
 			return {
-				infoText: '',
-				count: 5,
-				value: 2,
 				bannerList: [],
 				showSupportStaffBox: false,
 				nurseList: [
@@ -225,9 +225,10 @@
 						icon: require("@/static/img/chronic-disease-nurse.png")
 					}
 				],
+				count: 5,
+				value: 3,
 				searchValue: '',
-				showLoadingHint: false,
-				isShowHomeNoData: false
+				showLoadingHint: false
 			}
 		},	
 		onShow() {
@@ -311,7 +312,6 @@
 			// 获取首页banner列表
 			queryUserBannerList () {
 				this.showLoadingHint = true;
-				this.infoText = '加载中...';
 				this.bannerList = [];
 				getUserBannerList().then((res) => {
 					if ( res && res.data.code == 0) {
@@ -325,7 +325,7 @@
 						}
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -335,7 +335,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -463,6 +463,12 @@
 					}
 				}
 			}
+		};
+		.loading-box {
+			height: 35px;
+			display: flex;
+			align-items: center;
+			justify-content: center
 		};
 		.banner-area-box {
 			padding: 0 10px 10px 10px;

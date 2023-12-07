@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-toast ref="uToast" />
 		<Winglau14-lotusAddress ref="lotusAddress" v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></Winglau14-lotusAddress>
 		<view class="top-area-box">
@@ -50,6 +52,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { createAddress } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -58,6 +61,8 @@
 		data() {
 			return {
 				showLoadingHint: false,
+				infoText: '加载中···',
+				areaId: '',
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
 				lotusAddressData:{
 					visible: false,
@@ -73,7 +78,7 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo'
 			]),
 			userName() {
 			},
@@ -102,6 +107,7 @@
 			
 			//回传已选的省市区的值
 			choseValue (res) {
+				this.areaId = res.townCode;
 				//res数据源包括已选省市区与省市区code
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选
@@ -161,9 +167,61 @@
 				})
 			},
 			
+			// 创建用户收获地址
+			createUserAddress (data) {
+				this.showLoadingHint = true;
+				createAddress(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '地址创建成功',
+							type: 'success',
+							position: 'center'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
+			},
+			
 			// 确认保存事件
 			sureSaveEvent () {
-				uni.navigateBack()
+				if (this.region == '点击选择所在地址') {
+					this.$refs.uToast.show({
+						message: '省市区/县不能为空',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				} else if (!this.detailSiteValue) {
+					this.$refs.uToast.show({
+						message: '详细地址不能为空',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				let data = {
+					userId: this.userInfo.userId,
+					areaId: this.areaId,
+					address: this.region.replaceAll(" ",""),
+					detailAddress: this.detailSiteValue,
+					defaultStatus: this.checked == '["默认地址"]' ? true : false,
+					coordinate: ""
+				};
+				this.createUserAddress(data)
 			}
 		}
 	}
@@ -178,6 +236,14 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f1f1f1;
+		position: relative;
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			background: #F8F8F8;

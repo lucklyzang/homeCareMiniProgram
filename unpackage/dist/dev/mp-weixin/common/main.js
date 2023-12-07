@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(wx, uni, createApp) {
+/* WEBPACK VAR INJECTION */(function(wx, createApp) {
 
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
@@ -22,34 +22,16 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 // @ts-ignore
 wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
-var ourLoading = function ourLoading() {
-  __webpack_require__.e(/*! require.ensure | components/our-loading/our-loading */ "components/our-loading/our-loading").then((function () {
-    return resolve(__webpack_require__(/*! @/components/our-loading/our-loading.vue */ 526));
-  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
 _vue.default.prototype.$noMultipleClicks = _utils.noMultipleClicks;
 _vue.default.use(_uviewUi.default);
-_vue.default.component('ourLoading', ourLoading);
 _vue.default.config.productionTip = false;
 _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread(_objectSpread({}, _App.default), {}, {
   store: _store.default,
-  created: function created() {
-    // 判断是否登录过
-    var login = (0, _utils.getCache)('isLogin');
-    if (login) {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
-    } else {
-      uni.redirectTo({
-        url: '/pages/login/login'
-      });
-    }
-  }
+  created: function created() {}
 }));
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["createApp"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["createApp"]))
 
 /***/ }),
 
@@ -126,16 +108,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
-var _user = __webpack_require__(/*! @/api/user.js */ 31);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _default = {
   computed: _objectSpread({}, (0, _vuex.mapGetters)([])),
   onLaunch: function onLaunch() {},
   onShow: function onShow() {
-    console.log('启动了');
-    // 创建用户启动数据
-    (0, _user.createUserBootUpData)().then(function (res) {}).catch(function (err) {});
     if (uni.canIUse('getUpdateManager')) {
       var updateManager = uni.getUpdateManager();
       updateManager.onCheckForUpdate(function (res) {

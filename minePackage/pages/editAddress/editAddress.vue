@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-toast ref="uToast" />
 		<Winglau14-lotusAddress ref="lotusAddress" v-on:choseVal="choseValue" :lotusAddressData="lotusAddressData"></Winglau14-lotusAddress>
 		<view class="top-area-box">
@@ -50,6 +52,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { updateAddress } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -66,7 +69,7 @@
 					townName:''
 				},
 				region: '',
-				infoText: '加载中',
+				infoText: '编辑中···',
 				detailSiteValue: '',
 				checked: ["默认地址"]
 			}
@@ -161,9 +164,61 @@
 				})
 			},
 			
+			// 编辑用户收获地址
+			updateUserAddress (data) {
+				this.showLoadingHint = true;
+				updateAddress(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '地址创建成功',
+							type: 'success',
+							position: 'center'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
+			},
+			
 			// 确认保存事件
 			sureSaveEvent () {
-				uni.navigateBack()
+				if (this.region == '点击选择所在地址') {
+					this.$refs.uToast.show({
+						message: '省市区/县不能为空',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				} else if (!this.detailSiteValue) {
+					this.$refs.uToast.show({
+						message: '详细地址不能为空',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				let data = {
+					userId: this.userInfo.userId,
+					areaId: this.areaId,
+					address: this.region.replaceAll(" ",""),
+					detailAddress: this.detailSiteValue,
+					defaultStatus: false,
+					coordinate: ""
+				};
+				this.updateUserAddress(data)
 			}
 		}
 	}
@@ -178,6 +233,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f1f1f1;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			background: #F8F8F8;

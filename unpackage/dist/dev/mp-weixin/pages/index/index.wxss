@@ -136,6 +136,12 @@ page {
 .content-box .top-area .top-area-right > image:nth-child(1) {
   margin-right: 14px;
 }
+.content-box .loading-box {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .content-box .banner-area-box {
   padding: 0 10px 10px 10px;
   min-height: 135px;

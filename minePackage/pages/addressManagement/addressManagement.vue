@@ -1,5 +1,10 @@
 <template>
 	<view class="content-box">
+		<u-modal :show="modalShow" :title="modalContent"
+		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
+		</u-modal>
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-toast ref="uToast" />
 		<view class="top-area-box">
 			<view class="nav">
@@ -8,26 +13,26 @@
 		  </view>
 		</view>
 		<view class="address-list-box">
-			<!-- <view class="image-box">
+			<view class="image-box" v-if="isEmpty">
 				<image :src="noAddressManagementPng"></image>
-			</view> -->
-			<view class="address-list">
+			</view>
+			<view v-else class="address-list" v-for="(item,index) in addressList" :key="index">
 				<view class="address-list-top">
 					<view class="site">
 						<image :src="addressBlackIconPng"></image>
 						<text>地址:</text>
-						<text>山东省济南市大苏打</text>
+						<text>{{ item.address }}</text>
 					</view>
 					<view class="detail-site">
 						<text>详细地址:</text>
-						<text>山东省济南市大苏打山东省济南市大苏打山东省济南市大苏打山东省济南市大苏打</text>
+						<text>{{ item.detailAddress }}</text>
 					</view>
 				</view>
 				<view class="line"></view>
 				<view class="address-list-bottom">
 					<view class="list-bottom-left">
 						<u-checkbox-group 
-								v-model="checked"
+								v-model="defaultStatus"
 								 @change="checkboxChange"
 								shape="circle">
 							<u-checkbox :disabled="true" activeColor="#11D183" size="18" iconSize="12" name="1"></u-checkbox>
@@ -36,36 +41,7 @@
 					</view>
 					<view class="list-bottom-right">
 						<image :src="editBlackIconPng" @click="editAddressEvent"></image>
-						<image :src="deleteBlackIconPng" @click="deleteAddressEvent"></image>
-					</view>
-				</view>
-			</view>
-			<view class="address-list">
-				<view class="address-list-top">
-					<view class="site">
-						<image :src="addressBlackIconPng"></image>
-						<text>地址:</text>
-						<text>山东省济南市大苏打</text>
-					</view>
-					<view class="detail-site">
-						<text>详细地址:</text>
-						<text>山东省济南市大苏打山东省济南市大苏打山东省济南市大苏打山东省济南市大苏打</text>
-					</view>
-				</view>
-				<view class="line"></view>
-				<view class="address-list-bottom">
-					<view class="list-bottom-left">
-						<u-checkbox-group 
-								v-model="checked"
-								 @change="checkboxChange"
-								shape="circle">
-							<u-checkbox :disabled="true" activeColor="#11D183" size="18" iconSize="12" name="2"></u-checkbox>
-						</u-checkbox-group>
-						<text>默认地址</text>
-					</view>
-					<view class="list-bottom-right">
-						<image :src="editBlackIconPng"></image>
-						<image :src="deleteBlackIconPng"></image>
+						<image :src="deleteBlackIconPng" @click="deleteAddressEvent(item)"></image>
 					</view>
 				</view>
 			</view>
@@ -85,6 +61,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getUserAddressList, deleteUserAddress } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -93,19 +70,22 @@
 		data() {
 			return {
 				showLoadingHint: false,
-				count: 1,
-				value: 1,
+				infoText: '加载中···',
+				addressList: [],
+				defaultStatus: ['1'],
+				isEmpty: false,
+				modalShow: false,
+				modalContent: '',
+				selectServerAddressId: '',
 				noAddressManagementPng: require("@/static/img/no-address-management.png"),
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
 				editBlackIconPng: require("@/static/img/edit-black-icon.png"),
-				deleteBlackIconPng: require("@/static/img/delete-black-icon.png"),
-				infoText: '加载中',
-				checked: ['1']
+				deleteBlackIconPng: require("@/static/img/delete-black-icon.png")
 			}
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo'
 			]),
 			userName() {
 			},
@@ -113,6 +93,7 @@
 			}
 		},
 		onShow() {
+			this.queryUserAddressList()
 		},
 		methods: {
 			...mapMutations([
@@ -127,6 +108,40 @@
 				console.log('change', n);
 			},
 			
+			// 获取用户服务地址列表
+			queryUserAddressList () {
+				this.isEmpty = false;
+				this.showLoadingHint = true;
+				this.bannerList = [];
+				getUserAddressList({
+					userId: this.userInfo.userId
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length > 0) {
+							this.isEmpty = false;
+							this.addressList = res.data.data
+						} else {
+							this.isEmpty = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 编辑地址事件
 			editAddressEvent () {
 				uni.navigateTo({
@@ -135,7 +150,45 @@
 			},
 			
 			// 删除地址事件
-			deleteAddressEvent () {},
+			deleteAddressEvent (item) {
+				this.selectServerAddressId = item.id;
+				this.modalShow = true;
+				this.modalContent = '确认删除该地址?'
+			},
+			
+			// 是否删除地址弹框确定事件
+			sureCancel () {
+				this.showLoadingHint = true;
+				this.modalContent = '';
+				this.modalShow = false;
+				deleteUserAddress({
+					id: this.selectServerAddressId
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '删除地址成功!',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.queryUserAddressList()
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err.message}`
+				})
+			},
+			
+			// 是否删除地址弹框取消事件
+			cancelSure () {
+				this.modalShow = false
+			},
+			
 			
 			// 添加地址事件
 			addSiteEvent () {
@@ -156,6 +209,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f1f1f1;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			background: #F8F8F8;

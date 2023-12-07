@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/login/login",
     "pages/index/index",
+    "pages/login/login",
     "pages/service/service",
     "pages/message/message",
     "pages/orderForm/orderForm",
@@ -141,7 +141,5 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
-  "usingComponents": {
-    "our-loading": "/components/our-loading/our-loading"
-  }
+  "usingComponents": {}
 }
