@@ -176,7 +176,8 @@
 							message: '地址创建成功',
 							type: 'success',
 							position: 'center'
-						})
+						});
+						uni.navigateBack()
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -218,7 +219,7 @@
 					areaId: this.areaId,
 					address: this.region.replaceAll(" ",""),
 					detailAddress: this.detailSiteValue,
-					defaultStatus: this.checked == '["默认地址"]' ? true : false,
+					defaultStatus: JSON.stringify(this.checked) == '["默认地址"]' ? true : false,
 					coordinate: ""
 				};
 				this.createUserAddress(data)

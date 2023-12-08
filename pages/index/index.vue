@@ -40,9 +40,9 @@
 		</view>
 		<view class="center-area">
 			<view class="nurse-type">
-				<view class="nurse-type-list" v-for="(item,index) in nurseList" :key="index" @click="enterServiceTypeEvent(item,index)">
-					<image :src="item.icon"></image>
-					<text>{{ item.text }}</text>
+				<view class="nurse-type-list" v-for="(item,index) in productTypeList" :key="index" @click="enterServiceTypeEvent(item,index)">
+					<image :src="item.picUrl"></image>
+					<text>{{ item.name }}</text>
 				</view>
 			</view>
 			<view class="latest-news">
@@ -63,9 +63,9 @@
 					<view class="service-title-left">推荐服务</view>
 					<view class="service-title-right">我们的每一位护工都是经过严格培训!</view>
 				</view>
-				<view class="service-list" @click="enterServiceDetailsEvent">
+				<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item)">
 					<view class="service-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+						<u-image :src="item.picUrl" width="63" height="63">
 							 <template v-slot:loading>
 							    <u-loading-icon color="red"></u-loading-icon>
 							  </template>
@@ -73,29 +73,11 @@
 					</view>
 					<view class="service-list-right">
 						<view class="service-project">
-							<text>婴儿黄疸检测</text>
+							<text>{{ item.name }}</text>
 							<text>内部专属护理,欢迎体验!</text>
 						</view>
 						<view class="service-price">
-							<text>￥150起</text>
-						</view>
-					</view>
-				</view>
-				<view class="service-list">
-					<view class="service-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="service-list-right">
-						<view class="service-project">
-							<text>婴儿黄疸检测</text>
-							<text>内部专属护理,欢迎体验!</text>
-						</view>
-						<view class="service-price">
-							<text>￥150起</text>
+							<text>{{ `￥${item.price}起` }}</text>
 						</view>
 					</view>
 				</view>
@@ -110,9 +92,9 @@
 						<u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon>
 					</view>
 				</view>
-				<view class="nurse-practitioner-list" @click="viewSpecialistDetailsEvent">
+				<view class="nurse-practitioner-list" v-for="(item,index) in nurseList" @click="viewSpecialistDetailsEvent(item)">
 					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+						<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
 							 <template v-slot:loading>
 							    <u-loading-icon color="red"></u-loading-icon>
 							  </template>
@@ -120,71 +102,31 @@
 					</view>
 					<view class="nurse-practitioner-list-right">
 						<view class="nurse-practitioner-name">
-							<text>张颖</text>
-							<text>主管护师</text>
+							<text>{{ item.name }}</text>
+							<text>{{ nurseTitleTransition(item.title) }}</text>
 						</view>
 						<view class="hospital-name">
-							<text>成都市妇女儿童中心医院 (东城根)</text>
+							<text>{{ item.organization }}</text>
 						</view>
 						<view class="rate">
-							<u-rate :count="count" v-model="value" active-color="#E86F50"></u-rate>
-							<text>5624</text>
+							<u-rate :count="count" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+							<text>{{ item.commentCount }}</text>
 							<text>条评价</text>
 						</view>
 						<view class="nurse-practitioner-performance">
 							<view class="nurse-practitioner-performance-left">
 								<text>帮助</text>
-								<text>3456</text>
+								<text>{{ item.quantity }}</text>
 								<text>人</text>
 							</view>
 							<view class="nurse-practitioner-performance-right">
 								<text>服务</text>
-								<text>345</text>
+								<text>{{ (item.timeLength/60).toFixed(2) }}</text>
 								<text>小时</text>
 							</view>
 						</view>
 						<view class="good-territory">
-							<text>乳腺疏通</text>
-							<text>黄疸检测</text>
-						</view>
-					</view>
-				</view>
-				<view class="nurse-practitioner-list">
-					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="nurse-practitioner-list-right">
-						<view class="nurse-practitioner-name">
-							<text>张颖</text>
-							<text>主管护师</text>
-						</view>
-						<view class="hospital-name">
-							<text>成都市妇女儿童中心医院 (东城根)</text>
-						</view>
-						<view class="rate">
-							<u-rate :count="count" v-model="value" active-color="#E86F50"></u-rate>
-							<text>5624</text>
-							<text>条评价</text>
-						</view>
-						<view class="nurse-practitioner-performance">
-							<view class="nurse-practitioner-performance-left">
-								<text>帮助</text>
-								<text>3456</text>
-								<text>人</text>
-							</view>
-							<view class="nurse-practitioner-performance-right">
-								<text>服务</text>
-								<text>345</text>
-								<text>小时</text>
-							</view>
-						</view>
-						<view class="good-territory">
-							<text>乳腺疏通</text>
-							<text>黄疸检测</text>
+							<text v-for="(innerItem,innerIndex) in item.genius" :key="innerIndex">{{ innerItem }}</text>
 						</view>
 					</view>
 				</view>
@@ -198,7 +140,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import { getUserBannerList } from '@/api/user.js'
+	import { getUserBannerList, getNurse, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -207,24 +149,10 @@
 			return {
 				bannerList: [],
 				showSupportStaffBox: false,
-				nurseList: [
-					{
-						text: '健康护理',
-						icon: require("@/static/img/health-nurse.png")
-					},
-					{
-						text: '妈妈护理',
-						icon: require("@/static/img/mother-nurse.png")
-					},
-					{
-						text: '宝宝护理',
-						icon: require("@/static/img/baby-nurse.png")
-					},
-					{
-						text: '慢病看护',
-						icon: require("@/static/img/chronic-disease-nurse.png")
-					}
-				],
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
+				productTypeList: [],
+				recommendProductList: [],
+				nurseList: [],
 				count: 5,
 				value: 3,
 				searchValue: '',
@@ -232,15 +160,26 @@
 			}
 		},	
 		onShow() {
-			this.queryUserBannerList()
+			this.queryUserBannerList({position: 1});
+			this.queryNurseList({
+				pageNo: 1,
+				pageSize: 3
+			});
+			this.queryHomeHotProduct({
+				recommendType: 'hot',
+				count: 3
+			});
+			this.queryHomeProductCategory()
 		},
+		
 		onHide () {
 		},
 		destroyed () {
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'nurseRankDictData'
 			]),
 			userName() {
 			},
@@ -258,6 +197,102 @@
 			//客服弹框关闭事件
 			closeSupportStaffBox () {
 				this.showSupportStaffBox = false
+			},
+			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
+			},
+			
+			// 查询首页医护
+			queryNurseList(data) {
+				this.showLoadingHint = true;
+				getNurse(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.nurseList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							
+						} else {
+							this.nurseList.forEach((item) => {
+								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
+							})
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询首页商品分类
+			queryHomeProductCategory() {
+				this.showLoadingHint = true;
+				getHomeProductCategory().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.productTypeList = res.data.data;
+						if (res.data.data.length == 0) {
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询首页推荐商品
+			queryHomeHotProduct(data) {
+				this.showLoadingHint = true;
+				getHomeHotProduct(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.recommendProductList = res.data.data;
+						if (res.data.data.length == 0) {
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 轮播图点击事件
@@ -296,9 +331,11 @@
 			},
 			
 			// 查看护师详情事件
-			viewSpecialistDetailsEvent () {
+			viewSpecialistDetailsEvent (item) {
+				// 传递护师信息
+				let mynavData = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/servicePackage/pages/specialistDetails/specialistDetails'
+					url: '/servicePackage/pages/specialistDetails/specialistDetails?transmitData='+mynavData
 				})
 			},
 			
@@ -310,16 +347,16 @@
 			},
 			
 			// 获取首页banner列表
-			queryUserBannerList () {
+			queryUserBannerList (data) {
 				this.showLoadingHint = true;
 				this.bannerList = [];
-				getUserBannerList().then((res) => {
+				getUserBannerList(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length > 0) {
 							for (let item of res.data.data) {
 								this.bannerList.push({
 									image: item.picUrl,
-									title: item.title
+									title: ''
 								})
 							}
 						}
@@ -705,6 +742,7 @@
 						};
 						.rate {
 							margin-top: 6px;
+							display: flex;
 							>text {
 								font-size: 12px;
 								&:nth-of-type(1) {
@@ -753,6 +791,7 @@
 							}
 						};
 						.good-territory {
+							display: flex;
 							margin-top: 6px;
 							>text {
 								font-size: 12px;

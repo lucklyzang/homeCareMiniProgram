@@ -191,5 +191,6 @@ export const removeAllLocalStorage = () => {
 	removeCache('familyId');
 	removeCache('familyMessage');
 	removeCache('userBasicInfo');
+	removeCache('nurseRankDictData');
   removeCache('storeOverDueWay');
 }

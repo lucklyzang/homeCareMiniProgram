@@ -69,6 +69,8 @@
 					townName:''
 				},
 				region: '',
+				areaId: '',
+				servericeAddressId: '',
 				infoText: '编辑中···',
 				detailSiteValue: '',
 				checked: ["默认地址"]
@@ -76,14 +78,49 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo'
 			]),
 			userName() {
 			},
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.areaId = temporaryAddress['areaId'];
+			this.servericeAddressId = temporaryAddress['id'];
+			this.checked = temporaryAddress['defaultStatus'] == true ? ["默认地址"] : [];
+			let reg = /.+?(省|市|自治区|自治州|县|区)/g;
+			let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区))+?|.+)/g;
+			let cutoutAddressArray = temporaryAddress['address'].match(reg);
+			let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区)/g,'');
+			if (cutoutAddressArray[0] == '北京市' || cutoutAddressArray[0] == '重庆市' || cutoutAddressArray[0] == '上海市' || cutoutAddressArray[0] == '天津市') {
+				if (cutoutAddressArray[0] == '北京市') {
+					cutoutAddressArray.unshift('北京')
+				} else if (cutoutAddressArray[0] == '重庆市') {
+					cutoutAddressArray.unshift('重庆')
+				} else if (cutoutAddressArray[0] == '上海市') {
+					cutoutAddressArray.unshift('上海')
+				} else if (cutoutAddressArray[0] == '天津市') {
+					cutoutAddressArray.unshift('天津')
+				}
+			};
+			if (cutoutAddressArray.length == 3) {
+				this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+				this.lotusAddressData.cityName = cutoutAddressArray[1]; //市
+				this.lotusAddressData.townName = cutoutAddressArray[2]; //区/县
+			} else if (cutoutAddressArray.length == 2) {
+				this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+				this.lotusAddressData.cityName = cutoutAddressArray[1]; //市
+				this.lotusAddressData.townName = ''; //区/县
+			} else if (cutoutAddressArray.length == 1) {
+				this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
+				this.lotusAddressData.cityName = ''; //市
+				this.lotusAddressData.townName = ''; //区/县
+			};
+			this.region = cutoutAddressArray.join(" ");
+			this.detailSiteValue = temporaryAddress['detailAddress'];
 		},
 		methods: {
 			...mapMutations([
@@ -170,10 +207,11 @@
 				updateAddress(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
-							message: '地址创建成功',
+							message: '地址编辑成功',
 							type: 'success',
 							position: 'center'
-						})
+						});
+						uni.navigateBack()
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -215,7 +253,8 @@
 					areaId: this.areaId,
 					address: this.region.replaceAll(" ",""),
 					detailAddress: this.detailSiteValue,
-					defaultStatus: false,
+					defaultStatus: JSON.stringify(this.checked) == '["默认地址"]' ? true : false,
+					id: this.servericeAddressId,
 					coordinate: ""
 				};
 				this.updateUserAddress(data)

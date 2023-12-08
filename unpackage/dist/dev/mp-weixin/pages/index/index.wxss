@@ -376,6 +376,7 @@ page {
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate {
   margin-top: 6px;
+  display: flex;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate > text {
   font-size: 12px;
@@ -422,6 +423,7 @@ page {
   color: rgba(16, 16, 16, 0.35);
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .good-territory {
+  display: flex;
   margin-top: 6px;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .good-territory > text {

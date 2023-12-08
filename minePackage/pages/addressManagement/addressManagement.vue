@@ -32,7 +32,7 @@
 				<view class="address-list-bottom">
 					<view class="list-bottom-left">
 						<u-checkbox-group 
-								v-model="defaultStatus"
+								v-model="item.defaultStatus"
 								 @change="checkboxChange"
 								shape="circle">
 							<u-checkbox :disabled="true" activeColor="#11D183" size="18" iconSize="12" name="1"></u-checkbox>
@@ -40,7 +40,7 @@
 						<text>默认地址</text>
 					</view>
 					<view class="list-bottom-right">
-						<image :src="editBlackIconPng" @click="editAddressEvent"></image>
+						<image :src="editBlackIconPng" @click="editAddressEvent(item)"></image>
 						<image :src="deleteBlackIconPng" @click="deleteAddressEvent(item)"></image>
 					</view>
 				</view>
@@ -119,7 +119,10 @@
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length > 0) {
 							this.isEmpty = false;
-							this.addressList = res.data.data
+							this.addressList = res.data.data;
+							this.addressList.forEach((item) => {
+								item.defaultStatus = item.defaultStatus == false ? [] : ['1']
+							})
 						} else {
 							this.isEmpty = true
 						}
@@ -143,9 +146,11 @@
 			},
 			
 			// 编辑地址事件
-			editAddressEvent () {
+			editAddressEvent (item) {
+				// 传递服务地址信息
+				let mynavData = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/minePackage/pages/editAddress/editAddress'
+					url: '/minePackage/pages/editAddress/editAddress?transmitData='+mynavData
 				})
 			},
 			

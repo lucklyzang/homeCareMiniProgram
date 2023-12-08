@@ -1,6 +1,8 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="专家详情">
@@ -12,19 +14,19 @@
 			<image :src="loginBackgroundPng"></image>
 			<view class="user-info">
 				<view class="user-photo">
-					<image :src="defaultPersonPhotoIconPng"></image>
+					<image :src="!nurseMessage.avatar ? defaultNurseAvatar : nurseMessage.avatar"></image>
 				</view>
 				<view class="user-nickname">
 					<view>
-						<text>六年龙</text>
-						<text>主任护师</text>
+						<text>{{ nurseMessage.name }}</text>
+						<text>{{ nurseTitleTransition(nurseMessage.title) }}</text>
 					</view>
 					<view>
-						<text>成都妇女儿童医院机构</text>
+						<text>{{ nurseMessage.organization }}</text>
 					</view>
 				</view>
-				<view class="rate-box">
-					<u-rate :count="count" activeColor="#FFA903" v-model="value" readonly></u-rate>
+				<view class="rate-box" v-if="isVerifyNurseFavoriteComplete">
+					<u-icon name="heart-fill" :color="!isNurseFavorite ? '#fff' : '#E8CB51'" size="22" @click="collectNurseEvent"></u-icon>
 				</view>
 			</view>
 			<view class="center-area-box">
@@ -34,7 +36,7 @@
 							<image :src="serviceQuantityIconPng"></image>
 						</view>
 						<view>
-							<text>2312</text>
+							<text>{{ nurseMessage.quantity }}</text>
 							<text>服务量(人)</text>
 						</view>
 					</view>
@@ -43,7 +45,7 @@
 							<image :src="serviceHourIconPng"></image>
 						</view>
 						<view>
-							<text>542</text>
+							<text>{{ (nurseMessage.timeLength/60).toFixed(2) }}</text>
 							<text>服务时长(h)</text>
 						</view>
 					</view>
@@ -52,13 +54,13 @@
 							<image :src="collectQuantityIconPng"></image>
 						</view>
 						<view>
-							<text>32k</text>
+							<text>{{ transitionCollectQuantity(nurseMessage.quantity) }}</text>
 							<text>收藏量</text>
 						</view>
 					</view>
 				</view>
 				<view class="center-area-bottom">
-					从事产科临床工作二十余年，母乳喂养咨询工作多年，有丰富的母婴护理及母乳喂养实践经验。对母乳喂养问题处理、哺乳期乳房问题、早产儿喂养等均有深入研究。
+					{{ nurseMessage.introduction }}
 				</view>
 			</view>
 		</view>
@@ -187,6 +189,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { createNurseFavorite, verifyNurseFavorite, deleteNurseFavorite } from '@/api/user.js'
 	import {} from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
@@ -195,23 +198,28 @@
 		},
 		data() {
 			return {
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				serviceQuantityIconPng: require("@/static/img/service-quantity-icon.png"),
 				serviceHourIconPng: require("@/static/img/service-hour-icon.png"),
 				collectQuantityIconPng: require("@/static/img/collect-quantity-icon.png"),
-				infoText: '',
-				count: 1,
-				value: 1,
+				count: 5,
+				value: 2,
+				nurseMessage: {},
 				showLoadingHint: false,
+				infoText: '',
 				isShowSureChooseBtn: false,
 				deviceNumber: 0,
+				isVerifyNurseFavoriteComplete: false,
+				isNurseFavorite: false,
 				personPhotoSource: ''
 			}
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userBasicInfo',
+				'nurseRankDictData'
 			]),
 			userName() {
 			},
@@ -234,6 +242,15 @@
 				this.isShowSureChooseBtn = true
 			}
 		},
+		
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.nurseMessage = temporaryAddress;
+			this.verifyNurseFavoriteEvent({careId: this.nurseMessage.id });
+			console.log('护师信息',temporaryAddress);
+		},
+			
 		methods: {
 			...mapMutations([
 				'changeUserBasicInfo',
@@ -245,6 +262,110 @@
 				uni.navigateTo({
 					url: '/servicePackage/pages/moreUseEvaluate/moreUseEvaluate'
 				})
+			},
+			
+			// 收藏量转换
+			transitionCollectQuantity (value) {
+				if (value <= 0) {
+					return 0
+				} else {
+					return `${value/1000}千`
+				}
+			},
+			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
+			},
+			
+			// 校验医护是否收藏
+			verifyNurseFavoriteEvent(data) {
+				this.isVerifyNurseFavoriteComplete = false;
+				verifyNurseFavorite(data).then((res) => {
+					this.isVerifyNurseFavoriteComplete = true;
+					if ( res && res.data.code == 0) {
+						this.isNurseFavorite = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 创建医护收藏
+			createNurseFavoriteEvent() {
+				this.showLoadingHint = true;
+				this.infoText = '收藏中···';
+				createNurseFavorite({careId: this.nurseMessage.id }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.isNurseFavorite = true
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 删除医护收藏
+			deleteNurseFavoriteEvent() {
+				this.showLoadingHint = true;
+				this.infoText = '取消收藏中···';
+				deleteNurseFavorite({careId: this.nurseMessage.id }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.isNurseFavorite = false
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 收藏/取消收藏医护事件
+			collectNurseEvent () {
+				if (this.isNurseFavorite) {
+					this.deleteNurseFavoriteEvent()
+				} else {
+					this.createNurseFavoriteEvent()
+				}
 			},
 			
 			// 选定护士事件
@@ -271,6 +392,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f5f5f5;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			width: 100%;

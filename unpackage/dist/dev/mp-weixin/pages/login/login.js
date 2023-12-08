@@ -34,7 +34,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.vue?vue&type=script&lang=js& */ 201);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _login_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login.vue?vue&type=style&index=0&lang=scss& */ 206);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 57);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 33);
 
 var renderjs
 
@@ -256,7 +256,7 @@ var _default = {
     this.form.username = (0, _utils.getCache)('userName') ? (0, _utils.getCache)('userName') : '';
     this.form.password = (0, _utils.getCache)('userPassword') ? (0, _utils.getCache)('userPassword') : '';
   },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeIsLogin'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeIsLogin', 'changeNurseRankDictData'])), {}, {
     // 返回事件
     backTo: function backTo() {
       if (this.isForgetPassword) {
@@ -408,6 +408,7 @@ var _default = {
           uni.switchTab({
             url: '/pages/index/index'
           });
+          _this2.getUserDictDataEvent();
         } else {
           _this2.modalShow = true;
           _this2.modalContent = res.data.msg;
@@ -439,6 +440,7 @@ var _default = {
           uni.switchTab({
             url: '/pages/index/index'
           });
+          _this3.getUserDictDataEvent();
         } else {
           _this3.modalShow = true;
           _this3.modalContent = res.data.msg;
@@ -508,6 +510,7 @@ var _default = {
               uni.switchTab({
                 url: '/pages/index/index'
               });
+              _this4.getUserDictDataEvent();
             }
           }
         } else {
@@ -571,6 +574,7 @@ var _default = {
       uni.switchTab({
         url: '/pages/index/index'
       });
+      this.getUserDictDataEvent();
     },
     // 密码重置和设置密码事件
     resetPasswordEvent: function resetPasswordEvent() {
@@ -670,6 +674,7 @@ var _default = {
               uni.switchTab({
                 url: '/pages/index/index'
               });
+              _this6.getUserDictDataEvent();
             } else {
               _this6.modalShow = true;
               _this6.modalContent = "".concat(res.data.msg);
@@ -707,6 +712,17 @@ var _default = {
           loginCode: this.userCode
         });
       }
+    },
+    // 获取护师职称数据
+    getUserDictDataEvent: function getUserDictDataEvent() {
+      var _this7 = this;
+      (0, _login.getUserDictData)({
+        type: 'technical_title'
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this7.changeNurseRankDictData(res.data.data);
+        }
+      }).catch(function (err) {});
     },
     // 弹框确定事件
     sureCancel: function sureCancel() {

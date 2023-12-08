@@ -152,7 +152,7 @@
 
 <script>
 	import { mapGetters, mapMutations } from 'vuex'
-	import {logIn, logInByCode, weixinMiniAppLogin, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
+	import {logIn, logInByCode, getUserDictData, weixinMiniAppLogin, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
 	export default {
 	components: {
@@ -216,7 +216,8 @@
 				'storeUserInfo',
 				'changeOverDueWay',
 				'changeToken',
-				'changeIsLogin'
+				'changeIsLogin',
+				'changeNurseRankDictData'
 			]),
 			
 			// 返回事件
@@ -368,7 +369,8 @@
 						this.changeIsLogin(true);
 						uni.switchTab({
 							url: '/pages/index/index'
-						})
+						});
+						this.getUserDictDataEvent()
 					} else {
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
@@ -399,7 +401,8 @@
 						this.changeIsLogin(true);
 						uni.switchTab({
 							url: '/pages/index/index'
-						})
+						});
+						this.getUserDictDataEvent()
 					} else {
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
@@ -463,7 +466,8 @@
 								this.changeIsLogin(true);
 								uni.switchTab({
 									url: '/pages/index/index'
-								})
+								});
+								this.getUserDictDataEvent()
 							}
 						}
 					} else {
@@ -526,7 +530,8 @@
 			skipEvent () {
 				uni.switchTab({
 					url: '/pages/index/index'
-				})
+				});
+				this.getUserDictDataEvent()
 			},
 			
 			// 密码重置和设置密码事件
@@ -618,7 +623,8 @@
 								this.changeIsLogin(true);
 								uni.switchTab({
 									url: '/pages/index/index'
-								})
+								});
+								this.getUserDictDataEvent()
 							} else {
 							 this.modalShow = true;
 							 this.modalContent = `${res.data.msg}`
@@ -657,6 +663,17 @@
 						loginCode: this.userCode
 					})
 				}
+			},
+			
+			// 获取护师职称数据
+			getUserDictDataEvent () {
+				getUserDictData({type: 'technical_title'}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.changeNurseRankDictData(res.data.data)
+					}
+				})
+				.catch((err) => {
+				})
 			},
 			
 			// 弹框确定事件

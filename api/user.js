@@ -2,10 +2,11 @@ import request from '@/api/request';
 import Qs from 'qs'
 
 // 获的banner列表
-export function getUserBannerList() {
+export function getUserBannerList(data) {
   return request({
-    url: '/app-api/radar/banner/list',
-    method: 'get'
+    url: '/app-api/promotion/banner/list',
+    method: 'get',
+		params: data
   })
 };
 
@@ -71,4 +72,64 @@ export function deleteUserAddress(data) {
   })
 };
 
+// 获取我的收藏医护
+export function getUserCollectNurse(data) {
+  return request({
+    url: '/app-api/hospital/medical-care/favorite-page',
+    method: 'get',
+		params: data
+  })
+}
 
+// 获取医护(首页)
+export function getNurse(data) {
+  return request({
+    url: '/app-api/hospital/medical-care/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 获取推荐商品(首页显示)
+export function getHomeHotProduct(data) {
+  return request({
+    url: '/app-api/product/spu/list',
+    method: 'get',
+		params: data
+  })
+}
+
+// 获取商品分类(首页显示)
+export function getHomeProductCategory() {
+  return request({
+    url: '/app-api/product/category/index',
+    method: 'get'
+  })
+}
+
+// 创建医护收藏
+export function createNurseFavorite(data) {
+  return request({
+    url: '/app-api/hospital/care-favorite/create',
+    method: 'post',
+		data
+  })
+}
+
+// 校验医护是否收藏
+export function verifyNurseFavorite(data) {
+  return request({
+    url: '/app-api/hospital/care-favorite/get',
+    method: 'get',
+		params: data
+  })
+}
+
+// 删除医护收藏
+export function deleteNurseFavorite(data) {
+  return request({
+    url: '/app-api/hospital/care-favorite/delete',
+    method: 'delete',
+		params: data
+  })
+}
