@@ -112,7 +112,7 @@
 			queryUserAddressList () {
 				this.isEmpty = false;
 				this.showLoadingHint = true;
-				this.bannerList = [];
+				this.addressList = [];
 				getUserAddressList({
 					userId: this.userInfo.userId
 				}).then((res) => {
@@ -171,21 +171,27 @@
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
-							title: '删除地址成功!',
+							message: '删除地址成功!',
 							type: 'success',
 							position: 'bottom'
 						});
 						this.queryUserAddressList()
 					} else {
-					 this.modalShow = true;
-					 this.modalContent = res.data.msg
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
 					};
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
 					this.showLoadingHint = false;
-					this.modalShow = true;
-					this.modalContent = `${err.message}`
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

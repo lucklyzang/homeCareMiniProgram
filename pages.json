@@ -339,6 +339,15 @@
 					}
 				},
 				{
+					"path": "pages/editProtectedPersons/editProtectedPersons",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/evaluationFormList/evaluationFormList",
 					"style": {
 						"navigationBarTitleText": "",

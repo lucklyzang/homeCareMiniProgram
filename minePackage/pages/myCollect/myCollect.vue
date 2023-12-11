@@ -1,6 +1,8 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="收藏">
@@ -15,54 +17,36 @@
 			<view class="tabs-box">
 				<view class="tabs-list" :class="{'tabsListStyle' : curentIndex === index}" v-for="(item,index) in tabsList" :key="index" @click="tabsCutEvent(item,index)">
 					<text>{{ item }}</text>
-					<text>(2)</text>
+					<text> {{ `(${fullProductList.length})` }}</text>
 				</view>
 			</view>
 			<view class="collect-service-box" v-if="curentIndex === 0">
-				<view class="content-list">
-					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="content-list-right">
-						<view class="service-introduce">
-							<view class="service-name">
-								<text>婴儿黄疸测定</text>
-							</view>
-							<view class="service-price">
-								<text>￥158</text>
-							</view>
+					<u-empty text="暂无收藏服务" v-if="isShowNoHomeNoData"></u-empty>
+					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="content-list" v-for="(item,index) in fullProductList" :key="index">
+						<view class="content-list-left">
+							<u-image :src="item.picUrl" width="70" height="70">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
 						</view>
-						<view class="collect-icon">
-							<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
-						</view>
-					</view>
-				</view>
-				<view class="content-list">
-					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="content-list-right">
-						<view class="service-introduce">
-							<view class="service-name">
-								<text>婴儿黄疸测定</text>
+						<view class="content-list-right">
+							<view class="service-introduce">
+								<view class="service-name">
+									<text>{{ item.spuName }}</text>
+								</view>
+								<view class="service-price">
+									<text> {{ `￥${item.price}` }}</text>
+								</view>
 							</view>
-							<view class="service-price">
-								<text>￥158</text>
+							<view class="collect-icon" @click="cancelCollectEvent(item,index)">
+								<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
 							</view>
 						</view>
-						<view class="collect-icon">
-							<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
-						</view>
 					</view>
-				</view>
+					<u-loadmore :status="status" v-show="fullProductList.length > 0" />
+				</scroll-view>
 			</view>
 			<view class="collect-article-box" v-if="curentIndex === 1">
 				<view class="content-list">
@@ -126,6 +110,7 @@
 		removeAllLocalStorage
 	} from '@/common/js/utils'
 	import {} from '@/api/user.js'
+	import { getProductFavorite, deleteProductFavorite } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -134,15 +119,22 @@
 		data() {
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
-				infoText: '',
+				infoText: '加载中···',
 				curentIndex: 0,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				isShowNoHomeNoData: false,
+				status: 'nomore',
 				tabsList: ['服务','文章'],
+				productList: [],
+				fullProductList: [],
 				showLoadingHint: false
 			}
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo'
 			]),
 			userName() {
 			},
@@ -159,6 +151,10 @@
 		},
 		
 		onShow() {
+			this.queryUserCollectProductList({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize
+			},true)
 		},
 		methods: {
 			...mapMutations([
@@ -168,12 +164,115 @@
 			
 			// tab切换事件
 			tabsCutEvent (item,index) {
-				this.curentIndex = index
+				this.curentIndex = index;
+				if (this.curentIndex == 0) {
+					this.fullProductList = [];
+					this.isShowNoHomeNoData = false;
+					this.queryUserCollectProductList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},true)
+				}
 			},
 			
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryUserCollectProductList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},false)
+				}
+			},
+			
+			// 查询我的收藏服务
+			queryUserCollectProductList(data,flag) {
+				this.productList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getProductFavorite(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.productList = res.data.data.list;
+						this.fullProductList = this.fullProductList.concat(this.productList);
+						if (this.fullProductList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 取消服务收藏事件
+			cancelCollectEvent (item,index) {
+				this.showLoadingHint = true;
+				this.infoText = '取消收藏中···';
+				deleteProductFavorite({spuId:item.spuId }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.fullProductList.splice(index,1);
+						if (this.fullProductList.length == 0) {
+							this.isShowNoHomeNoData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			}
 		}
 	}
@@ -188,6 +287,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f5f5f5;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			width: 100%;
@@ -263,6 +373,16 @@
 				padding: 0 10px 10px 10px;
 				box-sizing: border-box;
 				overflow: auto;
+				position: relative;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				 };
 				.content-list {
 					display: flex;
 					padding: 14px 0;

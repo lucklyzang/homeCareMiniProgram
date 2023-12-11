@@ -1,6 +1,8 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='3000' bgColor="none" title="用户评价" @backClick="backTo">
@@ -8,50 +10,32 @@
 		  </view>
 		</view>
 		<view class="user-evaluate-box">
-			<view class="user-evaluate-list">
-				<view class="user-puoto">
-					<u-image shape="circle" width="50" height="50" :src="jaundiceDetectionServicePng"></u-image>
-				</view>
-				<view class="user-evaluate-list-left">
-					<view>
-						<u-rate :count="count" activeColor="#FFA903" v-model="value" readonly></u-rate>
-						<text>5.0</text>
+			<u-empty text="暂无评价" v-if="isShowNoHomeNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">	
+				<view class="user-evaluate-list" v-for="(item,index) in fullCommentList" :key="index">
+					<view class="user-puoto">
+						<u-image shape="circle" width="50" height="50" :src="jaundiceDetectionServicePng"></u-image>
 					</view>
-					<view>
-						<text>护师非常的负责</text>
+					<view class="user-evaluate-list-left">
+						<view>
+							<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+							<text>{{ item.scores }}</text>
+						</view>
+						<view>
+							<text>{{ item.content }}</text>
+						</view>
+						<view>
+							<text>{{ item.userNickname }}</text>
+							<text>互联网预约</text>
+						</view>
 					</view>
-					<view>
-						<text>王先生</text>
-						<text>互联网预约</text>
-					</view>
-				</view>
-				<view class="user-evaluate-list-right">
-					<text>黄疸检测</text>
-					<text>2023-02-12</text>
-				</view>
-			</view>
-			<view class="user-evaluate-list">
-				<view class="user-puoto">
-					<u-image shape="circle" width="50" height="50" :src="jaundiceDetectionServicePng"></u-image>
-				</view>
-				<view class="user-evaluate-list-left">
-					<view>
-						<u-rate :count="count" activeColor="#FFA903" v-model="value" readonly></u-rate>
-						<text>5.0</text>
-					</view>
-					<view>
-						<text>护师非常的负责</text>
-					</view>
-					<view>
-						<text>王先生</text>
-						<text>互联网预约</text>
+					<view class="user-evaluate-list-right">
+						<text>{{ item.spuName }}</text>
+						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
 					</view>
 				</view>
-				<view class="user-evaluate-list-right">
-					<text>黄疸检测</text>
-					<text>2023-02-12</text>
-				</view>
-			</view>
+				<u-loadmore :status="status" v-show="fullCommentList.length > 0" />
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -75,8 +59,15 @@
 				showLoadingHint: false,
 				count: 1,
 				value: 1,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				isShowNoHomeNoData: false,
+				status: 'nomore',
+				commentList: [],
+				fullCommentList: [],
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
-				infoText: '加载中'
+				infoText: '加载中···'
 			}
 		},
 		computed: {
@@ -89,10 +80,132 @@
 			}
 		},
 		onShow() {
+			// this.queryProductComment({
+			// 	pageNo: this.currentPageNum,
+			// 	pageSize: this.pageSize,
+			// 	spuId: this.spuId,
+			// 	type: 0
+			// },false)
 		},
 		methods: {
 			...mapMutations([
 			]),
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryProductComment({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						spuId: this.spuId,
+						type: 0
+					},false)
+				}
+			},
+			
+			// 查询服务评价
+			queryProductComment(data,flag) {
+				this.commentList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getProductComment(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.commentList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							this.isShowNoHomeNoData = true;
+						} else {
+							this.commentList.forEach((item) => {
+								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
+							})
+						};
+						this.fullCommentList = this.fullCommentList.concat(this.commentList);
+						if (this.fullCommentList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let seperator3 = " ";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
+				};
+				return currentdate
+			},
 			
 			// 顶部导航返回事件
 			backTo () {
@@ -111,6 +224,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f5f5f5;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			background: #fff;
@@ -137,11 +261,21 @@
 			padding: 10px 10px 20px 10px;
 			box-sizing: border-box;
 			overflow: auto;
-			.user-puoto {
-				display: flex;
-				align-items: center;
-				margin-right: 10px;
+			position: relative;
+			.scroll-view {
+				height: 100%
 			};
+			::v-deep .u-empty {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%)
+			 };
+			 .user-puoto {
+			 	display: flex;
+			 	align-items: center;
+			 	margin-right: 10px;
+			 };
 			.user-evaluate-list {
 				display: flex;
 				justify-content: space-between;

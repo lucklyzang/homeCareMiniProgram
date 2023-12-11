@@ -57,6 +57,7 @@
         "pages/aboutAgreement/aboutAgreement",
         "pages/myProtectedPersons/myProtectedPersons",
         "pages/addProtectedPersons/addProtectedPersons",
+        "pages/editProtectedPersons/editProtectedPersons",
         "pages/evaluationFormList/evaluationFormList",
         "pages/createEvaluationForm/createEvaluationForm",
         "pages/editEvaluationForm/editEvaluationForm",

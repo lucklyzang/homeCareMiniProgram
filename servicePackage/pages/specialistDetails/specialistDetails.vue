@@ -26,7 +26,8 @@
 					</view>
 				</view>
 				<view class="rate-box" v-if="isVerifyNurseFavoriteComplete">
-					<u-icon name="heart-fill" :color="!isNurseFavorite ? '#fff' : '#E8CB51'" size="22" @click="collectNurseEvent"></u-icon>
+					<u-icon v-if="!isNurseFavorite" name="star" color="#fff" size="22" @click="collectNurseEvent"></u-icon>
+					<u-icon v-else name="star-fill" color="#E8CB51" size="22" @click="collectNurseEvent"></u-icon>
 				</view>
 			</view>
 			<view class="center-area-box">
@@ -311,7 +312,7 @@
 			createNurseFavoriteEvent() {
 				this.showLoadingHint = true;
 				this.infoText = '收藏中···';
-				createNurseFavorite({careId: this.nurseMessage.id }).then((res) => {
+				createNurseFavorite(this.nurseMessage.id).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.isNurseFavorite = true
 					} else {

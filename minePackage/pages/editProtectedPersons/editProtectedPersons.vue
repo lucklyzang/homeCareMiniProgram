@@ -8,7 +8,7 @@
 		</u-modal>
 		<view class="top-area-box">
 			<view class="nav">
-				<nav-bar :home="false" backState='3000' bgColor="none" title="添加被护人" @backClick="backTo">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="编辑被护人" @backClick="backTo">
 				</nav-bar> 
 		  </view>
 		</view>
@@ -68,6 +68,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+								disabled
 								inputAlign="right"
 								border="none"
 								v-model="birthDateValue"
@@ -80,6 +81,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+							  disabled
 								inputAlign="right"
 								border="none"
 								v-model="ageValue"
@@ -92,6 +94,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+								disabled
 								inputAlign="right"
 								border="none"
 								v-model="sexValue"
@@ -192,7 +195,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import { createServerPerson } from '@/api/user.js'
+	import { updateServerPerson } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -202,7 +205,7 @@
 			return {
 				showLoadingHint: false,
 				noProtectedPersonsPng: require("@/static/img/no-protected-persons.png"),
-				infoText: '新增中···',
+				infoText: '编辑中···',
 				protectedPersonsNameValue: '',
 				idNumberValue: '',
 				contactWayValue: '',
@@ -231,7 +234,20 @@
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryMessage = JSON.parse(options.transmitData);
+			// 回显被护人信息
+			this.protectedPersonsNameValue = temporaryMessage.name;
+			this.idNumberValue = temporaryMessage.idCard;
+			this.contactWayValue = temporaryMessage.mobile;
+			this.birthDateValue = temporaryMessage.birthday;
+			this.ageValue = temporaryMessage.age;
+			this.sexValue = temporaryMessage.sex == 1 ? '男' : '女';
+			this.emergencyContactValue = temporaryMessage.critical;
+			this.medicareCardImgArr = [];
+			this.medicalRecordDataImgArr = temporaryMessage.medicalRecord;
+			this.specialCircumstancesImgArr = temporaryMessage.special
 		},
 		methods: {
 			...mapMutations([
@@ -308,10 +324,10 @@
 			},
 			
 			
-			// 创建被护人
-			createServerPersonEvent (data) {
+			// 创建用户收获地址
+			updateServerPersonEvent (data) {
 				this.showLoadingHint = true;
-				createServerPerson(data).then((res) => {
+				updateServerPerson(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
 							message: '新增被护人成功',
@@ -338,7 +354,7 @@
 				})
 			},
 			
-			// 保存被护人事件
+			// 编辑被护人事件
 			saveProtectedPersonsEvent () {
 				if (!this.protectedPersonsNameValue) {
 					this.$refs.uToast.show({
@@ -386,7 +402,7 @@
 					checkTime: "",
 					opinion: ""
 				};
-				this.createServerPersonEvent(data)
+				this.updateServerPersonEvent(data)
 			}
 		}
 	}

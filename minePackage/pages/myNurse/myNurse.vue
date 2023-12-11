@@ -58,6 +58,7 @@
 							</view>
 						</view>
 					</view>
+					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -86,16 +87,16 @@
 				count: 5,
 				rateValue: 5,
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
-				infoText: '加载中',
+				infoText: '加载中···',
 				current: 0,
 				showLoadingHint: false,
 				currentPageNum: 1,
 				pageSize: 20,
 				totalCount: 0,
-				nurseList: [],
-				fullNurseList: [],
 				isShowNoHomeNoData: false,
 				status: 'nomore',
+				nurseList: [],
+				fullNurseList: [],
 				searchValue: '',
 				listTabsName: [
 					{
@@ -188,7 +189,7 @@
 						};
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -244,7 +245,7 @@
 						};
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -254,7 +255,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -341,6 +342,7 @@
 				width: 96%;
 				margin: 0 auto;
 				overflow: auto;
+				position: relative;
 				.scroll-view {
 					height: 100%
 				};

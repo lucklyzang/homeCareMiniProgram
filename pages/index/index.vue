@@ -63,7 +63,7 @@
 					<view class="service-title-left">推荐服务</view>
 					<view class="service-title-right">我们的每一位护工都是经过严格培训!</view>
 				</view>
-				<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item)">
+				<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item.id)">
 					<view class="service-list-left">
 						<u-image :src="item.picUrl" width="63" height="63">
 							 <template v-slot:loading>
@@ -324,9 +324,9 @@
 			},
 			
 			// 进入服务详情事件
-			enterServiceDetailsEvent () {
+			enterServiceDetailsEvent (item) {
 				uni.navigateTo({
-					url: '/servicePackage/pages/service/index/index'
+					url: '/servicePackage/pages/service/index/index?transmitData='+item
 				})
 			},
 			

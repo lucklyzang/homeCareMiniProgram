@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-toast ref="uToast" />
 		<view class="top-area-box">
 			<view class="nav">
@@ -13,55 +15,37 @@
 		</view>
 		<view class="content-area-box">
 			<view class="content-left">
-				<view class="service-list" v-for="(item,index) in serviceTypeList" :key="index" @click="serviceTypeClickEvent(item,index)">
-					<text :class="{'selectServieTypeStyle': currentIndex === index }">{{ item }}</text>
+				<view class="service-list" v-for="(item,index) in serviceCategoryList" :key="index" @click="serviceTypeClickEvent(item,index)">
+					<text :class="{'selectServieTypeStyle': currentIndex === index }">{{ item.name }}</text>
 				</view>
 			</view>
 			<view class="content-right">
-				<view class="content-list" @click="enterServiceDetailsEvent">
-					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="content-list-right">
-						<view class="service-introduce">
-							<view class="service-name">
-								<text>婴儿黄疸测定</text>
-							</view>
-							<view class="service-price">
-								<text>￥158</text>
-							</view>
+				<u-empty text="暂无服务" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="content-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
+						<view class="content-list-left">
+							<u-image :src="item.picUrl" width="70" height="70">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
 						</view>
-						<view class="collect-icon">
-							<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
-						</view>
-					</view>
-				</view>
-				<view class="content-list">
-					<view class="content-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="content-list-right">
-						<view class="service-introduce">
-							<view class="service-name">
-								<text>婴儿黄疸测定</text>
+						<view class="content-list-right">
+							<view class="service-introduce">
+								<view class="service-name">
+									<text>{{ item.name }}</text>
+								</view>
+								<view class="service-price">
+									<text>{{ `￥${item.price}` }}</text>
+								</view>
 							</view>
-							<view class="service-price">
-								<text>￥158</text>
-							</view>
-						</view>
-						<view class="collect-icon">
-							<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
+							<!-- <view class="collect-icon">
+								<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
+							</view> -->
 						</view>
 					</view>
-				</view>
+				<u-loadmore :status="status" v-show="fullServiceCategoryDetailsList.length > 0" />
+				</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -77,6 +61,7 @@
 		removeAllLocalStorage
 	} from '@/common/js/utils'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getServiceProductCategory, getServiceProductCategoryDetails } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -85,10 +70,18 @@
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				currentIndex: 0,
-				infoText: '',
+				infoText: '加载中···',
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				status: 'nomore',
+				isShowNoHomeNoData: false,
+				currentId: '',
+				serviceCategoryDetailsList: [],
+				fullServiceCategoryDetailsList: [],
+				serviceCategoryList: [],
 				searchValue: '',
-				showLoadingHint: false,
-				serviceTypeList: ['推荐服务','健康护理','妈妈护理','宝宝护理','慢病护理','母婴服务套餐','健康护理套餐','推荐服务','健康护理','妈妈护理','宝宝护理','慢病护理','母婴服务套餐','健康护理套餐']
+				showLoadingHint: false
 			}
 		},
 		computed: {
@@ -105,20 +98,139 @@
 			}
 		},
 		onShow() {
+			this.queryServiceProductCategory()
 		},
 		methods: {
 			...mapMutations([
+				'userInfo'
 			]),
 			
 			// 服务类型点击事件
 			serviceTypeClickEvent (item,index) {
-				this.currentIndex = index
+				this.currentIndex = index;
+				this.currentId = item.id;
+				this.fullServiceCategoryDetailsList = [];
+				this.currentPageNum = 1;
+				this.totalCount = 0;
+				this.status = 'nomore';
+				this.isShowNoHomeNoData = false;
+				this.queryServiceProductCategoryDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					categoryId: this.currentId
+				},true)
 			},
 			
 			// 进入服务详情事件
-			enterServiceDetailsEvent () {
+			enterServiceDetailsEvent (item) {
+				// 传递服务地址信息
 				uni.navigateTo({
-					url: '/servicePackage/pages/service/index/index'
+					url: '/servicePackage/pages/service/index/index?transmitData='+item
+				})
+			},
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryServiceProductCategoryDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						categoryId: this.currentId
+					},false)
+				}
+			},
+			
+			// 查询服务分类
+			queryServiceProductCategory () {
+				this.showLoadingHint = true;
+				this.serviceCategoryList = [];
+				getServiceProductCategory({
+					userId: this.userInfo.userId
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length > 0) {
+							this.serviceCategoryList = res.data.data;
+							this.serviceCategoryList = this.serviceCategoryList.filter((item) => { return item.parentId == 0 });
+							// 查询服务分类第一项下的服务明细
+							this.fullServiceCategoryDetailsList = [];
+							this.queryServiceProductCategoryDetails({
+								pageNo: this.currentPageNum,
+								pageSize: this.pageSize,
+								categoryId: this.serviceCategoryList[0]['id']
+							},true)
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询服务分类明细
+			queryServiceProductCategoryDetails(data,flag) {
+				this.serviceCategoryDetailsList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getServiceProductCategoryDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.serviceCategoryDetailsList = res.data.data.list;
+						this.fullServiceCategoryDetailsList = this.fullServiceCategoryDetailsList.concat(this.serviceCategoryDetailsList);
+						if (this.fullServiceCategoryDetailsList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			}
 		}
@@ -133,6 +245,17 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			width: 100%;
@@ -205,6 +328,16 @@
 				padding: 10px 0 10px 10px;
 				box-sizing: border-box;
 				background: #fff;
+				position: relative;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				 };
 				.content-list {
 					display: flex;
 					padding: 14px 0;

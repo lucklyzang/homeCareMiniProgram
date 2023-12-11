@@ -57,7 +57,7 @@ export function updateAddress(data) {
 // 获取用户服务地址列表
 export function getUserAddressList(data) {
   return request({
-    url: '/app-api/member/server-address/queryByUserId/list',
+    url: '/app-api/member/server-address/list',
     method: 'get',
 		params: data
   })
@@ -107,12 +107,46 @@ export function getHomeProductCategory() {
   })
 }
 
-// 创建医护收藏
-export function createNurseFavorite(data) {
+// 获取商品分类(服务页显示)
+export function getServiceProductCategory() {
   return request({
-    url: '/app-api/hospital/care-favorite/create',
-    method: 'post',
-		data
+    url: '/app-api/product/category/list',
+    method: 'get'
+  })
+}
+
+// 获取商品明细
+export function getServiceProductCategoryDetails(data) {
+  return request({
+    url: '/app-api/product/spu/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 获取商品详情
+export function getProductDetails(data) {
+  return request({
+    url: '/app-api/product/spu/get-detail',
+    method: 'get',
+		params: data
+  })
+}
+
+// 获取商品评价
+export function getProductComment(data) {
+  return request({
+    url: '/app-api/product/comment/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 创建医护收藏
+export function createNurseFavorite(careId) {
+  return request({
+    url: `/app-api/hospital/care-favorite/create?careId=${careId}`,
+    method: 'post'
   })
 }
 
@@ -129,6 +163,69 @@ export function verifyNurseFavorite(data) {
 export function deleteNurseFavorite(data) {
   return request({
     url: '/app-api/hospital/care-favorite/delete',
+    method: 'delete',
+		params: data
+  })
+}
+
+// 创建被服务人
+export function createServerPerson(data) {
+  return request({
+    url: '/app-api/member/server-person/create',
+    method: 'post',
+		data
+  })
+}
+
+// 获取被服务人
+export function getServerPerson(data) {
+  return request({
+    url: '/app-api/member/server-person/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 删除被服务人
+export function deleteServerPerson(data) {
+  return request({
+    url: '/app-api/member/server-person/delete',
+    method: 'delete',
+		params: data
+  })
+}
+
+// 更新被服务人
+export function updateServerPerson(data) {
+  return request({
+    url: '/app-api/member/server-person/update',
+    method: 'put',
+		params: data
+  })
+}
+
+// 获取商品收藏分页
+export function getProductFavorite(data) {
+  return request({
+    url: '/app-api/product/favorite/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 创建商品收藏
+export function createProductFavorite(data) {
+  return request({
+    url: '/app-api/product/favorite/page',
+    method: 'post',
+		params: data
+  })
+}
+
+// 删除商品收藏
+export function deleteProductFavorite(data) {
+  return request({
+    url: '/app-api/product/favorite/page',
     method: 'delete',
 		params: data
   })
