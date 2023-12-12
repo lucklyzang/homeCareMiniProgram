@@ -16,9 +16,9 @@
 			<view class="specialist-list-box">
 				<u-empty text="暂无收藏医护" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-					<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent">
+					<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent(item)">
 						<view class="nurse-practitioner-list-top">
-							<text>从业10年以上</text>
+							<text>{{ item.practice }}</text>
 						</view>
 						<view class="nurse-practitioner-list-left">
 							<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
@@ -36,8 +36,8 @@
 								<text>{{ item.organization }}</text>
 							</view>
 							<view class="rate">
-								<u-rate :count="count" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
-								<text>{{ Math.floor(item.commentScore/item.commentCount) }}</text>
+								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+								<text>{{ item.commentScore == 0 ? '0.0' : Math.floor(item.commentScore/item.commentCount) }}</text>
 							</view>
 							<view class="nurse-practitioner-performance">
 								<view class="nurse-practitioner-performance-message">
@@ -48,7 +48,7 @@
 									</view>
 									<view class="nurse-practitioner-performance-right">
 										<text>服务</text>
-										<text>{{ (item.timeLength/60).toFixed(2) }}</text>
+										<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
 										<text>小时</text>
 									</view>
 								</view>	
@@ -84,8 +84,6 @@
 			return {
 				showLoadingHint: false,
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
-				count: 5,
-				rateValue: 5,
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
 				infoText: '加载中···',
 				current: 0,
@@ -178,7 +176,7 @@
 							this.isShowNoHomeNoData = true;
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
 							})
 						};
 						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
@@ -234,7 +232,7 @@
 							this.isShowNoHomeNoData = true;
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
 							})
 						};
 						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
@@ -263,9 +261,11 @@
 			},
 			
 			// 查看护师详情事件
-			viewSpecialistDetailsEvent () {
+			viewSpecialistDetailsEvent (item) {
+				// 传递护师信息
+				let mynavData = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/servicePackage/pages/specialistDetails/specialistDetails'
+					url: '/servicePackage/pages/specialistDetails/specialistDetails?transmitData='+mynavData
 				})
 			},
 			
@@ -343,6 +343,7 @@
 				margin: 0 auto;
 				overflow: auto;
 				position: relative;
+				margin-bottom: 10px;
 				.scroll-view {
 					height: 100%
 				};
@@ -374,6 +375,7 @@
 						height: 26px;
 						background: linear-gradient(to right, #ffa7c0, #FC4278);
 						box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+						border-top-right-radius: 8px;
 						>text {
 							font-size: 12px;
 							color: #fff

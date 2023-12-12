@@ -86,6 +86,18 @@ export function getNurse(data) {
   return request({
     url: '/app-api/hospital/medical-care/page',
     method: 'get',
+		params: data,
+		paramsSerializer: function (params) {
+			return Qs.stringify(params, { arrayFormat: "repeat" });  
+		}
+  })
+}
+
+// 获取医护(详情)
+export function getNurseDetails(data) {
+  return request({
+    url: '/app-api/hospital/medical-care/get',
+    method: 'get',
 		params: data
   })
 }
@@ -120,7 +132,10 @@ export function getServiceProductCategoryDetails(data) {
   return request({
     url: '/app-api/product/spu/page',
     method: 'get',
-		params: data
+		params: data,
+		paramsSerializer: function (params) {
+			return Qs.stringify(params, { arrayFormat: "repeat" });  
+		}
   })
 }
 
@@ -137,6 +152,15 @@ export function getProductDetails(data) {
 export function getProductComment(data) {
   return request({
     url: '/app-api/product/comment/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 获取商品评价(指定条数)
+export function getProductCommentList(data) {
+  return request({
+    url: '/app-api/product/comment/list',
     method: 'get',
 		params: data
   })
@@ -216,17 +240,27 @@ export function getProductFavorite(data) {
 // 创建商品收藏
 export function createProductFavorite(data) {
   return request({
-    url: '/app-api/product/favorite/page',
+    url: '/app-api/product/favorite/create',
     method: 'post',
-		params: data
+		data
   })
 }
 
 // 删除商品收藏
 export function deleteProductFavorite(data) {
   return request({
-    url: '/app-api/product/favorite/page',
+    url: '/app-api/product/favorite/delete',
     method: 'delete',
+		data
+  })
+}
+
+// 检查是否收藏过商品
+export function examineProductFavorite(data) {
+  return request({
+    url: '/app-api/product/favorite/exits',
+    method: 'get',
 		params: data
   })
 }
+

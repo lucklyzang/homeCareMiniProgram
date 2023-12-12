@@ -125,19 +125,37 @@
 				<view class="upload-attachment-content">
 					<view class="medicare-card-area">
 						<view class="medicare-card-top">
-							<text>医保卡</text>
+							<text>医保卡正面</text>
 						</view>
 						<view class="medicare-card-bottom" v-if="medicareCardImgArr.length > 0">
 							<view v-for="(item, index) in medicareCardImgArr" :key='index'>
 								<image :src="item" mode="aspectFit"></image>
-								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡')"></u-icon>
+								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡正面')"></u-icon>
 							</view>
 							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡')"/>
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
 							</view>
 						</view>
 						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
-							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡')"/>
+							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+							<text>只能上传jpg/png文件，且不超过5M</text>
+						</view>
+					</view>
+					<view class="medicare-card-area">
+						<view class="medicare-card-top">
+							<text>医保卡反面</text>
+						</view>
+						<view class="medicare-card-bottom" v-if="medicareCardImgArr.length > 0">
+							<view v-for="(item, index) in medicareCardImgArr" :key='index'>
+								<image :src="item" mode="aspectFit"></image>
+								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡反面')"></u-icon>
+							</view>
+							<view>
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+							</view>
+						</view>
+						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
+							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
 							<text>只能上传jpg/png文件，且不超过5M</text>
 						</view>
 					</view>
@@ -219,6 +237,8 @@
 				medicareCardImgArr: [],
 				temporaryMedicareCardImgArr: [],
 				medicalRecordDataImgArr: [],
+				reverseSideMedicareCardImgArr: [],
+				temporaryReverseSideMedicareCardImgArr: [],
 				temporaryMedicalRecordDataImgArr: [],
 				specialCircumstancesImgArr: [],
 				temporarySpecialCircumstancesImgArr: [],
@@ -246,6 +266,7 @@
 			this.sexValue = temporaryMessage.sex == 1 ? '男' : '女';
 			this.emergencyContactValue = temporaryMessage.critical;
 			this.medicareCardImgArr = [];
+			this.temporaryReverseSideMedicareCardImgArr = [];
 			this.medicalRecordDataImgArr = temporaryMessage.medicalRecord;
 			this.specialCircumstancesImgArr = temporaryMessage.special
 		},
@@ -265,9 +286,12 @@
 			
 			// 弹框确定按钮
 			sureCancel() {
-				if (this.text == '医保卡') {
+				if (this.text == '医保卡正面') {
 					this.medicareCardImgArr.splice(this.imgIndex, 1);
 					this.temporaryMedicareCardImgArr.splice(this.imgIndex, 1);
+				} else if (this.text == '医保卡反面') {
+					this.reverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
+					this.temporaryReverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
 				} else if (this.text == '病历资料') {
 					this.medicalRecordDataImgArr.splice(this.imgIndex, 1);
 					this.temporaryMedicalRecordDataImgArr.splice(this.imgIndex, 1);
@@ -284,6 +308,7 @@
 				this.sureCancelShow = true;
 				this.imgIndex = index
 			},
+			
 			// 选择图片方法
 			getImg(text) {
 				var that = this;
@@ -295,8 +320,10 @@
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						if (text == '医保卡') {
+						if (text == '医保卡正面') {
 							that.temporaryMedicareCardImgArr = that.temporaryMedicareCardImgArr.concat(res.tempFilePaths);
+						} else if (text == '医保卡反面') {
+							that.temporaryReverseSideMedicareCardImgArr = that.temporaryReverseSideMedicareCardImgArr.concat(res.tempFilePaths);
 						} else if (text == '病历资料') {
 							that.temporaryMedicalRecordDataImgArr = that.temporaryMedicalRecordDataImgArr.concat(res.tempFilePaths);
 						} else if (text == '特殊情况') {
@@ -309,8 +336,10 @@
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
-									if (text == '医保卡') {
+									if (text == '医保卡正面') {
 										that.medicareCardImgArr.push(base64);
+									} else if (text == '医保卡反面') {
+										that.reverseSideMedicareCardImgArr.push(base64);
 									} else if (text == '病历资料') {
 										that.medicalRecordDataImgArr.push(base64);
 									} else if (text == '特殊情况') {
@@ -322,7 +351,6 @@
 					}
 				})
 			},
-			
 			
 			// 创建用户收获地址
 			updateServerPersonEvent (data) {

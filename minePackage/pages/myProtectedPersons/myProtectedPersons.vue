@@ -111,6 +111,7 @@
 			}
 		},
 		onShow() {
+			this.fullServerPersonList = [];
 			this.queryUserServerPersonList({
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize

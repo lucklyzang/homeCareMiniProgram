@@ -49,6 +49,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getProductComment } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -57,8 +58,6 @@
 		data() {
 			return {
 				showLoadingHint: false,
-				count: 1,
-				value: 1,
 				currentPageNum: 1,
 				pageSize: 20,
 				totalCount: 0,
@@ -79,13 +78,15 @@
 			proId() {
 			}
 		},
-		onShow() {
-			// this.queryProductComment({
-			// 	pageNo: this.currentPageNum,
-			// 	pageSize: this.pageSize,
-			// 	spuId: this.spuId,
-			// 	type: 0
-			// },false)
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.queryProductComment({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				careId: temporaryAddress.id,
+				type: 0
+			},true)
 		},
 		methods: {
 			...mapMutations([
@@ -101,7 +102,7 @@
 					this.queryProductComment({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
-						spuId: this.spuId,
+						careId: temporaryAddress.id,
 						type: 0
 					},false)
 				}

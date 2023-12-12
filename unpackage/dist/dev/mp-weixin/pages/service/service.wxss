@@ -34,6 +34,18 @@ page {
   height: 100%;
   width: 100%;
   flex-direction: column;
+  position: relative;
+}
+.content-box  .u-popup {
+  flex: none !important;
+}
+.content-box  .u-loading-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 20000;
 }
 .content-box .top-area-box {
   position: relative;
@@ -106,6 +118,17 @@ page {
   padding: 10px 0 10px 10px;
   box-sizing: border-box;
   background: #fff;
+  position: relative;
+}
+.content-box .content-area-box .content-right .scroll-view {
+  height: 100%;
+}
+.content-box .content-area-box .content-right  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .content-area-box .content-right .content-list {
   display: flex;

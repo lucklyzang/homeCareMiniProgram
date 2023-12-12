@@ -32,7 +32,7 @@
 				<image src="@/static/img/home-service-icon.png" @click="showSupportStaffBox = true"></image>
 			</view>
 		</view>
-		<view class="loading-box">
+		<view class="loading-box" v-if="showLoadingHint">
 			<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
 		</view>
 		<view class="banner-area-box">
@@ -103,13 +103,13 @@
 					<view class="nurse-practitioner-list-right">
 						<view class="nurse-practitioner-name">
 							<text>{{ item.name }}</text>
-							<text>{{ nurseTitleTransition(item.title) }}</text>
+							<text>{{ item.title ? nurseTitleTransition(item.title) : '无' }}</text>
 						</view>
 						<view class="hospital-name">
 							<text>{{ item.organization }}</text>
 						</view>
 						<view class="rate">
-							<u-rate :count="count" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+							<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
 							<text>{{ item.commentCount }}</text>
 							<text>条评价</text>
 						</view>
@@ -121,7 +121,7 @@
 							</view>
 							<view class="nurse-practitioner-performance-right">
 								<text>服务</text>
-								<text>{{ (item.timeLength/60).toFixed(2) }}</text>
+								<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
 								<text>小时</text>
 							</view>
 						</view>
@@ -153,8 +153,6 @@
 				productTypeList: [],
 				recommendProductList: [],
 				nurseList: [],
-				count: 5,
-				value: 3,
 				searchValue: '',
 				showLoadingHint: false
 			}
@@ -219,7 +217,7 @@
 							
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
 							})
 						}
 					} else {

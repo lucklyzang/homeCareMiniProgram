@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-toast ref="uToast" />
 		<view class="top-area-box">
 			<view class="nav">
@@ -9,95 +11,55 @@
 		</view>
 		<view class="specialist-content-area">
 			<view class="search-box">
-				<u-search bgColor="#fff" :actionStyle="{color: '#FF698C',fontSize: '16px'}" @change="searchInputEvent" @search="searchEvent" :clearabled="true" :showAction="true"></u-search>
+				<u-search v-model="searchValue" bgColor="#fff" :actionStyle="{color: '#FF698C',fontSize: '16px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 			<view class="specialist-list-box">
-				<view class="nurse-practitioner-list" @click="viewSpecialistDetailsEvent">
-					<view class="nurse-practitioner-list-top">
-						<text>从业10年以上</text>
-					</view>
-					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-					</view>
-					<view class="nurse-practitioner-list-right">
-						<view class="nurse-practitioner-name">
-							<text>张颖</text>
-							<text>主管护师</text>
+				<u-empty text="暂无收藏医护" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent(item)">
+						<view class="nurse-practitioner-list-top">
+							<text>{{ item.practice }}</text>
 						</view>
-						<view class="hospital-name">
-							<text>成都市妇女儿童中心医院 (东城根)</text>
+						<view class="nurse-practitioner-list-left">
+							<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
 						</view>
-						<view class="rate">
-							<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-							<text>5.0</text>
-						</view>
-						<view class="nurse-practitioner-performance">
-							<view class="nurse-practitioner-performance-message">
-								<view class="nurse-practitioner-performance-left">
-									<text>帮助</text>
-									<text>3456</text>
-									<text>人</text>
-								</view>
-								<view class="nurse-practitioner-performance-right">
-									<text>服务</text>
-									<text>345</text>
-									<text>小时</text>
-								</view>
-							</view>	
-						</view>
-						<view class="good-territory">
-							<text>乳腺疏通</text>
-							<text>黄疸检测</text>
-						</view>
-					</view>
-				</view>
-				<view class="nurse-practitioner-list">
-					<view class="nurse-practitioner-list-top">
-						<text>从业10年以上</text>
-					</view>
-					<view class="nurse-practitioner-list-left">
-						<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-					</view>
-					<view class="nurse-practitioner-list-right">
-						<view class="nurse-practitioner-name">
-							<text>张颖</text>
-							<text>主管护师</text>
-						</view>
-						<view class="hospital-name">
-							<text>成都市妇女儿童中心医院 (东城根)</text>
-						</view>
-						<view class="rate">
-							<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-							<text>5.0</text>
-						</view>
-						<view class="nurse-practitioner-performance">
-							<view class="nurse-practitioner-performance-message">
-								<view class="nurse-practitioner-performance-left">
-									<text>帮助</text>
-									<text>3456</text>
-									<text>人</text>
-								</view>
-								<view class="nurse-practitioner-performance-right">
-									<text>服务</text>
-									<text>345</text>
-									<text>小时</text>
-								</view>
-							</view>	
-						</view>
-						<view class="good-territory">
-							<text>乳腺疏通</text>
-							<text>黄疸检测</text>
+						<view class="nurse-practitioner-list-right">
+							<view class="nurse-practitioner-name">
+								<text>{{ item.name }}</text>
+								<text>{{ nurseTitleTransition(item.title) }}</text>
+							</view>
+							<view class="hospital-name">
+								<text>{{ item.organization }}</text>
+							</view>
+							<view class="rate">
+								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+								<text>{{ item.commentScore == 0 ? '0.0' : Math.floor(item.commentScore/item.commentCount) }}</text>
+							</view>
+							<view class="nurse-practitioner-performance">
+								<view class="nurse-practitioner-performance-message">
+									<view class="nurse-practitioner-performance-left">
+										<text>帮助</text>
+										<text>{{ item.quantity }}</text>
+										<text>人</text>
+									</view>
+									<view class="nurse-practitioner-performance-right">
+										<text>服务</text>
+										<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
+										<text>小时</text>
+									</view>
+								</view>	
+							</view>
+							<view class="good-territory">
+								<text v-for="(innerItem,innerIndex) in item.genius" :key="innerIndex">{{ innerItem }}</text>
+							</view>
 						</view>
 					</view>
-				</view>
+					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
+				</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -112,6 +74,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getNurse } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -120,11 +83,19 @@
 		data() {
 			return {
 				showLoadingHint: false,
-				count: 5,
-				rateValue: 5,
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
-				infoText: '加载中',
+				infoText: '加载中···',
 				current: 0,
+				showLoadingHint: false,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				isShowNoHomeNoData: false,
+				status: 'nomore',
+				nurseList: [],
+				fullNurseList: [],
+				searchValue: '',
 				listTabsName: [
 					{
 						name: '服务详情'
@@ -140,14 +111,17 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
-			]),
-			userName() {
-			},
-			proId() {
-			}
+				'userInfo',
+				'nurseRankDictData'
+			])
 		},
-		onShow() {
+		onLoad() {
+			this.queryNurseList({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				name: '',
+				userId: this.userInfo.userId
+			},true)
 		},
 		methods: {
 			...mapMutations([
@@ -158,18 +132,156 @@
 				uni.navigateBack()
 			},
 			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
+			},
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryNurseList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						name: '',
+						userId: this.userInfo.userId
+					},false)
+				}
+			},
+			
+			// 查询更多医护
+			queryNurseList(data,flag) {
+				this.nurseList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getNurse(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.nurseList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							this.isShowNoHomeNoData = true;
+						} else {
+							this.nurseList.forEach((item) => {
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+							})
+						};
+						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
+						if (this.fullNurseList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询更多医护(搜索指定姓名)
+			queryNurseListByName(data) {
+				this.nurseList = [];
+				this.fullNurseList = [];
+				this.showLoadingHint = true;
+				this.isShowNoHomeNoData = false;
+				this.infoText = '搜索中···';
+				getNurse(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.nurseList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							this.isShowNoHomeNoData = true;
+						} else {
+							this.nurseList.forEach((item) => {
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+							})
+						};
+						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
+						if (this.fullNurseList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 查看护师详情事件
-			viewSpecialistDetailsEvent () {
+			viewSpecialistDetailsEvent (item) {
+				// 传递护师信息
+				let mynavData = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/servicePackage/pages/specialistDetails/specialistDetails'
+					url: '/servicePackage/pages/specialistDetails/specialistDetails?transmitData='+mynavData
 				})
 			},
 			
 			// 搜索事件
-			searchEvent () {},
+			searchEvent () {
+				this.queryNurseListByName({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					name: this.searchValue,
+					userId: this.userInfo.userId
+				})
+			},
 			
 			// 搜索框值变化事件
-			searchInputEvent () {}
+			searchInputEvent () {
+			}
 		}
 	}
 </script>
@@ -183,6 +295,17 @@
 	.content-box {
 		@include content-wrapper;
 		background: #f5f5f5;
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
+		};
 		.top-area-box {
 			position: relative;
 			background: #fff;
@@ -219,6 +342,17 @@
 				width: 96%;
 				margin: 0 auto;
 				overflow: auto;
+				position: relative;
+				margin-bottom: 10px;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				 };
 				.nurse-practitioner-list {
 					padding: 30px 6px 20px 6px;
 					box-sizing: border-box;
@@ -241,6 +375,7 @@
 						height: 26px;
 						background: linear-gradient(to right, #ffa7c0, #FC4278);
 						box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+						border-top-right-radius: 8px;
 						>text {
 							font-size: 12px;
 							color: #fff
@@ -335,6 +470,7 @@
 							}
 						};
 						.good-territory {
+							display: flex;
 							margin-top: 4px;
 							>text {
 								font-size: 12px;

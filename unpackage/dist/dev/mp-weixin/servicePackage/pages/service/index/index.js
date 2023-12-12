@@ -100,14 +100,29 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uOverlay: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-overlay/u-overlay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-overlay/u-overlay")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-overlay/u-overlay.vue */ 651))
+    },
+    uLoadingIcon: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 553))
+    },
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 522))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 530))
+    },
+    uIcon: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 577))
     },
     uTabs: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 666))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 690))
+    },
+    uEmpty: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 659))
     },
     uRate: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-rate/u-rate */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-rate/u-rate")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-rate/u-rate.vue */ 578))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-rate/u-rate */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-rate/u-rate")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-rate/u-rate.vue */ 586))
+    },
+    uLoadmore: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 667))
     },
   }
 } catch (e) {
@@ -131,6 +146,27 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 =
+    _vm.current == 2
+      ? _vm.__map(_vm.fullCommentList, function (item, index) {
+          var $orig = _vm.__get_orig(item)
+          var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
+          return {
+            $orig: $orig,
+            m0: m0,
+          }
+        })
+      : null
+  var g0 = _vm.current == 2 ? _vm.fullCommentList.length : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        g0: g0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -174,11 +210,12 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _user = __webpack_require__(/*! @/api/user.js */ 170);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 643));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 675));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -191,8 +228,19 @@ var _default = {
       count: 5,
       value: 2,
       jaundiceDetectionServicePng: __webpack_require__(/*! @/static/img/jaundice-detection-service.png */ 278),
-      infoText: '加载中',
+      infoText: '加载中···',
       current: 0,
+      isProductFavorite: false,
+      isVerifyProductFavoriteComplete: false,
+      productDetailsMessage: {},
+      currentPageNum: 1,
+      pageSize: 20,
+      totalCount: 0,
+      isShowNoHomeNoData: false,
+      status: 'nomore',
+      commentList: [],
+      spuId: '',
+      fullCommentList: [],
       listTabsName: [{
         name: '服务详情'
       }, {
@@ -202,11 +250,17 @@ var _default = {
       }]
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userBasicInfo'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
     userName: function userName() {},
     proId: function proId() {}
   }),
-  onShow: function onShow() {},
+  onLoad: function onLoad(options) {
+    this.spuId = options.transmitData;
+    this.queryProductDetails(options.transmitData);
+    this.examineProductFavoriteEvent({
+      spuId: this.spuId
+    });
+  },
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)([])), {}, {
     // 顶部导航返回事件
     backTo: function backTo() {
@@ -215,11 +269,267 @@ var _default = {
     // tab切换事件
     tabClickEvent: function tabClickEvent(item) {
       this.current = item.index;
+      this.currentPageNum = 1;
+      this.totalCount = 0;
+      this.status = 'nomore';
+      this.isShowNoHomeNoData = false;
+      if (this.current == 2) {
+        this.fullCommentList = [];
+        this.queryProductComment({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          spuId: this.spuId,
+          type: 0
+        }, true);
+      }
+    },
+    // 查询服务详情
+    queryProductDetails: function queryProductDetails(id) {
+      var _this = this;
+      this.showLoadingHint = true;
+      (0, _user.getProductDetails)({
+        id: id
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.productDetailsMessage = res.data.data;
+        } else {
+          _this.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPageNum >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loadmore';
+        this.currentPageNum = this.currentPageNum + 1;
+        this.queryProductComment({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          spuId: this.spuId,
+          type: 0
+        }, false);
+      }
+    },
+    // 收藏/取消收藏服务事件
+    collectProductEvent: function collectProductEvent() {
+      if (this.isProductFavorite) {
+        this.cancelProductCollectEvent();
+      } else {
+        this.createProductFavoriteEvent();
+      }
+    },
+    // 校验商品是否收藏
+    examineProductFavoriteEvent: function examineProductFavoriteEvent(data) {
+      var _this2 = this;
+      this.isVerifyProductFavoriteComplete = false;
+      (0, _user.examineProductFavorite)(data).then(function (res) {
+        _this2.isVerifyProductFavoriteComplete = true;
+        if (res && res.data.code == 0) {
+          _this2.isProductFavorite = res.data.data;
+        } else {
+          _this2.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this2.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 创建商品收藏
+    createProductFavoriteEvent: function createProductFavoriteEvent() {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.infoText = '收藏中···';
+      (0, _user.createProductFavorite)({
+        spuId: this.spuId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this3.isProductFavorite = true;
+        } else {
+          _this3.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 取消服务收藏事件
+    cancelProductCollectEvent: function cancelProductCollectEvent(item, index) {
+      var _this4 = this;
+      this.showLoadingHint = true;
+      this.infoText = '取消收藏中···';
+      (0, _user.deleteProductFavorite)({
+        spuId: this.spuId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this4.isProductFavorite = false;
+        } else {
+          _this4.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this4.showLoadingHint = false;
+      }).catch(function (err) {
+        _this4.showLoadingHint = false;
+        _this4.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 查询服务评价
+    queryProductComment: function queryProductComment(data, flag) {
+      var _this5 = this;
+      this.commentList = [];
+      if (flag) {
+        this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.infoText = '';
+        this.status = 'loading';
+      }
+      ;
+      (0, _user.getProductComment)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this5.totalCount = res.data.data.total;
+          _this5.commentList = res.data.data.list;
+          if (res.data.data.list.length == 0) {
+            _this5.isShowNoHomeNoData = true;
+          } else {
+            _this5.commentList.forEach(function (item) {
+              item['rateValue'] = Math.floor(item.commentScore / item.commentCount);
+            });
+          }
+          ;
+          _this5.fullCommentList = _this5.fullCommentList.concat(_this5.commentList);
+          if (_this5.fullCommentList.length == 0) {
+            _this5.isShowNoHomeNoData = true;
+          } else {
+            _this5.isShowNoHomeNoData = false;
+          }
+          ;
+        } else {
+          _this5.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        if (flag) {
+          _this5.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this5.totalCount / _this5.pageSize);
+          if (_this5.currentPage >= totalPage) {
+            _this5.status = 'nomore';
+          } else {
+            _this5.status = 'loadmore';
+          }
+        }
+      }).catch(function (err) {
+        if (flag) {
+          _this5.showLoadingHint = false;
+        } else {
+          _this5.status = 'loadmore';
+        }
+        ;
+        _this5.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 格式化时间
+    getNowFormatDate: function getNowFormatDate(currentDate, type) {
+      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
+      var currentdate;
+      var strDate = currentDate.getDate();
+      var seperator1 = "-";
+      var seperator2 = ":";
+      var seperator3 = " ";
+      var month = currentDate.getMonth() + 1;
+      var hour = currentDate.getHours();
+      var minutes = currentDate.getMinutes();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      ;
+      if (hour >= 0 && hour <= 9) {
+        hour = "0" + hour;
+      }
+      ;
+      if (minutes >= 0 && minutes <= 9) {
+        minutes = "0" + minutes;
+      }
+      ;
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      ;
+      if (type == 1) {
+        currentdate = hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 2) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate;
+      }
+      ;
+      if (type == 3) {
+        currentdate = currentDate.getFullYear() + seperator1 + month;
+      }
+      ;
+      if (type == 4) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 5) {
+        currentdate = month + seperator1 + strDate;
+      }
+      ;
+      return currentdate;
     },
     // 预约服务事件
     appointmentServiceEvent: function appointmentServiceEvent() {
+      // 传递服务信息
+      var mynavData = JSON.stringify(this.productDetailsMessage);
       uni.navigateTo({
-        url: '/servicePackage/pages/reservationServiceList/reservationServiceList'
+        url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData=' + mynavData
       });
     }
   })

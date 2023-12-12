@@ -3,7 +3,7 @@ import { getDefaultLoginState } from '@/common/js/resetStore/resetStore.js'
 export default {	
 	state: getDefaultLoginState(),
 	getters: {
-		 userInfo:(state) => {
+		userInfo:(state) => {
 			state.userInfo = getCache('userInfo') ? getCache('userInfo') : {};
 			return state.userInfo
 		},

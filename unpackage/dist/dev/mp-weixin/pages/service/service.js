@@ -100,20 +100,26 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
-    uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 522))
-    },
-    uSearch: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-search/u-search.vue */ 537))
-    },
-    uImage: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 561))
+    uOverlay: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-overlay/u-overlay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-overlay/u-overlay")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-overlay/u-overlay.vue */ 651))
     },
     uLoadingIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 545))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 553))
     },
-    uIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 569))
+    uToast: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 530))
+    },
+    uSearch: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-search/u-search.vue */ 545))
+    },
+    uEmpty: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 659))
+    },
+    uImage: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 569))
+    },
+    uLoadmore: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 667))
     },
   }
 } catch (e) {
@@ -137,6 +143,15 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.fullServiceCategoryDetailsList.length
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -180,11 +195,12 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _user = __webpack_require__(/*! @/api/user.js */ 170);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 643));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 675));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -195,10 +211,18 @@ var _default = {
     return {
       loginBackgroundPng: __webpack_require__(/*! @/static/img/login-background.png */ 201),
       currentIndex: 0,
-      infoText: '',
+      infoText: '加载中···',
+      currentPageNum: 1,
+      pageSize: 20,
+      totalCount: 0,
+      status: 'nomore',
+      isShowNoHomeNoData: false,
+      currentId: '',
+      serviceCategoryDetailsList: [],
+      fullServiceCategoryDetailsList: [],
+      serviceCategoryList: [],
       searchValue: '',
-      showLoadingHint: false,
-      serviceTypeList: ['推荐服务', '健康护理', '妈妈护理', '宝宝护理', '慢病护理', '母婴服务套餐', '健康护理套餐', '推荐服务', '健康护理', '妈妈护理', '宝宝护理', '慢病护理', '母婴服务套餐', '健康护理套餐']
+      showLoadingHint: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userBasicInfo'])), {}, {
@@ -207,16 +231,139 @@ var _default = {
     proName: function proName() {},
     workerId: function workerId() {}
   }),
-  onShow: function onShow() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)([])), {}, {
+  onShow: function onShow() {
+    this.queryServiceProductCategory();
+  },
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['userInfo'])), {}, {
     // 服务类型点击事件
     serviceTypeClickEvent: function serviceTypeClickEvent(item, index) {
       this.currentIndex = index;
+      this.currentId = item.id;
+      this.fullServiceCategoryDetailsList = [];
+      this.currentPageNum = 1;
+      this.totalCount = 0;
+      this.status = 'nomore';
+      this.isShowNoHomeNoData = false;
+      this.queryServiceProductCategoryDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        categoryId: this.currentId
+      }, true);
     },
     // 进入服务详情事件
-    enterServiceDetailsEvent: function enterServiceDetailsEvent() {
+    enterServiceDetailsEvent: function enterServiceDetailsEvent(item) {
+      // 传递服务地址信息
       uni.navigateTo({
-        url: '/servicePackage/pages/service/index/index'
+        url: '/servicePackage/pages/service/index/index?transmitData=' + item
+      });
+    },
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPageNum >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loadmore';
+        this.currentPageNum = this.currentPageNum + 1;
+        this.queryServiceProductCategoryDetails({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          categoryId: this.currentId
+        }, false);
+      }
+    },
+    // 查询服务分类
+    queryServiceProductCategory: function queryServiceProductCategory() {
+      var _this = this;
+      this.showLoadingHint = true;
+      this.serviceCategoryList = [];
+      (0, _user.getServiceProductCategory)({
+        userId: this.userInfo.userId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (res.data.data.length > 0) {
+            _this.serviceCategoryList = res.data.data;
+            _this.serviceCategoryList = _this.serviceCategoryList.filter(function (item) {
+              return item.parentId == 0;
+            });
+            // 查询服务分类第一项下的服务明细
+            _this.fullServiceCategoryDetailsList = [];
+            _this.queryServiceProductCategoryDetails({
+              pageNo: _this.currentPageNum,
+              pageSize: _this.pageSize,
+              categoryId: _this.serviceCategoryList[0]['id']
+            }, true);
+          }
+        } else {
+          _this.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 查询服务分类明细
+    queryServiceProductCategoryDetails: function queryServiceProductCategoryDetails(data, flag) {
+      var _this2 = this;
+      this.serviceCategoryDetailsList = [];
+      if (flag) {
+        this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.infoText = '';
+        this.status = 'loading';
+      }
+      ;
+      (0, _user.getServiceProductCategoryDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this2.totalCount = res.data.data.total;
+          _this2.serviceCategoryDetailsList = res.data.data.list;
+          _this2.fullServiceCategoryDetailsList = _this2.fullServiceCategoryDetailsList.concat(_this2.serviceCategoryDetailsList);
+          if (_this2.fullServiceCategoryDetailsList.length == 0) {
+            _this2.isShowNoHomeNoData = true;
+          } else {
+            _this2.isShowNoHomeNoData = false;
+          }
+          ;
+        } else {
+          _this2.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPage >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
+        }
+      }).catch(function (err) {
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
+        _this2.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
       });
     }
   })

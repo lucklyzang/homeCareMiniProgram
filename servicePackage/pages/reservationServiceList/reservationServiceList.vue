@@ -68,12 +68,76 @@
 				</view>
 				<view class="service-project-right">
 					<view class="service-project-right-top">
-						<text>婴儿黄疸检测</text>
+						<text>{{ serviceMessage.name }}</text>
 					</view>
 					<view class="service-project-right-bottom">
 						<text>上门服务一次</text>
 						<text>40分钟</text>
 						<text>专业服务</text>
+					</view>
+				</view>
+			</view>
+			<view class="nurse-practitioner-list-platform-recommend" v-if="isPlatformRecommendNurse">
+				<view class="nurse-practitioner-list-top">
+					<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.practice }}</text>
+				</view>
+				<view class="nurse-practitioner-list-left">
+					<u-image :src="!serviceOrderFormSureChooseMessage.chooseNurseMessage.avatar ? defaultNurseAvatar : serviceOrderFormSureChooseMessage.chooseNurseMessage.avatar" width="63" height="63">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
+					</u-image>
+				</view>
+				<view class="nurse-practitioner-list-right">
+					<view class="nurse-practitioner-name">
+						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.name }}</text>
+						<!-- <text>{{ nurseTitleTransition(serviceOrderFormSureChooseMessage.chooseNurseMessage.title) }}</text> -->
+					</view>
+					<view class="hospital-name">
+						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.organization }}</text>
+					</view>
+					<view class="rate">
+						<u-rate :count="serviceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" readonly v-model="serviceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" active-color="#E86F50"></u-rate>
+						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore == 0 ? '0.0' : Math.floor(serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore/serviceOrderFormSureChooseMessage.chooseNurseMessage.commentCount) }}</text>
+					</view>
+					<view class="nurse-practitioner-performance">
+						<view class="nurse-practitioner-performance-message">
+							<view class="nurse-practitioner-performance-left">
+								<text>帮助</text>
+								<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.quantity }}</text>
+								<text>人</text>
+							</view>
+							<view class="nurse-practitioner-performance-right">
+								<text>服务</text>
+								<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.timeLength == 0 ? 0 : (serviceOrderFormSureChooseMessage.chooseNurseMessage.timeLength/60).toFixed(2) }}</text>
+								<text>小时</text>
+							</view>
+						</view>
+					</view>
+					<view class="good-territory">
+						<text v-for="(innerItem,innerIndex) in serviceOrderFormSureChooseMessage.chooseNurseMessage.genius" :key="innerIndex">{{ innerItem }}</text>
+					</view>
+					<view class="cut-nurse" @click="cutNurseEvent('推荐')">
+						<image :src="cutIconPng"></image>
+						<text>切换为平台推荐护士</text>
+					</view>
+				</view>
+			</view>
+			<view class="nurse-practitioner-list-platform-assign" v-else>
+				<view class="nurse-practitioner-list-platform-assign-left">
+					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+						 <template v-slot:loading>
+						    <u-loading-icon color="red"></u-loading-icon>
+						  </template>
+					</u-image>
+				</view>
+				<view class="nurse-practitioner-list-platform-assign-right">
+					<view class="platform-assign-right-top">
+						<text>平台指派护士</text>
+					</view>
+					<view class="platform-assign-right-bottom" @click="cutNurseEvent('指定')">
+						<image :src="cutIconPng"></image>
+						<text>切换为指定护士</text>
 					</view>
 				</view>
 			</view>
@@ -112,71 +176,6 @@
 					</view>
 					<view class="serve-site-right" :class="{'serveSiteRightStyle' : writeEvaluationForm != '点击填写评估单'}" @click="writeEvaluationFormEvent">
 						{{ writeEvaluationForm }}
-					</view>
-				</view>
-			</view>
-			<view class="nurse-practitioner-list-platform-recommend" v-if="isPlatformRecommendNurse">
-				<view class="nurse-practitioner-list-top">
-					<text>从业10年以上</text>
-				</view>
-				<view class="nurse-practitioner-list-left">
-					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-						 <template v-slot:loading>
-						    <u-loading-icon color="red"></u-loading-icon>
-						  </template>
-					</u-image>
-				</view>
-				<view class="nurse-practitioner-list-right">
-					<view class="nurse-practitioner-name">
-						<text>张颖</text>
-						<text>主管护师</text>
-					</view>
-					<view class="hospital-name">
-						<text>成都市妇女儿童中心医院 (东城根)</text>
-					</view>
-					<view class="rate">
-						<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-						<text>5.0</text>
-					</view>
-					<view class="nurse-practitioner-performance">
-						<view class="nurse-practitioner-performance-message">
-							<view class="nurse-practitioner-performance-left">
-								<text>帮助</text>
-								<text>3456</text>
-								<text>人</text>
-							</view>
-							<view class="nurse-practitioner-performance-right">
-								<text>服务</text>
-								<text>345</text>
-								<text>小时</text>
-							</view>
-						</view>
-					</view>
-					<view class="good-territory">
-						<text>乳腺疏通</text>
-						<text>黄疸检测</text>
-					</view>
-					<view class="cut-nurse" @click="cutNurseEvent('指定')">
-						<image :src="cutIconPng"></image>
-						<text>切换为指定护士</text>
-					</view>
-				</view>
-			</view>
-			<view class="nurse-practitioner-list-platform-assign" v-else>
-				<view class="nurse-practitioner-list-platform-assign-left">
-					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-						 <template v-slot:loading>
-						    <u-loading-icon color="red"></u-loading-icon>
-						  </template>
-					</u-image>
-				</view>
-				<view class="nurse-practitioner-list-platform-assign-right">
-					<view class="platform-assign-right-top">
-						<text>平台指派护士</text>
-					</view>
-					<view class="platform-assign-right-bottom" @click="cutNurseEvent('推荐')">
-						<image :src="cutIconPng"></image>
-						<text>切换为平台推荐护士</text>
 					</view>
 				</view>
 			</view>
@@ -245,9 +244,8 @@
 		},
 		data() {
 			return {
-				count: 5,
-				rateValue: 5,
 				sureCancelShow: false,
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				isCanSure: false,
 				serviceSite: '上门服务详细地址',
 				serviceDate: '期望服务时间',
@@ -282,6 +280,7 @@
 				currentMonth: '',
 				currentMonthDay: '',
 				currentDate: '',
+				serviceMessage: {},
 				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
 				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15：00',
 				'下午15：00—16：00','下午16：00—17：00','下午17：00—18：00'
@@ -290,15 +289,24 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo',
+				'serviceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.serviceMessage = temporaryAddress
 		},
+		
+		onShow () {
+			console.log('护师信息',this.serviceOrderFormSureChooseMessage);
+		},
+		
 		methods: {
 			...mapMutations([
 			]),
@@ -311,13 +319,25 @@
 			// 切换护士类型事件
 			cutNurseEvent (text) {
 				if (text == '指定') {
-					this.isPlatformRecommendNurse = false
-				} else {
+					// 传递服务资质
+					let mynavData = JSON.stringify(this.serviceMessage);
 					uni.navigateTo({
-						url: '/servicePackage/pages/chooseNurse/chooseNurse'
+						url: '/servicePackage/pages/chooseNurse/chooseNurse?transmitData='+mynavData
 					});
 					this.isPlatformRecommendNurse = true
+				} else {
+					this.isPlatformRecommendNurse = false
 				}
+			},
+			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
 			},
 			
 			// 服务地址点击事件
@@ -963,6 +983,8 @@
 					};
 					.good-territory {
 						margin-top: 4px;
+						display: flex;
+						align-items: center;
 						>text {
 							font-size: 12px;
 							color: #fff;

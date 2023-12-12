@@ -6,10 +6,13 @@
 				<u-icon name="arrow-left" color="#101010" size="22"></u-icon>
 			</view>
 			<view class="search-box">
-				<u-search placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @search="searchEvent" :clearabled="true" :showAction="true"></u-search>
+				<u-search v-model="searchValue" placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 		</view>
-		<view class="search-init-box">
+		<view class="loading-box" v-if="showLoadingHint">
+			<u-loading-icon :show="showLoadingHint" :text="infoText" size="18" textSize="16"></u-loading-icon>
+		</view>
+		<!-- <view class="search-init-box">
 			<view class="search-history-box">
 				<view class="search-history-title">
 					<view class="search-history-title-left">
@@ -37,8 +40,8 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		<!-- <view class="service-details-bottom">
+		</view> -->
+		<view class="service-details-bottom">
 			<view class="tabs-area">
 				<u-tabs lineColor="#FF5F83" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
 				 :activeStyle="{color: '#101010',fontSize: '14px',fontWeight:'bold'}"
@@ -46,127 +49,76 @@
 			</view>
 			<view class="all-service-box" v-if="current == 0">
 				<view class="all-service-list-box">
-					<view class="service-list" @click="enterServiceDetailsEvent">
-						<view class="service-list-left">
-							<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-								 <template v-slot:loading>
-								    <u-loading-icon color="red"></u-loading-icon>
-								  </template>
-							</u-image>
-						</view>
-						<view class="service-list-right">
-							<view class="service-project">
-								<text>婴儿黄疸检测</text>
-								<text>内部专属护理,欢迎体验!</text>
+					<u-empty text="暂无服务" v-if="isShowNoHomeNoData"></u-empty>
+					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolowerService">
+						<view class="service-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
+							<view class="service-list-left">
+								<u-image :src="item.picUrl" width="63" height="63">
+									 <template v-slot:loading>
+											<u-loading-icon color="red"></u-loading-icon>
+										</template>
+								</u-image>
 							</view>
-							<view class="service-price">
-								<text>￥150起</text>
-							</view>
-						</view>
-					</view>
-					<view class="service-list">
-						<view class="service-list-left">
-							<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-								 <template v-slot:loading>
-								    <u-loading-icon color="red"></u-loading-icon>
-								  </template>
-							</u-image>
-						</view>
-						<view class="service-list-right">
-							<view class="service-project">
-								<text>婴儿黄疸检测</text>
-								<text>内部专属护理,欢迎体验!</text>
-							</view>
-							<view class="service-price">
-								<text>￥150起</text>
+							<view class="service-list-right">
+								<view class="service-project">
+									<text>{{ item.name }}</text>
+									<text>内部专属护理,欢迎体验!</text>
+								</view>
+								<view class="service-price">
+									<text>{{ `￥${item.price}起` }}</text>
+								</view>
 							</view>
 						</view>
-					</view>
+						<u-loadmore :status="status" v-show="fullServiceCategoryDetailsList.length > 0" />
+					</scroll-view>
 				</view>
 			</view>
 			<view class="nurse-box" v-if="current == 1">
 				<view class="specialist-list-box">
-					<view class="nurse-practitioner-list">
-						<view class="nurse-practitioner-list-left">
-							<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-								 <template v-slot:loading>
-										<u-loading-icon color="red"></u-loading-icon>
-									</template>
-							</u-image>
-						</view>
-						<view class="nurse-practitioner-list-right">
-							<view class="nurse-practitioner-name">
-								<text>张颖</text>
-								<text>主管护师</text>
+					<u-empty text="暂无医护" v-if="isShowNoHomeNoData"></u-empty>
+					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+						<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent(item)">
+							<view class="nurse-practitioner-list-left">
+								<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
+									 <template v-slot:loading>
+											<u-loading-icon color="red"></u-loading-icon>
+										</template>
+								</u-image>
 							</view>
-							<view class="hospital-name">
-								<text>成都市妇女儿童中心医院 (东城根)</text>
-							</view>
-							<view class="rate">
-								<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-								<text>5.0</text>
-							</view>
-							<view class="nurse-practitioner-performance">
-								<view class="nurse-practitioner-performance-message">
-									<view class="nurse-practitioner-performance-left">
-										<text>帮助</text>
-										<text>3456</text>
-										<text>人</text>
-									</view>
-									<view class="nurse-practitioner-performance-right">
-										<text>服务</text>
-										<text>345</text>
-										<text>小时</text>
-									</view>
-								</view>	
-							</view>
-							<view class="good-territory">
-								<text>乳腺疏通</text>
-								<text>黄疸检测</text>
-							</view>
-						</view>
-					</view>
-					<view class="nurse-practitioner-list">
-						<view class="nurse-practitioner-list-left">
-							<u-image src="@/static/img/health-nurse.png" width="63" height="63">
-								 <template v-slot:loading>
-										<u-loading-icon color="red"></u-loading-icon>
-									</template>
-							</u-image>
-						</view>
-						<view class="nurse-practitioner-list-right">
-							<view class="nurse-practitioner-name">
-								<text>张颖</text>
-								<text>主管护师</text>
-							</view>
-							<view class="hospital-name">
-								<text>成都市妇女儿童中心医院 (东城根)</text>
-							</view>
-							<view class="rate">
-								<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-								<text>2323</text>
-								<text>条评价</text>
-							</view>
-							<view class="nurse-practitioner-performance">
-								<view class="nurse-practitioner-performance-message">
-									<view class="nurse-practitioner-performance-left">
-										<text>帮助</text>
-										<text>3456</text>
-										<text>人</text>
-									</view>
-									<view class="nurse-practitioner-performance-right">
-										<text>服务</text>
-										<text>345</text>
-										<text>小时</text>
-									</view>
-								</view>	
-							</view>
-							<view class="good-territory">
-								<text>乳腺疏通</text>
-								<text>黄疸检测</text>
+							<view class="nurse-practitioner-list-right">
+								<view class="nurse-practitioner-name">
+									<text>{{ item.name }}</text>
+									<text>{{ item.title ? nurseTitleTransition(item.title) : '无' }}</text>
+								</view>
+								<view class="hospital-name">
+									<text>{{ item.organization }}</text>
+								</view>
+								<view class="rate">
+									<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+									<text>{{ item.commentCount }}</text>
+									<text>条评价</text>
+								</view>
+								<view class="nurse-practitioner-performance">
+									<view class="nurse-practitioner-performance-message">
+										<view class="nurse-practitioner-performance-left">
+											<text>帮助</text>
+											<text>{{ item.quantity }}</text>
+											<text>人</text>
+										</view>
+										<view class="nurse-practitioner-performance-right">
+											<text>服务</text>
+											<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
+											<text>小时</text>
+										</view>
+									</view>	
+								</view>
+								<view class="good-territory">
+									<text v-for="(innerItem,innerIndex) in item.genius" :key="innerIndex">{{ innerItem }}</text>
+								</view>
 							</view>
 						</view>
-					</view>
+					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
+					</scroll-view>
 				</view>
 			</view>
 			<view class="organization-box" v-if="current == 2">
@@ -182,7 +134,7 @@
 					</view>
 				</view>
 			</view>
-		</view> -->
+		</view>
 	</view>
 </template>
 
@@ -195,6 +147,8 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getNurse } from '@/api/user.js'
+	import { getServiceProductCategoryDetails } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -203,11 +157,19 @@
 		data() {
 			return {
 				showLoadingHint: false,
-				count: 5,
-				rateValue: 5,
 				searchValue: '',
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
-				infoText: '加载中',
+				infoText: '加载中···',
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				isShowNoHomeNoData: false,
+				status: 'nomore',
+				nurseList: [],
+				fullNurseList: [],
+				serviceCategoryDetailsList: [],
+				fullServiceCategoryDetailsList: [],
 				searchHistoryList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				searchHotList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				current: 0,
@@ -226,14 +188,19 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo',
+				'nurseRankDictData'
 			]),
 			userName() {
 			},
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad() {
+			this.queryServiceProductCategoryDetails({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize
+			},true)
 		},
 		methods: {
 			...mapMutations([
@@ -246,11 +213,253 @@
 			
 			// tab切换事件
 			tabClickEvent (item) {
-				this.current = item.index
+				this.current = item.index;
+				this.searchValue = '';
+				this.currentPageNum = 1;
+				this.totalCount = 0;
+				this.status = 'nomore';
+				this.isShowNoHomeNoData = false;
+				if (this.current == 0) {
+					this.fullServiceCategoryDetailsList = [];
+					this.queryServiceProductCategoryDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},true)
+				} else if (this.current == 1) {
+					this.fullNurseList = [];
+					this.queryNurseList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						name: '',
+						userId: this.userInfo.userId
+					},true)
+				}
+			},
+			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
+			},
+			
+			// 监听护师列表滚动
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryNurseList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						name: '',
+						userId: this.userInfo.userId
+					},false)
+				}
+			},
+			
+			// 查询医护
+			queryNurseList(data,flag) {
+				this.nurseList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getNurse(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.nurseList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							this.isShowNoHomeNoData = true;
+						} else {
+							this.nurseList.forEach((item) => {
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+							})
+						};
+						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
+						if (this.fullNurseList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询医护(搜索指定姓名)
+			queryNurseListByName(data) {
+				this.nurseList = [];
+				this.fullNurseList = [];
+				this.showLoadingHint = true;
+				this.isShowNoHomeNoData = false;
+				this.infoText = '搜索中···';
+				getNurse(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.nurseList = res.data.data.list;
+						if (res.data.data.list.length == 0) {
+							this.isShowNoHomeNoData = true;
+						} else {
+							this.nurseList.forEach((item) => {
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+							})
+						};
+						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
+						if (this.fullNurseList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 监听服务列表滚动
+			scrolltolowerService () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryServiceProductCategoryDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},false)
+				}
+			},
+			
+			// 查询所有服务
+			queryServiceProductCategoryDetails(data,flag) {
+				this.serviceCategoryDetailsList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getServiceProductCategoryDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.serviceCategoryDetailsList = res.data.data.list;
+						this.fullServiceCategoryDetailsList = this.fullServiceCategoryDetailsList.concat(this.serviceCategoryDetailsList);
+						if (this.fullServiceCategoryDetailsList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查看护师详情事件
+			viewSpecialistDetailsEvent (item) {
+				// 传递护师信息
+				let mynavData = JSON.stringify(item);
+				uni.navigateTo({
+					url: '/servicePackage/pages/specialistDetails/specialistDetails?transmitData='+mynavData
+				})
+			},
+			
+			// 进入服务详情事件
+			enterServiceDetailsEvent (item) {
+				// 传递服务地址信息
+				uni.navigateTo({
+					url: '/servicePackage/pages/service/index/index?transmitData='+item
+				})
 			},
 			
 			// 搜索事件
-			searchEvent () {},
+			searchEvent () {
+				if (this.current == 1) {
+					this.queryNurseListByName({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						name: this.searchValue,
+						userId: this.userInfo.userId
+					})
+				}
+			},
 			
 			// 快捷搜索事件
 			searchItemClickEvent(item,index,type) {
@@ -302,6 +511,12 @@
 				display: flex;
 				align-items: center;
 			}
+		};
+		.loading-box {
+			height: 35px;
+			display: flex;
+			align-items: center;
+			justify-content: center
 		};
 		.search-init-box {
 			padding: 10px 0;
@@ -434,6 +649,7 @@
 			};
 			.nurse-box {
 				flex: 1;
+				overflow: auto;
 				.specialist-list-box {
 					padding: 10px 0;
 					width: 94%;
@@ -441,6 +657,17 @@
 					box-sizing: border-box;
 					height: 100%;
 					overflow: auto;
+					position: relative;
+					margin-bottom: 10px;
+					.scroll-view {
+						height: 100%
+					};
+					::v-deep .u-empty {
+					 	position: absolute;
+					 	top: 50%;
+					 	left: 50%;
+					 	transform: translate(-50%,-50%)
+					 };
 					.nurse-practitioner-list {
 						padding: 10px 0;
 						box-sizing: border-box;
@@ -548,6 +775,8 @@
 							};
 							.good-territory {
 								margin-top: 4px;
+								display: flex;
+								align-items: center;
 								>text {
 									font-size: 12px;
 									color: #fff;

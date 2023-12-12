@@ -13,6 +13,10 @@
 			<view class="service-details-top">
 				<view class="service-image">
 					<image :src="productDetailsMessage.picUrl" mode=""></image>
+					<view class="rate-box" v-if="isVerifyProductFavoriteComplete">
+						<u-icon v-if="!isProductFavorite" name="heart" color="#fff" size="26" @click="collectProductEvent"></u-icon>
+						<u-icon v-else name="heart-fill" color="#FC4579" size="26" @click="collectProductEvent"></u-icon>
+					</view>
 				</view>
 				<view class="service-price-message">
 					<view class="service-name">
@@ -120,7 +124,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import { getProductDetails, getProductComment } from '@/api/user.js'
+	import { getProductDetails, getProductComment, createProductFavorite, deleteProductFavorite, examineProductFavorite } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -134,6 +138,8 @@
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
 				infoText: '加载中···',
 				current: 0,
+				isProductFavorite: false,
+				isVerifyProductFavoriteComplete: false,
 				productDetailsMessage: {},
 				currentPageNum: 1,
 				pageSize: 20,
@@ -167,7 +173,8 @@
 		},
 		onLoad(options) {
 			this.spuId = options.transmitData;
-			this.queryProductDetails(options.transmitData)
+			this.queryProductDetails(options.transmitData);
+			this.examineProductFavoriteEvent({spuId: this.spuId })
 		},
 		methods: {
 			...mapMutations([
@@ -181,12 +188,12 @@
 			// tab切换事件
 			tabClickEvent (item) {
 				this.current = item.index;
+				this.currentPageNum = 1;
+				this.totalCount = 0;
+				this.status = 'nomore';
+				this.isShowNoHomeNoData = false;
 				if (this.current == 2) {
 					this.fullCommentList = [];
-					this.currentPageNum = 1;
-					this.totalCount = 0;
-					this.status = 'nomore';
-					this.isShowNoHomeNoData = false;
 					this.queryProductComment({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
@@ -237,6 +244,91 @@
 						type: 0
 					},false)
 				}
+			},
+			
+			// 收藏/取消收藏服务事件
+			collectProductEvent () {
+				if (this.isProductFavorite) {
+					this.cancelProductCollectEvent()
+				} else {
+					this.createProductFavoriteEvent()
+				}
+			},
+			
+			// 校验商品是否收藏
+			examineProductFavoriteEvent(data) {
+				this.isVerifyProductFavoriteComplete = false;
+				examineProductFavorite(data).then((res) => {
+					this.isVerifyProductFavoriteComplete = true;
+					if ( res && res.data.code == 0) {
+						this.isProductFavorite = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 创建商品收藏
+			createProductFavoriteEvent() {
+				this.showLoadingHint = true;
+				this.infoText = '收藏中···';
+				createProductFavorite({spuId: this.spuId }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.isProductFavorite = true
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 取消服务收藏事件
+			cancelProductCollectEvent (item,index) {
+				this.showLoadingHint = true;
+				this.infoText = '取消收藏中···';
+				deleteProductFavorite({spuId: this.spuId }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.isProductFavorite = false
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 查询服务评价
@@ -291,7 +383,7 @@
 						this.status = 'loadmore'
 					};
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -341,8 +433,10 @@
 			
 			// 预约服务事件
 			appointmentServiceEvent () {
+				// 传递服务信息
+				let mynavData = JSON.stringify(this.productDetailsMessage);
 				uni.navigateTo({
-					url: '/servicePackage/pages/reservationServiceList/reservationServiceList'
+					url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData='+mynavData
 				})
 			}
 		}
@@ -395,11 +489,17 @@
 			box-sizing: border-box;
 			.service-details-top {
 				.service-image {
+					position: relative;
 					height: 391px;
 					width: 100%;
 					>image {
 						width: 100%;
 						height: 100%
+					};
+					.rate-box {
+						position: absolute;
+						bottom: 10px;
+						left: 20px
 					}
 				};
 				.service-price-message {
