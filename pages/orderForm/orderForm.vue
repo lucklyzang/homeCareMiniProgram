@@ -55,6 +55,9 @@
 				</nav-bar> 
 		  </view>
 		</view>
+		<view class="loading-box" v-if="showLoadingHint">
+			<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
+		</view>
 		<view class="order-form-tabs">
 			<u-tabs :list="list" :current="current" @change="change"
 				lineWidth="50"
@@ -69,59 +72,62 @@
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 0">
 			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>待付款</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
+						<view class="order-form-status">
+							<text>{{ item.status }}</text>
 						</view>
 					</view>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>燕双鹰 26岁</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
+						</view>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-left">
+							<text>剩余支付时间:</text>
+							<text>14:59</text>
+						</view>
+						<view class="consumption-rental-right">
+							<text>待付总额:</text>
+							<text>￥998.00</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-left">
+							<text>联系护士</text>
+						</view>
+						<view class="btn-area-right">
+							<text>取消订单</text>
+							<text @click="editOrderFormEvent">修改订单</text>
+							<text class="at-once-payment">立即付款</text>
+						</view>
+					</view>
 				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-left">
-						<text>剩余支付时间:</text>
-						<text>14:59</text>
-					</view>
-					<view class="consumption-rental-right">
-						<text>待付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-left">
-						<text>联系护士</text>
-					</view>
-					<view class="btn-area-right">
-						<text>取消订单</text>
-						<text @click="editOrderFormEvent">修改订单</text>
-						<text class="at-once-payment">立即付款</text>
-					</view>
-				</view>
-			</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 1">
 			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
@@ -562,6 +568,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getTradeOrderPage } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -570,8 +577,15 @@
 		data() {
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
-				infoText: '',
+				infoText: '加载中···',
 				showLoadingHint: false,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				isShowNoHomeNoData: false,
+				status: 'nomore',
+				tradeList: [],
+				fullTradeList: [],
 				deleteShow: false,
 				haveDeleteShow: false,
 				cancelOrderFormShow: false,
@@ -621,14 +635,120 @@
 			}
 		},
 		onShow() {
+			// this.queryTradeOrderPage({
+			// 	pageNo: this.currentPageNum,
+			// 	pageSize: this.pageSize,
+			// 	status: ''
+			// },true)
 		},
 		methods: {
 			...mapMutations([
 			]),
 			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryTradeOrderPage({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						status: this.transitionOrderStatus(this.current)
+					},false)
+				}
+			},
+			
+			// 查询交易订单
+			queryTradeOrderPage(data,flag) {
+				this.nurseList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				getTradeOrderPage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.tradeList = res.data.data.list;
+						this.fullTradeList = this.fullTradeList.concat(this.tradeList);
+						if (this.fullTradeList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 订单类型切换事件
 			change(index) {
-				this.current = index.index
+				this.current = index.index;
+				this.currentPageNum = 1;
+				this.totalCount = 0;
+				this.status = 'nomore';
+				this.isShowNoHomeNoData = false;
+				this.fullTradeList = [];
+				this.queryTradeOrderPage({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					status: this.transitionOrderStatus(this.current)
+				},true)
+			},
+			
+			// 转换订单状态
+			transitionOrderStatus(status) {
+				switch(status) {
+				  case 0 :
+					return ''
+					break;
+				  case 1 :
+					return 0
+					break;
+				  case 2 :
+					return 1
+					break;
+				  case 3 :
+					return 2
+					break;
+				  case 4 :
+					return 3
+					break;
+				  case 5 :
+					return 4
+					break
+				}
 			},
 			
 			// 提醒派单事件
@@ -691,6 +811,10 @@
 		height: 100%;
 	};
 	.content-box {
+		position: relative;
+		::v-deep .u-popup {
+			flex: none !important
+		};
 		::v-deep .u-popup__content{
 			.u-modal {
 				.u-modal__title {
@@ -850,6 +974,12 @@
 				}
 			}
 		};
+		.loading-box {
+			height: 35px;
+			display: flex;
+			align-items: center;
+			justify-content: center
+		};
 		.order-form-list-wrapper {
 			flex: 1;
 			background: #f5f5f5;
@@ -858,6 +988,9 @@
 			padding: 10px 6px;
 			box-sizing: border-box;
 			position: relative;
+			.scroll-view {
+				height: 100%
+			};
 			::v-deep .u-empty {
 				position: absolute;
 				top: 50%;

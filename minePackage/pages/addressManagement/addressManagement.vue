@@ -16,7 +16,7 @@
 			<view class="image-box" v-if="isEmpty">
 				<image :src="noAddressManagementPng"></image>
 			</view>
-			<view v-else class="address-list" v-for="(item,index) in addressList" :key="index">
+			<view v-else class="address-list" v-for="(item,index) in addressList" :key="index" @click="chooseAddressEvent(item)">
 				<view class="address-list-top">
 					<view class="site">
 						<image :src="addressBlackIconPng"></image>
@@ -40,8 +40,8 @@
 						<text>默认地址</text>
 					</view>
 					<view class="list-bottom-right">
-						<image :src="editBlackIconPng" @click="editAddressEvent(item)"></image>
-						<image :src="deleteBlackIconPng" @click="deleteAddressEvent(item)"></image>
+						<image :src="editBlackIconPng" @click.stop="editAddressEvent(item)"></image>
+						<image :src="deleteBlackIconPng" @click.stop="deleteAddressEvent(item)"></image>
 					</view>
 				</view>
 			</view>
@@ -85,7 +85,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'serviceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -97,6 +98,7 @@
 		},
 		methods: {
 			...mapMutations([
+				'storeServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -200,6 +202,16 @@
 				this.modalShow = false
 			},
 			
+			// 选择地址事件
+			chooseAddressEvent (item) {
+				// 传递护师信息
+				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+				tmporaryServiceOrderFormSureChooseMessage['chooseAddressMessage'] = item;
+				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 			
 			// 添加地址事件
 			addSiteEvent () {

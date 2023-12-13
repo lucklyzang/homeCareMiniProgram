@@ -17,7 +17,7 @@
 				<image :src="noProtectedPersonsPng"></image>
 			</view>
 			<scroll-view class="scroll-view" scroll-y="true"  v-if="!isShowNoHomeNoData" @scrolltolower="scrolltolower">
-				<view class="protected-persons-list" v-for="(item,index) in fullServerPersonList" :key="index">
+				<view class="protected-persons-list" v-for="(item,index) in fullServerPersonList" :key="index" @click="chooseProtegePersonEvent(item)">
 					<view class="protected-persons-top">
 						<view class="protected-persons-top-left">
 							<view class="person-message">
@@ -30,8 +30,8 @@
 							</view>
 						</view>
 						<view class="protected-persons-top-right">
-							<image :src="editBlackIconPng" @click="editServerPersonEvent(item)"></image>
-							<image :src="deleteBlackIconPng" @click="deleteServerPersonEvent(item,index)"></image>
+							<image :src="editBlackIconPng" @click.stop="editServerPersonEvent(item)"></image>
+							<image :src="deleteBlackIconPng" @click.stop="deleteServerPersonEvent(item,index)"></image>
 						</view>
 					</view>
 					<view class="protected-persons-center">
@@ -103,7 +103,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'nurseRankDictData'
+				'nurseRankDictData',
+				'serviceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -119,6 +120,7 @@
 		},
 		methods: {
 			...mapMutations([
+				'storeServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -258,6 +260,17 @@
 			// 是否删除被护人弹框取消事件
 			cancelSure () {
 				this.modalShow = false
+			},
+			
+			// 选择被护人事件
+			chooseProtegePersonEvent (item) {
+				// 传递护师信息
+				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+				tmporaryServiceOrderFormSureChooseMessage['chooseProtegePersonMessage'] = item;
+				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				uni.navigateBack({
+					delta: 1
+				})
 			},
 			
 			// 添加被护人事件

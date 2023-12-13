@@ -37,6 +37,7 @@
         "pages/orderFormCancelOrRefund/orderFormCancelOrRefund",
         "pages/orderFormComplete/orderFormComplete",
         "pages/orderFormStayPayment/orderFormStayPayment",
+        "pages/orderPay/orderPay",
         "pages/orderFormInService/orderFormInService",
         "pages/orderFormStayEvaluate/orderFormStayEvaluate",
         "pages/serviceEvaluate/serviceEvaluate",

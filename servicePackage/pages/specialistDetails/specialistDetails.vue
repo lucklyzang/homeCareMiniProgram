@@ -241,7 +241,7 @@
 				getNurseDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.nurseMessage = res.data.data;
-						console.log('护师信息',this.nurseMessage);
+						this.nurseMessage['rateValue'] = res.data.data.commentScore == 0 ? 0 : Math.floor(res.data.data.commentScore/res.data.data.commentCount);
 						this.queryServiceProductCategoryDetails({
 							pageNo: this.currentPageNum,
 							pageSize: this.pageSize,
@@ -504,7 +504,6 @@
 			
 			// 选定护士事件
 			designateNurseEvent () {
-				// 传递护师信息
 				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
 				tmporaryServiceOrderFormSureChooseMessage['chooseNurseMessage'] = this.nurseMessage;
 				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage)

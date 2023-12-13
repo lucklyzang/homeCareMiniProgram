@@ -1,6 +1,8 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-modal :show="sureCancelShow" title="确定删除此图片?" :showCancelButton="true" @confirm="sureCancel" @cancel="cancelSure"></u-modal>
 		<view class="top-area-box">
 			<view class="nav">
@@ -21,7 +23,7 @@
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
+						<u-image src="@/static/img/health-nurse.png" width="66" height="66">
 							 <template v-slot:loading>
 							    <u-loading-icon color="red"></u-loading-icon>
 							  </template>
@@ -99,6 +101,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { createOrderComment } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -107,7 +110,7 @@
 		data() {
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
-				infoText: '',
+				infoText: '提交中···',
 				showLoadingHint: false,
 				serviceAttitudeCount: 5,
 				serviceAttitudeValue: '',
@@ -160,9 +163,16 @@
 			
 			// 选择图片方法
 			getImg() {
-				var that = this
+				if (this.imgArr.length == 9) {
+					this.$refs.uToast.show({
+						message: "至多只能上传9张图片",
+						position: 'center'
+					});
+					return
+				};
+				var that = this;
 				uni.chooseImage({
-					count: 4,
+					count: 9,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
@@ -185,10 +195,43 @@
 				})
 			},
 			
+			// 创建评价
+			createOrderCommentEvent(data) {
+				this.showLoadingHint = true;
+				createOrderComment(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						uni.navigateTo({
+							url: '/orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 提交评价事件
 			submitEvent () {
-				uni.navigateTo({
-					url: '/orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback'
+				this.createOrderCommentEvent({
+					anonymous: true,
+					orderItemId: 2,
+					attitudeScores: this.serviceAttitudeValue,
+					speedScores: this.serviceSpeedValue,
+					specialityScores: this.majorLevelValue,
+					content: this.evaluateValue,
+					picUrls: this.imgArr
 				})
 			}
 		}
@@ -203,8 +246,16 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		position: relative;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
 		};
 		.top-area-box {
 			position: relative;

@@ -44,7 +44,7 @@
 							</view>
 							<view class="rate">
 								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
-								<text>{{ item.commentScore == 0 ? '0.0' : Math.floor(item.commentScore/item.commentCount) }}</text>
+								<text>{{ item.commentScore == 0 ? '0.0' : Math.floor(item.commentScore/item.commentCount).toFixed(1) }}</text>
 							</view>
 							<view class="nurse-practitioner-performance">
 								<view class="nurse-practitioner-performance-message">

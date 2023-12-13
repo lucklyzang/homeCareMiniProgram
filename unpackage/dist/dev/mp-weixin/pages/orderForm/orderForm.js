@@ -101,25 +101,28 @@ var components
 try {
   components = {
     uModal: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 594))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 603))
     },
     uTextarea: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-textarea/u-textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-textarea/u-textarea")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-textarea/u-textarea.vue */ 682))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-textarea/u-textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-textarea/u-textarea")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-textarea/u-textarea.vue */ 691))
     },
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 530))
-    },
-    uTabs: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 690))
-    },
-    uEmpty: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 659))
-    },
-    uImage: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 569))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 539))
     },
     uLoadingIcon: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 553))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 562))
+    },
+    uTabs: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs/u-tabs.vue */ 699))
+    },
+    uEmpty: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-empty/u-empty")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 668))
+    },
+    uImage: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 578))
+    },
+    uLoadmore: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 676))
     },
   }
 } catch (e) {
@@ -143,6 +146,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.fullTradeList.length
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.deleteShow = false
@@ -175,6 +179,14 @@ var render = function () {
       _vm.remindSendOrdersShow = false
     }
   }
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -218,11 +230,12 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _orderForm = __webpack_require__(/*! @/api/orderForm.js */ 322);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 675));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 684));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -232,8 +245,15 @@ var _default = {
   data: function data() {
     return {
       defaultPersonPhotoIconPng: __webpack_require__(/*! @/static/img/default-person-photo.png */ 219),
-      infoText: '',
+      infoText: '加载中···',
       showLoadingHint: false,
+      currentPageNum: 1,
+      pageSize: 20,
+      totalCount: 0,
+      isShowNoHomeNoData: false,
+      status: 'nomore',
+      tradeList: [],
+      fullTradeList: [],
       deleteShow: false,
       haveDeleteShow: false,
       cancelOrderFormShow: false,
@@ -270,11 +290,119 @@ var _default = {
     userName: function userName() {},
     proId: function proId() {}
   }),
-  onShow: function onShow() {},
+  onShow: function onShow() {
+    // this.queryTradeOrderPage({
+    // 	pageNo: this.currentPageNum,
+    // 	pageSize: this.pageSize,
+    // 	status: ''
+    // },true)
+  },
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)([])), {}, {
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPageNum >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loadmore';
+        this.currentPageNum = this.currentPageNum + 1;
+        this.queryTradeOrderPage({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          status: this.transitionOrderStatus(this.current)
+        }, false);
+      }
+    },
+    // 查询交易订单
+    queryTradeOrderPage: function queryTradeOrderPage(data, flag) {
+      var _this = this;
+      this.nurseList = [];
+      if (flag) {
+        this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.infoText = '';
+        this.status = 'loading';
+      }
+      ;
+      (0, _orderForm.getTradeOrderPage)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.totalCount = res.data.data.total;
+          _this.tradeList = res.data.data.list;
+          _this.fullTradeList = _this.fullTradeList.concat(_this.tradeList);
+          if (_this.fullTradeList.length == 0) {
+            _this.isShowNoHomeNoData = true;
+          } else {
+            _this.isShowNoHomeNoData = false;
+          }
+          ;
+        } else {
+          _this.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        if (flag) {
+          _this.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this.totalCount / _this.pageSize);
+          if (_this.currentPage >= totalPage) {
+            _this.status = 'nomore';
+          } else {
+            _this.status = 'loadmore';
+          }
+        }
+      }).catch(function (err) {
+        if (flag) {
+          _this.showLoadingHint = false;
+        } else {
+          _this.status = 'loadmore';
+        }
+        ;
+        _this.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 订单类型切换事件
     change: function change(index) {
       this.current = index.index;
+      this.currentPageNum = 1;
+      this.totalCount = 0;
+      this.status = 'nomore';
+      this.isShowNoHomeNoData = false;
+      this.fullTradeList = [];
+      this.queryTradeOrderPage({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        status: this.transitionOrderStatus(this.current)
+      }, true);
+    },
+    // 转换订单状态
+    transitionOrderStatus: function transitionOrderStatus(status) {
+      switch (status) {
+        case 0:
+          return '';
+          break;
+        case 1:
+          return 0;
+          break;
+        case 2:
+          return 1;
+          break;
+        case 3:
+          return 2;
+          break;
+        case 4:
+          return 3;
+          break;
+        case 5:
+          return 4;
+          break;
+      }
     },
     // 提醒派单事件
     remindSendOrdersEvent: function remindSendOrdersEvent() {

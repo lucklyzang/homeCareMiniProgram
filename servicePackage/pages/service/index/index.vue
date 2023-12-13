@@ -122,7 +122,8 @@
 	} from 'vuex'
 	import {
 		setCache,
-		removeAllLocalStorage
+		removeAllLocalStorage,
+		fenToYuan
 	} from '@/common/js/utils'
 	import { getProductDetails, getProductComment, createProductFavorite, deleteProductFavorite, examineProductFavorite } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
@@ -210,7 +211,8 @@
 					id
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.productDetailsMessage = res.data.data
+						this.productDetailsMessage = res.data.data;
+						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,

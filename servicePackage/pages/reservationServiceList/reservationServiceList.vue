@@ -54,6 +54,8 @@
 			</u-modal>
 		</view>
 		<u-toast ref="uToast"></u-toast>
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-modal :show="sureCancelShow" title="确定删除此图片?" :showCancelButton="true" @confirm="sureCancel" @cancel="cancelSure"></u-modal>
 		<view class="top-area-box">
 			<view class="nav">
@@ -91,14 +93,14 @@
 				<view class="nurse-practitioner-list-right">
 					<view class="nurse-practitioner-name">
 						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.name }}</text>
-						<!-- <text>{{ nurseTitleTransition(serviceOrderFormSureChooseMessage.chooseNurseMessage.title) }}</text> -->
+						<text>{{ nurseTitleTransition(serviceOrderFormSureChooseMessage.chooseNurseMessage.title) }}</text>
 					</view>
 					<view class="hospital-name">
 						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.organization }}</text>
 					</view>
 					<view class="rate">
 						<u-rate :count="serviceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" readonly v-model="serviceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" active-color="#E86F50"></u-rate>
-						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore == 0 ? '0.0' : Math.floor(serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore/serviceOrderFormSureChooseMessage.chooseNurseMessage.commentCount) }}</text>
+						<text>{{ serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore == 0 ? '0.0' : Math.floor(serviceOrderFormSureChooseMessage.chooseNurseMessage.commentScore/serviceOrderFormSureChooseMessage.chooseNurseMessage.commentCount).toFixed(1) }}</text>
 					</view>
 					<view class="nurse-practitioner-performance">
 						<view class="nurse-practitioner-performance-message">
@@ -218,10 +220,10 @@
 			<view class="pay-area-bottom">
 				<view class="order-form-price">
 					<text>订单金额</text>
-					<text>￥300.00</text>
+					<text>{{ `￥${serviceMessage.price}` }}</text>
 				</view>
-				<view class="to-pay-btn">
-					去支付
+				<view class="to-pay-btn" @click="toAppointmentEvent">
+					立即预约
 				</view>
 			</view>
 		</view>
@@ -237,6 +239,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { createOrder } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -244,6 +247,8 @@
 		},
 		data() {
 			return {
+				infoText: '预约中···',
+				showLoadingHint: false,
 				sureCancelShow: false,
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				isCanSure: false,
@@ -290,6 +295,7 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
+				'nurseRankDictData',
 				'serviceOrderFormSureChooseMessage'
 			]),
 			userName() {
@@ -300,15 +306,23 @@
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
-			this.serviceMessage = temporaryAddress
+			this.serviceMessage = temporaryAddress;
+			console.log('服务信息',this.serviceMessage);
 		},
 		
 		onShow () {
 			console.log('护师信息',this.serviceOrderFormSureChooseMessage);
+			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
+				this.serviceSite = `${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+			};
+			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
+				this.protectedPerson = `${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.sex == 0 ? '男' : '女'} ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+			};
 		},
 		
 		methods: {
 			...mapMutations([
+				'storeServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -363,6 +377,7 @@
 			
 			// 日期列表项点击事件
 			dateItemClickEvent (item,index) {
+				console.log('日期',item);
 				this.currentDateIndex = index;
 				this.currentSelectDate = item;
 				if (index == 0) {
@@ -585,6 +600,91 @@
 						}
 					}
 				})
+			},
+			
+			// 立即预约事件
+			toAppointmentEvent () {
+				if (this.serviceSite == '上门服务详细地址') {
+					this.$refs.uToast.show({
+						message: '请选择上门服务详细地址!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				} else if (this.serviceDate == '期望服务时间') {
+					this.$refs.uToast.show({
+						message: '请选择期望服务时间!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				} else if (this.protectedPerson == '请选择被服务人') {
+					this.$refs.uToast.show({
+						message: '请选择被服务人!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				if (this.isReadAgreeChecked.length == 0) {
+					this.$refs.uToast.show({
+						message: '请阅读并同意协议!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				this.createOrderEvent({
+					items: [
+					    {
+					      skuId: this.serviceMessage.skus[0].id,
+					      count: 1,
+					      cartId: ''
+					    }
+					  ],
+					  pointStatus: false,
+					  deliveryType: 3,
+					  addressId: this.serviceOrderFormSureChooseMessage.chooseAddressMessage.id,
+					  careId: this.isPlatformRecommendNurse ? this.serviceOrderFormSureChooseMessage.chooseNurseMessage.id : "",
+					  remark: "",
+					  serviceDate: this.currentSelectDate.actualDate,
+					  serviceTime: this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,''),
+					  servicePersonId: this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
+					  images: [],
+					  assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
+				})
+			},
+			
+			// 创建服务订单
+			createOrderEvent(data) {
+				this.showLoadingHint = true;
+				createOrder(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+						tmporaryServiceOrderFormSureChooseMessage['serviceMessage'] = this.serviceMessage;
+						this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+						// 传递护师信息
+						let mynavData = JSON.stringify(res.data.data);
+						uni.navigateTo({
+							url: '/orderFormPackage/pages/orderPay/orderPay?transmitData='+mynavData
+						});
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			}
 		}
 	}
@@ -598,8 +698,16 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		position: relative;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
 		};
 		.user-license-agreement-box {
 			::v-deep .u-popup {
@@ -943,7 +1051,7 @@
 						}
 					};
 					.nurse-practitioner-performance {
-						margin-top: 4px;
+						margin-bottom: 4px;
 						display: flex;
 						.nurse-practitioner-performance-message {
 							display: flex;

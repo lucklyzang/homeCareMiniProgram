@@ -207,6 +207,15 @@
 					}
 				},
 				{
+					"path": "pages/orderPay/orderPay",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/orderFormInService/orderFormInService",
 					"style": {
 						"navigationBarTitleText": "",

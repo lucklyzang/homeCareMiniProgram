@@ -141,6 +141,7 @@
 		mapMutations
 	} from 'vuex'
 	import { getUserBannerList, getNurse, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
+	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -222,7 +223,7 @@
 						}
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -232,7 +233,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -249,7 +250,7 @@
 						}
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -259,7 +260,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -272,11 +273,14 @@
 				getHomeHotProduct(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.recommendProductList = res.data.data;
+						this.recommendProductList.forEach((item) => {
+							return item.price = fenToYuan(item.price)
+						});
 						if (res.data.data.length == 0) {
 						}
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -286,7 +290,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

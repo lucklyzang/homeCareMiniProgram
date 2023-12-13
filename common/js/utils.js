@@ -161,6 +161,14 @@ export const randomStr = () => {
 }
 
 /* 
+ * 金额分转换成元
+ */
+
+export const fenToYuan = (amount) => {
+  return (Number(amount) / 100).toFixed(2)
+}
+
+/* 
  * 防止重复点击
  * @param{Function} methods 执行的方法
  * @param{} info  传递的参数

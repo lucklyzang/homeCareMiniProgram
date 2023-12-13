@@ -61,6 +61,7 @@
 		removeAllLocalStorage
 	} from '@/common/js/utils'
 	import navBar from "@/components/zhouWei-navBar"
+	import { fenToYuan } from '@/common/js/utils'
 	import { getServiceProductCategory, getServiceProductCategoryDetails } from '@/api/user.js'
 	export default {
 		components: {
@@ -196,6 +197,9 @@
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.serviceCategoryDetailsList = res.data.data.list;
+						this.serviceCategoryDetailsList.forEach((item) => {
+							return item.price = fenToYuan(item.price)
+						});
 						this.fullServiceCategoryDetailsList = this.fullServiceCategoryDetailsList.concat(this.serviceCategoryDetailsList);
 						if (this.fullServiceCategoryDetailsList.length == 0) {
 							this.isShowNoHomeNoData = true
