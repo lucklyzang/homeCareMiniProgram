@@ -96,6 +96,7 @@
 				deleteBlackIconPng: require("@/static/img/delete-black-icon.png"),
 				infoText: '加载中',
 				checked: ['1'],
+				beforePageRoute: '',
 				serverPersonList: [],
 				fullServerPersonList: []
 			}
@@ -104,7 +105,8 @@
 			...mapGetters([
 				'userInfo',
 				'nurseRankDictData',
-				'serviceOrderFormSureChooseMessage'
+				'serviceOrderFormSureChooseMessage',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -112,6 +114,8 @@
 			}
 		},
 		onShow() {
+			let pages = getCurrentPages();//当前页
+			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 			this.fullServerPersonList = [];
 			this.queryUserServerPersonList({
 				pageNo: this.currentPageNum,
@@ -120,7 +124,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'storeServiceOrderFormSureChooseMessage'
+				'storeServiceOrderFormSureChooseMessage',
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -264,10 +269,16 @@
 			
 			// 选择被护人事件
 			chooseProtegePersonEvent (item) {
-				// 传递护师信息
-				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
-				tmporaryServiceOrderFormSureChooseMessage['chooseProtegePersonMessage'] = item;
-				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				// 传递被护人信息
+				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
+					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+					tmporaryEditServiceOrderFormSureChooseMessage['chooseProtegePersonMessage'] = item;
+					this.storeEditServiceOrderFormSureChooseMessage(tmporaryEditServiceOrderFormSureChooseMessage);
+				} else {
+					let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+					tmporaryServiceOrderFormSureChooseMessage['chooseProtegePersonMessage'] = item;
+					this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				};
 				uni.navigateBack({
 					delta: 1
 				})

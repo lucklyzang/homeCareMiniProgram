@@ -76,6 +76,7 @@
 				isEmpty: false,
 				modalShow: false,
 				modalContent: '',
+				beforePageRoute: '',
 				selectServerAddressId: '',
 				noAddressManagementPng: require("@/static/img/no-address-management.png"),
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
@@ -86,7 +87,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'serviceOrderFormSureChooseMessage'
+				'serviceOrderFormSureChooseMessage',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -94,11 +96,14 @@
 			}
 		},
 		onShow() {
-			this.queryUserAddressList()
+			this.queryUserAddressList();
+			let pages = getCurrentPages();//当前页
+			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 		},
 		methods: {
 			...mapMutations([
-				'storeServiceOrderFormSureChooseMessage'
+				'storeServiceOrderFormSureChooseMessage',
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -204,10 +209,16 @@
 			
 			// 选择地址事件
 			chooseAddressEvent (item) {
-				// 传递护师信息
-				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
-				tmporaryServiceOrderFormSureChooseMessage['chooseAddressMessage'] = item;
-				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				// 传递地址信息
+				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
+					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+					tmporaryEditServiceOrderFormSureChooseMessage['chooseAddressMessage'] = item;
+					this.storeEditServiceOrderFormSureChooseMessage(tmporaryEditServiceOrderFormSureChooseMessage);
+				} else {
+					let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+					tmporaryServiceOrderFormSureChooseMessage['chooseAddressMessage'] = item;
+					this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage)
+				};
 				uni.navigateBack({
 					delta: 1
 				})

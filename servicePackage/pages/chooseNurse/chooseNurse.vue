@@ -108,6 +108,7 @@
 				serviceName: '',
 				aptitudes: [],
 				searchValue: '',
+				beforePageRoute: '',
 				listTabsName: [
 					{
 						name: '服务详情'
@@ -125,8 +126,13 @@
 			...mapGetters([
 				'userInfo',
 				'nurseRankDictData',
-				'serviceOrderFormSureChooseMessage'
+				'serviceOrderFormSureChooseMessage',
+				'editServiceOrderFormSureChooseMessage'
 			])
+		},
+		onShow() {
+			let pages = getCurrentPages();//当前页
+			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 		},
 		onLoad(options) {
 			let temporaryAddress = JSON.parse(options.transmitData);
@@ -141,7 +147,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'storeServiceOrderFormSureChooseMessage'
+				'storeServiceOrderFormSureChooseMessage',
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -279,8 +286,14 @@
 			
 			// 查看护师详情事件
 			viewSpecialistDetailsEvent (item) {
+				let temporaryItem = item;
+				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
+					temporaryItem.isFromEditOrderPage = true
+				} else {
+					temporaryItem.isFromEditOrderPage = false
+				};
 				// 传递护师信息
-				let mynavData = JSON.stringify(item);
+				let mynavData = JSON.stringify(temporaryItem);
 				uni.navigateTo({
 					url: '/servicePackage/pages/specialistDetails/specialistDetails?transmitData='+mynavData
 				})
@@ -289,9 +302,15 @@
 			// 选定护师事件
 			designateNurseEvent (item) {
 				// 传递护师信息
-				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
-				tmporaryServiceOrderFormSureChooseMessage['chooseNurseMessage'] = item;
-				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
+					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+					tmporaryEditServiceOrderFormSureChooseMessage['chooseNurseMessage'] = item;
+					this.storeEditServiceOrderFormSureChooseMessage(tmporaryEditServiceOrderFormSureChooseMessage);
+				} else {
+					let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+					tmporaryServiceOrderFormSureChooseMessage['chooseNurseMessage'] = item;
+					this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage);
+				};
 				uni.navigateBack({
 					delta: 1
 				})

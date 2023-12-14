@@ -49,14 +49,12 @@
 			</u-modal>
 		</view>
 		<u-toast ref="uToast" />
+		<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="我的订单">
 				</nav-bar> 
 		  </view>
-		</view>
-		<view class="loading-box" v-if="showLoadingHint">
-			<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
 		</view>
 		<view class="order-form-tabs">
 			<u-tabs :list="list" :current="current" @change="change"
@@ -71,7 +69,7 @@
 			></u-tabs>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 0">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
 					<view class="order-form-top">
@@ -79,7 +77,7 @@
 							<text>{{ item.items[0]['spuName'] }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ item.status }}</text>
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
@@ -93,7 +91,69 @@
 						<view class="order-form-center-right">
 							<view class="brotected-person">
 								<text>被护人</text>
-								<text>燕双鹰 26岁</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
+						</view>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-left" v-if="item.workerStatus == 0">
+							<text>剩余支付时间:</text>
+							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss" @finish="countDownFinishEvent"></u-count-down>
+						</view>
+						<view class="consumption-rental-right">
+							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
+							<text>{{ `￥${item.payPrice}` }}</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-left" v-if="item.status == 30 || item.status == 40 || item.status == 50">
+							<text>联系护士</text>
+						</view>
+						<view class="btn-area-right">
+							<text v-if="item.workerStatus != 3 && item.workerStatus != 4">取消订单</text>
+							<text v-if="item.workerStatus == 1" @click="remindSendOrdersEvent">提醒派单</text>
+							<text v-if="item.workerStatus == 0" @click="editOrderFormEvent(item)">修改订单</text>
+							<text v-if="item.status == 60 || item.status == 70">删除订单</text>
+							<text v-if="item.status == 60 || item.status == 70">再次预约</text>
+							<text v-if="item.workerStatus == 0" class="at-once-payment">立即付款</text>
+						</view>
+					</view>
+				</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
+		</view>
+		<view class="order-form-list-wrapper" v-show="current == 1">
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
+						</view>
+						<view class="order-form-status">
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+						</view>
+					</view>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
 							</view>
 							<view class="service-address">
 								<text>服务地址</text>
@@ -108,11 +168,113 @@
 					<view class="consumption-rental">
 						<view class="consumption-rental-left">
 							<text>剩余支付时间:</text>
-							<text>14:59</text>
+							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss" @finish="countDownFinishEvent"></u-count-down>
 						</view>
 						<view class="consumption-rental-right">
-							<text>待付总额:</text>
-							<text>￥998.00</text>
+							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
+							<text>{{`￥${item.payPrice}`}}</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-right">
+							<text @click="editOrderFormEvent(item)">修改订单</text>
+							<text class="at-once-payment">立即付款</text>
+						</view>
+					</view>
+				</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
+		</view>
+		<view class="order-form-list-wrapper" v-show="current == 2">
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
+						</view>
+						<view class="order-form-status">
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+						</view>
+					</view>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
+						</view>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-right">
+							<text>实付总额:</text>
+							<text>{{`￥${item.payPrice}`}}</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-right">
+							<text>取消订单</text>
+							<text>提醒派单</text>
+						</view>
+					</view>
+				</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
+		</view>
+		<view class="order-form-list-wrapper" v-show="current == 3">
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
+						</view>
+						<view class="order-form-status">
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+						</view>
+					</view>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
+						</view>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-right">
+							<text>实付总额:</text>
+							<text>{{`￥${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -121,440 +283,113 @@
 						</view>
 						<view class="btn-area-right">
 							<text>取消订单</text>
-							<text @click="editOrderFormEvent">修改订单</text>
-							<text class="at-once-payment">立即付款</text>
 						</view>
 					</view>
 				</view>
 				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
-		<view class="order-form-list-wrapper" v-show="current == 1">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>待付款</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-left">
-						<text>剩余支付时间:</text>
-						<text>14:59</text>
-					</view>
-					<view class="consumption-rental-right">
-						<text>待付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text @click="remindSendOrdersEvent">提醒派单</text>
-						<text>修改订单</text>
-						<text class="at-once-payment">立即付款</text>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="order-form-list-wrapper" v-show="current == 2">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list" @click="enterOrderDetailsEvent">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>派单中</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text>取消订单</text>
-						<text>提醒派单</text>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="order-form-list-wrapper" v-show="current == 3">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>待出发</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-left">
-						<text>联系护士</text>
-					</view>
-					<view class="btn-area-right">
-						<text>取消订单</text>
-					</view>
-				</view>
-			</view>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>待服务</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-left">
-						<text>联系护士</text>
-					</view>
-					<view class="btn-area-right">
-						<text>取消订单</text>
-					</view>
-				</view>
-			</view>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>服务中</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-left">
-						<text>联系护士</text>
-					</view>
-				</view>
-			</view>
-		</view>
 		<view class="order-form-list-wrapper" v-show="current == 4">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>待评价</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
+						<view class="order-form-status">
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
+						</view>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-right">
+							<text>实付总额:</text>
+							<text>{{`￥${item.payPrice}`}}</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-right">
+							<text>再次预约</text>
+							<text class="evaluate" @click="orderFormEvaluateEvent">评价</text>
+						</view>
 					</view>
 				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text>再次预约</text>
-						<text class="evaluate" @click="orderFormEvaluateEvent">评价</text>
-					</view>
-				</view>
-			</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 5">
-			<u-empty text="暂无订单" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="order-form-list" @click="enterOrderDetailsEventOther">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>已退款</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
+			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+					<view class="order-form-top">
+						<view class="order-form-title">
+							<text>{{ item.items[0]['spuName'] }}</text>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
+						<view class="order-form-status">
+							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text>删除订单</text>
-						<text>再次预约</text>
-					</view>
-				</view>
-			</view>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>已取消</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
+					<view class="order-form-center">
+						<view class="order-form-center-left">
+							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
+						<view class="order-form-center-right">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ item.receiverDetailAddress }}</text>
+							</view>
+							<view class="expectation-date">
+								<text>期望时间</text>
+								<text>06月14日 (星期二) 上午8：00-9：00</text>
+							</view>
 						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
+					</view>
+					<view class="consumption-rental">
+						<view class="consumption-rental-right">
+							<text>实付总额:</text>
+							<text>{{`￥${item.payPrice}`}}</text>
+						</view>
+					</view>
+					<view class="order-form-bottom">
+						<view class="btn-area-right">
+							<text>删除订单</text>
+							<text>再次预约</text>
 						</view>
 					</view>
 				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text>删除订单</text>
-						<text>再次预约</text>
-					</view>
-				</view>
-			</view>
-			<view class="order-form-list">
-				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
-					</view>
-					<view class="order-form-status">
-						<text>退款中</text>
-					</view>
-				</view>
-				<view class="order-form-center">
-					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
-						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
-						</view>
-					</view>
-				</view>
-				<view class="consumption-rental">
-					<view class="consumption-rental-right">
-						<text>实付总额:</text>
-						<text>￥998.00</text>
-					</view>
-				</view>
-				<view class="order-form-bottom">
-					<view class="btn-area-right">
-						<text>再次预约</text>
-					</view>
-				</view>
-			</view>
+				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -566,7 +401,8 @@
 	} from 'vuex'
 	import {
 		setCache,
-		removeAllLocalStorage
+		removeAllLocalStorage,
+		fenToYuan
 	} from '@/common/js/utils'
 	import { getTradeOrderPage } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
@@ -582,7 +418,6 @@
 				currentPageNum: 1,
 				pageSize: 20,
 				totalCount: 0,
-				isShowNoHomeNoData: false,
 				status: 'nomore',
 				tradeList: [],
 				fullTradeList: [],
@@ -600,26 +435,38 @@
 					{
 						name: '全部',
 						badge: {
-							value: 5
+							value: ''
 						}
 					}, 
 					{
-						name: '待付款'
+						name: '待付款',
+						badge: {
+							value: ''
+						}
 					}, 
 					{
 						name: '派单中',
 						badge: {
-							value: 90
+							value: ''
 						}
 					},
 					{
 						name: '服务中',
+						badge: {
+							value: ''
+						}
 					},
 					{
-						name: '待评价'
+						name: '待评价',
+						badge: {
+							value: ''
+						}
 					},
 					{
-						name: '取消|退款'
+						name: '取消|退款',
+						badge: {
+							value: ''
+						}
 					}
 				],
 				current: 0
@@ -627,7 +474,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -635,15 +483,21 @@
 			}
 		},
 		onShow() {
-			// this.queryTradeOrderPage({
-			// 	pageNo: this.currentPageNum,
-			// 	pageSize: this.pageSize,
-			// 	status: ''
-			// },true)
+			this.queryTradeOrderPage({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				status: ''
+			},true)
 		},
 		methods: {
 			...mapMutations([
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
+			
+			// 倒计时结束事件
+			countDownFinishEvent () {
+				console.log('结束');
+			},
 			
 			scrolltolower () {
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
@@ -662,7 +516,9 @@
 			
 			// 查询交易订单
 			queryTradeOrderPage(data,flag) {
-				this.nurseList = [];
+				this.tradeList = [];
+				// 重置所有类型订单数量
+				this.list.forEach((item) => { return item['badge']['value'] = 0 });
 				if (flag) {
 					this.showLoadingHint = true
 				} else {
@@ -674,11 +530,22 @@
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.tradeList = res.data.data.list;
+						// 切换到待评价订单时只展示待评价的订单(已评价和已完成订单状态都是3)
+						if (res.data.data.list.length > 0) {
+							if (this.current == 4) {
+								this.tradeList = this.tradeList.filter((item) => { return item.commentStatus == false })
+							};
+							this.tradeList.forEach((item) => {
+								return item.payPrice = fenToYuan(item.payPrice)
+							});
+						};
 						this.fullTradeList = this.fullTradeList.concat(this.tradeList);
+						// 展示当期类型订单数量
+						this.list[this.current]['badge']['value'] = this.fullTradeList.length;
 						if (this.fullTradeList.length == 0) {
-							this.isShowNoHomeNoData = true
+							this.isShowNoData = true
 						} else {
-							this.isShowNoHomeNoData = false
+							this.isShowNoData = false
 						};
 					} else {
 						this.$refs.uToast.show({
@@ -718,7 +585,7 @@
 				this.currentPageNum = 1;
 				this.totalCount = 0;
 				this.status = 'nomore';
-				this.isShowNoHomeNoData = false;
+				this.isShowNoData = false;
 				this.fullTradeList = [];
 				this.queryTradeOrderPage({
 					pageNo: this.currentPageNum,
@@ -727,7 +594,7 @@
 				},true)
 			},
 			
-			// 转换订单状态
+			// 变更查询订单状态参数
 			transitionOrderStatus(status) {
 				switch(status) {
 				  case 0 :
@@ -751,6 +618,51 @@
 				}
 			},
 			
+			// 转换订单状态
+			transitionOrderStatusText(status,item) {
+				let temporaryStatus = status.toString();
+				let temporaryWorkerStatus = item.status.toString();
+				// 服务中类型的订单下包含3个子状态(30-待出发 40-待服务 50-服务中)
+				if (this.current == 3) {
+					switch(temporaryWorkerStatus) {
+						case '30' :
+						return '待出发'
+						break;
+						case '40' :
+						return '待服务'
+						break;
+						case '50' :
+						return '服务中'
+						break;
+					}	
+				} else {
+					switch(temporaryStatus) {
+						case '0' :
+						return '待支付'
+						break;
+						case '1' :
+						return '派单中'
+						break;
+						case '2' :
+						return '服务中'
+						break;
+						case '3' :
+						if (!item.commentStatus) {
+							return '待评价'
+						} else {
+							return '已完成'
+						}
+						break;
+						case '4' :
+						return '已取消'
+						break;
+						case '5' :
+						return '已退款'
+						break
+					}
+				}
+			},
+			
 			// 提醒派单事件
 			remindSendOrdersEvent () {
 				this.remindSendOrdersShow = true
@@ -764,7 +676,11 @@
 			},
 			
 			// 修改订单事件
-			editOrderFormEvent () {
+			editOrderFormEvent (item) {
+				// 传递该修改订单的信息
+				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderFormEdit/orderFormEdit'
 				})
@@ -814,6 +730,13 @@
 		position: relative;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
 		};
 		::v-deep .u-popup__content{
 			.u-modal {
@@ -1111,6 +1034,15 @@
 					align-items: center;
 					justify-content: space-between;
 					.consumption-rental-left {
+						display: flex;
+						align-items: center;
+						::v-deep .u-count-down {
+							.u-count-down__text {
+								font-size: 13px !important; 
+								font-weight: bold !important;
+								color: #FF0000 !important;
+							}
+						};
 						>text {
 							display: inline-block;
 							font-size: 13px;

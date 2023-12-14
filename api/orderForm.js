@@ -72,3 +72,12 @@ export function getTradeOrderPage(data) {
 		params: data
   })
 };
+
+// 获取交易订单详情
+export function getOrderDetail(data) {
+  return request({
+    url: '/app-api/trade/order/get-detail',
+    method: 'get',
+		params: data
+  })
+};

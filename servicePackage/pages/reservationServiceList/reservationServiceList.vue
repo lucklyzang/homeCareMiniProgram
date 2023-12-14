@@ -303,21 +303,20 @@
 			proId() {
 			}
 		},
+		
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
-			this.serviceMessage = temporaryAddress;
-			console.log('服务信息',this.serviceMessage);
+			this.serviceMessage = temporaryAddress
 		},
 		
 		onShow () {
-			console.log('护师信息',this.serviceOrderFormSureChooseMessage);
 			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
 				this.serviceSite = `${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
 			};
 			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
 				this.protectedPerson = `${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.sex == 0 ? '男' : '女'} ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
-			};
+			}
 		},
 		
 		methods: {

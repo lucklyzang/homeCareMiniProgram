@@ -194,7 +194,8 @@ export const removeAllLocalStorage = () => {
   // removeStore('userName');
   // removeStore('userPassword');
   removeCache('userInfo');
-	removeCache('storeServiceOrderFormSureChooseMessage');
+	removeCache('serviceOrderFormSureChooseMessage');
+	removeCache('editServiceOrderFormSureChooseMessage');
   removeCache('isLogin');
   removeCache('token');
 	removeCache('familyId');

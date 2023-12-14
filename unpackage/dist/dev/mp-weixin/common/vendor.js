@@ -11223,7 +11223,8 @@ var removeAllLocalStorage = function removeAllLocalStorage() {
   // removeStore('userName');
   // removeStore('userPassword');
   removeCache('userInfo');
-  removeCache('storeServiceOrderFormSureChooseMessage');
+  removeCache('serviceOrderFormSureChooseMessage');
+  removeCache('editServiceOrderFormSureChooseMessage');
   removeCache('isLogin');
   removeCache('token');
   removeCache('familyId');
@@ -11302,6 +11303,10 @@ var _default = {
     serviceOrderFormSureChooseMessage: function serviceOrderFormSureChooseMessage(state) {
       state.serviceOrderFormSureChooseMessage = (0, _utils.getCache)('serviceOrderFormSureChooseMessage') ? (0, _utils.getCache)('serviceOrderFormSureChooseMessage') : {};
       return state.serviceOrderFormSureChooseMessage;
+    },
+    editServiceOrderFormSureChooseMessage: function editServiceOrderFormSureChooseMessage(state) {
+      state.editServiceOrderFormSureChooseMessage = (0, _utils.getCache)('editServiceOrderFormSureChooseMessage') ? (0, _utils.getCache)('editServiceOrderFormSureChooseMessage') : {};
+      return state.editServiceOrderFormSureChooseMessage;
     }
   },
   mutations: {
@@ -11316,6 +11321,13 @@ var _default = {
       if (playLoad && playLoad != 'null') {
         (0, _utils.setCache)('serviceOrderFormSureChooseMessage', playLoad);
         state.serviceOrderFormSureChooseMessage = playLoad;
+      }
+    },
+    // 保存订单修改页面选择的信息
+    storeEditServiceOrderFormSureChooseMessage: function storeEditServiceOrderFormSureChooseMessage(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('editServiceOrderFormSureChooseMessage', playLoad);
+        state.editServiceOrderFormSureChooseMessage = playLoad;
       }
     },
     //重置服务的状态
@@ -42302,200 +42314,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABZCAMAAABi
 /* 225 */,
 /* 226 */,
 /* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */
-/*!********************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/logo-ellipse-icon.png ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAB9CAMAAAC4XpwXAAAC+lBMVEUAAACx2rQR0YOZ2ayU2Ksp1o+33bqd2a6i2a/k8ual2bFg1ZuP2Km03Lfn8+io2rK63rzr9uzC48Uf0odW1ZhI05Pt9+8t04wa0IU50o7Q6dJq1p++4MCE26vo9OqK2Kiv2rNb1ZnG5cmJ262g2a/i8eSQ1ag0045v1p/Z7dwk0omG2Kes2rKL0qQ+05BD1JJm1Zx52qjT69Yo0opS1Zd/16VO1JZM05PK5sx/2qqP264SzX/W7Nl616Nz2qaD16Ys0Ijd798lw3rw+PHg8OIms2vN589116Jz1qEtvXcqtW4nvXUwr2oct2wprmdJwoMkuXA/sW8VyHst1ZAqxX0uy4QWxHhFuXk10Yxt2KMR0YRPxYd20Z2x3Lg31ZEy1pGCypo0q2dKvX4YvHCx27Rb0JQdyX4xxn8jsGc9qmlszpc1zYgmzoVOzo9mypIkyoEXwHRfyY8mq2NYyIx+0qBDzo1HyYlxzpi54cU3wX2C1aQ2yoUV04Ox2rR81aJRsXVh0Zc8zIgytXBVzpE6r2wdwHWI1qZgu4O03749xoOs27Z5xZMi04k+uHZXtHpgxIpuw4+l2rFGr3Bov4mx2rR2ypeZ2a0R0YMs1IyQ2aqQ2aqb2q0X0YSx2rQ905AR0INc1JgO1H+I2Kev2rQR0YOv2bOx2bQS0YRr1p9xxo7///9/1Kqq37Ws27JV/6pH1JR216JO1JYTz4J41KNc1JoA/1Vt155F1JNL0oc+1ZJQ1JZ816M21I+B16UAqlVc1Zk72JOq/6oW04N016Gz5rN/1KoA/wA7045gz48Af39U1JeE16Y/1JCzzLNVqqoS0oRu1p8azICF2Kav2rNa1Zl616OA16WG16Rh1ZwA//9/16UzzGZ/v39g1puS27au2rVs1p85049h1JtV1H8zzJlK0pQAqqqJ2aeZzJkAzGZ//39A/7870o8A/6qy2rU40pCc1awy04yStraJ2KcczYcAzJm/v79Vqn8ktpJ/f3+f35+ZzMyC2KSC16X8zWBXAAAA/nRSTlMA///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/////////////P//////////////////////////////xMP//////////////////8P/////w///9f/D8MPB+/w45fevLxL6mdxDt4/nCQEMGCsD8pGzYCTqAz/dETGPQMa6A9saAyPzChIBihAC9nJqCgODtQqbdv31+kznAeoFBEoHTPyy/AYKPgO6BQUCBEkDWZoxtAfmJAUEBgcCCAWx7Mf+iS8AABI8SURBVHicpdt5WFRXlgDwiiBrWKy4oqISQDCWUSJKIqjFIIoaiRGXgBULu5GASlKiUGgnBbgUFi2QIrS9GLe4xhjX1qhjYrZOOvvSWXuSTncn0z3TPb3M9PTs3zfnnHvve/e9d1+BMyd/xC9/5Ffn3HPvu+++q6Pf+OfTR//w4VPHHlXE41J8T8QPIH7zwZuffHLhVP//80jx9CvPHH3qySeeeOLbipg8OQUiISEOIjP2RyyioqN/yOLw4cP/8sG1V0/95P9ov3L6w2NPPvHtW6wxHoLwBMIzM2NjY6MooiFuxRgHcQf8gOtvXvjy5ukXX8GsFfJN4BBz5nz8+dlrJ9+5Kfuvb//pUWXWN4fPgcjPz//o+oVTfzdg++n/OnpMkXaShk++KTw/v+ij69dOPj1A/ZmnVCVPiomMo63hrOoCh3j57KsDsr/8xZPKmsekIm9bdhVONuHz57984tqv+686JK7Ek1JTU5O0zMEWuKnqNvj8BQsg/X+MjP/29DGbZosBHZK3lL0f/DENX5Dz1XsHIzbf26fVVU+KQTw1BiLJM1nL3NpvkfCcnK9OHDxpj7949Em7tAUe4wnxxFW4Ps11HGyO54wefeLSs7b4L2yWF8aTreGR1xgzjjbgwH9hw7991HaBoUGPiekYEK7NNAU+euqnl5TFf/G0suzawBPuiTzTDJkbhlzgU6d+qmq9pyPhkD2VnXQLbrAj4WBPTUx84aB14j1jN9UwxoOONuoyjnZ2NqN37dplXuDkfuN6YmLir9573Yx/+VQkfLwnBv4hXcKZDQGwyVbhLHPkr5pXPbt250s72CFYZEKhFLD5GsNtl8tF+Fawt24144YhZ3jihItfmNZX9SqjPVc849kCB6OuV53brq1SmNYYveq87IhP+NnF5z6T9N9GqLt5aZdxlys7KjbbtXUzj8dYqGaahAN/9Xc6/tej9nU34nq/oZ0d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"
-
-/***/ }),
-/* 237 */
-/*!***********************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/house-reconstruction.png ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
-
-/***/ }),
-/* 238 */
-/*!**************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/chronic-care-management.png ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC9FBMVEX44JcAAAD+/PX+/Pf1v2f0uFz2zHn1xG70tln1wGn2xnHzrUz1vmX31If2yXX0tFb0ul7435X2x3P43pP++u/30YH1wmr9+Oj++/L32Y31vWP2z3/zr0/0slT30oL43JH9+Ov2ynf0sVH314r0u2D9+e31vGH2znz32o71w2zzq0n304T425D0uGH////99d789Nvzqkf99uD66Lf0tVf31oj889j99+bzqEP0tl32zXv88dT44Jr556/99uTzsFD2zn/446L77Mf55an1umP778r44Jb2ynz30of1vGX54bL//fv3zoP44Jf43Zn0s1n66rr54K788M/425L66r732I/44J7//wD1wm/526T425X53qv77tP55rP55LX77MH42ZT768z44qb30YX66MP/zGb41pr304r88Nf0qEP65cD647vzqUX436f31pD1vmX3y4DzrUv54Jf1u1//AAD0t1r43JH31If2ynb0s1T3qkb42Z/66Lz0tVf435f77dD1w232z3332o7/qlX/33/54Jfzp0H30ZTzqj30sVH30YHttm364pP31Yrqv2rtpDfyo0P/v0D34JX0qUL//1X/kiTxxnH30oL0pkH2w2v//6r20Xb34Zf335b22Ir0ymr1znz0qkX1wGbxpUH14pP/35/545f3yXX20Hv31IPzxnH34Zb4xXX403z30JD1xW3zqUX2qEDzq0n31IX1w2v/6pX404P1xGz2yXT32Ir33pTzqEP1v2f41onzp0L0rk6/f0DMzGb////MzJl/f3/zwGb1v2T2znz1y3jUqir/4470q0j23ZT2vmL0v2X1vmT41oj/14b02ZL0wGX//3/ztmH2x3H44JbmmTPMmTP0w231v2T404XU1H/1xW7jxo72z373w2n33pb2x3PuzHf335b20H/0rEjy2Yz325P/pTz0wWnyqEL4y3X314n1xnL1zXj1vWL54Jfz0YD50YD2znr43pbvv2DzqUT1p0Hy15T55q5xRzoCAAAA/HRSTlP/AP//////////////////////////////////////////////////////////////////////////////////////////9v////////z///////////8B////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"
-
-/***/ }),
-/* 239 */
-/*!**************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/my-location.png ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAP1BMVEUAAAD8RXn6RXr8RXn8RXn7Rnr/QH//SHj9RXn7RHj8RXn8RXr8RXj8Rnn8Rnr9RHn7RXj8RHn9RHj7RXn9RXq3HRl2AAAAFXRSTlMA/zDw4IAQINBAwGCfULBwkK9/P295iTdwAAAB20lEQVR4nOWY25aCMAxFrSCXiqLA/3/ryOAMkpw0pyyeZs6rXdukuZbTv9U4dLEMs8rYDeM+SD3Fb8SnnlOdi2k7RVnUtVnWaGNWRd6qIYGZNZDmNA4nhIYx6ly4nBCK8zEcgkRyXFK1pB+jskqBnjTnlZ0Jzi2DE8LtCMdm2c5dsjghXCwQG7EfFQbnig7f+7Y6VW1/Rz9eMQiURrfWQg36QYScWpu+jctNuw6vW3mmklenPfRNma6L4KxcRyCZRD0404szJQIxZ9S/gSMtFVp5kaCDSxDO/8oHifpoIEclG6gSAbobIJHhPsgqSP/YYSCRIqRrILYiauRlg6jJ9OfCj2aJOMIlJDojFgeqRGBDeog/Y4r2gUCqRxBtBI9bWdl+Y8PuK9/8Vgs9Q03ba/7WmoQWvuc0vsbROKGtAA+R7NGfGv6Zs9/k4Flrypiz2SYlDNKNO6X05p7a1LcyQ7YI5JIhb9Vmly1zyfqVv/fPshroh1SFQ/mbP+ec7xjnHOHYrNpbSgv2xeYVr12sUulr4i5oEVyG37JmMFRlX3iTfBXxz5L06wrIeAESb1CKtIMDSbs4gLST8yJtb7zZyxFZkBl3oXWMG+OZVvv+fpT1kQbrGkNMjbC/ri9QMg+jmruwnwAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 240 */
-/*!************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/my-be-escorted-person.png ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAPFBMVEUAAAD8RXn7RHj8RXn7Rnr/QH/8RXn6RXr9RHj8RXn8RXr8Rnr7RXj/SHj8Rnn9RHn8RXj9RXn8RHn8Rnko/lnsAAAAFHRSTlMA/0C/gBDvMH/fYLCQIF9woNCvUGxZqggAAAFwSURBVHic7ZfbkoMgDECLlouIVdv//9cVVy0uJCS443Tanuf2TALk4uWT0cbc67sx+pClc41YaVxXqpFms8woI4s8+hnNFlVJglZFnikoy/Y8EhrPg+nRqXjmmJjZxeezMrI8PegRgnNMEkpsTo7xCCziYYXUoqKWnhnqEYIsqjKi6nTRNSO6ni7Cb59x//92RjojordKuGQ9DdlzcajI0UV4bpyOhBUbvdQmOkTEm0rwmyS/xgUoOVZiHjkmPSN/Rsoh4RnYGk//t3OrvsgzBbV/mK5s9P+q7HLoqrUHNAu6OrYcvSvVUKcZyO3Rc6vBUhOivpE1eIOcWiRJldWQVNJgC81Oha24dI0H3JZ5GlgFrp+oKi4edNvj7IG5eQ8R7QG5DQQimgXniVy1suubbFEd/DasRLYo/EMYEluknpO6C19KwWFvLelVbu0reiNRtOnkPhsg4nmJzUSYsJYXJP4hm6ZND5Kt41BJWr4A/AC8xw6e7cTVhQAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 241 */
-/*!***********************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/my-medic.png ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAS1BMVEUAAAD8RXn7RXn8RXn7RHj/QH/7Rnr8RXn/SHj9RXn6RXr8RXn9RHn8RXn7RXj8Rnn8RXj8Rnn8Rnr8RXr8RHn9RHj9RXr8RHf7RnkvMC56AAAAGXRSTlMA/z/AQBCA7yDPMN9woJBQn1+wYK9/b0+P8DKChQAAAjFJREFUeJzdl9magyAMhRupuO9b3/9JJ7gNIJJo/eZizlXrR38DOU3Ci9RUZwCiiemVHqVjH8GqrL4HC4NBLJCslXL7WI/ppUCaOlnDKLo1jDRvF1jUDwEvlHrdTbJD9hdsMBBDSILwaHGhrE5Wxl0xR1tQnBhDeZuPPomozKBzfBUFCgHMX71e+H5pPSroiPBn3RFUWo/EAX2UtSYIapWqKTDyLg5vO6qEVvtWbH4EyI0grXN0qDPOUfyCtEAxI7TL3wAkyFxzIkybZqFUytk2pcy1pxIyGvSKrP0j2U52SdsIJeyDxL+FlWxx8IMbpOcH1ZoZQyUMG6kDsFe97drByb4CUfbHU+OAKkiIFZh9Tn3DZZ8gDTxCQzA4CkTrT0GqbJDiHLZy8iMg1tYsh94HUQ5RqjggRj1CZz+0N62WecQoSPvY4BeZt5THoRtbyQRFFGju/Q/sjZd8JaLa8nKm5Pcktj62vJ7EgYUtryf5OyNGJG1oIKUPGweFJdPYIPQe7lSaL1OiDyI5hW0OrCrPYHzIHpkLldyZ/l0mvxrNIgfoFucfg1y18hbIVSvvZN/ZKDmzo6XK/adjXNQMhR8nBpU1VziDrwZkbHs3VCfpOWcejpyGVFOoeLsakxLN+bGHI1XRrB26WU1/ibKyJosysbdkK6q1JFbshu/Ufpsfv8IoLVdl1vRJaHYD3se+1jx2XWnTZ5rb92Ogay70gB7gLBPlEyBVzK8MaV7QEzYC+AG8SBQIHzWh7gAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 242 */
-/*!*****************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/evaluation-form-management.png ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAARVBMVEUAAAD8RXn8RXn8RXj/QH/6RXr8RXn8RXn8RXr7Rnr7RHj9RXn8RXn/SHj8RXn8Rnn9RHn8Rnr7Rnn9RHj8RHn8Rnn8RHeUWuHAAAAAF3RSTlMA/6CfEDDwv2CAQM/vIN9QcLCPf69fT85VwikAAAH9SURBVHic7ddbloMgDABQ2zr1ba197H+po03AJCABmXPmp/kUuEKC0Bbf+AaL8j1X/el06qvnNLCWYXpWS8PSMr9LjWkva1cb48u2vEbWcmlDzPB5o496cGaNis+XxsPpjAOGztsy7STHnQ5E/1hz5ounL1Wl/63h6FyJOPf6k8i2kXQ3t2te2voekGy1GtLU0tVWpE5lY55ehHMzbxClmK5mhMiszf+NLwzTeZYzrbH79cfJxRlaejZkxuzI3vvOErjuxp2Qk7mgY+pDpzRBf7nrw85SCyd7QFeJjllct80RBoj+umOmZNcGtb8mO0UBm8PuANhd53SngC1g6wY7npYx0pFTgJzRLVrihlYcfJ+tEkCs+D8fSXMw2xaCpdWsyyqpDs7ILg1WynK0SrojR/qqtki6I6sG+6jXxzkB3+iWXSgRP1liAk+x7QFkW35rekC5yeGD2y945+1PiJYbrj9+2KmBp9hIn+GB5LldAg6e2mz/lXgjyzshFHjvjPzleLIkSOb+krvNXFSxknHE97AE3i6RknHk55AqhZwUKezES5oTK+lOnBTjxEhxji7FOpoU74SlFCckpTn7UqqzJ6U7fumI45OOOa501JHScYdLOQ6V8pxNMn/6jjqblOtwKcehUp6zSbmOkfIdkP7CWaWkXymBoH9zv/H/8Quuug04lKVRGgAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 243 */
-/*!*************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/my-collect.png ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAABAlBMVEUAAAD8RXn8RXn7RHj8RXf8RXn9RXn9RXj8Rnr9RXr8RHn9R3v8RHr8RXj8RXn8RXv8RXn9RXn9RHr9RHj8RXn8RXn8R3f/R3r7RXn8RXj4Q3n/RXn8RXn8Rnr9RHn6Rnr9Rnn8RXn9RXroRnT8RXn5RHb0QHX/QH/8RXj8RXrrO3b7RXn/Rnz8RHn8RXn/Rnr9RHr7RXj9RHn7Rnr8RXn/R3r/SHr7RXn9Rnj7RXj4QnX6Rnn9Rnn7Rnj6Qnr/R3H7RHj8RXn/R3f6RXr/SX//Rnj8Q3n3SHj/Rnj/SXb/R336RXb/Snv/Rnn5Rnn7Rnn4R3j/Rnn8Rnn8RXj5Q3n7R3qdZkEBAAAAVnRSTlMA/6OAnL/TaLCXZWxetqeeyOWZf+K9Whk/USY7ulh4cW6qjAv4KRgQ68MNdiFh8Sx7jINFkzIukXVGIzeHdTISjt8vMA5CTCAzHC80HzcoiyRMVGQqQR1WofMAAAILSURBVHic7djnWsIwFAbgnFYKoiAgiCwV3IspiHvvve7/VrTSlrRNk9OEn3w/Sfo+fdKcDMg4I4kegYQ+AicKZr6Une6/A/CkCk1a0ISic2k5AEdq0J4DzSg5DccBeFGB9ilIU3BWKQfgXh46d0Hyr1R0OQCPshA9QmaSks6hxwFoyEH2pB6mKuU8+xyAVxkow4BkRumB4QC8h4cmmFDoubRWYjoApTWksNwrbGdy2QDGTDaX2S70loOJnU60FjNWOASdFSNWi3Z2PEZe11IbSMGdjZSm5x1HT0shdtKzlvOhxJg5GEARZSgyYog99cLEmqbuBVUmp9Zozyo69lcjpKnkNKkZuaDgLLjmdl/a6XuqZFHSWfTV7JKUs8So/ikJZ4rh2GezMIkyHULiIZ14gEPIbihnN9AhZDqEM81xCJlDO3Nch5AK0qkIHEJqKKcldJDLXE4M1VFQXehcoxyALRH0g4RKIugECbGrjEoSCQkvAgYSMkQQ0gEQON9oqMiH8FX7yYdaaKjNh8poKMaH8CelNNc5Yz1yTNqsn9d50I2//6T5wNabv2GeB/m2yeSd1ZIf3m6tsLY0JzPuvrErqq3oOUdxL/AJumfC+/JdjW4u8yDqIlMuMNrnq8MO3LLV7V6bQZvErfPS/D9eBuOQ4u1Zlc3B1+Q6f0cu40IL3ooHiVezKeHCNo43v4BNIDH9XiIPAAAAAElFTkSuQmCC"
-
-/***/ }),
-/* 244 */
-/*!*************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/my-service.png ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEUAAABFCAMAAAArU9sbAAABX1BMVEUAAAD8RXn9RXn/Q3n8RXn8RHn8RXn8RXf8RXn8RXn8Rnr7RHj8RXr8RXj8Q3j8RHn8RXn8RHr8RHn8RXn6RHj8RXn8RXn8RXn9RXn8Rnn8RXr8RXn9RXj9RXr8Rnn9RXn8RHn8RXn7RXn9RXn7RXn7RXn8Rnj/SXz8RnjwPHj/M5n8RHr7RXr7Rnr8RXn/SW36RHn/Q3n8RXj7RXj7RHn9Rnr/SXb9Rnr3Rnz8Rnn6Rnn9Rnj/RXv8RHr8RHn5RHf/QH/9Rnj/Q3j7Q3r/VX//RXb/RnT/RXz/S3j7RHfzSXn7Rnf/TYD/Qnv/Rnn8Rnr6Qnr9RXr8RXn/Qnv7RHj5R3f9RXr/M2b9Rnr3Q3j7Rnn0QHX/RHb/SX/oRnT/RnT/VXH/SZL8RHn/Q3r/R3jyQ3n6RHn/OXH3SHj/Rnr2Qnv5Rnn/Rnv/Q3n/Rnz/SXn5RHb/RHz/SHz/RH38RXolW+rDAAAAdXRSTlMA/9Qqv6+qnO/jrIDJxaPy3V6oujHpn/jPtpa9aIdUerPL05PXkVcjZhEFS0OE9QdhJlHDh50cgCHcY440WmUtEGoiQQYaCyURRxU+Ch9MSTJz+xuOK9YF2CKLGCkOCxYJB1IXJBNwCSAsGygdEyEVKSknLcHSdsA5AAADNElEQVR4nO2WZ1saQRDH9yhKERApIgSUUERRNIIKaDSJGjVGk1jSe+/9+z+5m5nl2t6TW8irPP7fcDPH/O5udmZ22bn+keq1cHxuUEhY0ZQfDBIBiKIMDQK5SJCBMJ4eZAAMQeinP8wsRWe8A2C+UGxxl/WPeUCRkfeqwTHDkhAe9/ujyXzYFyT3zeK4KkOJYszEFRu34B6yjxFTT+2vN7rgmjIJAf5Zk5MwVdcUn3Bdj4CSdk3BRvZb3Qn4JNeUJcqLxb0MXtcU5qc1MnsrkpSzMtWLyQvpDbinsOQoYnwG3wl4QhIUthmkPtJdi/LVy6ZTiBnpeYbB/iFFYTsBCwbScl8OwthMAzFNNL19DQfGFo4hsPEOLGyLuDSF1SBwFa6374JxKE+JaXGpFbjuAiQqD8lCYAsN6FDlljQkCXGxaTDqtiJ0qTEIPDUaG9KQlxA37gVjHYzOTVnId6zdLFohw2rJqIgldxsMXPLxS05/3m/5wksCPz5cuQBGG1uz4sDw4pbhP7PeWEPIPFrYh+UbYsguP5+Uk+YbaXTT5K2idVkMaWcIos7kTeONEXTGroO1h89yGP4r9GdQEItL0xbNOeWT8XuC14SQV3RmG8Kf1A75CzRXePvitkJ5tuoNNob67TTwAzOa+yc+WQ+LoyUet09gi1I3C3UbncLLhroF4xDRauMA/3dAefsggjyfwLsJSCAZx13+MUoRXoyxQ7K3RJB79PgcHS1yhjyb1oNs8XmDKrP5jDsoSaQ75MXZ4JTZPN6MnOgufshWM5LF3uEbkKKUhJA5+vavRievtFMcBarmCaLvSCbh4mUsHaphUi29+Er85cQQrCNP75lczVgYB7WmPTraKR0HCL2LHfNCv6zyPk04QXhe7Biudq+AadQJRWvkhKnReUFfcrFwoosx61RMahuLhqBRlDs7pk4PUBX69RcIP+lZMNtdvYaD4oK1CLdPI+bxJG7ooLR4KNlEVeU50oxHhYo+PtU57DBjBaI5rySW14wEtZMqDtNeKFpwizqrjpuXWLzfDPJtSO/F7G1vuKGi8ucTTUka3VqaS9XPfTE0FfK5mBIYW3zdN+F/0B8NKzmnqPzVCAAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 245 */
-/*!********************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/related-agreement.png ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEUAAABFCAMAAAArU9sbAAABfVBMVEUAAAD8RXn8RXn7RHj7RHj/R3r9RXn8RXr8RXn9RXn9RXn8RXn/Rnn8RXn8RHr8Rnj7RXj7RHj8RXn7RXn8Rnj8RHf8RXn9RHj7RXr9RXn/Rnr8RXn8RXn8Rnn8Rnj6RXj7RXn8RXn7R3r9Rnn8RXr7RHf8Rnn8RXn7RHn9RHr8Rnr8Rnr8Rnr8RXn8RXj8RXn9Rnr8RXj9RXv8RXj/Q3n8RXn7Q3n/Q3n7RXn/Qnv8R3f9RXn/TYD6R3f8RXj/QH//SnX/SHr6RXr/O3b/RHv8RXj7R3z8Rnr/R3j9RXr8Rnn9RXr9Rnn9RXn7RXr/AAC/QH/mTYD/AH/vQHD/AP/qQGr/SX//QH/6Qnr/f3/6RHf/RHzxR3H/SXn/RHf/OXH/SW33Q3j7RXj6RXv/Q3r3Rnz/Q3j5RHb/VX//RXz/S3j8RHn6R3v/RHbzRnT3SHj/RXj/RXv8R3v/Qnv9RHr/Q3n/SXz7Rnf4R3j/QH/6RXr5Rnn8RXv/Rnr9RnqQT3iDAAAAf3RSTlMA/79AgBnPsrnT3OZM65mhjdipkWav8H+DdjH95KdXYMr6QXjDR0z2OpWsnUn0tV1tUXKjKsw9JokbT+EKL1kQGC5qDThVRGIk2cZ9afnBAQQKAhABDA4EMgJtKRIVDwkHInM0FyEiKQYlEb42KRYgRjRTH3sTIz4kCG8oUUmA2ich2AAAAw9JREFUeJzll2db2zAQx2XiEEhLgEASCAl7bxJWS1t2KbN77733np+9OknnSI6HbPOO//OALd3pJ+cknSTiofGRJaOiul8/vJyd1dvULCGYOhKtJ4IgNtpq7QiuofTUVz1E/suOM4KrobHzlB/id+m12iib6n13q1+tK6QGb7ojPq9Nqu4TYwPcEi91q5Zky1lHxJOt0X3Fsac8KNvj7bZY1S/O2xkzxazqUzxe3VE8V686dZtXZfuCas04IATIVCdAWTbGJEPCFYGgZMW5xpHih0BQwZ2ih0DQMRdKTB9CVXNEKV3vD4FybsiYfBGZsgs1wrei1WCU6zDTRwhRIbKLDmUKKmajUiDTgEskyjyUNzkFPc3AlDFabICXKJROKJoRKXdYTrMoqICUJlZESsjofuAtIlIOJIotX+tTrtFXSGSMwgRxrZQ0v2WOWnk7kyqXMxlFSOxz/hTT2OUUeWtAWe38KANF5hKRIlwOi8LiAkHhSkDJ2m30KVSwGFh06V9ObhOEco++JBkFjgynQ1JgT55hlHGYRqEoP+EDMmLWpej/2gvBKW/YXjwsKC8b6KNg/ShtCquFoeKPLijuo5c2pSiig+uojz7n1oNS6M7GQmytxhbJST+603zOVNZ0+lGokQ6eGbKfrIpZOtclOy3FVcaDRnVVgVbFSvln79BNeXH4TSu1NDExjd7VgnT1CP9WtR5Pn9vfNSB8j6Catltgfjtb7PpWh670NGDXJtpGvG8ug2xZUPU7mldgnTDzDQ9IO3ZWNfSotHDInnHzWCkjZNi9o1b0aXO2x/B2U7/s8bkk3yHcMgtOnaC1yYtBdR8HIHnSblq3BrjKVC0rfO1q/UfkF577Q+htHDFj8vV5Cge48bwOhJCneNXcsa6YV9oQvabHAC2KJhN7vPx2FCt69SGEbGHXLZdpaQZPMRlbfvDT8LZoWLdB+nCAXWaRh17xNGQYS/hiuM5oL0HGl3SQDwMh5A8uT1DqYjgIIbetTGKUwjKoLtENCNT8NwKEag8ybOJhNAghy49jz/x8/gPc+ztEATdUGwAAAABJRU5ErkJggg=="
-
-/***/ }),
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */
-/*!*****************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/static/img/jaundice-detection-service.png ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/static/img/jaundice-detection-service.png";
-
-/***/ }),
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */
+/* 228 */
 /*!****************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/api/orderForm.js ***!
   \****************************************************/
@@ -42515,6 +42334,7 @@ exports.createOrderComment = createOrderComment;
 exports.createPayOrder = createPayOrder;
 exports.deleteOrder = deleteOrder;
 exports.getEnableCodeList = getEnableCodeList;
+exports.getOrderDetail = getOrderDetail;
 exports.getTradeOrderPage = getTradeOrderPage;
 exports.submitPayOrder = submitPayOrder;
 var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 171));
@@ -42599,7 +42419,210 @@ function getTradeOrderPage(data) {
 }
 ;
 
+// 获取交易订单详情
+function getOrderDetail(data) {
+  return (0, _request.default)({
+    url: '/app-api/trade/order/get-detail',
+    method: 'get',
+    params: data
+  });
+}
+;
+
 /***/ }),
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */
+/*!********************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/logo-ellipse-icon.png ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAB9CAMAAAC4XpwXAAAC+lBMVEUAAACx2rQR0YOZ2ayU2Ksp1o+33bqd2a6i2a/k8ual2bFg1ZuP2Km03Lfn8+io2rK63rzr9uzC48Uf0odW1ZhI05Pt9+8t04wa0IU50o7Q6dJq1p++4MCE26vo9OqK2Kiv2rNb1ZnG5cmJ262g2a/i8eSQ1ag0045v1p/Z7dwk0omG2Kes2rKL0qQ+05BD1JJm1Zx52qjT69Yo0opS1Zd/16VO1JZM05PK5sx/2qqP264SzX/W7Nl616Nz2qaD16Ys0Ijd798lw3rw+PHg8OIms2vN589116Jz1qEtvXcqtW4nvXUwr2oct2wprmdJwoMkuXA/sW8VyHst1ZAqxX0uy4QWxHhFuXk10Yxt2KMR0YRPxYd20Z2x3Lg31ZEy1pGCypo0q2dKvX4YvHCx27Rb0JQdyX4xxn8jsGc9qmlszpc1zYgmzoVOzo9mypIkyoEXwHRfyY8mq2NYyIx+0qBDzo1HyYlxzpi54cU3wX2C1aQ2yoUV04Ox2rR81aJRsXVh0Zc8zIgytXBVzpE6r2wdwHWI1qZgu4O03749xoOs27Z5xZMi04k+uHZXtHpgxIpuw4+l2rFGr3Bov4mx2rR2ypeZ2a0R0YMs1IyQ2aqQ2aqb2q0X0YSx2rQ905AR0INc1JgO1H+I2Kev2rQR0YOv2bOx2bQS0YRr1p9xxo7///9/1Kqq37Ws27JV/6pH1JR216JO1JYTz4J41KNc1JoA/1Vt155F1JNL0oc+1ZJQ1JZ816M21I+B16UAqlVc1Zk72JOq/6oW04N016Gz5rN/1KoA/wA7045gz48Af39U1JeE16Y/1JCzzLNVqqoS0oRu1p8azICF2Kav2rNa1Zl616OA16WG16Rh1ZwA//9/16UzzGZ/v39g1puS27au2rVs1p85049h1JtV1H8zzJlK0pQAqqqJ2aeZzJkAzGZ//39A/7870o8A/6qy2rU40pCc1awy04yStraJ2KcczYcAzJm/v79Vqn8ktpJ/f3+f35+ZzMyC2KSC16X8zWBXAAAA/nRSTlMA///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/////////////P//////////////////////////////xMP//////////////////8P/////w///9f/D8MPB+/w45fevLxL6mdxDt4/nCQEMGCsD8pGzYCTqAz/dETGPQMa6A9saAyPzChIBihAC9nJqCgODtQqbdv31+kznAeoFBEoHTPyy/AYKPgO6BQUCBEkDWZoxtAfmJAUEBgcCCAWx7Mf+iS8AABI8SURBVHicpdt5WFRXlgDwiiBrWKy4oqISQDCWUSJKIqjFIIoaiRGXgBULu5GASlKiUGgnBbgUFi2QIrS9GLe4xhjX1qhjYrZOOvvSWXuSTncn0z3TPb3M9PTs3zfnnHvve/e9d1+BMyd/xC9/5Ffn3HPvu+++q6Pf+OfTR//w4VPHHlXE41J8T8QPIH7zwZuffHLhVP//80jx9CvPHH3qySeeeOLbipg8OQUiISEOIjP2RyyioqN/yOLw4cP/8sG1V0/95P9ov3L6w2NPPvHtW6wxHoLwBMIzM2NjY6MooiFuxRgHcQf8gOtvXvjy5ukXX8GsFfJN4BBz5nz8+dlrJ9+5Kfuvb//pUWXWN4fPgcjPz//o+oVTfzdg++n/OnpMkXaShk++KTw/v+ij69dOPj1A/ZmnVCVPiomMo63hrOoCh3j57KsDsr/8xZPKmsekIm9bdhVONuHz57984tqv+686JK7Ek1JTU5O0zMEWuKnqNvj8BQsg/X+MjP/29DGbZosBHZK3lL0f/DENX5Dz1XsHIzbf26fVVU+KQTw1BiLJM1nL3NpvkfCcnK9OHDxpj7949Em7tAUe4wnxxFW4Ps11HGyO54wefeLSs7b4L2yWF8aTreGR1xgzjjbgwH9hw7991HaBoUGPiekYEK7NNAU+euqnl5TFf/G0suzawBPuiTzTDJkbhlzgU6d+qmq9pyPhkD2VnXQLbrAj4WBPTUx84aB14j1jN9UwxoOONuoyjnZ2NqN37dplXuDkfuN6YmLir9573Yx/+VQkfLwnBv4hXcKZDQGwyVbhLHPkr5pXPbt250s72CFYZEKhFLD5GsNtl8tF+Fawt24144YhZ3jihItfmNZX9SqjPVc849kCB6OuV53brq1SmNYYveq87IhP+NnF5z6T9N9GqLt5aZdxlys7KjbbtXUzj8dYqGaahAN/9Xc6/tej9nU34nq/oZ0d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"
+
+/***/ }),
+/* 238 */
+/*!***********************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/house-reconstruction.png ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 239 */
+/*!**************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/chronic-care-management.png ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC9FBMVEX44JcAAAD+/PX+/Pf1v2f0uFz2zHn1xG70tln1wGn2xnHzrUz1vmX31If2yXX0tFb0ul7435X2x3P43pP++u/30YH1wmr9+Oj++/L32Y31vWP2z3/zr0/0slT30oL43JH9+Ov2ynf0sVH314r0u2D9+e31vGH2znz32o71w2zzq0n304T425D0uGH////99d789Nvzqkf99uD66Lf0tVf31oj889j99+bzqEP0tl32zXv88dT44Jr556/99uTzsFD2zn/446L77Mf55an1umP778r44Jb2ynz30of1vGX54bL//fv3zoP44Jf43Zn0s1n66rr54K788M/425L66r732I/44J7//wD1wm/526T425X53qv77tP55rP55LX77MH42ZT768z44qb30YX66MP/zGb41pr304r88Nf0qEP65cD647vzqUX436f31pD1vmX3y4DzrUv54Jf1u1//AAD0t1r43JH31If2ynb0s1T3qkb42Z/66Lz0tVf435f77dD1w232z3332o7/qlX/33/54Jfzp0H30ZTzqj30sVH30YHttm364pP31Yrqv2rtpDfyo0P/v0D34JX0qUL//1X/kiTxxnH30oL0pkH2w2v//6r20Xb34Zf335b22Ir0ymr1znz0qkX1wGbxpUH14pP/35/545f3yXX20Hv31IPzxnH34Zb4xXX403z30JD1xW3zqUX2qEDzq0n31IX1w2v/6pX404P1xGz2yXT32Ir33pTzqEP1v2f41onzp0L0rk6/f0DMzGb////MzJl/f3/zwGb1v2T2znz1y3jUqir/4470q0j23ZT2vmL0v2X1vmT41oj/14b02ZL0wGX//3/ztmH2x3H44JbmmTPMmTP0w231v2T404XU1H/1xW7jxo72z373w2n33pb2x3PuzHf335b20H/0rEjy2Yz325P/pTz0wWnyqEL4y3X314n1xnL1zXj1vWL54Jfz0YD50YD2znr43pbvv2DzqUT1p0Hy15T55q5xRzoCAAAA/HRSTlP/AP//////////////////////////////////////////////////////////////////////////////////////////9v////////z///////////8B////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"
+
+/***/ }),
+/* 240 */
+/*!**************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/my-location.png ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAP1BMVEUAAAD8RXn6RXr8RXn8RXn7Rnr/QH//SHj9RXn7RHj8RXn8RXr8RXj8Rnn8Rnr9RHn7RXj8RHn9RHj7RXn9RXq3HRl2AAAAFXRSTlMA/zDw4IAQINBAwGCfULBwkK9/P295iTdwAAAB20lEQVR4nOWY25aCMAxFrSCXiqLA/3/ryOAMkpw0pyyeZs6rXdukuZbTv9U4dLEMs8rYDeM+SD3Fb8SnnlOdi2k7RVnUtVnWaGNWRd6qIYGZNZDmNA4nhIYx6ly4nBCK8zEcgkRyXFK1pB+jskqBnjTnlZ0Jzi2DE8LtCMdm2c5dsjghXCwQG7EfFQbnig7f+7Y6VW1/Rz9eMQiURrfWQg36QYScWpu+jctNuw6vW3mmklenPfRNma6L4KxcRyCZRD0404szJQIxZ9S/gSMtFVp5kaCDSxDO/8oHifpoIEclG6gSAbobIJHhPsgqSP/YYSCRIqRrILYiauRlg6jJ9OfCj2aJOMIlJDojFgeqRGBDeog/Y4r2gUCqRxBtBI9bWdl+Y8PuK9/8Vgs9Q03ba/7WmoQWvuc0vsbROKGtAA+R7NGfGv6Zs9/k4Flrypiz2SYlDNKNO6X05p7a1LcyQ7YI5JIhb9Vmly1zyfqVv/fPshroh1SFQ/mbP+ec7xjnHOHYrNpbSgv2xeYVr12sUulr4i5oEVyG37JmMFRlX3iTfBXxz5L06wrIeAESb1CKtIMDSbs4gLST8yJtb7zZyxFZkBl3oXWMG+OZVvv+fpT1kQbrGkNMjbC/ri9QMg+jmruwnwAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 241 */
+/*!************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/my-be-escorted-person.png ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAPFBMVEUAAAD8RXn7RHj8RXn7Rnr/QH/8RXn6RXr9RHj8RXn8RXr8Rnr7RXj/SHj8Rnn9RHn8RXj9RXn8RHn8Rnko/lnsAAAAFHRSTlMA/0C/gBDvMH/fYLCQIF9woNCvUGxZqggAAAFwSURBVHic7ZfbkoMgDECLlouIVdv//9cVVy0uJCS443Tanuf2TALk4uWT0cbc67sx+pClc41YaVxXqpFms8woI4s8+hnNFlVJglZFnikoy/Y8EhrPg+nRqXjmmJjZxeezMrI8PegRgnNMEkpsTo7xCCziYYXUoqKWnhnqEYIsqjKi6nTRNSO6ni7Cb59x//92RjojordKuGQ9DdlzcajI0UV4bpyOhBUbvdQmOkTEm0rwmyS/xgUoOVZiHjkmPSN/Rsoh4RnYGk//t3OrvsgzBbV/mK5s9P+q7HLoqrUHNAu6OrYcvSvVUKcZyO3Rc6vBUhOivpE1eIOcWiRJldWQVNJgC81Oha24dI0H3JZ5GlgFrp+oKi4edNvj7IG5eQ8R7QG5DQQimgXniVy1suubbFEd/DasRLYo/EMYEluknpO6C19KwWFvLelVbu0reiNRtOnkPhsg4nmJzUSYsJYXJP4hm6ZND5Kt41BJWr4A/AC8xw6e7cTVhQAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 242 */
+/*!***********************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/my-medic.png ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAS1BMVEUAAAD8RXn7RXn8RXn7RHj/QH/7Rnr8RXn/SHj9RXn6RXr8RXn9RHn8RXn7RXj8Rnn8RXj8Rnn8Rnr8RXr8RHn9RHj9RXr8RHf7RnkvMC56AAAAGXRSTlMA/z/AQBCA7yDPMN9woJBQn1+wYK9/b0+P8DKChQAAAjFJREFUeJzdl9magyAMhRupuO9b3/9JJ7gNIJJo/eZizlXrR38DOU3Ci9RUZwCiiemVHqVjH8GqrL4HC4NBLJCslXL7WI/ppUCaOlnDKLo1jDRvF1jUDwEvlHrdTbJD9hdsMBBDSILwaHGhrE5Wxl0xR1tQnBhDeZuPPomozKBzfBUFCgHMX71e+H5pPSroiPBn3RFUWo/EAX2UtSYIapWqKTDyLg5vO6qEVvtWbH4EyI0grXN0qDPOUfyCtEAxI7TL3wAkyFxzIkybZqFUytk2pcy1pxIyGvSKrP0j2U52SdsIJeyDxL+FlWxx8IMbpOcH1ZoZQyUMG6kDsFe97drByb4CUfbHU+OAKkiIFZh9Tn3DZZ8gDTxCQzA4CkTrT0GqbJDiHLZy8iMg1tYsh94HUQ5RqjggRj1CZz+0N62WecQoSPvY4BeZt5THoRtbyQRFFGju/Q/sjZd8JaLa8nKm5Pcktj62vJ7EgYUtryf5OyNGJG1oIKUPGweFJdPYIPQe7lSaL1OiDyI5hW0OrCrPYHzIHpkLldyZ/l0mvxrNIgfoFucfg1y18hbIVSvvZN/ZKDmzo6XK/adjXNQMhR8nBpU1VziDrwZkbHs3VCfpOWcejpyGVFOoeLsakxLN+bGHI1XRrB26WU1/ibKyJosysbdkK6q1JFbshu/Ufpsfv8IoLVdl1vRJaHYD3se+1jx2XWnTZ5rb92Ogay70gB7gLBPlEyBVzK8MaV7QEzYC+AG8SBQIHzWh7gAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 243 */
+/*!*****************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/evaluation-form-management.png ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAARVBMVEUAAAD8RXn8RXn8RXj/QH/6RXr8RXn8RXn8RXr7Rnr7RHj9RXn8RXn/SHj8RXn8Rnn9RHn8Rnr7Rnn9RHj8RHn8Rnn8RHeUWuHAAAAAF3RSTlMA/6CfEDDwv2CAQM/vIN9QcLCPf69fT85VwikAAAH9SURBVHic7ddbloMgDABQ2zr1ba197H+po03AJCABmXPmp/kUuEKC0Bbf+AaL8j1X/el06qvnNLCWYXpWS8PSMr9LjWkva1cb48u2vEbWcmlDzPB5o496cGaNis+XxsPpjAOGztsy7STHnQ5E/1hz5ounL1Wl/63h6FyJOPf6k8i2kXQ3t2te2voekGy1GtLU0tVWpE5lY55ehHMzbxClmK5mhMiszf+NLwzTeZYzrbH79cfJxRlaejZkxuzI3vvOErjuxp2Qk7mgY+pDpzRBf7nrw85SCyd7QFeJjllct80RBoj+umOmZNcGtb8mO0UBm8PuANhd53SngC1g6wY7npYx0pFTgJzRLVrihlYcfJ+tEkCs+D8fSXMw2xaCpdWsyyqpDs7ILg1WynK0SrojR/qqtki6I6sG+6jXxzkB3+iWXSgRP1liAk+x7QFkW35rekC5yeGD2y945+1PiJYbrj9+2KmBp9hIn+GB5LldAg6e2mz/lXgjyzshFHjvjPzleLIkSOb+krvNXFSxknHE97AE3i6RknHk55AqhZwUKezES5oTK+lOnBTjxEhxji7FOpoU74SlFCckpTn7UqqzJ6U7fumI45OOOa501JHScYdLOQ6V8pxNMn/6jjqblOtwKcehUp6zSbmOkfIdkP7CWaWkXymBoH9zv/H/8Quuug04lKVRGgAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 244 */
+/*!*************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/my-collect.png ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAABAlBMVEUAAAD8RXn8RXn7RHj8RXf8RXn9RXn9RXj8Rnr9RXr8RHn9R3v8RHr8RXj8RXn8RXv8RXn9RXn9RHr9RHj8RXn8RXn8R3f/R3r7RXn8RXj4Q3n/RXn8RXn8Rnr9RHn6Rnr9Rnn8RXn9RXroRnT8RXn5RHb0QHX/QH/8RXj8RXrrO3b7RXn/Rnz8RHn8RXn/Rnr9RHr7RXj9RHn7Rnr8RXn/R3r/SHr7RXn9Rnj7RXj4QnX6Rnn9Rnn7Rnj6Qnr/R3H7RHj8RXn/R3f6RXr/SX//Rnj8Q3n3SHj/Rnj/SXb/R336RXb/Snv/Rnn5Rnn7Rnn4R3j/Rnn8Rnn8RXj5Q3n7R3qdZkEBAAAAVnRSTlMA/6OAnL/TaLCXZWxetqeeyOWZf+K9Whk/USY7ulh4cW6qjAv4KRgQ68MNdiFh8Sx7jINFkzIukXVGIzeHdTISjt8vMA5CTCAzHC80HzcoiyRMVGQqQR1WofMAAAILSURBVHic7djnWsIwFAbgnFYKoiAgiCwV3IspiHvvve7/VrTSlrRNk9OEn3w/Sfo+fdKcDMg4I4kegYQ+AicKZr6Une6/A/CkCk1a0ISic2k5AEdq0J4DzSg5DccBeFGB9ilIU3BWKQfgXh46d0Hyr1R0OQCPshA9QmaSks6hxwFoyEH2pB6mKuU8+xyAVxkow4BkRumB4QC8h4cmmFDoubRWYjoApTWksNwrbGdy2QDGTDaX2S70loOJnU60FjNWOASdFSNWi3Z2PEZe11IbSMGdjZSm5x1HT0shdtKzlvOhxJg5GEARZSgyYog99cLEmqbuBVUmp9Zozyo69lcjpKnkNKkZuaDgLLjmdl/a6XuqZFHSWfTV7JKUs8So/ikJZ4rh2GezMIkyHULiIZ14gEPIbihnN9AhZDqEM81xCJlDO3Nch5AK0qkIHEJqKKcldJDLXE4M1VFQXehcoxyALRH0g4RKIugECbGrjEoSCQkvAgYSMkQQ0gEQON9oqMiH8FX7yYdaaKjNh8poKMaH8CelNNc5Yz1yTNqsn9d50I2//6T5wNabv2GeB/m2yeSd1ZIf3m6tsLY0JzPuvrErqq3oOUdxL/AJumfC+/JdjW4u8yDqIlMuMNrnq8MO3LLV7V6bQZvErfPS/D9eBuOQ4u1Zlc3B1+Q6f0cu40IL3ooHiVezKeHCNo43v4BNIDH9XiIPAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 245 */
+/*!*************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/my-service.png ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEUAAABFCAMAAAArU9sbAAABX1BMVEUAAAD8RXn9RXn/Q3n8RXn8RHn8RXn8RXf8RXn8RXn8Rnr7RHj8RXr8RXj8Q3j8RHn8RXn8RHr8RHn8RXn6RHj8RXn8RXn8RXn9RXn8Rnn8RXr8RXn9RXj9RXr8Rnn9RXn8RHn8RXn7RXn9RXn7RXn7RXn8Rnj/SXz8RnjwPHj/M5n8RHr7RXr7Rnr8RXn/SW36RHn/Q3n8RXj7RXj7RHn9Rnr/SXb9Rnr3Rnz8Rnn6Rnn9Rnj/RXv8RHr8RHn5RHf/QH/9Rnj/Q3j7Q3r/VX//RXb/RnT/RXz/S3j7RHfzSXn7Rnf/TYD/Qnv/Rnn8Rnr6Qnr9RXr8RXn/Qnv7RHj5R3f9RXr/M2b9Rnr3Q3j7Rnn0QHX/RHb/SX/oRnT/RnT/VXH/SZL8RHn/Q3r/R3jyQ3n6RHn/OXH3SHj/Rnr2Qnv5Rnn/Rnv/Q3n/Rnz/SXn5RHb/RHz/SHz/RH38RXolW+rDAAAAdXRSTlMA/9Qqv6+qnO/jrIDJxaPy3V6oujHpn/jPtpa9aIdUerPL05PXkVcjZhEFS0OE9QdhJlHDh50cgCHcY440WmUtEGoiQQYaCyURRxU+Ch9MSTJz+xuOK9YF2CKLGCkOCxYJB1IXJBNwCSAsGygdEyEVKSknLcHSdsA5AAADNElEQVR4nO2WZ1saQRDH9yhKERApIgSUUERRNIIKaDSJGjVGk1jSe+/9+z+5m5nl2t6TW8irPP7fcDPH/O5udmZ22bn+keq1cHxuUEhY0ZQfDBIBiKIMDQK5SJCBMJ4eZAAMQeinP8wsRWe8A2C+UGxxl/WPeUCRkfeqwTHDkhAe9/ujyXzYFyT3zeK4KkOJYszEFRu34B6yjxFTT+2vN7rgmjIJAf5Zk5MwVdcUn3Bdj4CSdk3BRvZb3Qn4JNeUJcqLxb0MXtcU5qc1MnsrkpSzMtWLyQvpDbinsOQoYnwG3wl4QhIUthmkPtJdi/LVy6ZTiBnpeYbB/iFFYTsBCwbScl8OwthMAzFNNL19DQfGFo4hsPEOLGyLuDSF1SBwFa6374JxKE+JaXGpFbjuAiQqD8lCYAsN6FDlljQkCXGxaTDqtiJ0qTEIPDUaG9KQlxA37gVjHYzOTVnId6zdLFohw2rJqIgldxsMXPLxS05/3m/5wksCPz5cuQBGG1uz4sDw4pbhP7PeWEPIPFrYh+UbYsguP5+Uk+YbaXTT5K2idVkMaWcIos7kTeONEXTGroO1h89yGP4r9GdQEItL0xbNOeWT8XuC14SQV3RmG8Kf1A75CzRXePvitkJ5tuoNNob67TTwAzOa+yc+WQ+LoyUet09gi1I3C3UbncLLhroF4xDRauMA/3dAefsggjyfwLsJSCAZx13+MUoRXoyxQ7K3RJB79PgcHS1yhjyb1oNs8XmDKrP5jDsoSaQ75MXZ4JTZPN6MnOgufshWM5LF3uEbkKKUhJA5+vavRievtFMcBarmCaLvSCbh4mUsHaphUi29+Er85cQQrCNP75lczVgYB7WmPTraKR0HCL2LHfNCv6zyPk04QXhe7Biudq+AadQJRWvkhKnReUFfcrFwoosx61RMahuLhqBRlDs7pk4PUBX69RcIP+lZMNtdvYaD4oK1CLdPI+bxJG7ooLR4KNlEVeU50oxHhYo+PtU57DBjBaI5rySW14wEtZMqDtNeKFpwizqrjpuXWLzfDPJtSO/F7G1vuKGi8ucTTUka3VqaS9XPfTE0FfK5mBIYW3zdN+F/0B8NKzmnqPzVCAAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 246 */
+/*!********************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/related-agreement.png ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEUAAABFCAMAAAArU9sbAAABfVBMVEUAAAD8RXn8RXn7RHj7RHj/R3r9RXn8RXr8RXn9RXn9RXn8RXn/Rnn8RXn8RHr8Rnj7RXj7RHj8RXn7RXn8Rnj8RHf8RXn9RHj7RXr9RXn/Rnr8RXn8RXn8Rnn8Rnj6RXj7RXn8RXn7R3r9Rnn8RXr7RHf8Rnn8RXn7RHn9RHr8Rnr8Rnr8Rnr8RXn8RXj8RXn9Rnr8RXj9RXv8RXj/Q3n8RXn7Q3n/Q3n7RXn/Qnv8R3f9RXn/TYD6R3f8RXj/QH//SnX/SHr6RXr/O3b/RHv8RXj7R3z8Rnr/R3j9RXr8Rnn9RXr9Rnn9RXn7RXr/AAC/QH/mTYD/AH/vQHD/AP/qQGr/SX//QH/6Qnr/f3/6RHf/RHzxR3H/SXn/RHf/OXH/SW33Q3j7RXj6RXv/Q3r3Rnz/Q3j5RHb/VX//RXz/S3j8RHn6R3v/RHbzRnT3SHj/RXj/RXv8R3v/Qnv9RHr/Q3n/SXz7Rnf4R3j/QH/6RXr5Rnn8RXv/Rnr9RnqQT3iDAAAAf3RSTlMA/79AgBnPsrnT3OZM65mhjdipkWav8H+DdjH95KdXYMr6QXjDR0z2OpWsnUn0tV1tUXKjKsw9JokbT+EKL1kQGC5qDThVRGIk2cZ9afnBAQQKAhABDA4EMgJtKRIVDwkHInM0FyEiKQYlEb42KRYgRjRTH3sTIz4kCG8oUUmA2ich2AAAAw9JREFUeJzll2db2zAQx2XiEEhLgEASCAl7bxJWS1t2KbN77733np+9OknnSI6HbPOO//OALd3pJ+cknSTiofGRJaOiul8/vJyd1dvULCGYOhKtJ4IgNtpq7QiuofTUVz1E/suOM4KrobHzlB/id+m12iib6n13q1+tK6QGb7ojPq9Nqu4TYwPcEi91q5Zky1lHxJOt0X3Fsac8KNvj7bZY1S/O2xkzxazqUzxe3VE8V686dZtXZfuCas04IATIVCdAWTbGJEPCFYGgZMW5xpHih0BQwZ2ih0DQMRdKTB9CVXNEKV3vD4FybsiYfBGZsgs1wrei1WCU6zDTRwhRIbKLDmUKKmajUiDTgEskyjyUNzkFPc3AlDFabICXKJROKJoRKXdYTrMoqICUJlZESsjofuAtIlIOJIotX+tTrtFXSGSMwgRxrZQ0v2WOWnk7kyqXMxlFSOxz/hTT2OUUeWtAWe38KANF5hKRIlwOi8LiAkHhSkDJ2m30KVSwGFh06V9ObhOEco++JBkFjgynQ1JgT55hlHGYRqEoP+EDMmLWpej/2gvBKW/YXjwsKC8b6KNg/ShtCquFoeKPLijuo5c2pSiig+uojz7n1oNS6M7GQmytxhbJST+603zOVNZ0+lGokQ6eGbKfrIpZOtclOy3FVcaDRnVVgVbFSvln79BNeXH4TSu1NDExjd7VgnT1CP9WtR5Pn9vfNSB8j6Catltgfjtb7PpWh670NGDXJtpGvG8ug2xZUPU7mldgnTDzDQ9IO3ZWNfSotHDInnHzWCkjZNi9o1b0aXO2x/B2U7/s8bkk3yHcMgtOnaC1yYtBdR8HIHnSblq3BrjKVC0rfO1q/UfkF577Q+htHDFj8vV5Cge48bwOhJCneNXcsa6YV9oQvabHAC2KJhN7vPx2FCt69SGEbGHXLZdpaQZPMRlbfvDT8LZoWLdB+nCAXWaRh17xNGQYS/hiuM5oL0HGl3SQDwMh5A8uT1DqYjgIIbetTGKUwjKoLtENCNT8NwKEag8ybOJhNAghy49jz/x8/gPc+ztEATdUGwAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */
+/*!*****************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/static/img/jaundice-detection-service.png ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/static/img/jaundice-detection-service.png";
+
+/***/ }),
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
 /* 323 */
 /*!*********************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/static/img/jaundice-detection.png ***!
@@ -65113,6 +65136,213 @@ var _default = {
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 870 */,
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */,
+/* 891 */,
+/* 892 */,
+/* 893 */,
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/props.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 倒计时时长，单位ms
+    time: {
+      type: [String, Number],
+      default: uni.$u.props.countDown.time
+    },
+    // 时间格式，DD-日，HH-时，mm-分，ss-秒，SSS-毫秒
+    format: {
+      type: String,
+      default: uni.$u.props.countDown.format
+    },
+    // 是否自动开始倒计时
+    autoStart: {
+      type: Boolean,
+      default: uni.$u.props.countDown.autoStart
+    },
+    // 是否展示毫秒倒计时
+    millisecond: {
+      type: Boolean,
+      default: uni.$u.props.countDown.millisecond
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 957 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/utils.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isSameSecond = isSameSecond;
+exports.parseFormat = parseFormat;
+exports.parseTimeData = parseTimeData;
+// 补0，如1 -> 01
+function padZero(num) {
+  var targetLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+  var str = "".concat(num);
+  while (str.length < targetLength) {
+    str = "0".concat(str);
+  }
+  return str;
+}
+var SECOND = 1000;
+var MINUTE = 60 * SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+function parseTimeData(time) {
+  var days = Math.floor(time / DAY);
+  var hours = Math.floor(time % DAY / HOUR);
+  var minutes = Math.floor(time % HOUR / MINUTE);
+  var seconds = Math.floor(time % MINUTE / SECOND);
+  var milliseconds = Math.floor(time % SECOND);
+  return {
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    milliseconds: milliseconds
+  };
+}
+function parseFormat(format, timeData) {
+  var days = timeData.days,
+    hours = timeData.hours,
+    minutes = timeData.minutes,
+    seconds = timeData.seconds,
+    milliseconds = timeData.milliseconds;
+  // 如果格式化字符串中不存在DD(天)，则将天的时间转为小时中去
+  if (format.indexOf('DD') === -1) {
+    hours += days * 24;
+  } else {
+    // 对天补0
+    format = format.replace('DD', padZero(days));
+  }
+  // 其他同理于DD的格式化处理方式
+  if (format.indexOf('HH') === -1) {
+    minutes += hours * 60;
+  } else {
+    format = format.replace('HH', padZero(hours));
+  }
+  if (format.indexOf('mm') === -1) {
+    seconds += minutes * 60;
+  } else {
+    format = format.replace('mm', padZero(minutes));
+  }
+  if (format.indexOf('ss') === -1) {
+    milliseconds += seconds * 1000;
+  } else {
+    format = format.replace('ss', padZero(seconds));
+  }
+  return format.replace('SSS', padZero(milliseconds, 3));
+}
+function isSameSecond(time1, time2) {
+  return Math.floor(time1 / 1000) === Math.floor(time2 / 1000);
+}
 
 /***/ })
 ]]);

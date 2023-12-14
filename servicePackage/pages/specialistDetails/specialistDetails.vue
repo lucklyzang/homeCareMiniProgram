@@ -159,14 +159,16 @@
 				deviceNumber: 0,
 				isVerifyNurseFavoriteComplete: false,
 				isNurseFavorite: false,
-				personPhotoSource: ''
+				personPhotoSource: '',
+				isFromEditOrderPage: ''
 			}
 		},
 		computed: {
 			...mapGetters([
 				'userBasicInfo',
 				'nurseRankDictData',
-				'serviceOrderFormSureChooseMessage'
+				'serviceOrderFormSureChooseMessage',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -194,6 +196,7 @@
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
 			this.nurseMessage = temporaryAddress;
+			this.isFromEditOrderPage = temporaryAddress['isFromEditOrderPage'];
 			this.getNurseDetailsEvent({id:this.nurseMessage.id});
 			this.verifyNurseFavoriteEvent({careId: this.nurseMessage.id });
 			this.queryProductComment({
@@ -204,7 +207,8 @@
 			
 		methods: {
 			...mapMutations([
-				'storeServiceOrderFormSureChooseMessage'
+				'storeServiceOrderFormSureChooseMessage',
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 查看更多用户评价事件
@@ -504,9 +508,15 @@
 			
 			// 选定护士事件
 			designateNurseEvent () {
-				let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
-				tmporaryServiceOrderFormSureChooseMessage['chooseNurseMessage'] = this.nurseMessage;
-				this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage)
+				if (this.isFromEditOrderPage) {
+					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+					tmporaryEditServiceOrderFormSureChooseMessage['chooseNurseMessage'] = this.nurseMessage;
+					this.storeEditServiceOrderFormSureChooseMessage(tmporaryEditServiceOrderFormSureChooseMessage);
+				} else {
+					let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
+					tmporaryServiceOrderFormSureChooseMessage['chooseNurseMessage'] = this.nurseMessage;
+					this.storeServiceOrderFormSureChooseMessage(tmporaryServiceOrderFormSureChooseMessage)
+				};
 				uni.navigateBack({
 					delta: 2
 				})

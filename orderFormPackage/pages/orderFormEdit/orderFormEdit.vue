@@ -8,6 +8,7 @@
 				</view>
 			</u-modal>
 		</view>
+		<!-- 用户授权协议弹框 -->
 		<view class="user-license-agreement-box">
 			<u-modal :show="userLicenseAgreementShow" :showConfirmButton="false" width="690rpx">
 				<view class="slot-content">
@@ -33,6 +34,36 @@
 				</view>
 			</u-modal>
 		</view>
+		<!-- 期望服务时间选择弹框 -->
+		<view class="expectation-service-time-box">
+			<u-modal :show="expectationServiceTimeShow" :showConfirmButton="false" width="750rpx">
+				<view class="slot-content">
+					<view class="btn-area">
+						<view @click="expectationServiceTimeBoxCancel">
+							<text>取消</text>
+						</view>
+						<view @click="expectationServiceTimeBoxSure">
+							<text>确定</text>
+						</view>
+					</view>
+					<view class="expectation-service-time-content">
+						<view class="expectation-service-time-content-left">
+							<view class="date-list" :class="{'dateListStyle': currentDateIndex === index}" @click="dateItemClickEvent(item,index)" v-for="(item,index) in currentDateList">
+								<text>{{ item['showDate'] }}</text>
+							</view>
+						</view>
+						<view class="expectation-service-time-content-right">
+							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index}" @click="timeQuantumItemClickEvent(item,index)" :key="index" v-for="(item,index) in timeQuantumList">
+								<text>{{ item }}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</u-modal>
+		</view>
+		<u-toast ref="uToast"></u-toast>
+		<u-overlay :show="showLoadingHint"></u-overlay>
+		<u-loading-icon :show="showLoadingHint" color="#fff" textColor="#fff" :text="infoText" size="20" textSize="18"></u-loading-icon>
 		<u-modal :show="sureCancelShow" title="确定删除此图片?" :showCancelButton="true" @confirm="sureCancel" @cancel="cancelSure"></u-modal>
 		<view class="top-area-box">
 			<view class="nav">
@@ -58,10 +89,10 @@
 			</view>
 			<view class="nurse-practitioner-list" v-if="isPlatformRecommendNurse">
 				<view class="nurse-practitioner-list-top">
-					<text>从业10年以上</text>
+					<text>{{ nurseTitleTransition(editServiceOrderFormSureChooseMessage.chooseNurseMessage.title) }}</text>
 				</view>
 				<view class="nurse-practitioner-list-left">
-					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+					<u-image :src="!editServiceOrderFormSureChooseMessage.chooseNurseMessage.avatar ? defaultNurseAvatar : editServiceOrderFormSureChooseMessage.chooseNurseMessage.avatar" width="63" height="63">
 						 <template v-slot:loading>
 						    <u-loading-icon color="red"></u-loading-icon>
 						  </template>
@@ -69,38 +100,37 @@
 				</view>
 				<view class="nurse-practitioner-list-right">
 					<view class="nurse-practitioner-name">
-						<text>张颖</text>
-						<text>主管护师</text>
+						<text>{{ editServiceOrderFormSureChooseMessage.chooseNurseMessage.name }}</text>
+						<text>{{ nurseTitleTransition(editServiceOrderFormSureChooseMessage.chooseNurseMessage.title) }}</text>
 					</view>
 					<view class="hospital-name">
-						<text>成都市妇女儿童中心医院 (东城根)</text>
+						<text>{{ editServiceOrderFormSureChooseMessage.chooseNurseMessage.organization }}</text>
 					</view>
 					<view class="rate">
-						<u-rate :count="count" v-model="rateValue" active-color="#E86F50"></u-rate>
-						<text>5.0</text>
+						<u-rate :count="editServiceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" readonly v-model="editServiceOrderFormSureChooseMessage.chooseNurseMessage.rateValue" active-color="#E86F50"></u-rate>
+						<text>{{ editServiceOrderFormSureChooseMessage.chooseNurseMessage.commentScore == 0 ? '0.0' : Math.floor(editServiceOrderFormSureChooseMessage.chooseNurseMessage.commentScore/editServiceOrderFormSureChooseMessage.chooseNurseMessage.commentCount).toFixed(1) }}</text>
 					</view>
 					<view class="nurse-practitioner-performance">
 						<view class="nurse-practitioner-performance-message">
 							<view class="nurse-practitioner-performance-left">
 								<text>帮助</text>
-								<text>3456</text>
+								<text>{{ editServiceOrderFormSureChooseMessage.chooseNurseMessage.quantity }}</text>
 								<text>人</text>
 							</view>
 							<view class="nurse-practitioner-performance-right">
 								<text>服务</text>
-								<text>345</text>
+								<text>{{ editServiceOrderFormSureChooseMessage.chooseNurseMessage.timeLength == 0 ? 0 : (editServiceOrderFormSureChooseMessage.chooseNurseMessage.timeLength/60).toFixed(2) }}</text>
 								<text>小时</text>
 							</view>
 						</view>	
-						<view class="nurse-practitioner-performance-price">
+						<!-- <view class="nurse-practitioner-performance-price">
 							<text>￥300.00</text>
-						</view>
+						</view> -->
 					</view>
 					<view class="good-territory">
-						<text>乳腺疏通</text>
-						<text>黄疸检测</text>
+						<text v-for="(innerItem,innerIndex) in editServiceOrderFormSureChooseMessage.chooseNurseMessage.genius" :key="innerIndex">{{ innerItem }}</text>
 					</view>
-					<view class="cut-nurse" @click="cutNurseEvent('指定')">
+					<view class="cut-nurse" @click="cutNurseEvent('推荐')">
 						<image :src="cutIconPng"></image>
 						<text>切换为平台推荐护士</text>
 					</view>
@@ -118,9 +148,9 @@
 					<view class="platform-assign-right-top">
 						<text>平台指派护士</text>
 					</view>
-					<view class="platform-assign-right-bottom" @click="cutNurseEvent('推荐')">
+					<view class="platform-assign-right-bottom" @click="cutNurseEvent('指定')">
 						<image :src="cutIconPng"></image>
-						<text>切换为平台推荐护士</text>
+						<text>切换为指定护士</text>
 					</view>
 				</view>
 			</view>	
@@ -130,8 +160,8 @@
 						<image :src="serviceSitePng"></image>
 						<text>服务地址</text>
 					</view>
-					<view class="serve-site-right">
-						环球中心1号门一单元1楼101
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceSite != '上门服务详细地址'}" @click="serviceSiteEvent">
+						{{ serviceSite }}
 					</view>
 				</view>
 				<view class="serve-site serve-person">
@@ -139,8 +169,8 @@
 						<image :src="serviceTimePng"></image>
 						<text>服务时间</text>
 					</view>
-					<view class="serve-site-right">
-						06月14日 (周三) 上午8:00 - 9:00
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceDate != '期望服务时间'}" @click="expectationServiceTimeClickEvent">
+						{{ serviceDate }}
 					</view>
 				</view>
 				<view class="serve-site evaluation-form">
@@ -148,8 +178,8 @@
 						<image :src="servedPersonPng"></image>
 						<text>被服务人</text>
 					</view>
-					<view class="serve-site-right">
-						燕双鹰 男 26岁 16378299834
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : protectedPerson != '请选择被服务人'}" @click="chooseProtectedPersonEvent">
+						{{ protectedPerson }}
 					</view>
 				</view>
 				<view class="serve-site serve-time">
@@ -157,8 +187,8 @@
 						<image :src="evaluationFormPng"></image>
 						<text>初步评估单</text>
 					</view>
-					<view class="serve-site-right">
-						已填写
+					<view class="serve-site-right" :class="{'serveSiteRightStyle' : writeEvaluationForm != '点击填写评估单'}" @click="writeEvaluationFormEvent">
+						{{ writeEvaluationForm }}
 					</view>
 				</view>
 			</view>
@@ -220,6 +250,8 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { getOrderDetail } from '@/api/orderForm.js'
+	import { getNurseDetails } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -227,16 +259,23 @@
 		},
 		data() {
 			return {
-				count: 5,
-				rateValue: 5,
+				infoText: '预约中···',
+				showLoadingHint: false,
 				sureCancelShow: false,
+				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				isPlatformRecommendNurse: false,
 				isCanSure: false,
 				quitPayShow: false,
+				nurseMessage: {},
 				imgArr: [],
+				serviceSite: '上门服务详细地址',
+				serviceDate: '期望服务时间',
+				protectedPerson: '请选择被服务人',
+				writeEvaluationForm: '点击填写评估单',
 				temporaryImgPathArr: [],
-				isReadAgreeChecked: [],
+				isReadAgreeChecked: ['阅读并同意协议'],
 				userLicenseAgreementShow: false,
+				expectationServiceTimeShow: false,
 				checkboxList: [
 					{
 						name: '阅读并同意协议',
@@ -251,12 +290,29 @@
 				serviceSitePng: require("@/static/img/service-site.png"),
 				serviceTimePng: require("@/static/img/service-time.png"),
 				servedPersonPng: require("@/static/img/served-person.png"),
-				evaluationFormPng: require("@/static/img/evaluation-form.png")
+				evaluationFormPng: require("@/static/img/evaluation-form.png"),
+				currentTimeQuantumIndex: null,
+				currentSelectTimeQuantum: '',
+				currentDateIndex: null,
+				currentSelectDate: '',
+				currentDateList: [],
+				currentMonth: '',
+				currentMonthDay: '',
+				currentDate: '',
+				serviceMessage: {},
+				serViceName: '',
+				aptitudes: '',
+				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
+				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15：00',
+				'下午15：00—16：00','下午16：00—17：00','下午17：00—18：00'
+				]
 			}
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userInfo',
+				'nurseRankDictData',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -264,9 +320,19 @@
 			}
 		},
 		onShow() {
+			if ( JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
+				this.serviceSite = `${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+			};
+			if ( JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
+				this.protectedPerson = `${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.sex == 0 ? '男' : '女'} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+			};
+		},
+		onLoad(options) {
+			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
 		},
 		methods: {
 			...mapMutations([
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -277,6 +343,257 @@
 			// 确定退出支付事件
 			confirmQuitPayEvent () {
 				uni.navigateBack()
+			},
+			
+			// 护师职称转换
+			nurseTitleTransition (title) {
+				if (!title && title !== 0) {
+					return
+				};
+				let titleText = '';
+				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
+				return titleText
+			},
+			
+			// 服务地址点击事件
+			serviceSiteEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/addressManagement/addressManagement'
+				})
+			},
+			
+			// 选择被护人事件
+			chooseProtectedPersonEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/myProtectedPersons/myProtectedPersons'
+				})
+			},
+			
+			// 填写评估单事件
+			writeEvaluationFormEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/mine/index/index'
+				})
+			},
+			
+			// 查询订单详情
+			queryOrderDetail(data) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中···';
+				getOrderDetail(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.assignType == 'SYSTEM') {
+							this.isPlatformRecommendNurse = false
+						} else if (res.data.data.assignType == 'USER') {
+							this.isPlatformRecommendNurse = true;
+							this.getNurseDetailsEvent({id: res.data.data.careId});
+						};
+						this.serViceName = res.data.data.item[0]['spuName'];
+						this.aptitudes = res.data.data.aptitudes;
+						console.log('订单信息',res.data.data);
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取医护详情
+			getNurseDetailsEvent(data) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中···';
+				getNurseDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let temporaryNurseMessage = res.data.data;
+						temporaryNurseMessage['rateValue'] = res.data.data.commentScore == 0 ? 0 : Math.floor(res.data.data.commentScore/res.data.data.commentCount);
+						let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+						tmporaryEditServiceOrderFormSureChooseMessage['chooseNurseMessage'] = temporaryNurseMessage;
+						this.storeEditServiceOrderFormSureChooseMessage(tmporaryEditServiceOrderFormSureChooseMessage);
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 日期列表项点击事件
+			dateItemClickEvent (item,index) {
+				console.log('日期',item);
+				this.currentDateIndex = index;
+				this.currentSelectDate = item;
+				if (index == 0) {
+					this.currentTimeQuantumIndex = null
+				}
+			},
+			
+			// 时间段列表项点击事件
+			timeQuantumItemClickEvent (item,index) {
+				// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
+				if (this.currentDateIndex === 0) {
+					let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
+					if (new Date(fullDateTime).getTime() > new Date().getTime()) {
+						this.currentTimeQuantumIndex = index;
+						this.currentSelectTimeQuantum = item;
+					} else {
+						this.$refs.uToast.show({
+							message: "当前选择时间段已过期,请重新选择!",
+							position: 'top'
+						})
+					}
+				} else {
+					this.currentTimeQuantumIndex = index;
+					this.currentSelectTimeQuantum = item
+				}
+			},
+			
+			// 期望服务时间弹框取消事件
+			expectationServiceTimeBoxCancel () {
+				this.expectationServiceTimeShow = false
+			},
+			
+			// 期望服务时间弹框确定事件
+			expectationServiceTimeBoxSure () {
+				if (this.currentDateIndex === null) {
+					this.$refs.uToast.show({
+						message: "请选择日期!",
+						position: 'top'
+					});
+					return
+				};
+				if (this.currentTimeQuantumIndex === null) {
+					this.$refs.uToast.show({
+						message: "请选择时间段!",
+						position: 'top'
+					});
+					return
+				};
+				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum}`;
+				this.expectationServiceTimeShow = false
+			},
+			
+			// 期望服务时间点击事件
+			expectationServiceTimeClickEvent () {
+				this.expectationServiceTimeShow = true;
+				this.getCurrentMonth();
+				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
+				this.createCurrentMonthDate();
+				// 回显当前显示日期和时间段所在列表的位置
+				if (this.serviceDate != '期望服务时间') {
+					let temporarayArr = this.serviceDate.split(" ");
+					// 日期
+					this.currentDateIndex = this.currentDateList.findIndex((item) => { return item.showDate == `${temporarayArr[0]} ${temporarayArr[1]}` });
+					this.currentSelectDate = this.currentDateList[this.currentDateIndex];
+					// 时间段
+					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == temporarayArr[2] });;
+					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex]
+				}
+			},
+			
+			// 获取当前月份和当前日期
+			getCurrentMonth () {
+				if (new Date().getMonth() + 1 < 10) {
+					this.currentMonth = `0${new Date().getMonth() + 1}`
+				} else {
+					this.currentMonth = new Date().getMonth() + 1
+				};
+				if (new Date().getDate() < 10) {
+					this.currentDate = `0${new Date().getDate()}`
+				} else {
+					this.currentDate = new Date().getDate()
+				}
+			},
+			
+			// 获取当前月的天数
+			getMonthDay (year, month) {
+			  let days = new Date(year, month, 0).getDate()
+			  this.currentMonthDay = days
+			},
+			
+			// 创建当前月的日期
+			createCurrentMonthDate () {
+				this.currentDateList = [];
+				for (let i = new Date().getDate(); i <= this.currentMonthDay; i++) {
+					let currentDate = i < 10 ? `0${i}` : i;
+					let temporaryActualDate = `${new Date().getFullYear()}-${this.currentMonth}-${currentDate}`;
+					let temporaryShowDate = this.getNowFormatDateText(temporaryActualDate);
+					let temporaryWeek = this.judgeWeek(temporaryActualDate);
+					this.currentDateList.push(
+						{
+							actualDate: temporaryActualDate,
+							showDate: `${temporaryShowDate} (${temporaryWeek})`
+						}
+					)
+				}
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate,type) {
+				// type: 2(只展示月)
+				let currentdate;
+				let strDate = new Date(currentDate).getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let month = new Date(currentDate).getMonth() + 1;
+				let hour = new Date(currentDate).getHours();
+				if (type == 2) {
+					currentdate = month + seperator1
+				} else {
+					currentdate = month + seperator1 + strDate + seperator2
+				};
+				return currentdate
+			},
+			
+			// 判断周几
+			judgeWeek (currentDate) {
+				let date = new Date(currentDate);
+				let day = date.getDay();
+				switch (day) {
+					case 0:
+						return "周日"
+						break;
+					case 1:
+						return "周一"
+						break;
+					case 2:
+						return "周二"
+						break;
+					case 3:
+						return "周三"
+						break;
+					case 4:
+						return "周四"
+						break;
+					case 5:
+						return "周五"
+						break;
+					case 6:
+						return "周六"
+						break
+					}
 			},
 			
 			// 用户授权协议确定事件
@@ -320,9 +637,18 @@
 			// 切换护士类型事件
 			cutNurseEvent (text) {
 				if (text == '指定') {
-					this.isPlatformRecommendNurse = false
-				} else {
+					// 传递服务资质
+					let temporaryMessage = {
+						name: this.serviceName,
+						aptitudes: this.aptitudes
+					};
+					let mynavData = JSON.stringify(temporaryMessage);
+					uni.navigateTo({
+						url: '/servicePackage/pages/chooseNurse/chooseNurse?transmitData='+mynavData
+					});
 					this.isPlatformRecommendNurse = true
+				} else {
+					this.isPlatformRecommendNurse = false
 				}
 			},
 			
@@ -370,8 +696,16 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		position: relative;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
 		};
 		::v-deep .u-popup__content {
 			.u-modal {
@@ -483,6 +817,97 @@
 				}	
 			}
 		};
+		.expectation-service-time-box {
+			::v-deep .u-popup {
+				.u-popup__content {
+					border-radius: 0 !important;
+					border-top-left-radius: 20px !important;
+					border-top-right-radius: 20px !important;
+					position: fixed;
+					bottom: 0;
+					.u-modal {
+						height: 50vh;
+						.u-modal__content {
+							padding: 10px !important;
+							height: 100%;
+							box-sizing: border-box;
+							.slot-content {
+								width: 100%;
+								height: 100%;
+								display: flex;
+								flex-direction: column;
+								.btn-area {
+									display: flex;
+									height: 50px;
+									width: 100%;
+									>view {
+										flex: 1;
+										width: 0;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										&:first-child {
+											color: #101010;
+											font-size: 14px
+										};
+										&:last-child {
+											color: #F16C8C;
+											font-size: 14px
+										}
+									}
+								};
+								.expectation-service-time-content {
+									flex: 1;
+									height: 0;
+									display: flex;
+									>view {
+										flex: 1;
+										overflow: auto;
+									};
+									.expectation-service-time-content-left {
+										padding: 10px;
+										box-sizing: border-box;
+										border-radius: 10px;
+										.date-list {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											height: 30px;
+											font-size: 14px;
+											margin-bottom: 4px;
+											color: #101010
+										};
+										.dateListStyle {
+											background: #F1F1F1;
+											border-radius: 5px
+										}
+									};
+									.expectation-service-time-content-right {
+										padding: 10px;
+										box-sizing: border-box;
+										border-radius: 10px;
+										background: #F1F1F1;
+										.time-quantum-list {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											height: 30px;
+											font-size: 14px;
+											margin-bottom: 4px;
+											color: #101010
+										};
+										.timeQuantumListStyle {
+											background: #fff;
+											border-radius: 5px
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};	
 		.top-area-box {
 			position: relative;
 			width: 100%;
@@ -679,6 +1104,8 @@
 					};
 					.good-territory {
 						margin-top: 4px;
+						display: flex;
+						align-items: center;
 						>text {
 							font-size: 12px;
 							color: #fff;
@@ -789,8 +1216,11 @@
 						box-sizing: border-box;
 						flex: 1;
 						word-break: break-all;
-						font-size: 15px;
-						color: #F16C8C
+						font-size: 14px;
+						color: #777777;
+					};
+					.serveSiteRightStyle {
+						color: #F16C8C !important
 					}
 				}
 			};

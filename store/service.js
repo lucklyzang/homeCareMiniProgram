@@ -8,7 +8,11 @@ export default {
 		serviceOrderFormSureChooseMessage:(state) => {
 			state.serviceOrderFormSureChooseMessage = getCache('serviceOrderFormSureChooseMessage') ? getCache('serviceOrderFormSureChooseMessage') : {};
 			return state.serviceOrderFormSureChooseMessage
-		}
+		},
+		editServiceOrderFormSureChooseMessage: (state) => {
+			state.editServiceOrderFormSureChooseMessage = getCache('editServiceOrderFormSureChooseMessage') ? getCache('editServiceOrderFormSureChooseMessage') : {};
+			return state.editServiceOrderFormSureChooseMessage
+		},
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -24,6 +28,14 @@ export default {
 			if (playLoad && playLoad != 'null') {
 				setCache('serviceOrderFormSureChooseMessage', playLoad);
 				state.serviceOrderFormSureChooseMessage = playLoad
+			}
+		},
+		
+		// 保存订单修改页面选择的信息
+		storeEditServiceOrderFormSureChooseMessage(state, playLoad) {
+			if (playLoad && playLoad != 'null') {
+				setCache('editServiceOrderFormSureChooseMessage', playLoad);
+				state.editServiceOrderFormSureChooseMessage = playLoad
 			}
 		},
 		
