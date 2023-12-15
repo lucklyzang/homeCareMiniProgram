@@ -10,12 +10,29 @@ export function createOrder(data) {
   })
 };
 
+// 修改订单
+export function editOrder(data) {
+  return request({
+    url: '/app-api/trade/order/update',
+    method: 'put',
+		data
+  })
+};
+
+// 用户催单
+export function reminderOrder(id) {
+  return request({
+    url: `/app-api/trade/order/reminder?id=${id}`,
+    method: 'put'
+  })
+};
+
 // 取消交易订单
 export function cancelOrder(data) {
   return request({
     url: '/app-api/trade/order/cancel',
     method: 'delete',
-		data
+		params: data
   })
 };
 
@@ -24,7 +41,7 @@ export function deleteOrder(data) {
   return request({
     url: '/app-api/trade/order/delete',
     method: 'delete',
-		data
+		params: data
   })
 };
 

@@ -122,7 +122,7 @@ try {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-image/u-image.vue */ 578))
     },
     uCountDown: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-count-down/u-count-down */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-count-down/u-count-down")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-count-down/u-count-down.vue */ 951))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-count-down/u-count-down */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-count-down/u-count-down")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-count-down/u-count-down.vue */ 707))
     },
     uLoadmore: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loadmore/u-loadmore")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 676))
@@ -152,10 +152,14 @@ var render = function () {
   var l0 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m1 = _vm.getNowFormatDateText(item.serviceDate)
+    var m2 = _vm.judgeWeek(item.serviceDate)
     var g0 = item.workerStatus == 0 ? new Date().getTime() : null
     return {
       $orig: $orig,
       m0: m0,
+      m1: m1,
+      m2: m2,
       g0: g0,
     }
   })
@@ -163,46 +167,66 @@ var render = function () {
   var g2 = new Date().getTime()
   var l1 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m1 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m3 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m4 = _vm.getNowFormatDateText(item.serviceDate)
+    var m5 = _vm.judgeWeek(item.serviceDate)
     return {
       $orig: $orig,
-      m1: m1,
+      m3: m3,
+      m4: m4,
+      m5: m5,
     }
   })
   var g3 = _vm.fullTradeList.length
   var l2 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m2 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m6 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m7 = _vm.getNowFormatDateText(item.serviceDate)
+    var m8 = _vm.judgeWeek(item.serviceDate)
     return {
       $orig: $orig,
-      m2: m2,
+      m6: m6,
+      m7: m7,
+      m8: m8,
     }
   })
   var g4 = _vm.fullTradeList.length
   var l3 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m3 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m9 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m10 = _vm.getNowFormatDateText(item.serviceDate)
+    var m11 = _vm.judgeWeek(item.serviceDate)
     return {
       $orig: $orig,
-      m3: m3,
+      m9: m9,
+      m10: m10,
+      m11: m11,
     }
   })
   var g5 = _vm.fullTradeList.length
   var l4 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m4 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m12 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m13 = _vm.getNowFormatDateText(item.serviceDate)
+    var m14 = _vm.judgeWeek(item.serviceDate)
     return {
       $orig: $orig,
-      m4: m4,
+      m12: m12,
+      m13: m13,
+      m14: m14,
     }
   })
   var g6 = _vm.fullTradeList.length
   var l5 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m5 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m15 = _vm.transitionOrderStatusText(item.workerStatus, item)
+    var m16 = _vm.getNowFormatDateText(item.serviceDate)
+    var m17 = _vm.judgeWeek(item.serviceDate)
     return {
       $orig: $orig,
-      m5: m5,
+      m15: m15,
+      m16: m16,
+      m17: m17,
     }
   })
   var g7 = _vm.fullTradeList.length
@@ -211,30 +235,24 @@ var render = function () {
       _vm.deleteShow = false
     }
     _vm.e1 = function ($event) {
-      _vm.deleteShow = false
+      _vm.cancelOrderFormShow = false
     }
     _vm.e2 = function ($event) {
-      _vm.cancelOrderFormShow = false
+      _vm.applyRefundShow = false
     }
     _vm.e3 = function ($event) {
-      _vm.cancelOrderFormShow = false
+      _vm.applyRefundShow = false
     }
     _vm.e4 = function ($event) {
-      _vm.applyRefundShow = false
+      _vm.quitPayShow = false
     }
     _vm.e5 = function ($event) {
-      _vm.applyRefundShow = false
+      _vm.quitPayShow = false
     }
     _vm.e6 = function ($event) {
-      _vm.quitPayShow = false
-    }
-    _vm.e7 = function ($event) {
-      _vm.quitPayShow = false
-    }
-    _vm.e8 = function ($event) {
       _vm.haveDeleteShow = false
     }
-    _vm.e9 = function ($event) {
+    _vm.e7 = function ($event) {
       _vm.remindSendOrdersShow = false
     }
   }
@@ -365,7 +383,8 @@ var _default = {
           value: ''
         }
       }],
-      current: 0
+      current: 0,
+      currentSelectOrderMessage: {}
     };
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'editServiceOrderFormSureChooseMessage'])), {}, {
@@ -383,6 +402,51 @@ var _default = {
     // 倒计时结束事件
     countDownFinishEvent: function countDownFinishEvent() {
       console.log('结束');
+    },
+    // 格式化时间(带中文)
+    getNowFormatDateText: function getNowFormatDateText(currentDate, type) {
+      // type: 2(只展示月)
+      var currentdate;
+      var strDate = new Date(currentDate).getDate();
+      var seperator1 = "月";
+      var seperator2 = "日";
+      var month = new Date(currentDate).getMonth() + 1;
+      var hour = new Date(currentDate).getHours();
+      if (type == 2) {
+        currentdate = month + seperator1;
+      } else {
+        currentdate = month + seperator1 + strDate + seperator2;
+      }
+      ;
+      return currentdate;
+    },
+    // 判断周几
+    judgeWeek: function judgeWeek(currentDate) {
+      var date = new Date(currentDate);
+      var day = date.getDay();
+      switch (day) {
+        case 0:
+          return "周日";
+          break;
+        case 1:
+          return "周一";
+          break;
+        case 2:
+          return "周二";
+          break;
+        case 3:
+          return "周三";
+          break;
+        case 4:
+          return "周四";
+          break;
+        case 5:
+          return "周五";
+          break;
+        case 6:
+          return "周六";
+          break;
+      }
     },
     scrolltolower: function scrolltolower() {
       var totalPage = Math.ceil(this.totalCount / this.pageSize);
@@ -466,7 +530,130 @@ var _default = {
         }
         ;
         _this.$refs.uToast.show({
-          title: err.message,
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 预约服务事件
+    appointmentServiceEvent: function appointmentServiceEvent(item) {
+      // 传递服务订单信息
+      var mynavData = JSON.stringify(item);
+      uni.navigateTo({
+        url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData=' + mynavData
+      });
+    },
+    // 立即付款事件
+    immediatePayEvent: function immediatePayEvent(item) {
+      // 传递订单信息
+      var mynavData = JSON.stringify(item);
+      uni.navigateTo({
+        url: '/orderFormPackage/pages/orderPay/orderPay?transmitData=' + mynavData
+      });
+    },
+    // 取消订单
+    cancelOrderPort: function cancelOrderPort(data) {
+      var _this2 = this;
+      this.showLoadingHint = true;
+      (0, _orderForm.cancelOrder)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this2.haveDeleteShow = true;
+          _this2.haveDeleteInfoContent = '已取消订单';
+          _this2.currentPageNum = 1;
+          _this2.totalCount = 0;
+          _this2.status = 'nomore';
+          _this2.isShowNoData = false;
+          _this2.fullTradeList = [];
+          _this2.queryTradeOrderPage({
+            pageNo: _this2.currentPageNum,
+            pageSize: _this2.pageSize,
+            status: _this2.transitionOrderStatus(_this2.current)
+          }, true);
+        } else {
+          _this2.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this2.showLoadingHint = false;
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 删除订单
+    deleteOrderPort: function deleteOrderPort(data) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      (0, _orderForm.deleteOrder)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this3.haveDeleteShow = true;
+          _this3.haveDeleteInfoContent = '已删除订单';
+          _this3.currentPageNum = 1;
+          _this3.totalCount = 0;
+          _this3.status = 'nomore';
+          _this3.isShowNoData = false;
+          _this3.fullTradeList = [];
+          _this3.queryTradeOrderPage({
+            pageNo: _this3.currentPageNum,
+            pageSize: _this3.pageSize,
+            status: _this3.transitionOrderStatus(_this3.current)
+          }, true);
+        } else {
+          _this3.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          message: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 提醒订单
+    reminderOrderPort: function reminderOrderPort(data) {
+      var _this4 = this;
+      this.showLoadingHint = true;
+      (0, _orderForm.reminderOrder)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this4.remindSendOrdersShow = true;
+          _this4.currentPageNum = 1;
+          _this4.totalCount = 0;
+          _this4.status = 'nomore';
+          _this4.isShowNoData = false;
+          _this4.fullTradeList = [];
+          _this4.queryTradeOrderPage({
+            pageNo: _this4.currentPageNum,
+            pageSize: _this4.pageSize,
+            status: _this4.transitionOrderStatus(_this4.current)
+          }, true);
+        } else {
+          _this4.$refs.uToast.show({
+            message: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this4.showLoadingHint = false;
+      }).catch(function (err) {
+        _this4.showLoadingHint = false;
+        _this4.$refs.uToast.show({
+          message: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -535,7 +722,13 @@ var _default = {
             return '派单中';
             break;
           case '2':
-            return '服务中';
+            if (temporaryWorkerStatus == '30') {
+              return '待出发';
+            } else if (temporaryWorkerStatus == '40') {
+              return '待服务';
+            } else if (temporaryWorkerStatus == '50') {
+              return '服务中';
+            }
             break;
           case '3':
             if (!item.commentStatus) {
@@ -545,17 +738,48 @@ var _default = {
             }
             break;
           case '4':
-            return '已取消';
-            break;
-          case '5':
-            return '已退款';
+            if (item.refundStatus == 0) {
+              return '已取消';
+            } else if (item.refundStatus == 1) {
+              return '退款中';
+            } else if (item.refundStatus == 2) {
+              return '已退款';
+            }
             break;
         }
       }
     },
+    // 删除订单事件
+    deleteOrder: function deleteOrder(item) {
+      this.currentSelectOrderMessage = item;
+      this.deleteShow = true;
+    },
+    // 删除订单确定事件
+    deleteOrderSureEvent: function deleteOrderSureEvent() {
+      this.deleteShow = false;
+      this.deleteOrderPort({
+        id: this.currentSelectOrderMessage.id
+      });
+    },
     // 提醒派单事件
-    remindSendOrdersEvent: function remindSendOrdersEvent() {
-      this.remindSendOrdersShow = true;
+    remindSendOrdersEvent: function remindSendOrdersEvent(item) {
+      this.currentSelectOrderMessage = item;
+      this.reminderOrderPort({
+        id: this.currentSelectOrderMessage.id
+      });
+    },
+    // 取消订单事件
+    cancelOrderEvent: function cancelOrderEvent(item) {
+      this.currentSelectOrderMessage = item;
+      this.cancelOrderFormShow = true;
+    },
+    // 取消订单确定事件
+    cancelOrderSureEvent: function cancelOrderSureEvent() {
+      this.cancelOrderFormShow = false;
+      this.cancelOrderPort({
+        id: this.currentSelectOrderMessage.id,
+        reason: ''
+      });
     },
     // 订单评价事件
     orderFormEvaluateEvent: function orderFormEvaluateEvent() {

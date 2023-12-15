@@ -110,10 +110,10 @@ try {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-loading-icon/u-loading-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-loading-icon/u-loading-icon")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-loading-icon/u-loading-icon.vue */ 562))
     },
     uSteps: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-steps/u-steps */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-steps/u-steps")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-steps/u-steps.vue */ 707))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-steps/u-steps */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-steps/u-steps")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-steps/u-steps.vue */ 716))
     },
     uStepsItem: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-steps-item/u-steps-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-steps-item/u-steps-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-steps-item/u-steps-item.vue */ 715))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-steps-item/u-steps-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-steps-item/u-steps-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-steps-item/u-steps-item.vue */ 724))
     },
   }
 } catch (e) {

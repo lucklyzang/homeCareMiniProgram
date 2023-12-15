@@ -2,15 +2,28 @@
 	<view class="content-box">
 		<!-- 删除订单提示 -->
 		<view class="delete-info">
-			<u-modal :show="deleteShow" @confirm="deleteShow=false" @cancel="deleteShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :content="deleteInfoContent" :showCancelButton="true" title="是否删除订单">
+			<u-modal :show="deleteShow" @confirm="deleteOrderSureEvent" @cancel="deleteShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :content="deleteInfoContent" :showCancelButton="true" title="是否删除订单">
 			</u-modal>
 		</view>
 		<!-- 取消订单提示 -->
 		<view class="cancel-info">
-			<u-modal :show="cancelOrderFormShow" @cancel="cancelOrderFormShow=false" @confirm="cancelOrderFormShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="取消订单">
+			<u-modal :show="cancelOrderFormShow" @cancel="cancelOrderFormShow=false" @confirm="cancelOrderSureEvent" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="取消订单">
 				<view class="slot-content">
-					为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。<br/>
-					今日剩余 3 次，确认取消订单吗？
+					<view class="top-content">
+						为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。<br/>
+						今日剩余 3 次，确认取消订单吗？
+					</view>
+					<view class="bottom-content">
+						<view>
+							护士已接单扣除订单金额30%
+						</view>
+						<view>
+							护士已出发扣除订单金额50%
+						</view>
+						<view>
+							退款金额会自动退还到原账户
+						</view>
+					</view>
 				</view>
 			</u-modal>
 		</view>
@@ -99,14 +112,14 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-left" v-if="item.workerStatus == 0">
 							<text>剩余支付时间:</text>
-							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss" @finish="countDownFinishEvent"></u-count-down>
+							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss"></u-count-down>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -118,16 +131,16 @@
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
-							<text v-if="item.workerStatus != 3 && item.workerStatus != 4">取消订单</text>
-							<text v-if="item.workerStatus == 1" @click="remindSendOrdersEvent">提醒派单</text>
+							<text v-if="item.workerStatus != 3 && item.workerStatus != 4" @click="cancelOrderEvent(item)">取消订单</text>
+							<text v-if="item.workerStatus == 1" @click="remindSendOrdersEvent(item)">提醒派单</text>
 							<text v-if="item.workerStatus == 0" @click="editOrderFormEvent(item)">修改订单</text>
-							<text v-if="item.status == 60 || item.status == 70">删除订单</text>
-							<text v-if="item.status == 60 || item.status == 70">再次预约</text>
-							<text v-if="item.workerStatus == 0" class="at-once-payment">立即付款</text>
+							<text v-if="item.status == 60 || item.status == 70" @click="deleteOrder(item)">删除订单</text>
+							<text v-if="item.status == 60 || item.status == 70" @click="appointmentServiceEvent(item)">再次预约</text>
+							<text v-if="item.workerStatus == 0" class="at-once-payment" @click="immediatePayEvent(item)">立即付款</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 1">
@@ -161,14 +174,14 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-left">
 							<text>剩余支付时间:</text>
-							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss" @finish="countDownFinishEvent"></u-count-down>
+							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss"></u-count-down>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -178,11 +191,11 @@
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
 							<text @click="editOrderFormEvent(item)">修改订单</text>
-							<text class="at-once-payment">立即付款</text>
+							<text class="at-once-payment" @click="immediatePayEvent(item)">立即付款</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 2">
@@ -216,7 +229,7 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
@@ -228,12 +241,12 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text>取消订单</text>
-							<text>提醒派单</text>
+							<text @click="cancelOrderEvent(item)">取消订单</text>
+							<text @click="remindSendOrdersEvent(item)">提醒派单</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 3">
@@ -267,7 +280,7 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
@@ -282,11 +295,11 @@
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
-							<text>取消订单</text>
+							<text @click="cancelOrderEvent(item)">取消订单</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 4">
@@ -320,7 +333,7 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
@@ -332,12 +345,12 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text>再次预约</text>
+							<text @click="appointmentServiceEvent(item)">再次预约</text>
 							<text class="evaluate" @click="orderFormEvaluateEvent">评价</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="order-form-list-wrapper" v-show="current == 5">
@@ -371,7 +384,7 @@
 							</view>
 							<view class="expectation-date">
 								<text>期望时间</text>
-								<text>06月14日 (星期二) 上午8：00-9：00</text>
+								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 							</view>
 						</view>
 					</view>
@@ -383,12 +396,12 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text>删除订单</text>
+							<text @click="deleteOrder(item)">删除订单</text>
 							<text>再次预约</text>
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullTradeList.length > 0" />
+				<u-loadmore :status="status" v-if="fullTradeList.length > 0" />
 			</scroll-view>
 		</view>
 	</view>
@@ -404,7 +417,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getTradeOrderPage } from '@/api/orderForm.js'
+	import { getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -469,7 +482,8 @@
 						}
 					}
 				],
-				current: 0
+				current: 0,
+				currentSelectOrderMessage: {}
 			}
 		},
 		computed: {
@@ -497,6 +511,52 @@
 			// 倒计时结束事件
 			countDownFinishEvent () {
 				console.log('结束');
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate,type) {
+				// type: 2(只展示月)
+				let currentdate;
+				let strDate = new Date(currentDate).getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let month = new Date(currentDate).getMonth() + 1;
+				let hour = new Date(currentDate).getHours();
+				if (type == 2) {
+					currentdate = month + seperator1
+				} else {
+					currentdate = month + seperator1 + strDate + seperator2
+				};
+				return currentdate
+			},
+			
+			// 判断周几
+			judgeWeek (currentDate) {
+				let date = new Date(currentDate);
+				let day = date.getDay();
+				switch (day) {
+					case 0:
+						return "周日"
+						break;
+					case 1:
+						return "周一"
+						break;
+					case 2:
+						return "周二"
+						break;
+					case 3:
+						return "周三"
+						break;
+					case 4:
+						return "周四"
+						break;
+					case 5:
+						return "周五"
+						break;
+					case 6:
+						return "周六"
+						break
+					}
 			},
 			
 			scrolltolower () {
@@ -572,7 +632,132 @@
 						this.status = 'loadmore'
 					};
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 预约服务事件
+			appointmentServiceEvent (item) {
+				// 传递服务订单信息
+				let mynavData = JSON.stringify(item);
+				uni.navigateTo({
+					url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData='+mynavData
+				})
+			},
+			
+			// 立即付款事件
+			immediatePayEvent (item) {
+				// 传递订单信息
+				let mynavData = JSON.stringify(item);
+				uni.navigateTo({
+					url: '/orderFormPackage/pages/orderPay/orderPay?transmitData='+mynavData
+				})
+			},
+			
+			// 取消订单
+			cancelOrderPort(data) {
+				this.showLoadingHint = true;
+				cancelOrder(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.haveDeleteShow = true;
+						this.haveDeleteInfoContent = '已取消订单';
+						this.currentPageNum = 1;
+						this.totalCount = 0;
+						this.status = 'nomore';
+						this.isShowNoData = false;
+						this.fullTradeList = [];
+						this.queryTradeOrderPage({
+							pageNo: this.currentPageNum,
+							pageSize: this.pageSize,
+							status: this.transitionOrderStatus(this.current)
+						},true)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 删除订单
+			deleteOrderPort(data) {
+				this.showLoadingHint = true;
+				deleteOrder(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.haveDeleteShow = true;
+						this.haveDeleteInfoContent = '已删除订单';
+						this.currentPageNum = 1;
+						this.totalCount = 0;
+						this.status = 'nomore';
+						this.isShowNoData = false;
+						this.fullTradeList = [];
+						this.queryTradeOrderPage({
+							pageNo: this.currentPageNum,
+							pageSize: this.pageSize,
+							status: this.transitionOrderStatus(this.current)
+						},true)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 提醒订单
+			reminderOrderPort(data) {
+				this.showLoadingHint = true;
+				reminderOrder(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.remindSendOrdersShow = true;
+						this.currentPageNum = 1;
+						this.totalCount = 0;
+						this.status = 'nomore';
+						this.isShowNoData = false;
+						this.fullTradeList = [];
+						this.queryTradeOrderPage({
+							pageNo: this.currentPageNum,
+							pageSize: this.pageSize,
+							status: this.transitionOrderStatus(this.current)
+						},true)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -644,7 +829,13 @@
 						return '派单中'
 						break;
 						case '2' :
-						return '服务中'
+						if (temporaryWorkerStatus == '30') {
+							return '待出发'
+						} else if (temporaryWorkerStatus == '40') {
+							return '待服务'
+						} else if (temporaryWorkerStatus == '50') {
+							return '服务中'
+						}
 						break;
 						case '3' :
 						if (!item.commentStatus) {
@@ -654,18 +845,49 @@
 						}
 						break;
 						case '4' :
-						return '已取消'
-						break;
-						case '5' :
-						return '已退款'
+						if (item.refundStatus == 0) {
+							return '已取消'
+						} else if (item.refundStatus == 1) {
+							return '退款中'
+						} else if (item.refundStatus == 2) {
+							return '已退款'
+						}
 						break
 					}
 				}
 			},
 			
+			// 删除订单事件
+			deleteOrder(item) {
+				this.currentSelectOrderMessage = item;
+				this.deleteShow = true
+			},
+			
+			// 删除订单确定事件
+			deleteOrderSureEvent () {
+				this.deleteShow = false;
+				this.deleteOrderPort({id: this.currentSelectOrderMessage.id})
+			},
+			
 			// 提醒派单事件
-			remindSendOrdersEvent () {
-				this.remindSendOrdersShow = true
+			remindSendOrdersEvent (item) {
+				this.currentSelectOrderMessage = item;
+				this.reminderOrderPort(this.currentSelectOrderMessage.id)
+			},
+			
+			// 取消订单事件
+			cancelOrderEvent(item) {
+				this.currentSelectOrderMessage = item;
+				this.cancelOrderFormShow = true
+			},
+			
+			// 取消订单确定事件
+			cancelOrderSureEvent () {
+				this.cancelOrderFormShow = false;
+				this.cancelOrderPort({
+					id: this.currentSelectOrderMessage.id,
+					reason: ''
+				})
 			},
 			
 			// 订单评价事件
@@ -738,6 +960,9 @@
 			transform: translate(-50%,-50%);
 			z-index: 20000;
 		};
+		::v-deep .u-transition {
+			z-index: 100000 !important;
+		};	
 		::v-deep .u-popup__content{
 			.u-modal {
 				.u-modal__title {
@@ -765,6 +990,7 @@
 						line-height: 34px !important;
 						border-radius: 7px !important;
 						border: 1px solid #FF698C !important;
+						margin-right: 30px;
 						.u-modal__button-group__wrapper__text {
 							font-size: 14px;
 							color: #FF698C !important;
@@ -776,12 +1002,36 @@
 						height: 34px !important;
 						line-height: 34px !important;
 						border-radius: 7px !important;
-						margin-right: 30px;
 						background: #FF698C !important;
 						border: none !important;
 						.u-modal__button-group__wrapper__text {
 							font-size: 14px;
 							color: #fff !important;
+						}
+					}
+				}
+			}
+		};
+		.cancel-info {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.slot-content {
+							width: 280px;
+							.top-content {
+								font-size: 16px;
+								color: #838C97;
+							};
+							.bottom-content {
+								margin-top: 20px;
+								font-size: 16px;
+								color: #EB3E67;
+								>view {
+									&:nth-child(2) {
+										margin: 4px 0
+									}
+								}
+							}
 						}
 					}
 				}
@@ -800,6 +1050,7 @@
 		};
 		.have-delete-info {
 			::v-deep .u-transition {
+				z-index: 100000 !important;
 				.u-popup__content {
 					.u-modal {
 						.u-modal__content {

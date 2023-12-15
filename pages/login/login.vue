@@ -120,7 +120,7 @@
 				</view>
 			</view>
 			<view class="form-btn" v-if="!isForgetPassword && !isSetPassword">
-				<button :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(sure)">{{ !showGetVerificationCode ? isPasswordLogin ? '登 录' : '登 录/注 册' : showLoadingHint ? isPasswordLogin ? '登录中···' : '登 录/注 册中···' : isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
+				<button :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(sure)">{{ !showGetVerificationCode ? isPasswordLogin ? '登 录' : '登 录/注 册' : showLoadingHint && showGetVerificationCode ? isPasswordLogin ? '登录中···' : '登 录/注 册中···' : isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
 				<view class="form-btn-info-text">
 					<u-checkbox-group v-model="isReadAgreeChecked">
 						<u-checkbox 

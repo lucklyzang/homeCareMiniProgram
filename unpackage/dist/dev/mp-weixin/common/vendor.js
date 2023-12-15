@@ -1557,7 +1557,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8934,7 +8934,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8955,14 +8955,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9058,7 +9058,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -21284,7 +21284,7 @@ var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 173));
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 var instance = _axiosMiniprogram.default.create({
   // 开发域名 'http://dev.nurse.blinktech.cn/nurse'
-  baseURL: 'http://dev.nurse.blinktech.cn/nurse',
+  baseURL: 'https://dev.nurse.blinktech.cn/nurse',
   retry: 3,
   // 网络请求异常后，重试次数 
   retryDelay: 1000,
@@ -42333,9 +42333,11 @@ exports.createOrder = createOrder;
 exports.createOrderComment = createOrderComment;
 exports.createPayOrder = createPayOrder;
 exports.deleteOrder = deleteOrder;
+exports.editOrder = editOrder;
 exports.getEnableCodeList = getEnableCodeList;
 exports.getOrderDetail = getOrderDetail;
 exports.getTradeOrderPage = getTradeOrderPage;
+exports.reminderOrder = reminderOrder;
 exports.submitPayOrder = submitPayOrder;
 var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 171));
 var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 173));
@@ -42349,12 +42351,32 @@ function createOrder(data) {
 }
 ;
 
+// 修改订单
+function editOrder(data) {
+  return (0, _request.default)({
+    url: '/app-api/trade/order/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 用户催单
+function reminderOrder(data) {
+  return (0, _request.default)({
+    url: '/app-api/trade/order/reminder',
+    method: 'put',
+    data: data
+  });
+}
+;
+
 // 取消交易订单
 function cancelOrder(data) {
   return (0, _request.default)({
     url: '/app-api/trade/order/cancel',
     method: 'delete',
-    data: data
+    params: data
   });
 }
 ;
@@ -42364,7 +42386,7 @@ function deleteOrder(data) {
   return (0, _request.default)({
     url: '/app-api/trade/order/delete',
     method: 'delete',
-    data: data
+    params: data
   });
 }
 ;
@@ -44144,7 +44166,7 @@ function _extends() {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (typeof process !== 'undefined' && Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
       if (errors.every(function (e) {
@@ -46697,6 +46719,134 @@ exports.default = _default;
 /* 710 */,
 /* 711 */,
 /* 712 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/props.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 倒计时时长，单位ms
+    time: {
+      type: [String, Number],
+      default: uni.$u.props.countDown.time
+    },
+    // 时间格式，DD-日，HH-时，mm-分，ss-秒，SSS-毫秒
+    format: {
+      type: String,
+      default: uni.$u.props.countDown.format
+    },
+    // 是否自动开始倒计时
+    autoStart: {
+      type: Boolean,
+      default: uni.$u.props.countDown.autoStart
+    },
+    // 是否展示毫秒倒计时
+    millisecond: {
+      type: Boolean,
+      default: uni.$u.props.countDown.millisecond
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 713 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/utils.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isSameSecond = isSameSecond;
+exports.parseFormat = parseFormat;
+exports.parseTimeData = parseTimeData;
+// 补0，如1 -> 01
+function padZero(num) {
+  var targetLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+  var str = "".concat(num);
+  while (str.length < targetLength) {
+    str = "0".concat(str);
+  }
+  return str;
+}
+var SECOND = 1000;
+var MINUTE = 60 * SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+function parseTimeData(time) {
+  var days = Math.floor(time / DAY);
+  var hours = Math.floor(time % DAY / HOUR);
+  var minutes = Math.floor(time % HOUR / MINUTE);
+  var seconds = Math.floor(time % MINUTE / SECOND);
+  var milliseconds = Math.floor(time % SECOND);
+  return {
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    milliseconds: milliseconds
+  };
+}
+function parseFormat(format, timeData) {
+  var days = timeData.days,
+    hours = timeData.hours,
+    minutes = timeData.minutes,
+    seconds = timeData.seconds,
+    milliseconds = timeData.milliseconds;
+  // 如果格式化字符串中不存在DD(天)，则将天的时间转为小时中去
+  if (format.indexOf('DD') === -1) {
+    hours += days * 24;
+  } else {
+    // 对天补0
+    format = format.replace('DD', padZero(days));
+  }
+  // 其他同理于DD的格式化处理方式
+  if (format.indexOf('HH') === -1) {
+    minutes += hours * 60;
+  } else {
+    format = format.replace('HH', padZero(hours));
+  }
+  if (format.indexOf('mm') === -1) {
+    seconds += minutes * 60;
+  } else {
+    format = format.replace('mm', padZero(minutes));
+  }
+  if (format.indexOf('ss') === -1) {
+    milliseconds += seconds * 1000;
+  } else {
+    format = format.replace('ss', padZero(seconds));
+  }
+  return format.replace('SSS', padZero(milliseconds, 3));
+}
+function isSameSecond(time1, time2) {
+  return Math.floor(time1 / 1000) === Math.floor(time2 / 1000);
+}
+
+/***/ }),
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */
 /*!*************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-steps/props.js ***!
   \*************************************************************************************/
@@ -46753,14 +46903,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 713 */,
-/* 714 */,
-/* 715 */,
-/* 716 */,
-/* 717 */,
-/* 718 */,
-/* 719 */,
-/* 720 */
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */
 /*!******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-steps-item/props.js ***!
   \******************************************************************************************/
@@ -46802,19 +46952,19 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 721 */,
-/* 722 */,
-/* 723 */,
-/* 724 */,
-/* 725 */,
-/* 726 */,
-/* 727 */,
-/* 728 */,
-/* 729 */,
 /* 730 */,
 /* 731 */,
 /* 732 */,
-/* 733 */
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */
 /*!**********************************************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/uni_modules/Winglau14-lotusAddress/components/Winglau14-lotusAddress/Winglau14-lotusAddress.js ***!
   \**********************************************************************************************************************************/
@@ -63329,19 +63479,19 @@ var lotusAddressJson = [{
 exports.lotusAddressJson = lotusAddressJson;
 
 /***/ }),
-/* 734 */,
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */,
-/* 739 */,
-/* 740 */,
-/* 741 */,
-/* 742 */,
 /* 743 */,
 /* 744 */,
 /* 745 */,
-/* 746 */
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */
 /*!******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-index-list/props.js ***!
   \******************************************************************************************/
@@ -63388,14 +63538,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 747 */,
-/* 748 */,
-/* 749 */,
-/* 750 */,
-/* 751 */,
-/* 752 */,
-/* 753 */,
-/* 754 */
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */
 /*!******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-index-item/props.js ***!
   \******************************************************************************************/
@@ -63415,14 +63565,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 755 */,
-/* 756 */,
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */
 /*!********************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-index-anchor/props.js ***!
   \********************************************************************************************/
@@ -63469,14 +63619,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 763 */,
-/* 764 */,
-/* 765 */,
-/* 766 */,
-/* 767 */,
-/* 768 */,
-/* 769 */,
-/* 770 */
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */
 /*!************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-line/props.js ***!
   \************************************************************************************/
@@ -63527,14 +63677,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 771 */,
-/* 772 */,
-/* 773 */,
-/* 774 */,
-/* 775 */,
-/* 776 */,
-/* 777 */,
-/* 778 */
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */
 /*!***********************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-datetime-picker/props.js ***!
   \***********************************************************************************************/
@@ -63668,7 +63818,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 779 */
+/* 788 */
 /*!****************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/libs/util/dayjs.js ***!
   \****************************************************************************/
@@ -63980,14 +64130,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 });
 
 /***/ }),
-/* 780 */,
-/* 781 */,
-/* 782 */,
-/* 783 */,
-/* 784 */,
-/* 785 */,
-/* 786 */,
-/* 787 */
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */
 /*!***********************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-gap/props.js ***!
   \***********************************************************************************/
@@ -64029,14 +64179,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 788 */,
-/* 789 */,
-/* 790 */,
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */,
-/* 795 */
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */
 /*!******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-transition/props.js ***!
   \******************************************************************************************/
@@ -64078,7 +64228,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 796 */
+/* 805 */
 /*!***********************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-transition/transition.js ***!
   \***********************************************************************************************/
@@ -64095,7 +64245,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 61));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 63));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 797));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 806));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -64187,7 +64337,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 797 */
+/* 806 */
 /*!*************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \*************************************************************************************************/
@@ -64380,14 +64530,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
-/* 802 */,
-/* 803 */,
-/* 804 */,
-/* 805 */
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */
 /*!******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-status-bar/props.js ***!
   \******************************************************************************************/
@@ -64413,14 +64563,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 806 */,
-/* 807 */,
-/* 808 */,
-/* 809 */,
-/* 810 */,
-/* 811 */,
-/* 812 */,
-/* 813 */
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */
 /*!*******************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \*******************************************************************************************/
@@ -64440,14 +64590,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 814 */,
-/* 815 */,
-/* 816 */,
-/* 817 */,
-/* 818 */,
-/* 819 */,
-/* 820 */,
-/* 821 */
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */
 /*!************************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \************************************************************************************************/
@@ -64494,14 +64644,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 822 */,
-/* 823 */,
-/* 824 */,
-/* 825 */,
-/* 826 */,
-/* 827 */,
-/* 828 */,
-/* 829 */
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */
 /*!*************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-badge/props.js ***!
   \*************************************************************************************/
@@ -64591,14 +64741,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 830 */,
-/* 831 */,
-/* 832 */,
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */
 /*!************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-text/props.js ***!
   \************************************************************************************/
@@ -64726,12 +64876,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 838 */,
-/* 839 */,
-/* 840 */,
-/* 841 */,
-/* 842 */,
-/* 843 */
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */
 /*!**************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-picker/props.js ***!
   \**************************************************************************************/
@@ -64828,14 +64978,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 844 */,
-/* 845 */,
-/* 846 */,
-/* 847 */,
-/* 848 */,
-/* 849 */,
-/* 850 */,
-/* 851 */
+/* 853 */,
+/* 854 */,
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */
 /*!************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-text/value.js ***!
   \************************************************************************************/
@@ -64943,7 +65093,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 852 */
+/* 861 */
 /*!******************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/libs/mixin/button.js ***!
   \******************************************************************************/
@@ -64973,7 +65123,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 853 */
+/* 862 */
 /*!********************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/libs/mixin/openType.js ***!
   \********************************************************************************/
@@ -65015,14 +65165,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 854 */,
-/* 855 */,
-/* 856 */,
-/* 857 */,
-/* 858 */,
-/* 859 */,
-/* 860 */,
-/* 861 */
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */
 /*!***************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-toolbar/props.js ***!
   \***************************************************************************************/
@@ -65074,14 +65224,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 862 */,
-/* 863 */,
-/* 864 */,
-/* 865 */,
-/* 866 */,
-/* 867 */,
-/* 868 */,
-/* 869 */
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */
 /*!************************************************************************************!*\
   !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-link/props.js ***!
   \************************************************************************************/
@@ -65136,213 +65286,6 @@ var _default = {
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 870 */,
-/* 871 */,
-/* 872 */,
-/* 873 */,
-/* 874 */,
-/* 875 */,
-/* 876 */,
-/* 877 */,
-/* 878 */,
-/* 879 */,
-/* 880 */,
-/* 881 */,
-/* 882 */,
-/* 883 */,
-/* 884 */,
-/* 885 */,
-/* 886 */,
-/* 887 */,
-/* 888 */,
-/* 889 */,
-/* 890 */,
-/* 891 */,
-/* 892 */,
-/* 893 */,
-/* 894 */,
-/* 895 */,
-/* 896 */,
-/* 897 */,
-/* 898 */,
-/* 899 */,
-/* 900 */,
-/* 901 */,
-/* 902 */,
-/* 903 */,
-/* 904 */,
-/* 905 */,
-/* 906 */,
-/* 907 */,
-/* 908 */,
-/* 909 */,
-/* 910 */,
-/* 911 */,
-/* 912 */,
-/* 913 */,
-/* 914 */,
-/* 915 */,
-/* 916 */,
-/* 917 */,
-/* 918 */,
-/* 919 */,
-/* 920 */,
-/* 921 */,
-/* 922 */,
-/* 923 */,
-/* 924 */,
-/* 925 */,
-/* 926 */,
-/* 927 */,
-/* 928 */,
-/* 929 */,
-/* 930 */,
-/* 931 */,
-/* 932 */,
-/* 933 */,
-/* 934 */,
-/* 935 */,
-/* 936 */,
-/* 937 */,
-/* 938 */,
-/* 939 */,
-/* 940 */,
-/* 941 */,
-/* 942 */,
-/* 943 */,
-/* 944 */,
-/* 945 */,
-/* 946 */,
-/* 947 */,
-/* 948 */,
-/* 949 */,
-/* 950 */,
-/* 951 */,
-/* 952 */,
-/* 953 */,
-/* 954 */,
-/* 955 */,
-/* 956 */
-/*!******************************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/props.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 倒计时时长，单位ms
-    time: {
-      type: [String, Number],
-      default: uni.$u.props.countDown.time
-    },
-    // 时间格式，DD-日，HH-时，mm-分，ss-秒，SSS-毫秒
-    format: {
-      type: String,
-      default: uni.$u.props.countDown.format
-    },
-    // 是否自动开始倒计时
-    autoStart: {
-      type: Boolean,
-      default: uni.$u.props.countDown.autoStart
-    },
-    // 是否展示毫秒倒计时
-    millisecond: {
-      type: Boolean,
-      default: uni.$u.props.countDown.millisecond
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 957 */
-/*!******************************************************************************************!*\
-  !*** D:/工作项目/homeCareMiniProgram/node_modules/uview-ui/components/u-count-down/utils.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isSameSecond = isSameSecond;
-exports.parseFormat = parseFormat;
-exports.parseTimeData = parseTimeData;
-// 补0，如1 -> 01
-function padZero(num) {
-  var targetLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-  var str = "".concat(num);
-  while (str.length < targetLength) {
-    str = "0".concat(str);
-  }
-  return str;
-}
-var SECOND = 1000;
-var MINUTE = 60 * SECOND;
-var HOUR = 60 * MINUTE;
-var DAY = 24 * HOUR;
-function parseTimeData(time) {
-  var days = Math.floor(time / DAY);
-  var hours = Math.floor(time % DAY / HOUR);
-  var minutes = Math.floor(time % HOUR / MINUTE);
-  var seconds = Math.floor(time % MINUTE / SECOND);
-  var milliseconds = Math.floor(time % SECOND);
-  return {
-    days: days,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-    milliseconds: milliseconds
-  };
-}
-function parseFormat(format, timeData) {
-  var days = timeData.days,
-    hours = timeData.hours,
-    minutes = timeData.minutes,
-    seconds = timeData.seconds,
-    milliseconds = timeData.milliseconds;
-  // 如果格式化字符串中不存在DD(天)，则将天的时间转为小时中去
-  if (format.indexOf('DD') === -1) {
-    hours += days * 24;
-  } else {
-    // 对天补0
-    format = format.replace('DD', padZero(days));
-  }
-  // 其他同理于DD的格式化处理方式
-  if (format.indexOf('HH') === -1) {
-    minutes += hours * 60;
-  } else {
-    format = format.replace('HH', padZero(hours));
-  }
-  if (format.indexOf('mm') === -1) {
-    seconds += minutes * 60;
-  } else {
-    format = format.replace('mm', padZero(minutes));
-  }
-  if (format.indexOf('ss') === -1) {
-    milliseconds += seconds * 1000;
-  } else {
-    format = format.replace('ss', padZero(seconds));
-  }
-  return format.replace('SSS', padZero(milliseconds, 3));
-}
-function isSameSecond(time1, time2) {
-  return Math.floor(time1 / 1000) === Math.floor(time2 / 1000);
-}
 
 /***/ })
 ]]);

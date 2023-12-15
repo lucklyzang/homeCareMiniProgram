@@ -22,7 +22,7 @@
 						<view class="protected-persons-top-left">
 							<view class="person-message">
 								<text>{{ item.name }}</text>
-								<text>{{ item.sex == 0 ? '男' : '女' }}</text>
+								<text>{{ item.sex == 1 ? '男' : '女' }}</text>
 								<text>{{ `${item.age}岁` }}</text>
 							</view>
 							<view class="check-status">
