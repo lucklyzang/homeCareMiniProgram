@@ -314,7 +314,7 @@
 			let temporaryAddress = JSON.parse(options.transmitData);
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
-			if (this.beforePageRoute == 'pages/orderForm/orderForm') {
+			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails') {
 				this.queryOrderDetail({id: temporaryAddress.id});
 				return
 			};
@@ -395,6 +395,7 @@
 				getOrderDetail(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.serviceMessage = res.data.data;
+						this.serviceMessage.picUrl = res.data.data.items[0]['picUrl'];
 						this.serviceMessage.name = res.data.data.items[0]['spuName'];
 						this.serviceMessage.price = fenToYuan(res.data.data.items[0]['price']);
 						if (res.data.data.assignType == 'SYSTEM') {
@@ -738,7 +739,7 @@
 					return
 				};
 				let temporaryItems = [];
-				if (this.beforePageRoute == 'pages/orderForm/orderForm') {
+				if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails') {
 					for (let item of this.serviceMessage.items) {
 						temporaryItems.push({
 							skuId: item.skuId,

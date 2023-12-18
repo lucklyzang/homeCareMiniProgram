@@ -116,11 +116,13 @@
 				serviceAttitudeValue: '',
 				sureCancelShow: false,
 				imgArr: [],
+				fileList: [],
 				temporaryImgPathArr: [],
 				imgIndex: '',
 				serviceSpeedValue: '',
 				majorLevelValue: '',
-				evaluateValue: ''
+				evaluateValue: '',
+				serviceMessage: {}
 			}
 		},
 		computed: {
@@ -132,7 +134,10 @@
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.serviceMessage = temporaryAddress
 		},
 		methods: {
 			...mapMutations([
@@ -181,6 +186,7 @@
 						});
 						that.temporaryImgPathArr = that.temporaryImgPathArr.concat(res.tempFilePaths);
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
+							that.fileList.push(res.tempFiles[imgI]['path']);
 							that.srcImage = res.tempFilePaths[imgI];
 							uni.getFileSystemManager().readFile({
 								filePath: that.srcImage,
@@ -226,7 +232,7 @@
 			submitEvent () {
 				this.createOrderCommentEvent({
 					anonymous: true,
-					orderItemId: 2,
+					orderItemId: this.serviceMessage.id,
 					attitudeScores: this.serviceAttitudeValue,
 					speedScores: this.serviceSpeedValue,
 					specialityScores: this.majorLevelValue,

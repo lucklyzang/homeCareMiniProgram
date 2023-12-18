@@ -250,9 +250,6 @@ var render = function () {
       _vm.quitPayShow = false
     }
     _vm.e6 = function ($event) {
-      _vm.haveDeleteShow = false
-    }
-    _vm.e7 = function ($event) {
       _vm.remindSendOrdersShow = false
     }
   }
@@ -462,6 +459,10 @@ var _default = {
         }, false);
       }
     },
+    // 操作订单成功确定事件
+    operateOrderSuccessSureEvent: function operateOrderSuccessSureEvent() {
+      this.haveDeleteShow = false;
+    },
     // 查询交易订单
     queryTradeOrderPage: function queryTradeOrderPage(data, flag) {
       var _this = this;
@@ -548,6 +549,9 @@ var _default = {
     immediatePayEvent: function immediatePayEvent(item) {
       // 传递订单信息
       var mynavData = JSON.stringify(item);
+      var temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+      temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+      this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
       uni.navigateTo({
         url: '/orderFormPackage/pages/orderPay/orderPay?transmitData=' + mynavData
       });
@@ -555,6 +559,7 @@ var _default = {
     // 取消订单
     cancelOrderPort: function cancelOrderPort(data) {
       var _this2 = this;
+      this.infoText = '订单取消中···';
       this.showLoadingHint = true;
       (0, _orderForm.cancelOrder)(data).then(function (res) {
         if (res && res.data.code == 0) {
@@ -591,6 +596,7 @@ var _default = {
     // 删除订单
     deleteOrderPort: function deleteOrderPort(data) {
       var _this3 = this;
+      this.infoText = '订单删除中···';
       this.showLoadingHint = true;
       (0, _orderForm.deleteOrder)(data).then(function (res) {
         if (res && res.data.code == 0) {
@@ -627,6 +633,7 @@ var _default = {
     // 提醒订单
     reminderOrderPort: function reminderOrderPort(data) {
       var _this4 = this;
+      this.infoText = '派单提醒中···';
       this.showLoadingHint = true;
       (0, _orderForm.reminderOrder)(data).then(function (res) {
         if (res && res.data.code == 0) {
@@ -764,9 +771,7 @@ var _default = {
     // 提醒派单事件
     remindSendOrdersEvent: function remindSendOrdersEvent(item) {
       this.currentSelectOrderMessage = item;
-      this.reminderOrderPort({
-        id: this.currentSelectOrderMessage.id
-      });
+      this.reminderOrderPort(this.currentSelectOrderMessage.id);
     },
     // 取消订单事件
     cancelOrderEvent: function cancelOrderEvent(item) {
@@ -783,8 +788,10 @@ var _default = {
     },
     // 订单评价事件
     orderFormEvaluateEvent: function orderFormEvaluateEvent() {
+      // 传递服务订单信息
+      var mynavData = JSON.stringify(item);
       uni.navigateTo({
-        url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate'
+        url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate?transmitData=' + mynavData
       });
     },
     // 修改订单事件
@@ -798,32 +805,13 @@ var _default = {
       });
     },
     // 订单详情点击事件
-    enterOrderDetailsEvent: function enterOrderDetailsEvent() {
-      // 派单中
-      // uni.navigateTo({
-      // 	url: '/orderFormPackage/pages/orderForm/index/index'
-      // })
-      // 已完成
+    enterOrderDetailsEvent: function enterOrderDetailsEvent(item) {
+      // 传递该订单详情的信息
+      var temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+      temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+      this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
       uni.navigateTo({
-        url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
-      });
-      // 待付款
-      // uni.navigateTo({
-      // 	url: '/orderFormPackage/pages/orderFormStayPayment/orderFormStayPayment'
-      // });
-      // 服务中
-      // uni.navigateTo({
-      // 	url: '/orderFormPackage/pages/orderFormInService/orderFormInService'
-      // });
-      // 待评价
-      // uni.navigateTo({
-      // 	url: '/orderFormPackage/pages/orderFormStayEvaluate/orderFormStayEvaluate'
-      // })
-    },
-    // 订单详情点击事件(取消|退款)
-    enterOrderDetailsEventOther: function enterOrderDetailsEventOther() {
-      uni.navigateTo({
-        url: '/orderFormPackage/pages/orderFormCancelOrRefund/orderFormCancelOrRefund'
+        url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'
       });
     }
   })

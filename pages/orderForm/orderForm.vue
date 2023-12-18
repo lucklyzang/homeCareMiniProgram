@@ -45,7 +45,7 @@
 		</view>
 		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
-			<u-modal :show="haveDeleteShow" @confirm="haveDeleteShow=false" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
 			</u-modal>
 		</view>
 		<!-- 提醒派单提示 -->
@@ -84,7 +84,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 0">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -131,12 +131,12 @@
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
-							<text v-if="item.workerStatus != 3 && item.workerStatus != 4" @click="cancelOrderEvent(item)">取消订单</text>
-							<text v-if="item.workerStatus == 1" @click="remindSendOrdersEvent(item)">提醒派单</text>
-							<text v-if="item.workerStatus == 0" @click="editOrderFormEvent(item)">修改订单</text>
-							<text v-if="item.status == 60 || item.status == 70" @click="deleteOrder(item)">删除订单</text>
-							<text v-if="item.status == 60 || item.status == 70" @click="appointmentServiceEvent(item)">再次预约</text>
-							<text v-if="item.workerStatus == 0" class="at-once-payment" @click="immediatePayEvent(item)">立即付款</text>
+							<text v-if="item.workerStatus != 3 && item.workerStatus != 4" @click.stop="cancelOrderEvent(item)">取消订单</text>
+							<text v-if="item.workerStatus == 1" @click.stop="remindSendOrdersEvent(item)">提醒派单</text>
+							<text v-if="item.workerStatus == 0" @click.stop="editOrderFormEvent(item)">修改订单</text>
+							<text v-if="item.status == 60 || item.status == 70" @click.stop="deleteOrder(item)">删除订单</text>
+							<text v-if="item.status == 60 || item.status == 70" @click.stop="appointmentServiceEvent(item)">再次预约</text>
+							<text v-if="item.workerStatus == 0" class="at-once-payment" @click.stop="immediatePayEvent(item)">立即付款</text>
 						</view>
 					</view>
 				</view>
@@ -146,7 +146,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 1">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -190,8 +190,8 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text @click="editOrderFormEvent(item)">修改订单</text>
-							<text class="at-once-payment" @click="immediatePayEvent(item)">立即付款</text>
+							<text @click.stop="editOrderFormEvent(item)">修改订单</text>
+							<text class="at-once-payment" @click.stop="immediatePayEvent(item)">立即付款</text>
 						</view>
 					</view>
 				</view>
@@ -201,7 +201,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 2">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -241,8 +241,8 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text @click="cancelOrderEvent(item)">取消订单</text>
-							<text @click="remindSendOrdersEvent(item)">提醒派单</text>
+							<text @click.stop="cancelOrderEvent(item)">取消订单</text>
+							<text @click.stop="remindSendOrdersEvent(item)">提醒派单</text>
 						</view>
 					</view>
 				</view>
@@ -252,7 +252,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 3">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -295,7 +295,7 @@
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
-							<text @click="cancelOrderEvent(item)">取消订单</text>
+							<text @click.stop="cancelOrderEvent(item)">取消订单</text>
 						</view>
 					</view>
 				</view>
@@ -305,7 +305,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 4">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -345,8 +345,8 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text @click="appointmentServiceEvent(item)">再次预约</text>
-							<text class="evaluate" @click="orderFormEvaluateEvent">评价</text>
+							<text @click.stop="appointmentServiceEvent(item)">再次预约</text>
+							<text class="evaluate" @click.stop="orderFormEvaluateEvent(item)">评价</text>
 						</view>
 					</view>
 				</view>
@@ -356,7 +356,7 @@
 		<view class="order-form-list-wrapper" v-show="current == 5">
 			<u-empty text="您还没有相关订单" mode="list" v-if="isShowNoData"></u-empty>
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index">
+				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
 						<view class="order-form-title">
 							<text>{{ item.items[0]['spuName'] }}</text>
@@ -396,8 +396,8 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
-							<text @click="deleteOrder(item)">删除订单</text>
-							<text>再次预约</text>
+							<text @click.stop="deleteOrder(item)">删除订单</text>
+							<text @click.stop="appointmentServiceEvent(item)">再次预约</text>
 						</view>
 					</view>
 				</view>
@@ -574,6 +574,11 @@
 				}
 			},
 			
+			// 操作订单成功确定事件
+			operateOrderSuccessSureEvent () {
+				this.haveDeleteShow = false
+			},
+			
 			// 查询交易订单
 			queryTradeOrderPage(data,flag) {
 				this.tradeList = [];
@@ -652,6 +657,9 @@
 			immediatePayEvent (item) {
 				// 传递订单信息
 				let mynavData = JSON.stringify(item);
+				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderPay/orderPay?transmitData='+mynavData
 				})
@@ -659,6 +667,7 @@
 			
 			// 取消订单
 			cancelOrderPort(data) {
+				this.infoText = '订单取消中···';
 				this.showLoadingHint = true;
 				cancelOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
@@ -695,6 +704,7 @@
 			
 			// 删除订单
 			deleteOrderPort(data) {
+				this.infoText = '订单删除中···';
 				this.showLoadingHint = true;
 				deleteOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
@@ -731,6 +741,7 @@
 			
 			// 提醒订单
 			reminderOrderPort(data) {
+				this.infoText = '派单提醒中···';
 				this.showLoadingHint = true;
 				reminderOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
@@ -892,8 +903,10 @@
 			
 			// 订单评价事件
 			orderFormEvaluateEvent () {
+				// 传递服务订单信息
+				let mynavData = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate'
+					url: '/orderFormPackage/pages/serviceEvaluate/serviceEvaluate?transmitData='+mynavData
 				})
 			},
 			
@@ -909,33 +922,13 @@
 			},
 			
 			// 订单详情点击事件
-			enterOrderDetailsEvent () {
-				// 派单中
-				// uni.navigateTo({
-				// 	url: '/orderFormPackage/pages/orderForm/index/index'
-				// })
-				// 已完成
+			enterOrderDetailsEvent (item) {
+				// 传递该订单详情的信息
+				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 				uni.navigateTo({
-					url: '/orderFormPackage/pages/orderFormComplete/orderFormComplete'
-				})
-				// 待付款
-				// uni.navigateTo({
-				// 	url: '/orderFormPackage/pages/orderFormStayPayment/orderFormStayPayment'
-				// });
-				// 服务中
-				// uni.navigateTo({
-				// 	url: '/orderFormPackage/pages/orderFormInService/orderFormInService'
-				// });
-				// 待评价
-				// uni.navigateTo({
-				// 	url: '/orderFormPackage/pages/orderFormStayEvaluate/orderFormStayEvaluate'
-				// })
-			},
-			
-			// 订单详情点击事件(取消|退款)
-			enterOrderDetailsEventOther () {
-				uni.navigateTo({
-					url: '/orderFormPackage/pages/orderFormCancelOrRefund/orderFormCancelOrRefund'
+					url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'
 				})
 			}
 		}

@@ -74,7 +74,11 @@
 		<view class="order-form-message-wrapper">
 			<view class="service-project">
 				<view class="service-project-left">
-					<image :src="serviceMessage.items[0]['picUrl']"></image>
+					<u-image :src="picUrl" width="88" height="88">
+						<template v-slot:loading>
+							<u-loading-icon color="red"></u-loading-icon>
+						</template>
+					</u-image>
 				</view>
 				<view class="service-project-right">
 					<view class="service-project-right-top">
@@ -302,6 +306,7 @@
 				currentDate: '',
 				serviceMessage: {},
 				serViceName: '',
+				picUrl: '',
 				serVicePrice: '',
 				aptitudes: '',
 				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
@@ -419,6 +424,7 @@
 						this.currentSelectTimeQuantum = `上午${res.data.data.serviceTime}`;
 						
 						this.serViceName = res.data.data.items[0]['spuName'];
+						this.picUrl = res.data.data.items[0]['picUrl'];
 						this.serVicePrice = fenToYuan(res.data.data.items[0]['payPrice']);
 						this.aptitudes = res.data.data.aptitudes;
 						console.log('存储选择信息',this.editServiceOrderFormSureChooseMessage);

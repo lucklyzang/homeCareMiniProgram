@@ -34,12 +34,8 @@
       "root": "orderFormPackage",
       "pages": [
         "pages/orderForm/index/index",
-        "pages/orderFormCancelOrRefund/orderFormCancelOrRefund",
-        "pages/orderFormComplete/orderFormComplete",
-        "pages/orderFormStayPayment/orderFormStayPayment",
+        "pages/orderFormDetails/orderFormDetails",
         "pages/orderPay/orderPay",
-        "pages/orderFormInService/orderFormInService",
-        "pages/orderFormStayEvaluate/orderFormStayEvaluate",
         "pages/serviceEvaluate/serviceEvaluate",
         "pages/serviceEvaluateFeedback/serviceEvaluateFeedback",
         "pages/orderFormEdit/orderFormEdit"

@@ -231,6 +231,7 @@
 				sureCancelShow: false,
 				imgIndex: '',
 				content: '',
+				fileList: [],
 				medicareCardImgArr: [],
 				temporaryMedicareCardImgArr: [],
 				reverseSideMedicareCardImgArr: [],
@@ -320,6 +321,7 @@
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
 									if (text == '医保卡正面') {
+										that.fileList.push(res.tempFiles[imgI]['path']);
 										that.medicareCardImgArr.push(base64);
 									} else if (text == '医保卡反面') {
 										that.reverseSideMedicareCardImgArr.push(base64);

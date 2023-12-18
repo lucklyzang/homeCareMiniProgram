@@ -120,7 +120,7 @@
 				</view>
 			</view>
 			<view class="form-btn" v-if="!isForgetPassword && !isSetPassword">
-				<button :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(sure)">{{ !showGetVerificationCode ? isPasswordLogin ? '登 录' : '登 录/注 册' : showLoadingHint && showGetVerificationCode ? isPasswordLogin ? '登录中···' : '登 录/注 册中···' : isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
+				<button :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(sure)">{{ showLoadingHint && !isClickGetCode ? isPasswordLogin ? '登录中···' : '登 录/注 册中···' : isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
 				<view class="form-btn-info-text">
 					<u-checkbox-group v-model="isReadAgreeChecked">
 						<u-checkbox 
@@ -136,7 +136,7 @@
 				</view>
 			</view>
 			<view class="enter-home-btn" v-if="isForgetPassword || isSetPassword">
-				<button  :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(resetPasswordEvent)">{{ !showGetVerificationCode ? isForgetPassword ? '确认' : '进入首页' : showLoadingHint ? isForgetPassword ? '密码重置中···' : '密码设置中···' : isForgetPassword ? '确认' : '进入首页' }}</button>
+				<button  :class="{'uniButtonStyle' : showLoadingHint}" @click="$noMultipleClicks(resetPasswordEvent)">{{ showLoadingHint && !isClickGetCode ? isForgetPassword ? '密码重置中···' : '密码设置中···' : isForgetPassword ? '确认' : '进入首页' }}</button>
 			</view>
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
         <u-divider border-color="#DBDBDB" color="#919191" text="其他登录方式"></u-divider>
@@ -187,6 +187,7 @@
 				privacyPolicyBoxShow: true,
 				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
+				isClickGetCode: false,
 				isReadAgreeChecked: [],
 				showLoadingHint: false,
 				modalShow: false,
@@ -298,6 +299,7 @@
 							this.timer = null
 						}
 					}, 1000);
+					this.isClickGetCode = true;
 					this.sendCodeEvent()
 				}
 			},
@@ -517,9 +519,11 @@
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
 					};
+					this.isClickGetCode = false;
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
+					this.isClickGetCode = false;
 					this.showLoadingHint = false;
 					this.modalShow = true;
 					this.modalContent = `${err}`

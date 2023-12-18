@@ -116,6 +116,7 @@
 		onShow() {
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
+			console.log('路由',this.beforePageRoute);
 			this.fullServerPersonList = [];
 			this.queryUserServerPersonList({
 				pageNo: this.currentPageNum,

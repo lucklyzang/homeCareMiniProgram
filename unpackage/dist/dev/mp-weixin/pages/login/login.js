@@ -242,6 +242,7 @@ var _default = {
       privacyPolicyBoxShow: true,
       weixinAuthorizationInfoBoxShow: false,
       timer: null,
+      isClickGetCode: false,
       isReadAgreeChecked: [],
       showLoadingHint: false,
       modalShow: false,
@@ -334,6 +335,7 @@ var _default = {
             _this.timer = null;
           }
         }, 1000);
+        this.isClickGetCode = true;
         this.sendCodeEvent();
       }
     },
@@ -562,8 +564,10 @@ var _default = {
           _this5.modalContent = res.data.msg;
         }
         ;
+        _this5.isClickGetCode = false;
         _this5.showLoadingHint = false;
       }).catch(function (err) {
+        _this5.isClickGetCode = false;
         _this5.showLoadingHint = false;
         _this5.modalShow = true;
         _this5.modalContent = "".concat(err);

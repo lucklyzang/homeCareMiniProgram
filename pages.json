@@ -180,25 +180,7 @@
 					}
 				},
 				{
-					"path": "pages/orderFormCancelOrRefund/orderFormCancelOrRefund",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#ffffff",
-						"backgroundColorTop": "#fff,",
-						"backgroundColorBottom": "#fff"
-					}
-				},
-				{
-					"path": "pages/orderFormComplete/orderFormComplete",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#ffffff",
-						"backgroundColorTop": "#fff,",
-						"backgroundColorBottom": "#fff"
-					}
-				},
-				{
-					"path": "pages/orderFormStayPayment/orderFormStayPayment",
+					"path": "pages/orderFormDetails/orderFormDetails",
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#ffffff",
@@ -208,24 +190,6 @@
 				},
 				{
 					"path": "pages/orderPay/orderPay",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#ffffff",
-						"backgroundColorTop": "#fff,",
-						"backgroundColorBottom": "#fff"
-					}
-				},
-				{
-					"path": "pages/orderFormInService/orderFormInService",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#ffffff",
-						"backgroundColorTop": "#fff,",
-						"backgroundColorBottom": "#fff"
-					}
-				},
-				{
-					"path": "pages/orderFormStayEvaluate/orderFormStayEvaluate",
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#ffffff",

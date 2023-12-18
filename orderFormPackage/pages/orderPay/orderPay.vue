@@ -20,7 +20,7 @@
 		<view class="order-form-message-wrapper">
 			<view class="service-project">
 				<view class="service-project-left">
-					<image :src="serviceOrderFormSureChooseMessage.serviceMessage.picUrl ? serviceOrderFormSureChooseMessage.serviceMessage.picUrl : jaundiceDetectionPng"></image>
+					<image :src="serverMessage.picUrl ? serverMessage.picUrl : jaundiceDetectionPng"></image>
 				</view>
 				<view class="service-project-right">
 					<view class="service-project-right-top">
@@ -84,13 +84,16 @@
 				showLoadingHint: false,
 				quitPayShow: false,
 				payOrderMessage: {},
+				serverMessage: {},
+				beforePageRoute: '',
 				jaundiceDetectionPng: require("@/static/img/jaundice-detection.png")
 			}
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'serviceOrderFormSureChooseMessage'
+				'serviceOrderFormSureChooseMessage',
+				'editServiceOrderFormSureChooseMessage'
 			]),
 			userName() {
 			},
@@ -102,7 +105,14 @@
 			let temporaryOrderMessage = JSON.parse(options.transmitData);
 			this.createPayOrderEvent({
 				id: temporaryOrderMessage.payOrderId
-			})
+			});
+			let pages = getCurrentPages();//当前页
+			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
+			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails') {
+				this.serverMessage.picUrl = this.editServiceOrderFormSureChooseMessage.orderMessage.items[0]['picUrl']
+			} else {
+				this.serverMessage.picUrl = this.serviceOrderFormSureChooseMessage.serviceMessage['picUrl']
+			}
 		},
 		
 		methods: {
@@ -116,9 +126,7 @@
 			
 			// 确定退出支付事件
 			confirmQuitPayEvent () {
-				uni.switchTab({
-					url: '/pages/orderForm/orderForm'
-				})
+				uni.navigateBack()
 			},
 			
 			// 创建支付订单
@@ -217,8 +225,16 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		position: relative;
 		::v-deep .u-popup {
 			flex: none !important
+		};
+		::v-deep .u-loading-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			z-index: 20000;
 		};
 		::v-deep .u-popup__content{
 			.u-modal {
