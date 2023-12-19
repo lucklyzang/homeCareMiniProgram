@@ -13,6 +13,7 @@ export function getDefaultLoginState() {
 // 服务store的初始值
 export function getDefaultServiceState() {
 	return {
-		serviceOrderFormSureChooseMessage: {}
+		serviceOrderFormSureChooseMessage: {},
+		editServiceOrderFormSureChooseMessage: {}
 	}	
 };
