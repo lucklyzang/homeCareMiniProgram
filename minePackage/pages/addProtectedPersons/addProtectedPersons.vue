@@ -231,15 +231,14 @@
 				sureCancelShow: false,
 				imgIndex: '',
 				content: '',
-				fileList: [],
+				medicareCardFileList: [],
+				reverseSideMedicareCardFileList: [],
+				medicareCardRecordDataFileList: [],
+				specialCircumstancesFileList: [],
 				medicareCardImgArr: [],
-				temporaryMedicareCardImgArr: [],
 				reverseSideMedicareCardImgArr: [],
-				temporaryReverseSideMedicareCardImgArr: [],
 				medicalRecordDataImgArr: [],
-				temporaryMedicalRecordDataImgArr: [],
 				specialCircumstancesImgArr: [],
-				temporarySpecialCircumstancesImgArr: [],
 				text: ''
 			}
 		},
@@ -272,16 +271,16 @@
 			sureCancel() {
 				if (this.text == '医保卡正面') {
 					this.medicareCardImgArr.splice(this.imgIndex, 1);
-					this.temporaryMedicareCardImgArr.splice(this.imgIndex, 1);
+					this.medicareCardFileList.splice(this.imgIndex, 1)
 				} else if (this.text == '医保卡反面') {
 					this.reverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
-					this.temporaryReverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
+					this.reverseSideMedicareCardFileList.splice(this.imgIndex, 1)
 				} else if (this.text == '病历资料') {
 					this.medicalRecordDataImgArr.splice(this.imgIndex, 1);
-					this.temporaryMedicalRecordDataImgArr.splice(this.imgIndex, 1);
+					this.medicareCardRecordDataFileList.splice(this.imgIndex, 1)
 				} else if (this.text == '特殊情况') {
 					this.specialCircumstancesImgArr.splice(this.imgIndex, 1);
-					this.temporarySpecialCircumstancesImgArr.splice(this.imgIndex, 1);
+					this.specialCircumstancesFileList.splice(this.imgIndex, 1)
 				};
 				this.sureCancelShow = false
 			},
@@ -295,7 +294,7 @@
 			
 			// 选择图片方法
 			getImg(text) {
-				var that = this;
+				let that = this;
 				uni.chooseImage({
 					count: 4,
 					sizeType: ['original', 'compressed'],
@@ -304,24 +303,22 @@
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						if (text == '医保卡正面') {
-							that.temporaryMedicareCardImgArr = that.temporaryMedicareCardImgArr.concat(res.tempFilePaths);
-						} else if (text == '医保卡反面') {
-							that.temporaryReverseSideMedicareCardImgArr = that.temporaryReverseSideMedicareCardImgArr.concat(res.tempFilePaths);
-						} else if (text == '病历资料') {
-							that.temporaryMedicalRecordDataImgArr = that.temporaryMedicalRecordDataImgArr.concat(res.tempFilePaths);
-						} else if (text == '特殊情况') {
-							that.temporarySpecialCircumstancesImgArr = that.temporarySpecialCircumstancesImgArr.concat(res.tempFilePaths);
-						};
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
-							that.srcImage = res.tempFilePaths[imgI];
+							if (text == '医保卡正面') {
+								that.medicareCardFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '医保卡反面') {
+								this.reverseSideMedicareCardFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '病历资料') {
+								this.medicareCardRecordDataFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '特殊情况') {
+								this.specialCircumstancesFileList.push(res.tempFiles[imgI]['path']);
+							};
 							uni.getFileSystemManager().readFile({
-								filePath: that.srcImage,
+								filePath: res.tempFilePaths[imgI],
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
 									if (text == '医保卡正面') {
-										that.fileList.push(res.tempFiles[imgI]['path']);
 										that.medicareCardImgArr.push(base64);
 									} else if (text == '医保卡反面') {
 										that.reverseSideMedicareCardImgArr.push(base64);

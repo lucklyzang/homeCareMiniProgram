@@ -902,7 +902,7 @@
 			},
 			
 			// 订单评价事件
-			orderFormEvaluateEvent () {
+			orderFormEvaluateEvent (item) {
 				// 传递服务订单信息
 				let mynavData = JSON.stringify(item);
 				uni.navigateTo({

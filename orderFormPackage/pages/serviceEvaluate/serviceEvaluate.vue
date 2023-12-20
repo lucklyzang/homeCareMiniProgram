@@ -117,7 +117,6 @@
 				sureCancelShow: false,
 				imgArr: [],
 				fileList: [],
-				temporaryImgPathArr: [],
 				imgIndex: '',
 				serviceSpeedValue: '',
 				majorLevelValue: '',
@@ -151,8 +150,7 @@
 			// 弹框确定按钮
 			sureCancel() {
 				this.sureCancelShow = false;
-				this.imgArr.splice(this.imgIndex, 1);
-				this.temporaryImgPathArr.splice(this.imgIndex, 1)
+				this.imgArr.splice(this.imgIndex, 1)
 			},
 			
 			// 弹框取消按钮
@@ -163,7 +161,9 @@
 			// 图片删除事件
 			photoDelete(item, index) {
 				this.sureCancelShow = true;
-				this.imgIndex = index
+				this.imgIndex = index;
+				this.imgArr.splice(this.imgIndex,1);
+				this.fileList.splice(this.imgIndex,1)
 			},
 			
 			// 选择图片方法
@@ -175,7 +175,7 @@
 					});
 					return
 				};
-				var that = this;
+				let that = this;
 				uni.chooseImage({
 					count: 9,
 					sizeType: ['original', 'compressed'],
@@ -184,12 +184,10 @@
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						that.temporaryImgPathArr = that.temporaryImgPathArr.concat(res.tempFilePaths);
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
 							that.fileList.push(res.tempFiles[imgI]['path']);
-							that.srcImage = res.tempFilePaths[imgI];
 							uni.getFileSystemManager().readFile({
-								filePath: that.srcImage,
+								filePath: res.tempFilePaths[imgI],
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
