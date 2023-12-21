@@ -20,7 +20,7 @@
 				</view>
 			</view>
 			<view class="content-right">
-				<u-empty text="暂无服务" v-if="isShowNoHomeNoData"></u-empty>
+				<u-empty text="暂无对应服务项目" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="content-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
 						<view class="content-list-left">
@@ -44,7 +44,7 @@
 							</view> -->
 						</view>
 					</view>
-				<u-loadmore :status="status" v-show="fullServiceCategoryDetailsList.length > 0" />
+					<u-loadmore :status="status" v-if="fullServiceCategoryDetailsList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -87,7 +87,9 @@
 		},
 		computed: {
 			...mapGetters([
-				'userBasicInfo'
+				'userBasicInfo',
+				'userInfo',
+				'parentServiceCategoryMessage'
 			]),
 			userName() {
 			},
@@ -103,7 +105,7 @@
 		},
 		methods: {
 			...mapMutations([
-				'userInfo'
+				'changeParentServiceCategoryMessage'
 			]),
 			
 			// 服务类型点击事件
@@ -115,6 +117,7 @@
 				this.totalCount = 0;
 				this.status = 'nomore';
 				this.isShowNoHomeNoData = false;
+				this.changeParentServiceCategoryMessage({});
 				this.queryServiceProductCategoryDetails({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
@@ -156,12 +159,16 @@
 						if (res.data.data.length > 0) {
 							this.serviceCategoryList = res.data.data;
 							this.serviceCategoryList = this.serviceCategoryList.filter((item) => { return item.parentId == 0 });
+							// 回显首页点击的服务大类
+							if (JSON.stringify(this.parentServiceCategoryMessage) != '{}') {
+								this.currentIndex = this.serviceCategoryList.findIndex((item) => { return item.id == this.parentServiceCategoryMessage.id })
+							};
 							// 查询服务分类第一项下的服务明细
 							this.fullServiceCategoryDetailsList = [];
 							this.queryServiceProductCategoryDetails({
 								pageNo: this.currentPageNum,
 								pageSize: this.pageSize,
-								categoryId: this.serviceCategoryList[0]['id']
+								categoryId: JSON.stringify(this.parentServiceCategoryMessage) != '{}' ? this.parentServiceCategoryMessage.id : this.serviceCategoryList[0]['id']
 							},true)
 						}
 					} else {
@@ -186,6 +193,7 @@
 			// 查询服务分类明细
 			queryServiceProductCategoryDetails(data,flag) {
 				this.serviceCategoryDetailsList = [];
+				this.isShowNoHomeNoData = false;
 				if (flag) {
 					this.showLoadingHint = true
 				} else {

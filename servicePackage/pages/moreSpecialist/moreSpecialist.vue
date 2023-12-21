@@ -5,7 +5,7 @@
 		<u-toast ref="uToast" />
 		<view class="top-area-box">
 			<view class="nav">
-				<nav-bar :home="false" backState='3000' bgColor="none" title="请选择专家" @backClick="backTo">
+				<nav-bar :home="false" backState='3000' bgColor="none" title="更多专家" @backClick="backTo">
 				</nav-bar> 
 		  </view>
 		</view>
@@ -58,7 +58,7 @@
 							</view>
 						</view>
 					</view>
-					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
+					<u-loadmore :status="status" v-if="fullNurseList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>

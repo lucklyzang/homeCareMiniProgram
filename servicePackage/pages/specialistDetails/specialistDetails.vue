@@ -732,7 +732,7 @@
 					.scroll-view {
 						height: 100%
 					};
-					::v-deep .uni-scroll-view-content {
+					::v-deep .scroll-view {
 						display: flex;
 						flex-wrap: wrap;
 						position: relative;
@@ -743,17 +743,25 @@
 							transform: translate(-50%,-50%)
 						};
 						.service-list {
-							width: 33.3%;
+							width: 32%;
 							display: flex;
 							padding: 10px 0;
+							box-sizing: border-box;
 							flex-direction: column;
 							align-items: center;
+							margin-right: 2%;
+							margin-bottom: 10px;
 							>text {
 								margin-top: 6px;
 								font-size: 12px;
 								color: #101010
 							}
-						}
+						};
+						.service-list {
+							&:nth-child(3n) {
+								margin-right: 0 !important
+							}
+						}	
 					}	
 				}
 			};

@@ -10939,7 +10939,7 @@ var _default = {
       return state.token;
     },
     userBasicInfo: function userBasicInfo(state) {
-      state.userInfo = (0, _utils.getCache)('userBasicInfo') ? (0, _utils.getCache)('userBasicInfo') : {};
+      state.userBasicInfo = (0, _utils.getCache)('userBasicInfo') ? (0, _utils.getCache)('userBasicInfo') : {};
       return state.userBasicInfo;
     },
     nurseRankDictData: function nurseRankDictData(state) {
@@ -11270,7 +11270,8 @@ function getDefaultLoginState() {
 function getDefaultServiceState() {
   return {
     serviceOrderFormSureChooseMessage: {},
-    editServiceOrderFormSureChooseMessage: {}
+    editServiceOrderFormSureChooseMessage: {},
+    parentServiceCategoryMessage: {}
   };
 }
 ;
@@ -11308,6 +11309,9 @@ var _default = {
     editServiceOrderFormSureChooseMessage: function editServiceOrderFormSureChooseMessage(state) {
       state.editServiceOrderFormSureChooseMessage = (0, _utils.getCache)('editServiceOrderFormSureChooseMessage') ? (0, _utils.getCache)('editServiceOrderFormSureChooseMessage') : {};
       return state.editServiceOrderFormSureChooseMessage;
+    },
+    parentServiceCategoryMessage: function parentServiceCategoryMessage(state) {
+      return state.parentServiceCategoryMessage;
     }
   },
   mutations: {
@@ -11330,6 +11334,10 @@ var _default = {
         (0, _utils.setCache)('editServiceOrderFormSureChooseMessage', playLoad);
         state.editServiceOrderFormSureChooseMessage = playLoad;
       }
+    },
+    // 保存首页点击的服务大类信息
+    changeParentServiceCategoryMessage: function changeParentServiceCategoryMessage(state, playLoad) {
+      state.parentServiceCategoryMessage = playLoad;
     },
     //重置服务的状态
     resetServiceInfoState: function resetServiceInfoState(state) {

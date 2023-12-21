@@ -45,7 +45,7 @@
 							</view>
 						</view>
 					</view>
-					<u-loadmore :status="status" v-show="fullProductList.length > 0" />
+					<u-loadmore :status="status" v-if="fullProductList.length > 0" />
 				</scroll-view>
 			</view>
 			<view class="collect-article-box" v-if="curentIndex === 1">

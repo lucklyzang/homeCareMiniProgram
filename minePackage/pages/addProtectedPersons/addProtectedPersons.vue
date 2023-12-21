@@ -130,7 +130,7 @@
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡正面')"></u-icon>
 							</view>
 							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  v-if="medicareCardImgArr.length < 1" @click="getImg('医保卡正面')"/>
 							</view>
 						</view>
 						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
@@ -142,17 +142,17 @@
 						<view class="medicare-card-top">
 							<text>医保卡反面</text>
 						</view>
-						<view class="medicare-card-bottom" v-if="medicareCardImgArr.length > 0">
-							<view v-for="(item, index) in medicareCardImgArr" :key='index'>
+						<view class="medicare-card-bottom" v-if="reverseSideMedicareCardImgArr.length > 0">
+							<view v-for="(item, index) in reverseSideMedicareCardImgArr" :key='index'>
 								<image :src="item" mode="aspectFit"></image>
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡反面')"></u-icon>
 							</view>
 							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  v-if="reverseSideMedicareCardImgArr.length < 1"  @click="getImg('医保卡反面')"/>
 							</view>
 						</view>
-						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
-							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+						<view class="medicare-cara-init" v-if="reverseSideMedicareCardImgArr.length == 0">
+							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡反面')"/>
 							<text>只能上传jpg/png文件，且不超过5M</text>
 						</view>
 					</view>
@@ -295,8 +295,14 @@
 			// 选择图片方法
 			getImg(text) {
 				let that = this;
+				let temporaryCount = 0;
+				if (text == '医保卡正面' || text == '医保卡反面') {
+					temporaryCount = 1
+				} else {
+					temporaryCount = 3
+				};
 				uni.chooseImage({
-					count: 4,
+					count: temporaryCount,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
@@ -307,11 +313,11 @@
 							if (text == '医保卡正面') {
 								that.medicareCardFileList.push(res.tempFiles[imgI]['path']);
 							} else if (text == '医保卡反面') {
-								this.reverseSideMedicareCardFileList.push(res.tempFiles[imgI]['path']);
+								that.reverseSideMedicareCardFileList.push(res.tempFiles[imgI]['path']);
 							} else if (text == '病历资料') {
-								this.medicareCardRecordDataFileList.push(res.tempFiles[imgI]['path']);
+								that.medicareCardRecordDataFileList.push(res.tempFiles[imgI]['path']);
 							} else if (text == '特殊情况') {
-								this.specialCircumstancesFileList.push(res.tempFiles[imgI]['path']);
+								that.specialCircumstancesFileList.push(res.tempFiles[imgI]['path']);
 							};
 							uni.getFileSystemManager().readFile({
 								filePath: res.tempFilePaths[imgI],
@@ -400,13 +406,13 @@
 					idCard: this.idNumberValue,
 					mobile: this.contactWayValue,
 					birthday: this.birthDateValue,
-					sex: this.sexValue,
+					sex: this.sexValue == '男' ? '1' : '2',
 					critical: this.emergencyContactValue,
 					realname: 'NO',
-					medicalCardFront: "",
-					medicalCardBack: "",
-					medicalRecord: this.medicalRecordDataImgArr,
-					special: this.specialCircumstancesImgArr,
+					medicalCardFront: this.medicareCardFileList[0],
+					medicalCardBack: this.reverseSideMedicareCardFileList[0],
+					medicalRecord: this.medicareCardRecordDataFileList,
+					special: this.specialCircumstancesFileList,
 					status: "",
 					checkName: "",
 					checkTime: "",

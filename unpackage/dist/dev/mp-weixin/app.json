@@ -143,8 +143,8 @@
     }
   },
   "requiredPrivateInfos": [
-    "chooseLocation",
-    "getFuzzyLocation"
+    "getLocation",
+    "chooseLocation"
   ],
   "usingComponents": {}
 }

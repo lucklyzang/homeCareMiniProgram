@@ -68,7 +68,7 @@
 							<text>查看详情</text>
 						</view>
 					</view>
-					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
+					<u-loadmore :status="status" v-if="fullNurseList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>

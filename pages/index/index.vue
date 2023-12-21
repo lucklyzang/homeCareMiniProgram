@@ -191,6 +191,7 @@
 		},
 		methods: {
 			...mapMutations([
+				'changeParentServiceCategoryMessage'
 			]),
 			
 			//客服弹框关闭事件
@@ -320,8 +321,9 @@
 			
 			// 进入服务类别大类事件
 			enterServiceTypeEvent (item,index) {
+				this.changeParentServiceCategoryMessage(item);
 				uni.switchTab({
-					url: '/pages/service/service'
+					url: '/pages/service/service?transmitData'
 				})
 			},
 			

@@ -787,7 +787,7 @@ var _default = {
       });
     },
     // 订单评价事件
-    orderFormEvaluateEvent: function orderFormEvaluateEvent() {
+    orderFormEvaluateEvent: function orderFormEvaluateEvent(item) {
       // 传递服务订单信息
       var mynavData = JSON.stringify(item);
       uni.navigateTo({

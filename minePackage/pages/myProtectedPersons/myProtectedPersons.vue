@@ -53,7 +53,7 @@
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullServerPersonList.length > 0" />
+				<u-loadmore :status="status" v-if="fullServerPersonList.length > 0" />
 			</scroll-view>
 		</view>
 		<view class="add-btn">
@@ -116,7 +116,6 @@
 		onShow() {
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
-			console.log('路由',this.beforePageRoute);
 			this.fullServerPersonList = [];
 			this.queryUserServerPersonList({
 				pageNo: this.currentPageNum,

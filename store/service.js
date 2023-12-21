@@ -13,6 +13,9 @@ export default {
 			state.editServiceOrderFormSureChooseMessage = getCache('editServiceOrderFormSureChooseMessage') ? getCache('editServiceOrderFormSureChooseMessage') : {};
 			return state.editServiceOrderFormSureChooseMessage
 		},
+		parentServiceCategoryMessage: (state) => {
+			return state.parentServiceCategoryMessage
+		}
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -37,6 +40,11 @@ export default {
 				setCache('editServiceOrderFormSureChooseMessage', playLoad);
 				state.editServiceOrderFormSureChooseMessage = playLoad
 			}
+		},
+		
+		// 保存首页点击的服务大类信息
+		changeParentServiceCategoryMessage (state, playLoad) {
+			state.parentServiceCategoryMessage = playLoad
 		},
 		
 		//重置服务的状态

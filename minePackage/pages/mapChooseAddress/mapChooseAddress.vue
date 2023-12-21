@@ -47,7 +47,7 @@ export default {
 			}
     },
 		
-    onLoad() {
+    onShow() {
       this.isGetLocation()
     },
 		
@@ -62,14 +62,13 @@ export default {
 				var _this = this;
 				uni.getSetting({
 					success(res) {
-						console.log(res)
 						if (!res.authSetting[a]) { //每次进入程序判断当前是否获得授权，如果没有就去获得授权，如果获得授权，就直接获取当前地理位置
-								_this.getAuthorizeInfo()
+							_this.getAuthorizeInfo()
 						} else {
-								//方式一
-								_this.getLocationInfo();
-								// 方式二
-								// _this.getLocation();
+							//方式一
+							_this.getLocationInfo();
+							// 方式二
+							// _this.getLocation();
 						}
 					}
 				})
@@ -81,29 +80,29 @@ export default {
 					scope: a,
 					success() { //允许授权
 							//方式一
-							// _this.getLocationInfo();
+							_this.getLocationInfo();
 							// 方式二
-							_this.getLocation();
+							// _this.getLocation();
 					}
 				})
 			},
 			
 			//点击地图时
 			clickMap(e){
-					console.log("点击地图时:"+e);
-					this.latitude=e.detail.latitude;
-					this.longitude = e.detail.longitude;
+				this.latitude=e.detail.latitude;
+				this.longitude = e.detail.longitude
 			},
 			
 			getLocationInfo () {
 				//直接调用即可
 				uni.chooseLocation({
 					success: (res) => {
-						console.log(res,'详细地址')
 						if(res.errMsg == "chooseLocation:ok"){
 							this.address_info = res.name + res.address;
-							this.latitude= res.latitude;
+							this.latitude = res.latitude;
 							this.longitude = res.longitude;
+							this.covers[0]['latitude'] = res.latitude;
+							this.covers[0]['longitude'] = res.longitude;
 							let pages = getCurrentPages(); // 当前页页⾯实例
 							let nowPage = pages[pages.length - 1]; //当前页⾯实例
 							let prevPage = pages[pages.length - 2]; // 上一页面实例
@@ -112,6 +111,9 @@ export default {
 								delta: 1
 							})
 						}
+					},
+					fail: (err) => {
+						console.log('err',err);
 					}
 				})
 			},
@@ -122,8 +124,10 @@ export default {
 						type: 'gcj02',
 						success: (res) => {
 							console.log(res)
-							this.latitude = res.latitude.toString()
-							this.longitude = res.longitude.toString()						
+							this.latitude = res.latitude.toString();
+							this.longitude = res.longitude.toString();
+							this.covers[0]['latitude'] = res.latitude;
+							this.covers[0]['longitude'] = res.longitude;
 							// 获取地理位置详情信息
 							this.getLocationDetail()
 						}
@@ -157,7 +161,6 @@ export default {
 			
 			// 在地图渲染更新完成时触发
 			regionchange (e) {
-				console.log(e)
 				if (e.type == 'end' && (e.causedBy == 'scale' || e.causedBy == 'drag')) {
 					this.mapCtx = uni.createMapContext("mapSelected"); // 创建map的上下文对象, 从而操控map组件
 					this.mapCtx.getCenterLocation({
@@ -199,6 +202,8 @@ export default {
 					}
 				}
 			}
+		};
+		.map_wrap {
 		}
 	}	
 </style>

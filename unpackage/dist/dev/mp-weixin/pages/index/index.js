@@ -255,7 +255,7 @@ var _default = {
     proName: function proName() {},
     workerId: function workerId() {}
   }),
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)([])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeParentServiceCategoryMessage'])), {}, {
     //客服弹框关闭事件
     closeSupportStaffBox: function closeSupportStaffBox() {
       this.showSupportStaffBox = false;
@@ -377,8 +377,9 @@ var _default = {
     },
     // 进入服务类别大类事件
     enterServiceTypeEvent: function enterServiceTypeEvent(item, index) {
+      this.changeParentServiceCategoryMessage(item);
       uni.switchTab({
-        url: '/pages/service/service'
+        url: '/pages/service/service?transmitData'
       });
     },
     // 进入服务详情事件

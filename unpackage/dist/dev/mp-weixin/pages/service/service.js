@@ -225,7 +225,7 @@ var _default = {
       showLoadingHint: false
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userBasicInfo'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userBasicInfo', 'userInfo', 'parentServiceCategoryMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -234,7 +234,7 @@ var _default = {
   onShow: function onShow() {
     this.queryServiceProductCategory();
   },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['userInfo'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeParentServiceCategoryMessage'])), {}, {
     // 服务类型点击事件
     serviceTypeClickEvent: function serviceTypeClickEvent(item, index) {
       this.currentIndex = index;
@@ -244,6 +244,7 @@ var _default = {
       this.totalCount = 0;
       this.status = 'nomore';
       this.isShowNoHomeNoData = false;
+      this.changeParentServiceCategoryMessage({});
       this.queryServiceProductCategoryDetails({
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
@@ -285,12 +286,19 @@ var _default = {
             _this.serviceCategoryList = _this.serviceCategoryList.filter(function (item) {
               return item.parentId == 0;
             });
+            // 回显首页点击的服务大类
+            if (JSON.stringify(_this.parentServiceCategoryMessage) != '{}') {
+              _this.currentIndex = _this.serviceCategoryList.findIndex(function (item) {
+                return item.id == _this.parentServiceCategoryMessage.id;
+              });
+            }
+            ;
             // 查询服务分类第一项下的服务明细
             _this.fullServiceCategoryDetailsList = [];
             _this.queryServiceProductCategoryDetails({
               pageNo: _this.currentPageNum,
               pageSize: _this.pageSize,
-              categoryId: _this.serviceCategoryList[0]['id']
+              categoryId: JSON.stringify(_this.parentServiceCategoryMessage) != '{}' ? _this.parentServiceCategoryMessage.id : _this.serviceCategoryList[0]['id']
             }, true);
           }
         } else {
@@ -315,6 +323,7 @@ var _default = {
     queryServiceProductCategoryDetails: function queryServiceProductCategoryDetails(data, flag) {
       var _this2 = this;
       this.serviceCategoryDetailsList = [];
+      this.isShowNoHomeNoData = false;
       if (flag) {
         this.showLoadingHint = true;
       } else {
