@@ -250,13 +250,15 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import _ from 'lodash'
 	import {
 		setCache,
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
+	import store from '@/store'
 	import { getOrderDetail, editOrder } from '@/api/orderForm.js'
-	import { getNurseDetails } from '@/api/user.js'
+	import { getNurseDetails, uploadFile } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -264,7 +266,7 @@
 		},
 		data() {
 			return {
-				infoText: '预约中···',
+				infoText: '加载中···',
 				showLoadingHint: false,
 				sureCancelShow: false,
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
@@ -273,11 +275,13 @@
 				quitPayShow: false,
 				nurseMessage: {},
 				imgArr: [],
+				imgFileArr: [],
+				imgOnlinePathArr: [],
+				exitImgOnlinePathArr: [],
 				serviceSite: '上门服务详细地址',
 				serviceDate: '期望服务时间',
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
-				temporaryImgPathArr: [],
 				isReadAgreeChecked: ['阅读并同意协议'],
 				userLicenseAgreementShow: false,
 				expectationServiceTimeShow: false,
@@ -327,7 +331,6 @@
 			}
 		},
 		onShow() {
-			console.log('订单选择信息',this.editServiceOrderFormSureChooseMessage);
 			if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
 				this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage
 			};
@@ -427,7 +430,10 @@
 						this.picUrl = res.data.data.items[0]['picUrl'];
 						this.serVicePrice = fenToYuan(res.data.data.items[0]['payPrice']);
 						this.aptitudes = res.data.data.aptitudes;
-						console.log('存储选择信息',this.editServiceOrderFormSureChooseMessage);
+						
+						// 回显图片
+						this.imgArr = _.cloneDeep(res.data.data.images);
+						this.imgFileArr = _.cloneDeep(res.data.data.images);
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -527,7 +533,6 @@
 			
 			// 日期列表项点击事件
 			dateItemClickEvent (item,index) {
-				console.log('日期',item);
 				this.currentDateIndex = index;
 				this.currentSelectDate = item;
 				if (index == 0) {
@@ -707,14 +712,14 @@
 				this.userLicenseAgreementShow = true
 			},
 			
-			// 弹框确定按钮
+			// 删除弹框确定按钮
 			sureCancel() {
 				this.sureCancelShow = false;
 				this.imgArr.splice(this.imgIndex, 1);
-				this.temporaryImgPathArr.splice(this.imgIndex, 1)
+				this.imgFileArr.splice(this.imgIndex, 1)
 			},
 			
-			// 弹框取消按钮
+			// 删除弹框取消按钮
 			cancelSure() {
 				this.sureCancelShow = false;
 			},
@@ -745,7 +750,15 @@
 			
 			// 选择图片方法
 			getImg() {
-				var that = this
+				if (this.imgFileArr.length >= 9) {
+					this.$refs.uToast.show({
+						message: '至多只能上传9张图片!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				let that = this;
 				uni.chooseImage({
 					count: 4,
 					sizeType: ['original', 'compressed'],
@@ -754,11 +767,10 @@
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						that.temporaryImgPathArr = that.temporaryImgPathArr.concat(res.tempFilePaths);
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
-							that.srcImage = res.tempFilePaths[imgI];
+							that.imgFileArr.push(res.tempFiles[imgI]['path']);
 							uni.getFileSystemManager().readFile({
-								filePath: that.srcImage,
+								filePath: res.tempFilePaths[imgI],
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
@@ -770,8 +782,49 @@
 				})
 			},
 			
+			// 上传图片到服务器
+			uploadFileEvent (imgI) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							this.imgOnlinePathArr.push(temporaryData.data);
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err,
+							type: 'error',
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
+			},
+			
 			// 确认修改事件
-			sureEditEvent () {
+			async sureEditEvent () {
 				if (this.serviceSite == '上门服务详细地址') {
 					this.$refs.uToast.show({
 						message: '请选择上门服务详细地址!',
@@ -802,23 +855,34 @@
 					});
 					return
 				};
+				// 上传图片文件流到服务端
+				if (this.imgFileArr.length > 0) {
+					// 已经上传过的文件不在上传
+					let temporaryProblemPicturesList = this.imgFileArr.filter((item) => { return item.indexOf('https://') == -1});
+					this.exitImgOnlinePathArr = this.imgFileArr.filter((item) => { return item.indexOf('https://') != -1});
+					for (let imgI of temporaryProblemPicturesList) {
+						await this.uploadFileEvent(imgI)
+					}
+				};
 				this.editOrderEvent({
-						id: this.serviceMessage.id,
-					  addressId: this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.id,
-					  careId: this.isPlatformRecommendNurse ? this.editServiceOrderFormSureChooseMessage.chooseNurseMessage.id : "",
-					  remark: "",
-					  serviceDate: this.currentSelectDate.actualDate,
-					  serviceTime: this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,''),
-					  servicePersonId: this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
-					  images: [],
-					  assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
+					id: this.serviceMessage.id,
+					addressId: this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.id,
+					careId: this.isPlatformRecommendNurse ? this.editServiceOrderFormSureChooseMessage.chooseNurseMessage.id : "",
+					remark: "",
+					serviceDate: this.currentSelectDate.actualDate,
+					serviceTime: this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,''),
+					servicePersonId: this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
+					images: this.imgOnlinePathArr.concat(this.exitImgOnlinePathArr),
+					assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
 				})
 			},
 			
 			// 修改服务订单
 			editOrderEvent(data) {
+				this.infoText = '订单编辑中···';
 				this.showLoadingHint = true;
 				editOrder(data).then((res) => {
+					this.imgFileArr = [];
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
 							message: '修改订单成功',
@@ -836,6 +900,7 @@
 					this.showLoadingHint = false
 				})
 				.catch((err) => {
+					this.imgFileArr = [];
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						message: err.message,
@@ -867,6 +932,18 @@
 			transform: translate(-50%,-50%);
 			z-index: 20000;
 		};
+		.quit-pay-info {
+			::v-deep .u-popup__content {
+				.u-modal {
+					.u-modal__button-group__wrapper--cancel {
+						margin-right: 0 !important;
+					};
+					.u-modal__button-group__wrapper--confirm {
+						margin-right: 30px !important;
+					}
+				}
+			}
+		};
 		::v-deep .u-popup__content {
 			.u-modal {
 				.u-modal__title {
@@ -893,6 +970,7 @@
 						height: 34px !important;
 						line-height: 34px !important;
 						border-radius: 7px !important;
+						margin-right: 30px;
 						border: 1px solid #FF698C !important;
 						.u-modal__button-group__wrapper__text {
 							font-size: 14px;
@@ -905,7 +983,6 @@
 						height: 34px !important;
 						line-height: 34px !important;
 						border-radius: 7px !important;
-						margin-right: 30px;
 						background: #FF698C !important;
 						border: none !important;
 						.u-modal__button-group__wrapper__text {

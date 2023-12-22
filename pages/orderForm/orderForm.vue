@@ -45,7 +45,7 @@
 		</view>
 		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
-			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent">
 			</u-modal>
 		</view>
 		<!-- 提醒派单提示 -->
@@ -119,7 +119,8 @@
 					<view class="consumption-rental">
 						<view class="consumption-rental-left" v-if="item.workerStatus == 0">
 							<text>剩余支付时间:</text>
-							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss"></u-count-down>
+							<u-count-down v-if="(item.createTime + 15*60*1000) > new Date().getTime()" :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss"></u-count-down>
+							<text v-if="(item.createTime + 15*60*1000) <= new Date().getTime()">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -181,7 +182,8 @@
 					<view class="consumption-rental">
 						<view class="consumption-rental-left">
 							<text>剩余支付时间:</text>
-							<u-count-down :time="`${(item.createTime + 15*60*1000) - new Date().getTime()}`" format="mm:ss"></u-count-down>
+							<u-count-down v-if="(item.createTime + 15*60*1000) > new Date().getTime()" :time="`${(item.createTime + (15*60*1000)) - new Date().getTime()}`" format="HH:mm:ss"></u-count-down>
+							<text v-if="(item.createTime + 15*60*1000) <= new Date().getTime()">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -497,11 +499,20 @@
 			}
 		},
 		onShow() {
-			this.queryTradeOrderPage({
-				pageNo: this.currentPageNum,
-				pageSize: this.pageSize,
-				status: ''
-			},true)
+			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('current')) {
+				this.current = this.editServiceOrderFormSureChooseMessage.current;
+				this.queryTradeOrderPage({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					status: this.transitionOrderStatus(this.editServiceOrderFormSureChooseMessage.current)
+				},true)
+			}	else {
+				this.queryTradeOrderPage({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					status: ''
+				},true)
+			} 
 		},
 		methods: {
 			...mapMutations([
@@ -585,6 +596,7 @@
 				// 重置所有类型订单数量
 				this.list.forEach((item) => { return item['badge']['value'] = 0 });
 				if (flag) {
+					this.fullTradeList = [];
 					this.showLoadingHint = true
 				} else {
 					this.showLoadingHint = false;
@@ -593,6 +605,10 @@
 				};
 				getTradeOrderPage(data).then((res) => {
 					if ( res && res.data.code == 0) {
+						// 将当前存储的订单切换类型重置为0
+						let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+						temporaryEditServiceOrderFormSureChooseMessage['current'] = 0;
+						this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 						this.totalCount = res.data.data.total;
 						this.tradeList = res.data.data.list;
 						// 切换到待评价订单时只展示待评价的订单(已评价和已完成订单状态都是3)
@@ -923,9 +939,10 @@
 			
 			// 订单详情点击事件
 			enterOrderDetailsEvent (item) {
-				// 传递该订单详情的信息
+				// 传递该订单详情及当前切换的订单类型的信息
 				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
 				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+				temporaryEditServiceOrderFormSureChooseMessage['current'] = this.current;
 				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 				uni.navigateTo({
 					url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'

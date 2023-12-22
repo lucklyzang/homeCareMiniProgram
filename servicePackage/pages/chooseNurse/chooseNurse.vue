@@ -439,6 +439,7 @@
 						height: 26px;
 						background: linear-gradient(to right, #ffa7c0, #FC4278);
 						box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+						border-top-right-radius: 8px;
 						>text {
 							font-size: 12px;
 							color: #fff

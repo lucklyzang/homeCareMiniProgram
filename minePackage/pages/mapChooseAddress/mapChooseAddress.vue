@@ -25,6 +25,8 @@ export default {
 				title: 'map',
 				latitude: 39.909,// 默认纬度
 				longitude: 116.39742,// 默认经度(北京天安门)
+				latitude: 30.90469,
+				longitude: 110.40717,
 				covers: [{
 					id: 110, 
 					latitude: 39.909,
@@ -123,7 +125,6 @@ export default {
 				uni.getLocation({
 						type: 'gcj02',
 						success: (res) => {
-							console.log(res)
 							this.latitude = res.latitude.toString();
 							this.longitude = res.longitude.toString();
 							this.covers[0]['latitude'] = res.latitude;

@@ -235,6 +235,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import store from '@/store'
 	import {
 		setCache,
 		removeAllLocalStorage,
@@ -259,7 +260,8 @@
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
 				imgArr: [],
-				temporaryImgPathArr: [],
+				imgFileArr: [],
+				imgOnlinePathArr: [],
 				isReadAgreeChecked: [],
 				userLicenseAgreementShow: false,
 				expectationServiceTimeShow: false,
@@ -427,8 +429,7 @@
 						this.serviceDate = `${this.getNowFormatDateText(res.data.data.serviceDate)} (${this.judgeWeek(res.data.data.serviceDate)}) ${res.data.data.serviceTime}`;
 						this.currentSelectDate.actualDate = res.data.data.serviceDate;
 						this.currentSelectTimeQuantum = `上午${res.data.data.serviceTime}`;
-						this.aptitudes = res.data.data.aptitudes;
-						console.log('订单信息',this.serviceMessage);
+						this.aptitudes = res.data.data.aptitudes
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -665,7 +666,7 @@
 			sureCancel() {
 				this.sureCancelShow = false;
 				this.imgArr.splice(this.imgIndex, 1);
-				this.temporaryImgPathArr.splice(this.imgIndex, 1)
+				this.imgFileArr.splice(this.imgIndex, 1)
 			},
 			
 			// 弹框取消按钮
@@ -681,20 +682,27 @@
 			
 			// 选择图片方法
 			getImg() {
-				var that = this
+				if (this.imgFileArr.length >= 9) {
+					this.$refs.uToast.show({
+						message: '至多只能上传9张图片!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				let that = this;
 				uni.chooseImage({
-					count: 4,
+					count: 3,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						that.temporaryImgPathArr = that.temporaryImgPathArr.concat(res.tempFilePaths);
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
-							that.srcImage = res.tempFilePaths[imgI];
+							that.imgFileArr.push(res.tempFiles[imgI]['path']);
 							uni.getFileSystemManager().readFile({
-								filePath: that.srcImage,
+								filePath: res.tempFilePaths[imgI],
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
@@ -706,8 +714,49 @@
 				})
 			},
 			
+			// 上传图片到服务器
+			uploadFileEvent (imgI) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							this.imgOnlinePathArr.push(temporaryData.data);
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err,
+							type: 'error',
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
+			},
+			
 			// 立即预约事件
-			toAppointmentEvent () {
+			async toAppointmentEvent () {
 				if (this.serviceSite == '上门服务详细地址') {
 					this.$refs.uToast.show({
 						message: '请选择上门服务详细地址!',
@@ -756,6 +805,12 @@
 						})
 					}
 				};
+				// 上传图片文件流到服务端
+				if (this.imgFileArr.length > 0) {
+					for (let imgI of this.imgFileArr) {
+						await this.uploadFileEvent(imgI)
+					}
+				};
 				this.createOrderEvent({
 					items: temporaryItems,
 					pointStatus: false,
@@ -766,15 +821,17 @@
 					serviceDate: this.currentSelectDate.actualDate,
 					serviceTime: this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,''),
 					servicePersonId: this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
-					images: [],
+					images: this.imgOnlinePathArr,
 					assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
 				})
 			},
 			
 			// 创建服务订单
 			createOrderEvent(data) {
+				this.infoText = '预约中···';
 				this.showLoadingHint = true;
 				createOrder(data).then((res) => {
+					this.imgOnlinePathArr = [];
 					if ( res && res.data.code == 0) {
 						let tmporaryServiceOrderFormSureChooseMessage = this.serviceOrderFormSureChooseMessage;
 						tmporaryServiceOrderFormSureChooseMessage['serviceMessage'] = this.serviceMessage;
@@ -794,6 +851,7 @@
 					this.showLoadingHint = false
 				})
 				.catch((err) => {
+					this.imgOnlinePathArr = [];
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						message: err.message,

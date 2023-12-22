@@ -264,3 +264,12 @@ export function examineProductFavorite(data) {
   })
 }
 
+// 上传文件
+export function uploadFile(data) {
+  return request({
+    url: '/app-api/infra/file/upload',
+    method: 'post',
+		data
+  })
+}
+

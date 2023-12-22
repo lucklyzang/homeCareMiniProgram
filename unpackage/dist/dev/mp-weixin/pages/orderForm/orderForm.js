@@ -155,29 +155,39 @@ var render = function () {
     var m1 = _vm.getNowFormatDateText(item.serviceDate)
     var m2 = _vm.judgeWeek(item.serviceDate)
     var g0 = item.workerStatus == 0 ? new Date().getTime() : null
+    var g1 =
+      item.workerStatus == 0 && item.createTime + 15 * 60 * 1000 > g0
+        ? new Date().getTime()
+        : null
+    var g2 = item.workerStatus == 0 ? new Date().getTime() : null
     return {
       $orig: $orig,
       m0: m0,
       m1: m1,
       m2: m2,
       g0: g0,
+      g1: g1,
+      g2: g2,
     }
   })
-  var g1 = _vm.fullTradeList.length
-  var g2 = new Date().getTime()
+  var g3 = _vm.fullTradeList.length
+  var g4 = new Date().getTime()
+  var g6 = new Date().getTime()
   var l1 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m3 = _vm.transitionOrderStatusText(item.workerStatus, item)
     var m4 = _vm.getNowFormatDateText(item.serviceDate)
     var m5 = _vm.judgeWeek(item.serviceDate)
+    var g5 = item.createTime + 15 * 60 * 1000 > g4 ? new Date().getTime() : null
     return {
       $orig: $orig,
       m3: m3,
       m4: m4,
       m5: m5,
+      g5: g5,
     }
   })
-  var g3 = _vm.fullTradeList.length
+  var g7 = _vm.fullTradeList.length
   var l2 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m6 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -190,7 +200,7 @@ var render = function () {
       m8: m8,
     }
   })
-  var g4 = _vm.fullTradeList.length
+  var g8 = _vm.fullTradeList.length
   var l3 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m9 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -203,7 +213,7 @@ var render = function () {
       m11: m11,
     }
   })
-  var g5 = _vm.fullTradeList.length
+  var g9 = _vm.fullTradeList.length
   var l4 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m12 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -216,7 +226,7 @@ var render = function () {
       m14: m14,
     }
   })
-  var g6 = _vm.fullTradeList.length
+  var g10 = _vm.fullTradeList.length
   var l5 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m15 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -229,7 +239,7 @@ var render = function () {
       m17: m17,
     }
   })
-  var g7 = _vm.fullTradeList.length
+  var g11 = _vm.fullTradeList.length
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.deleteShow = false
@@ -258,18 +268,19 @@ var render = function () {
     {
       $root: {
         l0: l0,
-        g1: g1,
-        g2: g2,
-        l1: l1,
         g3: g3,
-        l2: l2,
         g4: g4,
-        l3: l3,
-        g5: g5,
-        l4: l4,
         g6: g6,
-        l5: l5,
+        l1: l1,
         g7: g7,
+        l2: l2,
+        g8: g8,
+        l3: l3,
+        g9: g9,
+        l4: l4,
+        g10: g10,
+        l5: l5,
+        g11: g11,
       },
     }
   )
@@ -389,11 +400,20 @@ var _default = {
     proId: function proId() {}
   }),
   onShow: function onShow() {
-    this.queryTradeOrderPage({
-      pageNo: this.currentPageNum,
-      pageSize: this.pageSize,
-      status: ''
-    }, true);
+    if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('current')) {
+      this.current = this.editServiceOrderFormSureChooseMessage.current;
+      this.queryTradeOrderPage({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        status: this.transitionOrderStatus(this.editServiceOrderFormSureChooseMessage.current)
+      }, true);
+    } else {
+      this.queryTradeOrderPage({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        status: ''
+      }, true);
+    }
   },
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeEditServiceOrderFormSureChooseMessage'])), {}, {
     // 倒计时结束事件
@@ -472,6 +492,7 @@ var _default = {
         return item['badge']['value'] = 0;
       });
       if (flag) {
+        this.fullTradeList = [];
         this.showLoadingHint = true;
       } else {
         this.showLoadingHint = false;
@@ -481,6 +502,10 @@ var _default = {
       ;
       (0, _orderForm.getTradeOrderPage)(data).then(function (res) {
         if (res && res.data.code == 0) {
+          // 将当前存储的订单切换类型重置为0
+          var temporaryEditServiceOrderFormSureChooseMessage = _this.editServiceOrderFormSureChooseMessage;
+          temporaryEditServiceOrderFormSureChooseMessage['current'] = 0;
+          _this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
           _this.totalCount = res.data.data.total;
           _this.tradeList = res.data.data.list;
           // 切换到待评价订单时只展示待评价的订单(已评价和已完成订单状态都是3)
@@ -806,9 +831,10 @@ var _default = {
     },
     // 订单详情点击事件
     enterOrderDetailsEvent: function enterOrderDetailsEvent(item) {
-      // 传递该订单详情的信息
+      // 传递该订单详情及当前切换的订单类型的信息
       var temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
       temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+      temporaryEditServiceOrderFormSureChooseMessage['current'] = this.current;
       this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
       uni.navigateTo({
         url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'
