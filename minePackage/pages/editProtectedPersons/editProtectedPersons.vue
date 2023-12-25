@@ -132,8 +132,8 @@
 								<image :src="item" mode="aspectFit"></image>
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡正面')"></u-icon>
 							</view>
-							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+							<view v-if="medicareCardImgArr.length < 1">
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png" @click="getImg('医保卡正面')"/>
 							</view>
 						</view>
 						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
@@ -145,17 +145,17 @@
 						<view class="medicare-card-top">
 							<text>医保卡反面</text>
 						</view>
-						<view class="medicare-card-bottom" v-if="medicareCardImgArr.length > 0">
-							<view v-for="(item, index) in medicareCardImgArr" :key='index'>
+						<view class="medicare-card-bottom" v-if="reverseSideMedicareCardImgArr.length > 0">
+							<view v-for="(item, index) in reverseSideMedicareCardImgArr" :key='index'>
 								<image :src="item" mode="aspectFit"></image>
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡反面')"></u-icon>
 							</view>
-							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+							<view v-if="reverseSideMedicareCardImgArr.length < 1">
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png" @click="getImg('医保卡反面')"/>
 							</view>
 						</view>
-						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
-							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡正面')"/>
+						<view class="medicare-cara-init" v-if="reverseSideMedicareCardImgArr.length == 0">
+							<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡反面')"/>
 							<text>只能上传jpg/png文件，且不超过5M</text>
 						</view>
 					</view>
@@ -209,6 +209,8 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import store from '@/store'
+	import _ from 'lodash'
 	import {
 		setCache,
 		removeAllLocalStorage
@@ -224,6 +226,12 @@
 				showLoadingHint: false,
 				noProtectedPersonsPng: require("@/static/img/no-protected-persons.png"),
 				infoText: '编辑中···',
+				personId: '',
+				status: '',
+				option: '',
+				checkName: '',
+				checkTime: '',
+				realname: '',
 				protectedPersonsNameValue: '',
 				idNumberValue: '',
 				contactWayValue: '',
@@ -234,14 +242,22 @@
 				sureCancelShow: false,
 				imgIndex: '',
 				content: '',
+				medicareCardFileList: [],
+				reverseSideMedicareCardFileList: [],
+				medicareCardRecordDataFileList: [],
+				specialCircumstancesFileList: [],
 				medicareCardImgArr: [],
-				temporaryMedicareCardImgArr: [],
 				medicalRecordDataImgArr: [],
 				reverseSideMedicareCardImgArr: [],
-				temporaryReverseSideMedicareCardImgArr: [],
-				temporaryMedicalRecordDataImgArr: [],
 				specialCircumstancesImgArr: [],
-				temporarySpecialCircumstancesImgArr: [],
+				medicareCardOnlinePathArr: [],
+				reverseSideMedicareCardOnlinePathArr: [],
+				medicareCardRecordDataOnlinePathArr: [],
+				specialCircumstancesOnlinePathArr: [],
+				exitMedicareCardOnlinePathArr: [],
+				exitReverseSideMedicareCardOnlinePathArr: [],
+				exitMedicareCardRecordDataOnlinePathArr: [],
+				exitSpecialCircumstancesOnlinePathArr: [],
 				text: ''
 			}
 		},
@@ -258,6 +274,12 @@
 			if (options.transmitData == '{}') { return };
 			let temporaryMessage = JSON.parse(options.transmitData);
 			// 回显被护人信息
+			this.personId = temporaryMessage.id;
+			this.status = temporaryMessage.status;
+			this.option = temporaryMessage.option;
+			this.checkName = temporaryMessage.checkName;
+			this.checkTime = temporaryMessage.checkTime;
+			this.realname = temporaryMessage.realname;
 			this.protectedPersonsNameValue = temporaryMessage.name;
 			this.idNumberValue = temporaryMessage.idCard;
 			this.contactWayValue = temporaryMessage.mobile;
@@ -265,10 +287,14 @@
 			this.ageValue = temporaryMessage.age;
 			this.sexValue = temporaryMessage.sex == 1 ? '男' : '女';
 			this.emergencyContactValue = temporaryMessage.critical;
-			this.medicareCardImgArr = [];
-			this.temporaryReverseSideMedicareCardImgArr = [];
-			this.medicalRecordDataImgArr = temporaryMessage.medicalRecord;
-			this.specialCircumstancesImgArr = temporaryMessage.special
+			this.medicareCardImgArr = !temporaryMessage.medicalCardFront ? [] : [temporaryMessage.medicalCardFront];
+			this.reverseSideMedicareCardImgArr = !temporaryMessage.medicalCardBack ? [] : [temporaryMessage.medicalCardBack];
+			this.medicalRecordDataImgArr = _.cloneDeep(temporaryMessage.medicalRecord);
+			this.specialCircumstancesImgArr = _.cloneDeep(temporaryMessage.special);
+			this.medicareCardFileList = !temporaryMessage.medicalCardFront ? [] : [temporaryMessage.medicalCardFront];
+			this.reverseSideMedicareCardFileList = !temporaryMessage.medicalCardBack ? [] : [temporaryMessage.medicalCardBack];
+			this.medicareCardRecordDataFileList = _.cloneDeep(temporaryMessage.medicalRecord);
+			this.specialCircumstancesFileList = _.cloneDeep(temporaryMessage.special)
 		},
 		methods: {
 			...mapMutations([
@@ -284,20 +310,20 @@
 				this.sureCancelShow = false
 			},
 			
-			// 弹框确定按钮
+			// 弹框确定按钮	
 			sureCancel() {
 				if (this.text == '医保卡正面') {
 					this.medicareCardImgArr.splice(this.imgIndex, 1);
-					this.temporaryMedicareCardImgArr.splice(this.imgIndex, 1);
+					this.medicareCardFileList.splice(this.imgIndex, 1);
 				} else if (this.text == '医保卡反面') {
 					this.reverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
-					this.temporaryReverseSideMedicareCardImgArr.splice(this.imgIndex, 1);
+					this.reverseSideMedicareCardFileList.splice(this.imgIndex, 1);
 				} else if (this.text == '病历资料') {
 					this.medicalRecordDataImgArr.splice(this.imgIndex, 1);
-					this.temporaryMedicalRecordDataImgArr.splice(this.imgIndex, 1);
+					this.medicareCardRecordDataFileList.splice(this.imgIndex, 1);
 				} else if (this.text == '特殊情况') {
 					this.specialCircumstancesImgArr.splice(this.imgIndex, 1);
-					this.temporarySpecialCircumstancesImgArr.splice(this.imgIndex, 1);
+					this.specialCircumstancesFileList.splice(this.imgIndex, 1);
 				};
 				this.sureCancelShow = false
 			},
@@ -311,28 +337,33 @@
 			
 			// 选择图片方法
 			getImg(text) {
-				var that = this;
+				let that = this;
+				let temporaryCount = 0;
+				if (text == '医保卡正面' || text == '医保卡反面') {
+					temporaryCount = 1
+				} else {
+					temporaryCount = 3
+				};
 				uni.chooseImage({
-					count: 4,
+					count: temporaryCount,
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
 						uni.previewImage({
 							urls: res.tempFilePaths
 						});
-						if (text == '医保卡正面') {
-							that.temporaryMedicareCardImgArr = that.temporaryMedicareCardImgArr.concat(res.tempFilePaths);
-						} else if (text == '医保卡反面') {
-							that.temporaryReverseSideMedicareCardImgArr = that.temporaryReverseSideMedicareCardImgArr.concat(res.tempFilePaths);
-						} else if (text == '病历资料') {
-							that.temporaryMedicalRecordDataImgArr = that.temporaryMedicalRecordDataImgArr.concat(res.tempFilePaths);
-						} else if (text == '特殊情况') {
-							that.temporarySpecialCircumstancesImgArr = that.temporarySpecialCircumstancesImgArr.concat(res.tempFilePaths);
-						};
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
-							that.srcImage = res.tempFilePaths[imgI];
+							if (text == '医保卡正面') {
+								that.medicareCardFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '医保卡反面') {
+								that.reverseSideMedicareCardFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '病历资料') {
+								that.medicareCardRecordDataFileList.push(res.tempFiles[imgI]['path']);
+							} else if (text == '特殊情况') {
+								that.specialCircumstancesFileList.push(res.tempFiles[imgI]['path']);
+							};
 							uni.getFileSystemManager().readFile({
-								filePath: that.srcImage,
+								filePath: res.tempFilePaths[imgI],
 								encoding: 'base64',
 								success: res => {
 									let base64 = 'data:image/jpeg;base64,' + res.data;
@@ -352,13 +383,17 @@
 				})
 			},
 			
-			// 创建用户收获地址
+			// 编辑被护人事件
 			updateServerPersonEvent (data) {
 				this.showLoadingHint = true;
 				updateServerPerson(data).then((res) => {
+					this.medicareCardOnlinePathArr = [];
+					this.reverseSideMedicareCardOnlinePathArr = [];
+					this.medicareCardRecordDataOnlinePathArr = [];
+					this.specialCircumstancesOnlinePathArr = [];
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
-							message: '新增被护人成功',
+							message: '编辑被护人成功',
 							type: 'success',
 							position: 'center'
 						});
@@ -373,6 +408,10 @@
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
+					this.medicareCardOnlinePathArr = [];
+					this.reverseSideMedicareCardOnlinePathArr = [];
+					this.medicareCardRecordDataOnlinePathArr = [];
+					this.specialCircumstancesOnlinePathArr = [];
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						message: err.message,
@@ -382,8 +421,57 @@
 				})
 			},
 			
+			// 上传图片到服务器
+			uploadFileEvent (imgI,text) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							if (text == '医保卡正面') {
+								this.medicareCardOnlinePathArr.push(temporaryData.data);
+							} else if (text == '医保卡反面') {
+								this.reverseSideMedicareCardOnlinePathArr.push(temporaryData.data);
+							} else if (text == '病历资料') {
+								this.medicareCardRecordDataOnlinePathArr.push(temporaryData.data);
+							} else if (text == '特殊情况') {
+								this.specialCircumstancesOnlinePathArr.push(temporaryData.data);
+							};
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err,
+							type: 'error',
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
+			},
+			
 			// 编辑被护人事件
-			saveProtectedPersonsEvent () {
+			async saveProtectedPersonsEvent () {
 				if (!this.protectedPersonsNameValue) {
 					this.$refs.uToast.show({
 						message: '被护人姓名不能为空',
@@ -413,22 +501,59 @@
 					});
 					return
 				};
+				// 上传图片文件流到服务端(医保卡正面)
+				if (this.medicareCardFileList.length > 0) {
+					// 已经上传过的文件不在上传
+					let temporaryProblemPicturesList = this.medicareCardFileList.filter((item) => { return item.indexOf('https://') == -1});
+					this.exitMedicareCardOnlinePathArr = this.medicareCardFileList.filter((item) => { return item.indexOf('https://') != -1});
+					for (let imgI of temporaryProblemPicturesList) {
+						await this.uploadFileEvent(imgI,'医保卡正面')
+					}
+				};
+				// 上传图片文件流到服务端(医保卡反面面)
+				if (this.reverseSideMedicareCardFileList.length > 0) {
+					// 已经上传过的文件不在上传
+					let temporaryProblemPicturesList = this.reverseSideMedicareCardFileList.filter((item) => { return item.indexOf('https://') == -1});
+					this.exitReverseSideMedicareCardOnlinePathArr = this.reverseSideMedicareCardFileList.filter((item) => { return item.indexOf('https://') != -1});
+					for (let imgI of temporaryProblemPicturesList) {
+						await this.uploadFileEvent(imgI,'医保卡反面')
+					}
+				};
+				// 上传图片文件流到服务端(病历资料)
+				if (this.medicareCardRecordDataFileList.length > 0) {
+					// 已经上传过的文件不在上传
+					let temporaryProblemPicturesList = this.medicareCardRecordDataFileList.filter((item) => { return item.indexOf('https://') == -1});
+					this.exitMedicareCardRecordDataOnlinePathArr = this.medicareCardRecordDataFileList.filter((item) => { return item.indexOf('https://') != -1});
+					for (let imgI of temporaryProblemPicturesList) {
+						await this.uploadFileEvent(imgI,'病历资料')
+					}
+				};
+				// 上传图片文件流到服务端(特殊情况)
+				if (this.specialCircumstancesFileList.length > 0) {
+					// 已经上传过的文件不在上传
+					let temporaryProblemPicturesList = this.specialCircumstancesFileList.filter((item) => { return item.indexOf('https://') == -1});
+					this.exitSpecialCircumstancesOnlinePathArr = this.specialCircumstancesFileList.filter((item) => { return item.indexOf('https://') != -1});
+					for (let imgI of temporaryProblemPicturesList) {
+						await this.uploadFileEvent(imgI,'特殊情况')
+					}
+				};
 				let data = {
+					id: this.personId,
 					name: this.protectedPersonsNameValue,
 					idCard: this.idNumberValue,
 					mobile: this.contactWayValue,
 					birthday: this.birthDateValue,
-					sex: this.sexValue,
+					sex: this.sexValue == '男' ? 1 : 2,
 					critical: this.emergencyContactValue,
-					realname: 'NO',
-					medicalCardFront: "",
-					medicalCardBack: "",
-					medicalRecord: this.medicalRecordDataImgArr,
-					special: this.specialCircumstancesImgArr,
-					status: "",
-					checkName: "",
-					checkTime: "",
-					opinion: ""
+					realname: this.realname,
+					medicalCardFront: !(this.medicareCardOnlinePathArr.concat(this.exitMedicareCardOnlinePathArr))[0] ? '' :  (this.medicareCardOnlinePathArr.concat(this.exitMedicareCardOnlinePathArr))[0],
+					medicalCardBack: !(this.reverseSideMedicareCardOnlinePathArr.concat(this.exitReverseSideMedicareCardOnlinePathArr))[0] ? '' : (this.reverseSideMedicareCardOnlinePathArr.concat(this.exitReverseSideMedicareCardOnlinePathArr))[0],
+					medicalRecord: this.medicareCardRecordDataOnlinePathArr.concat(this.exitMedicareCardRecordDataOnlinePathArr),
+					special: this.specialCircumstancesOnlinePathArr.concat(this.exitSpecialCircumstancesOnlinePathArr),
+					status: this.status,
+					checkName: this.checkName,
+					checkTime: this.checkTime,
+					opinion: this.opinion
 				};
 				this.updateServerPersonEvent(data)
 			}
@@ -603,6 +728,15 @@
 								margin-top: 4px;
 								font-size: 12px;
 								color: #101010
+							}
+						}
+					};
+					.medicare-card-area {
+						.medicare-card-bottom {
+							display: flex;
+							justify-content: center;
+							>view {
+								width: 80% !important
 							}
 						}
 					}

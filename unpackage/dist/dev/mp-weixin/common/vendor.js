@@ -21232,7 +21232,7 @@ function updateServerPerson(data) {
   return (0, _request.default)({
     url: '/app-api/member/server-person/update',
     method: 'put',
-    params: data
+    data: data
   });
 }
 

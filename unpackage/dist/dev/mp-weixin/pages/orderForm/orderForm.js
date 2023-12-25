@@ -156,7 +156,7 @@ var render = function () {
     var m2 = _vm.judgeWeek(item.serviceDate)
     var g0 = item.workerStatus == 0 ? new Date().getTime() : null
     var g1 =
-      item.workerStatus == 0 && item.createTime + 15 * 60 * 1000 > g0
+      item.workerStatus == 0 && item.createTime + 35 * 60 * 1000 > g0
         ? new Date().getTime()
         : null
     var g2 = item.workerStatus == 0 ? new Date().getTime() : null

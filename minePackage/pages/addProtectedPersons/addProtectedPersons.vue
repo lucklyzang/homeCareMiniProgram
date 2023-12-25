@@ -129,8 +129,8 @@
 								<image :src="item" mode="aspectFit"></image>
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡正面')"></u-icon>
 							</view>
-							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  v-if="medicareCardImgArr.length < 1" @click="getImg('医保卡正面')"/>
+							<view v-if="medicareCardImgArr.length < 1">
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png" @click="getImg('医保卡正面')"/>
 							</view>
 						</view>
 						<view class="medicare-cara-init" v-if="medicareCardImgArr.length == 0">
@@ -147,8 +147,8 @@
 								<image :src="item" mode="aspectFit"></image>
 								<u-icon name="close" color="#2979ff" size="28" @click="photoDelete(item,index,'医保卡反面')"></u-icon>
 							</view>
-							<view>
-								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  v-if="reverseSideMedicareCardImgArr.length < 1"  @click="getImg('医保卡反面')"/>
+							<view v-if="reverseSideMedicareCardImgArr.length < 1">
+								<image class="" mode="aspectFit" :lazy-load="true" src="/static/img/plus.png"  @click="getImg('医保卡反面')"/>
 							</view>
 						</view>
 						<view class="medicare-cara-init" v-if="reverseSideMedicareCardImgArr.length == 0">
@@ -206,6 +206,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import store from '@/store'
 	import {
 		setCache,
 		removeAllLocalStorage
@@ -239,6 +240,10 @@
 				reverseSideMedicareCardImgArr: [],
 				medicalRecordDataImgArr: [],
 				specialCircumstancesImgArr: [],
+				medicareCardOnlinePathArr: [],
+				reverseSideMedicareCardOnlinePathArr: [],
+				medicareCardRecordDataOnlinePathArr: [],
+				specialCircumstancesOnlinePathArr: [],
 				text: ''
 			}
 		},
@@ -340,6 +345,55 @@
 				})
 			},
 			
+			// 上传图片到服务器
+			uploadFileEvent (imgI,text) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							if (text == '医保卡正面') {
+								this.medicareCardOnlinePathArr.push(temporaryData.data);
+							} else if (text == '医保卡反面') {
+								this.reverseSideMedicareCardOnlinePathArr.push(temporaryData.data);
+							} else if (text == '病历资料') {
+								this.medicareCardRecordDataOnlinePathArr.push(temporaryData.data);
+							} else if (text == '特殊情况') {
+								this.specialCircumstancesOnlinePathArr.push(temporaryData.data);
+							};
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err,
+							type: 'error',
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
+			},
+			
 			// 创建被护人
 			createServerPersonEvent (data) {
 				this.showLoadingHint = true;
@@ -371,7 +425,7 @@
 			},
 			
 			// 保存被护人事件
-			saveProtectedPersonsEvent () {
+			async saveProtectedPersonsEvent () {
 				if (!this.protectedPersonsNameValue) {
 					this.$refs.uToast.show({
 						message: '被护人姓名不能为空',
@@ -401,6 +455,30 @@
 					});
 					return
 				};
+				// 上传图片文件流到服务端(医保卡正面)
+				if (this.medicareCardFileList.length > 0) {
+					for (let imgI of this.medicareCardFileList) {
+						await this.uploadFileEvent(imgI,'医保卡正面')
+					}
+				};
+				// 上传图片文件流到服务端(医保卡反面面)
+				if (this.reverseSideMedicareCardFileList.length > 0) {
+					for (let imgI of this.reverseSideMedicareCardFileList) {
+						await this.uploadFileEvent(imgI,'医保卡反面')
+					}
+				};
+				// 上传图片文件流到服务端(病历资料)
+				if (this.medicareCardRecordDataFileList.length > 0) {
+					for (let imgI of this.medicareCardRecordDataFileList) {
+						await this.uploadFileEvent(imgI,'病历资料')
+					}
+				};
+				// 上传图片文件流到服务端(特殊情况)
+				if (this.specialCircumstancesFileList.length > 0) {
+					for (let imgI of this.specialCircumstancesFileList) {
+						await this.uploadFileEvent(imgI,'特殊情况')
+					}
+				};
 				let data = {
 					name: this.protectedPersonsNameValue,
 					idCard: this.idNumberValue,
@@ -409,10 +487,10 @@
 					sex: this.sexValue == '男' ? '1' : '2',
 					critical: this.emergencyContactValue,
 					realname: 'NO',
-					medicalCardFront: this.medicareCardFileList[0],
-					medicalCardBack: this.reverseSideMedicareCardFileList[0],
-					medicalRecord: this.medicareCardRecordDataFileList,
-					special: this.specialCircumstancesFileList,
+					medicalCardFront: this.medicareCardOnlinePathArr.length == 0 ? '' : this.medicareCardOnlinePathArr[0],
+					medicalCardBack: this.reverseSideMedicareCardOnlinePathArr.length == 0 ? '' : this.reverseSideMedicareCardOnlinePathArr[0],
+					medicalRecord: this.medicareCardRecordDataOnlinePathArr,
+					special: this.specialCircumstancesOnlinePathArr,
 					status: "",
 					checkName: "",
 					checkTime: "",
@@ -591,6 +669,15 @@
 								margin-top: 4px;
 								font-size: 12px;
 								color: #101010
+							}
+						}
+					};
+					.medicare-card-area {
+						.medicare-card-bottom {
+							display: flex;
+							justify-content: center;
+							>view {
+								width: 80% !important
 							}
 						}
 					}

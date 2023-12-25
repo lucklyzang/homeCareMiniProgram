@@ -224,7 +224,7 @@ export function updateServerPerson(data) {
   return request({
     url: '/app-api/member/server-person/update',
     method: 'put',
-		params: data
+		data
   })
 }
 
