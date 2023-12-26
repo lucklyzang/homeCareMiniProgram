@@ -206,7 +206,7 @@
 				<view class="order-flow-content">
 					<u-steps :current="currentFlow" dot inactiveColor="rgba(255, 255, 255, 0.5)" activeColor="#fff">
 						<u-steps-item title="已支付"></u-steps-item>
-						<u-steps-item title="待接单"></u-steps-item>
+						<u-steps-item title="派单中"></u-steps-item>
 						<u-steps-item title="待服务"></u-steps-item>
 						<u-steps-item title="服务中"></u-steps-item>
 						<u-steps-item title="待评价"></u-steps-item>
@@ -227,7 +227,7 @@
 						</view>
 						<view class="order-message-one-special-right">
 							<text>{{ serviceMessage.no }}</text>
-							<text  @click="copyContent(copyValue)">复制</text>
+							<text  @click="copyContent(serviceMessage.no)">复制</text>
 						</view>
 					</view>
 					<view class="order-message-one" v-if="serviceMessage.payNo">
@@ -236,19 +236,19 @@
 					</view>
 					<view class="order-message-one">
 						<text>创建时间:</text>
-						<text>{{ serviceMessage.createTime }}</text>
+						<text>{{ getNowFormatDate(new Date(serviceMessage.createTime),4) }}</text>
 					</view>
 					<view class="order-message-one" v-if="serviceMessage.workerStatus != 0 && serviceMessage.payTime">
 						<text>付款时间:</text>
-						<text>{{ serviceMessage.payTime }}</text>
+						<text>{{ getNowFormatDate(new Date(serviceMessage.payTime),4) }}</text>
 					</view>
 					<view class="order-message-one" v-if="serviceMessage.status >= 30 && serviceMessage.status != 70">
 						<text>派单时间:</text>
-						<text>{{ serviceMessage.assignTime }}</text>
+						<text>{{ getNowFormatDate(new Date(serviceMessage.assignTime),4) }}</text>
 					</view>
 					<view class="order-message-one" v-if="serviceMessage.status == 60">
 						<text>完成服务时间:</text>
-						<text>{{ serviceMessage.completeTime }}</text>
+						<text>{{ getNowFormatDate(new Date(serviceMessage.completeTime),4) }}</text>
 					</view>
 				</view>
 			</view>
@@ -397,7 +397,7 @@
 			}
 		},
 		onShow() {
-			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id, type: 1})
 		},
 		methods: {
 			...mapMutations([
@@ -427,7 +427,7 @@
 				if (temporaryStatus == 1 || temporaryStatus == 2) {
 					switch(temporaryWorkerStatus) {
 						case '10' :
-						return 0
+						return 1
 						break;
 						case '20' :
 						return 1
@@ -445,7 +445,7 @@
 				} else {
 					switch(temporaryStatus) {
 						case '1' :
-						return 0
+						return 1
 						break;
 						case '2' :
 						if (temporaryWorkerStatus == '20') {
@@ -567,6 +567,51 @@
 						return "周六"
 						break
 					}
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟秒)5(显示月日)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let seperator3 = " ";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				let seconds = currentDate.getSeconds();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (seconds >= 0 && seconds <= 9) {
+					seconds = "0" + seconds;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes + seperator2 + seconds
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
+				};
+				return currentdate
 			},
 			
 			// 操作订单成功确定事件

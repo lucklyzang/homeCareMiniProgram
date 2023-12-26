@@ -74,7 +74,11 @@
 					<u-empty text="暂无服务" v-if="isShowNoServiceData"></u-empty>
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 						<view class="service-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
-							<u-image width="60" height="60" :src="item.picUrl"></u-image>
+							<u-image width="100" mode="widthFix" :src="item.picUrl">
+								<template v-slot:loading>
+									<u-loading-icon color="red"></u-loading-icon>
+								</template>
+							</u-image>
 							<text>{{ item.name }}</text>
 						</view>
 					</scroll-view>
@@ -732,7 +736,7 @@
 					.scroll-view {
 						height: 100%
 					};
-					::v-deep .scroll-view {
+					::v-deep .uni-scroll-view-content {
 						display: flex;
 						flex-wrap: wrap;
 						position: relative;
@@ -755,6 +759,9 @@
 								margin-top: 6px;
 								font-size: 12px;
 								color: #101010
+							};
+							.u-image {
+								height: auto !important
 							}
 						};
 						.service-list {

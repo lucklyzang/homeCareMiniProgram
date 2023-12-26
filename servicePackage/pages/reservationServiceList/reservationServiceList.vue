@@ -312,11 +312,12 @@
 		},
 		
 		onLoad(options) {
+			console.log('lu',options);
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
-			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails') {
+			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails' || this.beforePageRoute == 'orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback') {
 				this.queryOrderDetail({id: temporaryAddress.id});
 				return
 			};
@@ -324,14 +325,20 @@
 		},
 		
 		onShow () {
-			if (JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
-				this.nurseMessage = this.serviceOrderFormSureChooseMessage.chooseNurseMessage
+			if (this.serviceOrderFormSureChooseMessage.hasOwnProperty('chooseNurseMessage')) {
+				if (JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
+					this.nurseMessage = this.serviceOrderFormSureChooseMessage.chooseNurseMessage
+				}
 			};
-			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
-				this.serviceSite = `${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+			if (this.serviceOrderFormSureChooseMessage.hasOwnProperty('chooseAddressMessage')) {
+				if (JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
+					this.serviceSite = `${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+				}
 			};
-			if ( JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
-				this.protectedPerson = `${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.serviceOrderFormSureChooseMessage.chooseAddressMessage.sex == 1 ? '男' : '女'} ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+			if (this.serviceOrderFormSureChooseMessage.hasOwnProperty('chooseProtegePersonMessage')) {
+				if (JSON.stringify(this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
+					this.protectedPerson = `${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.sex == 1 ? '男' : '女'} ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.serviceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+				}
 			}
 		},
 		
@@ -788,22 +795,32 @@
 					return
 				};
 				let temporaryItems = [];
-				if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails') {
-					for (let item of this.serviceMessage.items) {
-						temporaryItems.push({
-							skuId: item.skuId,
-							count: item.count,
-							cartId: ''
-						})
-					}
+				if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails' || this.beforePageRoute == 'orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback') {
+					// for (let item of this.serviceMessage.items) {
+					// 	temporaryItems.push({
+					// 		skuId: item.skuId,
+					// 		count: item.count,
+					// 		cartId: ''
+					// 	})
+					// }
+					temporaryItems.push({
+						skuId: this.serviceMessage.items[0].skuId,
+						count: this.serviceMessage.items[0].count,
+						cartId: ''
+					})
 				} else {
-					for (let item of this.serviceMessage.skus) {
-						temporaryItems.push({
-							skuId: item.id,
-							count: 1,
-							cartId: ''
-						})
-					}
+					// for (let item of this.serviceMessage.skus) {
+					// 	temporaryItems.push({
+					// 		skuId: item.id,
+					// 		count: 1,
+					// 		cartId: ''
+					// 	})
+					// }
+					temporaryItems.push({
+						skuId: this.serviceMessage.skus[0].id,
+						count: 1,
+						cartId: ''
+					})
 				};
 				// 上传图片文件流到服务端
 				if (this.imgFileArr.length > 0) {

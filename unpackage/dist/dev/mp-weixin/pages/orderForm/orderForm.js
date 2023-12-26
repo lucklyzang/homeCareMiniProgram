@@ -154,40 +154,27 @@ var render = function () {
     var m0 = _vm.transitionOrderStatusText(item.workerStatus, item)
     var m1 = _vm.getNowFormatDateText(item.serviceDate)
     var m2 = _vm.judgeWeek(item.serviceDate)
-    var g0 = item.workerStatus == 0 ? new Date().getTime() : null
-    var g1 =
-      item.workerStatus == 0 && item.createTime + 35 * 60 * 1000 > g0
-        ? new Date().getTime()
-        : null
-    var g2 = item.workerStatus == 0 ? new Date().getTime() : null
     return {
       $orig: $orig,
       m0: m0,
       m1: m1,
       m2: m2,
-      g0: g0,
-      g1: g1,
-      g2: g2,
     }
   })
-  var g3 = _vm.fullTradeList.length
-  var g4 = new Date().getTime()
-  var g6 = new Date().getTime()
+  var g0 = _vm.fullTradeList.length
   var l1 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m3 = _vm.transitionOrderStatusText(item.workerStatus, item)
     var m4 = _vm.getNowFormatDateText(item.serviceDate)
     var m5 = _vm.judgeWeek(item.serviceDate)
-    var g5 = item.createTime + 15 * 60 * 1000 > g4 ? new Date().getTime() : null
     return {
       $orig: $orig,
       m3: m3,
       m4: m4,
       m5: m5,
-      g5: g5,
     }
   })
-  var g7 = _vm.fullTradeList.length
+  var g1 = _vm.fullTradeList.length
   var l2 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m6 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -200,7 +187,7 @@ var render = function () {
       m8: m8,
     }
   })
-  var g8 = _vm.fullTradeList.length
+  var g2 = _vm.fullTradeList.length
   var l3 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m9 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -213,7 +200,7 @@ var render = function () {
       m11: m11,
     }
   })
-  var g9 = _vm.fullTradeList.length
+  var g3 = _vm.fullTradeList.length
   var l4 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m12 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -226,7 +213,7 @@ var render = function () {
       m14: m14,
     }
   })
-  var g10 = _vm.fullTradeList.length
+  var g4 = _vm.fullTradeList.length
   var l5 = _vm.__map(_vm.fullTradeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m15 = _vm.transitionOrderStatusText(item.workerStatus, item)
@@ -239,7 +226,7 @@ var render = function () {
       m17: m17,
     }
   })
-  var g11 = _vm.fullTradeList.length
+  var g5 = _vm.fullTradeList.length
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       _vm.deleteShow = false
@@ -268,19 +255,17 @@ var render = function () {
     {
       $root: {
         l0: l0,
-        g3: g3,
-        g4: g4,
-        g6: g6,
+        g0: g0,
         l1: l1,
-        g7: g7,
+        g1: g1,
         l2: l2,
-        g8: g8,
+        g2: g2,
         l3: l3,
-        g9: g9,
+        g3: g3,
         l4: l4,
-        g10: g10,
+        g4: g4,
         l5: l5,
-        g11: g11,
+        g5: g5,
       },
     }
   )
@@ -517,7 +502,8 @@ var _default = {
             }
             ;
             _this.tradeList.forEach(function (item) {
-              return item.payPrice = (0, _utils.fenToYuan)(item.payPrice);
+              item.payPrice = (0, _utils.fenToYuan)(item.payPrice);
+              item.countTime = new Date(item.createTime).getTime() + 15 * 60 * 1000 - new Date().getTime();
             });
           }
           ;

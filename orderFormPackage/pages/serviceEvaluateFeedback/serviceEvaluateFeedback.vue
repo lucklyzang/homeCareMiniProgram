@@ -17,8 +17,8 @@
 			</view>
 		</view>
 		<view class="submit-area">
-			<text>返回订单</text>
-			<text>再来一单</text>
+			<text @click="backToOrderEvent">返回订单</text>
+			<text @click="reorderEvent">再来一单</text>
 		</view>
 	</view>
 </template>
@@ -39,6 +39,7 @@
 		},
 		data() {
 			return {
+				serviceMessage: {}
 			}
 		},
 		computed: {
@@ -50,7 +51,11 @@
 			proId() {
 			}
 		},
-		onShow() {
+		onLoad(options) {
+			console.log('订单详情',options);
+			if (options.transmitData == '{}') { return };
+			let temporaryAddress = JSON.parse(options.transmitData);
+			this.serviceMessage = temporaryAddress
 		},
 		methods: {
 			...mapMutations([
@@ -59,6 +64,23 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 返回订单事件
+			backToOrderEvent () {
+				uni.navigateBack({
+					delta: 2
+				})
+			},
+			
+			// 再次下单事件
+			reorderEvent () {
+				// 传递服务订单信息
+				let mynavData = JSON.stringify(this.serviceMessage);
+				console.log('擦混第',mynavData);
+				uni.navigateTo({
+					url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData='+mynavData
+				})
 			}
 		}
 	}

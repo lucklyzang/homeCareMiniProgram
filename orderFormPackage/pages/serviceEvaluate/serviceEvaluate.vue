@@ -97,6 +97,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import store from '@/store'
 	import {
 		setCache,
 		removeAllLocalStorage
@@ -117,6 +118,7 @@
 				sureCancelShow: false,
 				imgArr: [],
 				fileList: [],
+				imgOnlinePathArr: [],
 				imgIndex: '',
 				serviceSpeedValue: '',
 				majorLevelValue: '',
@@ -136,7 +138,8 @@
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
-			this.serviceMessage = temporaryAddress
+			this.serviceMessage = temporaryAddress;
+			console.log('信息',this.serviceMessage);
 		},
 		methods: {
 			...mapMutations([
@@ -199,13 +202,57 @@
 				})
 			},
 			
+			// 上传图片到服务器
+			uploadFileEvent (imgI) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							this.imgOnlinePathArr.push(temporaryData.data);
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err,
+							type: 'error',
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
+			},
+			
 			// 创建评价
 			createOrderCommentEvent(data) {
 				this.showLoadingHint = true;
 				createOrderComment(data).then((res) => {
+					this.imgOnlinePathArr = [];
 					if ( res && res.data.code == 0) {
+						// 传递服务订单信息
+						let mynavData = JSON.stringify(this.serviceMessage);
 						uni.navigateTo({
-							url: '/orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback'
+							url: '/orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback?transmitData='+mynavData
 						})
 					} else {
 						this.$refs.uToast.show({
@@ -217,6 +264,7 @@
 					this.showLoadingHint = false
 				})
 				.catch((err) => {
+					this.imgOnlinePathArr = [];
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						message: err.message,
@@ -227,15 +275,21 @@
 			},
 			
 			// 提交评价事件
-			submitEvent () {
+			async submitEvent () {
+				// 上传图片文件流到服务端
+				if (this.fileList.length > 0) {
+					for (let imgI of this.fileList) {
+						await this.uploadFileEvent(imgI)
+					}
+				};
 				this.createOrderCommentEvent({
 					anonymous: true,
-					orderItemId: this.serviceMessage.id,
+					orderItemId: this.serviceMessage.items[0].id,
 					attitudeScores: this.serviceAttitudeValue,
 					speedScores: this.serviceSpeedValue,
 					specialityScores: this.majorLevelValue,
 					content: this.evaluateValue,
-					picUrls: this.imgArr
+					picUrls: this.imgOnlinePathArr
 				})
 			}
 		}

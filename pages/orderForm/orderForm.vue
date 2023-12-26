@@ -119,8 +119,8 @@
 					<view class="consumption-rental">
 						<view class="consumption-rental-left" v-if="item.workerStatus == 0">
 							<text>剩余支付时间:</text>
-							<u-count-down v-if="(item.createTime + 35*60*1000) > new Date().getTime()" :time="`${(new Date(item.createTime).getTime() + (35*60*1000)) - new Date().getTime()}`" format="mm:ss"></u-count-down>
-							<text v-if="(item.createTime + 35*60*1000) <= new Date().getTime()">00:00</text>
+							<u-count-down v-if="item.countTime > 0" :time="item.countTime" format="mm:ss"></u-count-down>
+							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -182,8 +182,8 @@
 					<view class="consumption-rental">
 						<view class="consumption-rental-left">
 							<text>剩余支付时间:</text>
-							<u-count-down v-if="(item.createTime + 15*60*1000) > new Date().getTime()" :time="`${(item.createTime + (15*60*1000)) - new Date().getTime()}`" format="mm:ss"></u-count-down>
-							<text v-if="(item.createTime + 15*60*1000) <= new Date().getTime()">00:00</text>
+							<u-count-down v-if="item.countTime > 0" :time="item.countTime" format="mm:ss"></u-count-down>
+							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
@@ -617,7 +617,8 @@
 								this.tradeList = this.tradeList.filter((item) => { return item.commentStatus == false })
 							};
 							this.tradeList.forEach((item) => {
-								return item.payPrice = fenToYuan(item.payPrice)
+								item.payPrice = fenToYuan(item.payPrice);
+								item.countTime = (new Date(item.createTime).getTime() + (15*60*1000)) - new Date().getTime(); 
 							});
 						};
 						this.fullTradeList = this.fullTradeList.concat(this.tradeList);

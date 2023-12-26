@@ -331,14 +331,20 @@
 			}
 		},
 		onShow() {
-			if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
-				this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage
+			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseNurseMessage')) {
+				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
+					this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage
+				}
 			};
-			if ( JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
-				this.serviceSite = `${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseAddressMessage')) {
+				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
+					this.serviceSite = `${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.address}${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.detailAddress}`
+				}
 			};
-			if ( JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
-				this.protectedPerson = `${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.sex == 1 ? '男' : '女'} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseProtegePersonMessage')) {
+				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
+					this.protectedPerson = `${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.sex == 1 ? '男' : '女'} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+				}
 			}
 		},
 		onLoad(options) {
