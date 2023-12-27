@@ -171,15 +171,6 @@
 			"name": "rootOrderFormPackage",
 			"pages": [
 				{
-					"path": "pages/orderForm/index/index",
-					"style": {
-						"navigationBarTitleText": "",
-						"navigationBarBackgroundColor": "#ffffff",
-						"backgroundColorTop": "#fff,",
-						"backgroundColorBottom": "#fff"
-					}
-				},
-				{
 					"path": "pages/orderFormDetails/orderFormDetails",
 					"style": {
 						"navigationBarTitleText": "",
@@ -368,7 +359,7 @@
 				"network": "all",
 				"packages": ["rootMessagePackage"]
 		},
-		"orderFormPackage/pages/orderForm/index/index": {
+		"orderFormPackage/pages/orderFormDetails/orderFormDetails": {
 				"network": "all",
 				"packages": ["rootOrderFormPackage"]
 		},
