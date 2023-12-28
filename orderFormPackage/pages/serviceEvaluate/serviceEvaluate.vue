@@ -14,16 +14,16 @@
 			<view class="order-form-list">
 				<view class="order-form-top">
 					<view class="order-form-title">
-						<text>婴儿全身按摩</text>
+						<text>{{ serviceMessage.items[0]['spuName'] }}</text>
 					</view>
 					<view class="order-form-status">
 						<text>实付总金额</text>
-						<text>￥999</text>
+						<text>{{`￥${serviceMessage.payPrice}`}}</text>
 					</view>
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image src="@/static/img/health-nurse.png" width="66" height="66">
+						<u-image :src="serviceMessage.items[0]['picUrl']" width="66" height="66">
 							 <template v-slot:loading>
 							    <u-loading-icon color="red"></u-loading-icon>
 							  </template>
@@ -32,15 +32,15 @@
 					<view class="order-form-center-right">
 						<view class="brotected-person">
 							<text>被护人</text>
-							<text>燕双鹰 26岁</text>
+							<text>{{ `${serviceMessage.servicePerson.name} ${serviceMessage.servicePerson.age}岁` }}</text>
 						</view>
 						<view class="service-address">
 							<text>服务地址</text>
-							<text>环球中心一号楼2单元403</text>
+							<text>{{ serviceMessage.receiverDetailAddress }}</text>
 						</view>
 						<view class="expectation-date">
 							<text>期望时间</text>
-							<text>06月14日 (星期二) 上午8：00-9：00</text>
+							<text>{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
 						</view>
 					</view>
 				</view>
@@ -159,6 +159,52 @@
 			// 弹框取消按钮
 			cancelSure() {
 				this.sureCancelShow = false;
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate,type) {
+				// type: 2(只展示月)
+				let currentdate;
+				let strDate = new Date(currentDate).getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let month = new Date(currentDate).getMonth() + 1;
+				let hour = new Date(currentDate).getHours();
+				if (type == 2) {
+					currentdate = month + seperator1
+				} else {
+					currentdate = month + seperator1 + strDate + seperator2
+				};
+				return currentdate
+			},
+			
+			// 判断周几
+			judgeWeek (currentDate) {
+				let date = new Date(currentDate);
+				let day = date.getDay();
+				switch (day) {
+					case 0:
+						return "周日"
+						break;
+					case 1:
+						return "周一"
+						break;
+					case 2:
+						return "周二"
+						break;
+					case 3:
+						return "周三"
+						break;
+					case 4:
+						return "周四"
+						break;
+					case 5:
+						return "周五"
+						break;
+					case 6:
+						return "周六"
+						break
+					}
 			},
 			
 			// 图片删除事件

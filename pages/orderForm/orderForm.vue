@@ -135,8 +135,9 @@
 							<text v-if="item.workerStatus != 3 && item.workerStatus != 4" @click.stop="cancelOrderEvent(item)">取消订单</text>
 							<text v-if="item.workerStatus == 1" @click.stop="remindSendOrdersEvent(item)">提醒派单</text>
 							<text v-if="item.workerStatus == 0" @click.stop="editOrderFormEvent(item)">修改订单</text>
-							<text v-if="item.status == 60 || item.status == 70" @click.stop="deleteOrder(item)">删除订单</text>
+							<text v-if="(item.status == 60 && item.commentStatus) || item.status == 70" @click.stop="deleteOrder(item)">删除订单</text>
 							<text v-if="item.status == 60 || item.status == 70" @click.stop="appointmentServiceEvent(item)">再次预约</text>
+							<text v-if="item.status == 60 && !item.commentStatus" class="evaluate" @click.stop="orderFormEvaluateEvent(item)">评价</text>
 							<text v-if="item.workerStatus == 0" class="at-once-payment" @click.stop="immediatePayEvent(item)">立即付款</text>
 						</view>
 					</view>
@@ -192,6 +193,7 @@
 					</view>
 					<view class="order-form-bottom">
 						<view class="btn-area-right">
+							<text @click.stop="cancelOrderEvent(item)">取消订单</text>
 							<text @click.stop="editOrderFormEvent(item)">修改订单</text>
 							<text class="at-once-payment" @click.stop="immediatePayEvent(item)">立即付款</text>
 						</view>
@@ -683,10 +685,10 @@
 			},
 			
 			// 取消订单
-			cancelOrderPort(data) {
+			cancelOrderPort(id,reason) {
 				this.infoText = '订单取消中···';
 				this.showLoadingHint = true;
-				cancelOrder(data).then((res) => {
+				cancelOrder(id,reason).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.haveDeleteShow = true;
 						this.haveDeleteInfoContent = '已取消订单';
@@ -894,7 +896,7 @@
 			// 删除订单确定事件
 			deleteOrderSureEvent () {
 				this.deleteShow = false;
-				this.deleteOrderPort({id: this.currentSelectOrderMessage.id})
+				this.deleteOrderPort(this.currentSelectOrderMessage.id)
 			},
 			
 			// 提醒派单事件
@@ -912,10 +914,7 @@
 			// 取消订单确定事件
 			cancelOrderSureEvent () {
 				this.cancelOrderFormShow = false;
-				this.cancelOrderPort({
-					id: this.currentSelectOrderMessage.id,
-					reason: ''
-				})
+				this.cancelOrderPort(this.currentSelectOrderMessage.id,'')
 			},
 			
 			// 订单评价事件

@@ -28,20 +28,18 @@ export function reminderOrder(id) {
 };
 
 // 取消交易订单
-export function cancelOrder(data) {
+export function cancelOrder(id,reason) {
   return request({
-    url: '/app-api/trade/order/cancel',
-    method: 'delete',
-		params: data
+    url: `/app-api/trade/order/cancel?id=${id}&reason=${reason}`,
+    method: 'delete'
   })
 };
 
 // 删除交易订单
-export function deleteOrder(data) {
+export function deleteOrder(id) {
   return request({
-    url: '/app-api/trade/order/delete',
-    method: 'delete',
-		params: data
+    url: `/app-api/trade/order/delete?id=${id}`,
+    method: 'delete'
   })
 };
 

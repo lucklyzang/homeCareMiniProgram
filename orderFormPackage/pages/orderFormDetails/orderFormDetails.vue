@@ -29,7 +29,7 @@
 		</view>
 		<!-- 申请退款提示 -->
 		<view class="apply-refund-info">
-			<u-modal :show="applyRefundShow" @confirm="applyRefundShow=false" @cancel="applyRefundShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="申请退款">
+			<u-modal :show="applyRefundShow" @confirm="applyRefundSureEvent" @cancel="applyRefundShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="申请退款">
 				<view class="slot-content">
 					<u-textarea height="100" v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
 				</view>
@@ -253,14 +253,19 @@
 				</view>
 			</view>
 			<view class="btn-area">
-				<text v-if="serviceMessage.workerStatus != 0 && serviceMessage.refundStatus == 0">申请退款</text>
-				<text v-if="serviceMessage.status == 60 || serviceMessage.status == 70" @click="deleteOrder(serviceMessage)">删除订单</text>
-				<text v-if="serviceMessage.status == 60 || serviceMessage.status == 70" @click="appointmentServiceEvent(serviceMessage)">再次预约</text>
-				<text v-if="serviceMessage.workerStatus != 3 && serviceMessage.workerStatus != 4" @click="cancelOrderEvent(serviceMessage)">取消订单</text>
-				<text v-if="serviceMessage.workerStatus == 1" @click="remindSendOrdersEvent(serviceMessage)">提醒派单</text>
-				<text v-if="serviceMessage.workerStatus == 0" @click="editOrderFormEvent(serviceMessage)">修改订单</text>
-				<text v-if="serviceMessage.workerStatus == 0" @click="immediatePayEvent(serviceMessage)" class="evaluate">立即付款</text>
-				<text v-if="serviceMessage.workerStatus == 3 && !serviceMessage.commentStatus" class="evaluate" @click="orderFormEvaluateEvent(serviceMessage)">评价</text>
+				<view class="btn-area-left" v-if="serviceMessage.status == 30 || serviceMessage.status == 40 || serviceMessage.status == 50">
+					<text>联系护士</text>
+				</view>
+				<view class="btn-area-right">
+					<text v-if="serviceMessage.workerStatus != 0 && serviceMessage.refundStatus == 0" @click="applyRefundEvent(serviceMessage)">申请退款</text>
+					<text v-if="(serviceMessage.status == 60 && serviceMessage.commentStatus) || serviceMessage.status == 70" @click="deleteOrder(serviceMessage)">删除订单</text>
+					<text v-if="serviceMessage.status == 60 || serviceMessage.status == 70" @click="appointmentServiceEvent(serviceMessage)">再次预约</text>
+					<text v-if="serviceMessage.workerStatus != 3 && serviceMessage.workerStatus != 4" @click="cancelOrderEvent(serviceMessage)">取消订单</text>
+					<text v-if="serviceMessage.workerStatus == 1" @click="remindSendOrdersEvent(serviceMessage)">提醒派单</text>
+					<text v-if="serviceMessage.workerStatus == 0" @click="editOrderFormEvent(serviceMessage)">修改订单</text>
+					<text v-if="serviceMessage.workerStatus == 0" @click="immediatePayEvent(serviceMessage)" class="evaluate">立即付款</text>
+					<text v-if="serviceMessage.status == 60 && !serviceMessage.commentStatus" class="evaluate" @click="orderFormEvaluateEvent(serviceMessage)">评价</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -404,6 +409,7 @@
 				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
+			// 复制事件
 			copyContent(data) {
 				uni.setClipboardData({
 					data,
@@ -671,11 +677,52 @@
 				})
 			},
 			
+			// 申请退款弹框显示
+			applyRefundEvent (item) {
+				this.currentSelectOrderMessage = item;
+				this.applyRefundShow = true
+			},
+			
+			// 申请退款确定事件
+			applyRefundSureEvent () {
+				this.orderRefundPort(this.currentSelectOrderMessage.id,this.refundReason)
+			},
+			
+			// 订单退款
+			orderRefundPort(id,reason) {
+				this.infoText = '订单退款申请中···';
+				this.showLoadingHint = true;
+				cancelOrder(id,reason).then((res) => {
+					this.applyRefundShow = false;
+					if ( res && res.data.code == 0) {
+						this.haveDeleteShow = true;
+						this.haveDeleteInfoContent = '订单退款申请成功';
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.applyRefundShow = false;
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 取消订单
-			cancelOrderPort(data) {
+			cancelOrderPort(id,reason) {
 				this.infoText = '订单取消中···';
 				this.showLoadingHint = true;
-				cancelOrder(data).then((res) => {
+				cancelOrder(id,reason).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.haveDeleteShow = true;
 						this.haveDeleteInfoContent = '已取消订单';
@@ -773,7 +820,7 @@
 			// 删除订单确定事件
 			deleteOrderSureEvent () {
 				this.deleteShow = false;
-				this.deleteOrderPort({id: this.currentSelectOrderMessage.id})
+				this.deleteOrderPort(this.currentSelectOrderMessage.id)
 			},
 			
 			// 提醒派单事件
@@ -791,10 +838,7 @@
 			// 取消订单确定事件
 			cancelOrderSureEvent () {
 				this.cancelOrderFormShow = false;
-				this.cancelOrderPort({
-					id: this.currentSelectOrderMessage.id,
-					reason: ''
-				})
+				this.cancelOrderPort(this.currentSelectOrderMessage.id,'')
 			},
 			
 			// 订单评价事件
@@ -1362,29 +1406,62 @@
 			height: 62px;
 			align-items: center;
 			justify-content: flex-end;
-			>text {
-				min-width: 78px;
-				display: inline-block;
-				height: 26px;
-				padding: 0 12px;
-				box-sizing: border-box;
-				text-align: center;
-				line-height: 26px;
-				font-size: 13px;
-				color: #5E5E5E;
-				border: 1px solid #BBBBBB;
-				border-radius: 22px;
-				margin-right: 10px;
-				&:last-child {
-					margin-right: 0
+			.btn-area-left {
+				display: flex;
+				>text {
+					min-width: 78px;
+					display: inline-block;
+					height: 26px;
+					padding: 0 12px;
+					box-sizing: border-box;
+					text-align: center;
+					line-height: 26px;
+					font-size: 13px;
+					color: #fff;
+					background: #289E8E;
+					border-radius: 22px
 				}
 			};
-			.evaluate {
-				color: #fff;
-				background: #FF698C;
-				border: none !important;
-				margin-right: 0 !important;
-			}
+			.btn-area-right {
+				flex: 1;
+				display: flex;
+				justify-content: flex-end;
+				>text {
+					min-width: 78px;
+					display: inline-block;
+					height: 26px;
+					padding: 0 12px;
+					box-sizing: border-box;
+					text-align: center;
+					line-height: 26px;
+					font-size: 13px;
+					color: #5E5E5E;
+					border: 1px solid #BBBBBB;
+					border-radius: 22px;
+					margin-right: 10px;
+					&:last-child {
+						margin-right: 0
+					}
+				};
+				.at-once-payment {
+					color: #fff;
+					background: #FF698C;
+					border: none !important;
+					margin-right: 0 !important;
+				};
+				.complete-service {
+					color: #fff;
+					background: #FF698C;
+					border: none !important;
+					margin-right: 0 !important;
+				};
+				.evaluate {
+					color: #fff;
+					background: #FF698C;
+					border: none !important;
+					margin-right: 0 !important;
+				}
+			}	
 		}
 	}
 </style>

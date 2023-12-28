@@ -356,7 +356,8 @@
 				};	  
 				let loginMessage = {
 				  mobile: this.form.username,
-				  password: this.form.password
+				  password: this.form.password,
+					loginType: 0
 				};
 				this.showLoadingHint = true;
 				logIn(loginMessage).then((res) => {
@@ -446,7 +447,8 @@
 				};
 				let loginMessage = {
 				  mobile: this.form.username,
-				  code: this.form.verificationCode
+				  code: this.form.verificationCode,
+					loginType: 0
 				};
 				this.showLoadingHint = true;
 				logInByCode(loginMessage).then((res) => {
@@ -664,7 +666,8 @@
 				if (e.detail.code) {
 					this.weixinMiniAppLoginEvent({
 						phoneCode: e.detail.code,
-						loginCode: this.userCode
+						loginCode: this.userCode,
+						loginType: 0
 					})
 				}
 			},
