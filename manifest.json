@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx922a81a3fc0dfeff",
+        "appid" : "wx8092eaa31667c755",
         "setting" : {
             "urlCheck" : true,
             "es6" : true,
@@ -62,11 +62,11 @@
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于小程序位置接口的效果展示"
             },
-					 "scope.userFuzzyLocation": {
-								"desc": "你的位置信息将用于小程序位置接口的效果展示"
-						}
+            "scope.userFuzzyLocation" : {
+                "desc" : "你的位置信息将用于小程序位置接口的效果展示"
+            }
         },
-				"requiredPrivateInfos": ["getLocation","chooseLocation"],
+        "requiredPrivateInfos" : [ "getLocation", "chooseLocation" ],
         "optimization" : {
             "subPackages" : true
         }

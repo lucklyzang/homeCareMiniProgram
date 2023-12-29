@@ -72,7 +72,7 @@
 				</view>
 				<view class="service-list-area">
 					<u-empty text="暂无服务" v-if="isShowNoServiceData"></u-empty>
-					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<scroll-view class="scroll-view" enable-flex scroll-y="true"  @scrolltolower="scrolltolower">
 						<view class="service-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
 							<u-image width="100" mode="widthFix" :src="item.picUrl">
 								<template v-slot:loading>
@@ -82,7 +82,7 @@
 							<text>{{ item.name }}</text>
 						</view>
 					</scroll-view>
-					<u-loadmore :status="status" v-show="fullServiceCategoryDetailsList.length > 0" />
+					<u-loadmore :status="status" v-if="fullServiceCategoryDetailsList.length > 0" />
 				</view>
 			</view>
 			<view class="user-evaluate">
@@ -736,11 +736,45 @@
 					.scroll-view {
 						height: 100%
 					};
+					::v-deep .scroll-view {
+						display: flex;
+						flex-wrap: wrap;
+						position: relative;
+						.u-empty {
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%,-50%)
+						};
+						.service-list {
+							width: 32%;
+							display: flex;
+							padding: 10px 0;
+							box-sizing: border-box;
+							flex-direction: column;
+							align-items: center;
+							margin-right: 2%;
+							margin-bottom: 10px;
+							>text {
+								margin-top: 6px;
+								font-size: 12px;
+								color: #101010
+							};
+							.u-image {
+								height: auto !important
+							}
+						};
+						.service-list {
+							&:nth-child(3n) {
+								margin-right: 0 !important
+							}
+						}	
+					};	
 					::v-deep .uni-scroll-view-content {
 						display: flex;
 						flex-wrap: wrap;
 						position: relative;
-						::v-deep .u-empty {
+						.u-empty {
 							position: absolute;
 							top: 50%;
 							left: 50%;

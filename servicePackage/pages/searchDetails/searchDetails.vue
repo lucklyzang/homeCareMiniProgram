@@ -9,9 +9,11 @@
 				<u-search v-model="searchValue" placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 		</view>
-		<view class="loading-box" v-if="showLoadingHint">
-			<u-loading-icon :show="showLoadingHint" :text="infoText" size="18" textSize="16"></u-loading-icon>
-		</view>
+		<u-transition :show="showLoadingHint" mode="fade-down">
+			<view class="loading-box" v-if="showLoadingHint">
+				<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
+			</view>
+		</u-transition>
 		<!-- <view class="search-init-box">
 			<view class="search-history-box">
 				<view class="search-history-title">
@@ -69,7 +71,7 @@
 								</view>
 							</view>
 						</view>
-						<u-loadmore :status="status" v-show="fullServiceCategoryDetailsList.length > 0" />
+						<u-loadmore :status="status"  v-if="fullServiceCategoryDetailsList.length > 0" />
 					</scroll-view>
 				</view>
 			</view>
@@ -117,7 +119,7 @@
 								</view>
 							</view>
 						</view>
-					<u-loadmore :status="status" v-show="fullNurseList.length > 0" />
+					<u-loadmore :status="status" v-if="fullNurseList.length > 0" />
 					</scroll-view>
 				</view>
 			</view>
@@ -145,7 +147,8 @@
 	} from 'vuex'
 	import {
 		setCache,
-		removeAllLocalStorage
+		removeAllLocalStorage,
+		fenToYuan
 	} from '@/common/js/utils'
 	import { getNurse } from '@/api/user.js'
 	import { getServiceProductCategoryDetails } from '@/api/user.js'
@@ -394,6 +397,9 @@
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.serviceCategoryDetailsList = res.data.data.list;
+						this.serviceCategoryDetailsList.forEach((item) => {
+							return item.price = fenToYuan(item.price)
+						});
 						this.fullServiceCategoryDetailsList = this.fullServiceCategoryDetailsList.concat(this.serviceCategoryDetailsList);
 						if (this.fullServiceCategoryDetailsList.length == 0) {
 							this.isShowNoHomeNoData = true

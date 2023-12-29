@@ -135,7 +135,7 @@
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 		},
 		onLoad(options) {
-			let temporaryAddress = JSON.parse(options.transmitData);
+			let temporaryAddress = JSON.parse(decodeURIComponent(options.transmitData));
 			this.serviceName = temporaryAddress.name;
 			this.aptitudes = temporaryAddress.aptitudes;
 			this.queryNurseList({

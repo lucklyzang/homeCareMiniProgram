@@ -7,6 +7,7 @@
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
     "u-search": "/node-modules/uview-ui/components/u-search/u-search",
+    "u-transition": "/node-modules/uview-ui/components/u-transition/u-transition",
     "u-loading-icon": "/node-modules/uview-ui/components/u-loading-icon/u-loading-icon",
     "u-swiper": "/node-modules/uview-ui/components/u-swiper/u-swiper",
     "u-image": "/node-modules/uview-ui/components/u-image/u-image",

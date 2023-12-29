@@ -38,7 +38,8 @@
 						<text>服务详情</text>
 					</view>
 					<view class="service-content-area">
-						<view class="service-goal">
+						<rich-text class="rich-content" :nodes="productDetailsMessage.description"></rich-text>
+						<!-- <view class="service-goal">
 							<view>
 								<text>服务目的</text>
 							</view>
@@ -62,7 +63,7 @@
 							<view>
 								<text>0-6个月婴幼儿</text>
 							</view>
-						</view>
+						</view> -->
 					</view>
 				</view>
 				<view class="appointment-notice-box" v-if="current == 1">
@@ -103,7 +104,7 @@
 									<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
 								</view>
 							</view>
-							<u-loadmore :status="status" v-show="fullCommentList.length > 0" />
+							<u-loadmore :status="status" v-if="fullCommentList.length > 0" />
 						</scroll-view>
 					</view>
 				</view>
@@ -213,6 +214,7 @@
 					if ( res && res.data.code == 0) {
 						this.productDetailsMessage = res.data.data;
 						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
+						// this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/<img/g, '<img style="max-width:100%" ');
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -436,7 +438,7 @@
 			// 预约服务事件
 			appointmentServiceEvent () {
 				// 传递服务信息
-				let mynavData = JSON.stringify(this.productDetailsMessage);
+				let mynavData = encodeURIComponent(JSON.stringify(this.productDetailsMessage));
 				uni.navigateTo({
 					url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData='+mynavData
 				})
@@ -492,8 +494,8 @@
 			.service-details-top {
 				.service-image {
 					position: relative;
-					height: 391px;
 					width: 100%;
+					height: 450px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -555,63 +557,76 @@
 						}
 					};
 					.service-content-area {
+						overflow-x: auto;
 						background: #fff;
 						padding: 10px 10px 20px 10px;
 						box-sizing: border-box;
-						.service-goal {
-							>view {
-								&:first-child {
-									margin-bottom: 10px;
-									>text {
-										font-size: 14px;
-										color: #F16C8C
-									}
-								};
-								&:last-child {
-									>text {
-										font-size: 14px;
-										color: #101010
-									}
-								}
-							}
-						};
-						.service-entry {
-							margin: 15px 0;
-							>view {
-								&:first-child {
-									margin-bottom: 10px;
-									>text {
-										font-size: 14px;
-										color: #F16C8C
-									}
-								};
-								&:last-child {
-									>text {
-										display: block;
-										font-size: 14px;
-										color: #101010
-									}
-								}
-							}
-						};
-						.apply-person {
-							>view {
-								&:first-child {
-									margin-bottom: 10px;
-									>text {
-										font-size: 14px;
-										color: #F16C8C
-									}
-								};
-								&:last-child {
-									>text {
-										font-size: 14px;
-										color: #101010
-									}
-								}
+						.rich-content {
+							width: 100%;
+							word-wrap: break-word;
+							img {
+								width: 100%;
 							}
 						}
-					}
+					};
+					// .service-content-area {
+					// 	background: #fff;
+					// 	padding: 10px 10px 20px 10px;
+					// 	box-sizing: border-box;
+					// 	.service-goal {
+					// 		>view {
+					// 			&:first-child {
+					// 				margin-bottom: 10px;
+					// 				>text {
+					// 					font-size: 14px;
+					// 					color: #F16C8C
+					// 				}
+					// 			};
+					// 			&:last-child {
+					// 				>text {
+					// 					font-size: 14px;
+					// 					color: #101010
+					// 				}
+					// 			}
+					// 		}
+					// 	};
+					// 	.service-entry {
+					// 		margin: 15px 0;
+					// 		>view {
+					// 			&:first-child {
+					// 				margin-bottom: 10px;
+					// 				>text {
+					// 					font-size: 14px;
+					// 					color: #F16C8C
+					// 				}
+					// 			};
+					// 			&:last-child {
+					// 				>text {
+					// 					display: block;
+					// 					font-size: 14px;
+					// 					color: #101010
+					// 				}
+					// 			}
+					// 		}
+					// 	};
+					// 	.apply-person {
+					// 		>view {
+					// 			&:first-child {
+					// 				margin-bottom: 10px;
+					// 				>text {
+					// 					font-size: 14px;
+					// 					color: #F16C8C
+					// 				}
+					// 			};
+					// 			&:last-child {
+					// 				>text {
+					// 					font-size: 14px;
+					// 					color: #101010
+					// 				}
+					// 			}
+					// 		}
+					// 	}
+					// }
 				};
 				.appointment-notice-box {
 					.title-area {

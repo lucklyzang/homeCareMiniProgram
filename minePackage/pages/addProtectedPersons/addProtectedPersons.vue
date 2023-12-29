@@ -40,6 +40,7 @@
 						<view class="protected-persons-name-input">
 							<u--input
 								placeholder="请输入患者身份证证件号"
+								@blur="idcardBlurEvent"
 								inputAlign="right"
 								type="idcard"
 								border="none"
@@ -68,6 +69,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+								disabled
 								inputAlign="right"
 								border="none"
 								v-model="birthDateValue"
@@ -80,6 +82,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+								disabled
 								inputAlign="right"
 								border="none"
 								v-model="ageValue"
@@ -92,6 +95,7 @@
 						</view>
 						<view class="protected-persons-name-input">
 							<u--input
+								disabled
 								inputAlign="right"
 								border="none"
 								v-model="sexValue"
@@ -209,7 +213,8 @@
 	import store from '@/store'
 	import {
 		setCache,
-		removeAllLocalStorage
+		removeAllLocalStorage,
+		IdCard
 	} from '@/common/js/utils'
 	import { createServerPerson } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
@@ -265,6 +270,27 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 身份证号输入框失去焦点事件
+			idcardBlurEvent () {
+				let regIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+				if (!regIdCard.test(this.idNumberValue)) {
+					if (this.idNumberValue) {
+						this.$refs.uToast.show({
+							message: '身份证格式格式有误,请重新输入!',
+							type: 'error',
+							position: 'center'
+						});
+						this.birthDateValue = '';
+						this.sexValue = '';
+						this.ageValue = ''
+					}  
+				} else {
+					this.birthDateValue = IdCard(this.idNumberValue,1);
+					this.sexValue = IdCard(this.idNumberValue,2);
+					this.ageValue = IdCard(this.idNumberValue,3)
+				}
 			},
 			
 			// 弹框取消按钮
@@ -426,6 +452,7 @@
 			
 			// 保存被护人事件
 			async saveProtectedPersonsEvent () {
+				let regIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 				if (!this.protectedPersonsNameValue) {
 					this.$refs.uToast.show({
 						message: '被护人姓名不能为空',
@@ -454,6 +481,15 @@
 						position: 'center'
 					});
 					return
+				} else if (!regIdCard.test(this.idNumberValue)) {
+					if (this.idNumberValue) {
+						this.$refs.uToast.show({
+							message: '身份证格式格式有误,请重新输入!',
+							type: 'error',
+							position: 'center'
+						});
+						return
+					}
 				};
 				// 上传图片文件流到服务端(医保卡正面)
 				if (this.medicareCardFileList.length > 0) {
@@ -487,6 +523,7 @@
 					sex: this.sexValue == '男' ? '1' : '2',
 					critical: this.emergencyContactValue,
 					realname: 'NO',
+					age: this.ageValue,
 					medicalCardFront: this.medicareCardOnlinePathArr.length == 0 ? '' : this.medicareCardOnlinePathArr[0],
 					medicalCardBack: this.reverseSideMedicareCardOnlinePathArr.length == 0 ? '' : this.reverseSideMedicareCardOnlinePathArr[0],
 					medicalRecord: this.medicareCardRecordDataOnlinePathArr,

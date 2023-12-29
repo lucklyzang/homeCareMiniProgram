@@ -499,7 +499,7 @@
 				};
 				let loginMessage = {
 				  mobile: this.form.username,
-					scene: this.isForgetPassword ? 3 : 1
+					scene: this.isForgetPassword ? 4 : 1
 				};
 				this.showLoadingHint = true;
 				sendPhoneCode(loginMessage).then((res) => {
@@ -619,6 +619,7 @@
 						let loginMessage = {
 							password: this.form.password
 						};
+						this.showLoadingHint = true;
 						setPassword(loginMessage).then((res) => {
 							if ( res && (res.data.code == 0 || res.data.code == 401) ) {
 								this.$refs.uToast.show({
@@ -668,6 +669,12 @@
 						phoneCode: e.detail.code,
 						loginCode: this.userCode,
 						loginType: 0
+					})
+				} else {
+					this.$refs.uToast.show({
+						message: `${e.detail.errMsg}`,
+						type: 'error',
+						position: 'bottom'
 					})
 				}
 			},

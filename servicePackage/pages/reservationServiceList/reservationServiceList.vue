@@ -73,7 +73,7 @@
 						<text>{{ serviceMessage.name }}</text>
 					</view>
 					<view class="service-project-right-bottom">
-						<text>上门服务一次</text>
+						<text >上门服务一次</text>
 						<text>40分钟</text>
 						<text>专业服务</text>
 					</view>
@@ -312,9 +312,9 @@
 		},
 		
 		onLoad(options) {
-			console.log('lu',options);
 			if (options.transmitData == '{}') { return };
-			let temporaryAddress = JSON.parse(options.transmitData);
+			let temporaryAddress = JSON.parse(decodeURIComponent(options.transmitData));
+			console.log('订单详情',temporaryAddress);
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails' || this.beforePageRoute == 'orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback') {
@@ -356,7 +356,7 @@
 			cutNurseEvent (text) {
 				if (text == '指定') {
 					// 传递服务资质
-					let mynavData = JSON.stringify(this.serviceMessage);
+					let mynavData = encodeURIComponent(JSON.stringify(this.serviceMessage));
 					uni.navigateTo({
 						url: '/servicePackage/pages/chooseNurse/chooseNurse?transmitData='+mynavData
 					});

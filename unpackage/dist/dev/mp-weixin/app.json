@@ -33,7 +33,6 @@
     {
       "root": "orderFormPackage",
       "pages": [
-        "pages/orderForm/index/index",
         "pages/orderFormDetails/orderFormDetails",
         "pages/orderPay/orderPay",
         "pages/serviceEvaluate/serviceEvaluate",
@@ -121,7 +120,7 @@
         "rootMessagePackage"
       ]
     },
-    "orderFormPackage/pages/orderForm/index/index": {
+    "orderFormPackage/pages/orderFormDetails/orderFormDetails": {
       "network": "all",
       "packages": [
         "rootOrderFormPackage"

@@ -32,9 +32,11 @@
 				<image src="@/static/img/home-service-icon.png" @click="showSupportStaffBox = true"></image>
 			</view>
 		</view>
-		<view class="loading-box" v-if="showLoadingHint">
-			<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
-		</view>
+		<u-transition :show="showLoadingHint" mode="fade-down">
+			<view class="loading-box" v-if="showLoadingHint">
+				<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
+			</view>
+		</u-transition>
 		<view class="banner-area-box">
 			<u-swiper @click="swiperClickEvent" keyName="image"  indicator :list="bannerList"></u-swiper>
 		</view>
@@ -51,10 +53,10 @@
 				</view>
 				<view class="latest-news-right">
 					<view class="new-content-list">
-						啥叫考虑到哈吉斯客户哈哈哈哈哈哈哈哈哈
+						空腹能不能吃汤圆？无糖汤圆不“胖人”吗？
 					</view>
 					<view class="new-content-list">
-						活动就撒开好了哈哈哈哈哈好累好累好累好累好累好累
+						空腹能不能吃汤圆？无糖汤圆不“胖人”吗？
 					</view>
 				</view>
 			</view>
@@ -570,6 +572,7 @@
 				.latest-news-right {
 					flex: 1;
 					padding-right: 10px;
+					height: 52px;
 					box-sizing: border-box;
 					@include no-wrap;
 					.new-content-list {
@@ -577,6 +580,9 @@
 						width: 100%;
 						font-size: 12px;
 						color: #2C2C2C;
+						&:first-child {
+							margin-top: 2px;
+						}
 						&:last-child {
 							margin-top: 10px
 						}
