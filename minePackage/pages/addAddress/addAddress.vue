@@ -154,6 +154,7 @@
 					};
 					this.region = cutoutAddressArray.join(" ");
 					this.detailSiteValue = `${cutoutAddressDetails}${temporaryAddress.name}`;
+					this.openPicker()
 				} else {
 					return
 				}

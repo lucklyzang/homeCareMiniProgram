@@ -73,9 +73,7 @@
 						<text>{{ serviceMessage.name }}</text>
 					</view>
 					<view class="service-project-right-bottom">
-						<text >上门服务一次</text>
-						<text>40分钟</text>
-						<text>专业服务</text>
+						<text v-for="(item,index) in serviceMessage.keyword" :key="index">{{ item }}</text>
 					</view>
 				</view>
 			</view>
@@ -241,6 +239,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
+	import _ from 'lodash'
 	import { createOrder,getOrderDetail } from '@/api/orderForm.js'
 	import { getNurseDetails } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
@@ -314,14 +313,14 @@
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(decodeURIComponent(options.transmitData));
-			console.log('订单详情',temporaryAddress);
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 			if (this.beforePageRoute == 'pages/orderForm/orderForm' || this.beforePageRoute == 'orderFormPackage/pages/orderFormDetails/orderFormDetails' || this.beforePageRoute == 'orderFormPackage/pages/serviceEvaluateFeedback/serviceEvaluateFeedback') {
 				this.queryOrderDetail({id: temporaryAddress.id});
 				return
 			};
-			this.serviceMessage = temporaryAddress
+			this.serviceMessage = _.cloneDeep(temporaryAddress);
+			this.serviceMessage.keyword = this.serviceMessage.keyword.split(";")
 		},
 		
 		onShow () {
@@ -404,6 +403,7 @@
 				getOrderDetail(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.serviceMessage = res.data.data;
+						this.serviceMessage.keyword = [];
 						this.serviceMessage.picUrl = res.data.data.items[0]['picUrl'];
 						this.serviceMessage.name = res.data.data.items[0]['spuName'];
 						this.serviceMessage.price = fenToYuan(res.data.data.items[0]['price']);

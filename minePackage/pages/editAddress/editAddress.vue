@@ -61,6 +61,7 @@
 		data() {
 			return {
 				showLoadingHint: false,
+				infoText: '编辑中···',
 				addressBlackIconPng: require("@/static/img/address-black-icon.png"),
 				lotusAddressData:{
 					visible: false,
@@ -71,7 +72,6 @@
 				region: '',
 				areaId: '',
 				servericeAddressId: '',
-				infoText: '编辑中···',
 				detailSiteValue: '',
 				checked: ["默认地址"]
 			}
@@ -88,6 +88,10 @@
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
+			if (temporaryAddress.address.indexOf('北京') != -1 || temporaryAddress.address.indexOf('重庆') != -1 || temporaryAddress.address.indexOf('天津') != -1 || temporaryAddress.address.indexOf('上海') != -1) {
+				temporaryAddress.address = temporaryAddress.address.substring(2)
+			};
+			console.log('dizhi',temporaryAddress);
 			this.areaId = temporaryAddress['areaId'];
 			this.servericeAddressId = temporaryAddress['id'];
 			this.checked = temporaryAddress['defaultStatus'] == true ? ["默认地址"] : [];
@@ -188,6 +192,7 @@
 					};
 					this.region = cutoutAddressArray.join(" ");
 					this.detailSiteValue = `${cutoutAddressDetails}${temporaryAddress.name}`;
+					this.openPicker()
 				} else {
 					return
 				}

@@ -126,6 +126,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
+	import _ from 'lodash'
 	import { getProductDetails, getProductComment, createProductFavorite, deleteProductFavorite, examineProductFavorite } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
@@ -213,8 +214,7 @@
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.productDetailsMessage = res.data.data;
-						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
-						// this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/<img/g, '<img style="max-width:100%" ');
+						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price)
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -437,8 +437,10 @@
 			
 			// 预约服务事件
 			appointmentServiceEvent () {
+				let temporaryProductDetailsMessage = _.cloneDeep(this.productDetailsMessage);
+				temporaryProductDetailsMessage.description = '';
 				// 传递服务信息
-				let mynavData = encodeURIComponent(JSON.stringify(this.productDetailsMessage));
+				let mynavData = encodeURIComponent(JSON.stringify(temporaryProductDetailsMessage));
 				uni.navigateTo({
 					url: '/servicePackage/pages/reservationServiceList/reservationServiceList?transmitData='+mynavData
 				})

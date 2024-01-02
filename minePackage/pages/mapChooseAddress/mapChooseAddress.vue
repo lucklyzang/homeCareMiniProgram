@@ -115,6 +115,7 @@ export default {
 						}
 					},
 					fail: (err) => {
+						uni.navigateBack();
 						console.log('err',err);
 					}
 				})

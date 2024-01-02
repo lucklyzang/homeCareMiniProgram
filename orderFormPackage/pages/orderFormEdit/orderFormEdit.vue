@@ -85,9 +85,7 @@
 						<text>{{ serViceName }}</text>
 					</view>
 					<view class="service-project-right-bottom">
-						<text>上门服务一次</text>
-						<text>40分钟</text>
-						<text>专业服务</text>
+						<text v-for="(item,index) in serviceMessage.keyword" :key="index">{{ item }}</text>
 					</view>
 				</view>
 			</view>
@@ -403,6 +401,7 @@
 				getOrderDetail(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.serviceMessage = res.data.data;
+						this.serviceMessage.keyword = [];
 						if (res.data.data.assignType == 'SYSTEM') {
 							this.isPlatformRecommendNurse = false
 						} else if (res.data.data.assignType == 'USER') {

@@ -13,7 +13,11 @@
       "pages": [
         "pages/message/index/index",
         "pages/latestNewsDetails/latestNewsDetails",
-        "pages/advertisingDetails/advertisingDetails"
+        "pages/advertisingDetails/advertisingDetails",
+        "pages/notifyMessageList/notifyMessageList",
+        "pages/notifyMessageListDetails/notifyMessageListDetails",
+        "pages/notifyList/notifyList",
+        "pages/notifyListDetails/notifyListDetails"
       ],
       "name": "rootMessagePackage"
     },
