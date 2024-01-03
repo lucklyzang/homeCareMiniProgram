@@ -25,8 +25,6 @@ export default {
 				title: 'map',
 				latitude: 39.909,// 默认纬度
 				longitude: 116.39742,// 默认经度(北京天安门)
-				latitude: 30.90469,
-				longitude: 110.40717,
 				covers: [{
 					id: 110, 
 					latitude: 39.909,
@@ -91,7 +89,7 @@ export default {
 			
 			//点击地图时
 			clickMap(e){
-				this.latitude=e.detail.latitude;
+				this.latitude = e.detail.latitude;
 				this.longitude = e.detail.longitude
 			},
 			
@@ -109,14 +107,11 @@ export default {
 							let nowPage = pages[pages.length - 1]; //当前页⾯实例
 							let prevPage = pages[pages.length - 2]; // 上一页面实例
 							prevPage.$vm.prevDateFun(res);
-							uni.navigateBack({
-								delta: 1
-							})
+							uni.navigateBack()
 						}
 					},
 					fail: (err) => {
-						uni.navigateBack();
-						console.log('err',err);
+						uni.navigateBack()
 					}
 				})
 			},

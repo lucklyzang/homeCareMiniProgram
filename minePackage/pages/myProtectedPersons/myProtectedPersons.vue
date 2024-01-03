@@ -25,8 +25,14 @@
 								<text>{{ item.sex == 1 ? '男' : '女' }}</text>
 								<text>{{ `${item.age}岁` }}</text>
 							</view>
-							<view class="check-status">
+							<view class="check-status check-status-open" v-if="item.status == 'OPEN'">
 								<text>已通过审核</text>
+							</view>
+							<view class="check-status check-status-applying" v-if="item.status == 'APPLYING'">
+								<text>审核中</text>
+							</view>
+							<view class="check-status check-status-refused" v-if="item.status == 'REFUSED'" @click.stop="againCheckEvent(item)">
+								<text>点击重新提交审核</text>
 							</view>
 						</view>
 						<view class="protected-persons-top-right">
@@ -35,7 +41,7 @@
 						</view>
 					</view>
 					<view class="protected-persons-center">
-						<text v-if="item.realname == 'NO'" @click="realnameAuthenticationEvent">点击进行实名</text>
+						<text v-if="item.realname == 'NO' || item.realname == 'FAIL'" @click.stop="realnameAuthenticationEvent(item)">点击进行实名</text>
 						<text v-else>已实名</text>
 					</view>
 					<view class="protected-persons-bottom">
@@ -138,8 +144,11 @@
 			},
 			
 			// 实名认证事件
-			realnameAuthenticationEvent () {
-				
+			realnameAuthenticationEvent (item) {
+				let mynavData = JSON.stringify(item);
+				uni.navigateTo({
+					url: '/minePackage/pages/editProtectedPersons/editProtectedPersons?transmitData='+mynavData
+				})
 			},
 			
 			scrolltolower () {
@@ -217,6 +226,14 @@
 				this.modalContent = '确认删除该被护人?'
 			},
 			
+			// 重新审核事件
+			againCheckEvent (item) {
+				let mynavData = JSON.stringify(item);
+				uni.navigateTo({
+					url: '/minePackage/pages/editProtectedPersons/editProtectedPersons?transmitData='+mynavData
+				})
+			},
+			
 			// 编辑被护人事件
 			editServerPersonEvent (item) {
 				let mynavData = JSON.stringify(item);
@@ -269,6 +286,9 @@
 			
 			// 选择被护人事件
 			chooseProtegePersonEvent (item) {
+				if (this.beforePageRoute == 'pages/personInfo/personInfo') {
+					return
+				};
 				// 传递被护人信息
 				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
 					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
@@ -393,9 +413,17 @@
 							background: rgba(147, 210, 243, 0.29);
 							border-radius: 3px;
 							font-size: 12px;
-							color: #289E8E;
 							margin-left: 10px;
 							margin-top: 4px;
+						};
+						.check-status-open {
+							color: #289E8E;
+						};
+						.check-status-applying {
+							color: #F2A15F;
+						};
+						.check-status-refused {
+							color: #E86F50;
 						}
 					};
 					.protected-persons-top-right {

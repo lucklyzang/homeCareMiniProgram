@@ -23,7 +23,7 @@
 			<view class="collect-service-box" v-if="curentIndex === 0">
 					<u-empty text="暂无收藏服务" v-if="isShowNoHomeNoData"></u-empty>
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-					<view class="content-list" v-for="(item,index) in fullProductList" :key="index">
+					<view class="content-list" v-for="(item,index) in fullProductList" :key="index" @click="enterServiceDetailsEvent(item.spuId)">
 						<view class="content-list-left">
 							<u-image :src="item.picUrl" width="70" height="70">
 								 <template v-slot:loading>
@@ -40,7 +40,7 @@
 									<text> {{ `￥${item.price}` }}</text>
 								</view>
 							</view>
-							<view class="collect-icon" @click="cancelCollectEvent(item,index)">
+							<view class="collect-icon" @click.stop="cancelCollectEvent(item,index)">
 								<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
 							</view>
 						</view>
@@ -107,9 +107,9 @@
 	} from 'vuex'
 	import {
 		setCache,
-		removeAllLocalStorage
+		removeAllLocalStorage,
+		fenToYuan
 	} from '@/common/js/utils'
-	import {} from '@/api/user.js'
 	import { getProductFavorite, deleteProductFavorite } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
@@ -150,12 +150,13 @@
 			}
 		},
 		
-		onShow() {
+		onLoad() {
 			this.queryUserCollectProductList({
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize
 			},true)
 		},
+		
 		methods: {
 			...mapMutations([
 				'changeUserBasicInfo',
@@ -208,6 +209,9 @@
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.productList = res.data.data.list;
+						this.productList.forEach((item) => {
+							return item.price = fenToYuan(item.price)
+						});
 						this.fullProductList = this.fullProductList.concat(this.productList);
 						if (this.fullProductList.length == 0) {
 							this.isShowNoHomeNoData = true
@@ -272,6 +276,13 @@
 						type: 'error',
 						position: 'bottom'
 					})
+				})
+			},
+			
+			// 进入服务详情事件
+			enterServiceDetailsEvent (item) {
+				uni.navigateTo({
+					url: '/servicePackage/pages/service/index/index?transmitData='+item
 				})
 			}
 		}

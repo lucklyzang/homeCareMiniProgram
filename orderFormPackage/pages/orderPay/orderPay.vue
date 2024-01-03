@@ -26,11 +26,11 @@
 					<view class="service-project-right-top">
 						<text>{{ payOrderMessage.subject }}</text>
 					</view>
-					<view class="service-project-right-bottom">
+					<!-- <view class="service-project-right-bottom">
 						<text>上门服务一次</text>
 						<text>40分钟</text>
 						<text>专业服务</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="pay-way">
