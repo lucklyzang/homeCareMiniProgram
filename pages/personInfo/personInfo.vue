@@ -13,7 +13,7 @@
 					<view class="support-staff-bottom">
 						<view class="support-staff-left">
 							<image src="@/static/img/message.png"></image>
-							<text>发送消息</text>
+							<button open-type="contact" bindcontact="handleContact" session-from="sessionFrom">发送消息</button>
 						</view>
 						<view class="support-staff-right">
 							<image src="@/static/img/phone.png"></image>
@@ -283,9 +283,27 @@
 								height: 24px;
 								margin-bottom: 6px
 							};
-							>text {
+							uni-button {
+								height: 20px;
+								line-height: 20px;
+								background: #fff;
+								image {
+								  width: 24px;
+									height: 24px
+								}
+							};
+							uni-button:after {
+								border: none
+							};
+							button {
+								height: 20px;
+								line-height: 20px;
+								background: #fff;
 								font-size: 14px;
-								color: #4E9FD5
+								color: #4E9FD5;
+							};
+							button:after {
+								border: none
 							}
 						};
 						.support-staff-right {

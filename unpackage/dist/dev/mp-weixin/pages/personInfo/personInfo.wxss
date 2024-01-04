@@ -76,9 +76,27 @@ page {
   height: 24px;
   margin-bottom: 6px;
 }
-.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left > text {
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left uni-button {
+  height: 20px;
+  line-height: 20px;
+  background: #fff;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left uni-button image {
+  width: 24px;
+  height: 24px;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left uni-button:after {
+  border: none;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left button {
+  height: 20px;
+  line-height: 20px;
+  background: #fff;
   font-size: 14px;
   color: #4E9FD5;
+}
+.content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-left button:after {
+  border: none;
 }
 .content-box  .u-popup .u-popup__content .support-staff-content .support-staff-bottom .support-staff-right {
   flex: 1;
