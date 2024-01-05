@@ -117,7 +117,7 @@
 				this.totalCount = 0;
 				this.status = 'nomore';
 				this.isShowNoHomeNoData = false;
-				this.changeParentServiceCategoryMessage({});
+				this.changeParentServiceCategoryMessage(item);
 				this.queryServiceProductCategoryDetails({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,

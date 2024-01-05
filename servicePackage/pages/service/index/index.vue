@@ -12,7 +12,7 @@
 		<view class="service-details-content">
 			<view class="service-details-top">
 				<view class="service-image">
-					<image :src="productDetailsMessage.picUrl" mode=""></image>
+					<image :src="productDetailsMessage.picUrl" mode="widthFix"></image>
 					<view class="rate-box" v-if="isVerifyProductFavoriteComplete">
 						<u-icon v-if="!isProductFavorite" name="heart" color="#fff" size="26" @click="collectProductEvent"></u-icon>
 						<u-icon v-else name="heart-fill" color="#FC4579" size="26" @click="collectProductEvent"></u-icon>
@@ -214,7 +214,8 @@
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.productDetailsMessage = res.data.data;
-						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price)
+						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
+						this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/\<img/gi, '<img class="mystyle"')
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -497,10 +498,8 @@
 				.service-image {
 					position: relative;
 					width: 100%;
-					height: 450px;
 					>image {
 						width: 100%;
-						height: 100%
 					};
 					.rate-box {
 						position: absolute;
@@ -566,8 +565,9 @@
 						.rich-content {
 							width: 100%;
 							word-wrap: break-word;
-							img {
+							.mystyle {
 								width: 100%;
+								display: block;
 							}
 						}
 					};
