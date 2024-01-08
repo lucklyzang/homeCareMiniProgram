@@ -329,7 +329,7 @@
 					}
 				};
 				this.createOrderCommentEvent({
-					anonymous: true,
+					anonymous: false,
 					orderItemId: this.serviceMessage.items[0].id,
 					attitudeScores: this.serviceAttitudeValue,
 					speedScores: this.serviceSpeedValue,

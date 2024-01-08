@@ -111,7 +111,7 @@
 							<text>{{ item.organization }}</text>
 						</view>
 						<view class="rate">
-							<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+							<u-rate :count="item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
 							<text>{{ item.commentCount }}</text>
 							<text>条评价</text>
 						</view>
@@ -222,10 +222,9 @@
 					if ( res && res.data.code == 0) {
 						this.nurseList = res.data.data.list;
 						if (res.data.data.list.length == 0) {
-							
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount) > 5 ? 5 : Math.floor(item.commentScore/item.commentCount); 
 							})
 						}
 					} else {
@@ -775,6 +774,7 @@
 						.rate {
 							margin-top: 6px;
 							display: flex;
+							align-items: center;
 							>text {
 								font-size: 12px;
 								&:nth-of-type(1) {
@@ -785,6 +785,9 @@
 								&:nth-of-type(2) {
 									color: rgba(16, 16, 16, 0.35);
 								}
+							};
+							.textStyle {
+								color: #d6d6d6 !important;
 							}
 						};
 						.nurse-practitioner-performance {

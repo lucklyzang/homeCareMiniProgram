@@ -14,12 +14,12 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">	
 				<view class="user-evaluate-list" v-for="(item,index) in fullCommentList" :key="index">
 					<view class="user-puoto">
-						<u-image shape="circle" width="50" height="50" :src="jaundiceDetectionServicePng"></u-image>
+						<u-image shape="circle" width="50" height="50" :src="!item.userAvatar ? defaultPersonPhotoIconPng : item.userAvatar "></u-image>
 					</view>
 					<view class="user-evaluate-list-left">
 						<view>
 							<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
-							<text>{{ item.scores }}</text>
+							<text>{{ item.scores == 0 || !item.scores ? '0.0' : item.scores.toFixed(1)  }}</text>
 						</view>
 						<view>
 							<text>{{ item.content }}</text>
@@ -65,7 +65,7 @@
 				status: 'nomore',
 				commentList: [],
 				fullCommentList: [],
-				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
+				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '加载中···'
 			}
 		},
@@ -288,6 +288,7 @@
 					>view {
 						&:nth-child(1) {
 							display: flex;
+							align-items: center;
 							>text {
 								font-size: 12px;
 								color: #FFA903;

@@ -8,7 +8,7 @@
 		  </view>
 		</view>
 		<view class="message-content-wrapper">
-				<rich-text :nodes="detailsMessage.content"></rich-text>
+			<rich-text :nodes="detailsMessage.content"></rich-text>
 			<u-empty text="暂无消息" mode="list" v-if="isShowNoData"></u-empty>
 		</view>
 	</view>

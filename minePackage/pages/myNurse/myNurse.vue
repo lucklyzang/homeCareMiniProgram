@@ -36,8 +36,8 @@
 								<text>{{ item.organization }}</text>
 							</view>
 							<view class="rate">
-								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
-								<text>{{ item.commentScore == 0 ? '0.0' : Math.floor(item.commentScore/item.commentCount).toFixed(1) }}</text>
+								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
+								<text :class="{'textStyle' : item.rateValue < 5}">{{ item.commentScore == 0 ? '0.0' : item.rateValue.toFixed(1) }}</text>
 							</view>
 							<view class="nurse-practitioner-performance">
 								<view class="nurse-practitioner-performance-message">
@@ -176,7 +176,7 @@
 							this.isShowNoHomeNoData = true;
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount) > 5 ? 5 : Math.floor(item.commentScore/item.commentCount);
 							})
 						};
 						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
@@ -232,7 +232,7 @@
 							this.isShowNoHomeNoData = true;
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount) > 5 ? 5 : Math.floor(item.commentScore/item.commentCount);
 							})
 						};
 						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
@@ -421,6 +421,7 @@
 						.rate {
 							display: flex;
 							margin-top: 4px;
+							align-items: center;
 							>text {
 								font-size: 12px;
 								&:nth-of-type(1) {
@@ -428,6 +429,9 @@
 									font-weight: bold;
 									margin-left: 4px
 								}
+							};
+							.textStyle {
+								color: #d6d6d6 !important;
 							}
 						};
 						.nurse-practitioner-performance {

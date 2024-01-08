@@ -55,13 +55,13 @@
 							<image :src="collectQuantityIconPng"></image>
 						</view>
 						<view>
-							<text>{{ transitionCollectQuantity(nurseMessage.quantity) }}</text>
+							<text>{{ transitionCollectQuantity(nurseMessage.collect) }}</text>
 							<text>收藏量</text>
 						</view>
 					</view>
 				</view>
 				<view class="center-area-bottom">
-					{{ nurseMessage.introduction }}
+					{{ !nurseMessage.introduction ? '暂无介绍' : nurseMessage.introduction }}
 				</view>
 			</view>
 		</view>
@@ -249,7 +249,7 @@
 				getNurseDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.nurseMessage = res.data.data;
-						this.nurseMessage['rateValue'] = res.data.data.commentScore == 0 ? 0 : Math.floor(res.data.data.commentScore/res.data.data.commentCount);
+						this.nurseMessage['rateValue'] = res.data.data.commentScore == 0 ? 0 : Math.floor(res.data.data.commentScore/res.data.data.commentCount) > 5 ? 5 : Math.floor(res.data.data.commentScore/res.data.data.commentCount);
 						this.queryServiceProductCategoryDetails({
 							pageNo: this.currentPageNum,
 							pageSize: this.pageSize,
@@ -369,10 +369,6 @@
 						this.commentList = res.data.data;
 						if (res.data.data.length == 0) {
 							this.isShowNoCommentData = true;
-						} else {
-							this.commentList.forEach((item) => {
-								item['rateValue'] = Math.floor(item.commentScore/item.commentCount)
-							})
 						}
 					} else {
 						this.$refs.uToast.show({
