@@ -15,7 +15,8 @@ export default {
 		},
 		parentServiceCategoryMessage: (state) => {
 			return state.parentServiceCategoryMessage
-		}
+		},
+		selectBannerMessage: state => state.selectBannerMessage
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -45,6 +46,11 @@ export default {
 		// 保存首页点击的服务大类信息
 		changeParentServiceCategoryMessage (state, playLoad) {
 			state.parentServiceCategoryMessage = playLoad
+		},
+		
+		//保存选中的首页banner信息
+		changeSelectBannerMessage (state, playLoad) {
+			state.selectBannerMessage = playLoad
 		},
 		
 		//重置服务的状态

@@ -15,6 +15,7 @@ export function getDefaultServiceState() {
 	return {
 		serviceOrderFormSureChooseMessage: {},
 		editServiceOrderFormSureChooseMessage: {},
-		parentServiceCategoryMessage: {}
+		parentServiceCategoryMessage: {},
+		selectBannerMessage: {}
 	}	
 };

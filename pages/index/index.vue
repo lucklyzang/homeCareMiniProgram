@@ -193,7 +193,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeParentServiceCategoryMessage'
+				'changeParentServiceCategoryMessage',
+				'changeSelectBannerMessage'
 			]),
 			
 			//客服弹框关闭事件
@@ -305,6 +306,11 @@
 			
 			// 轮播图点击事件
 			swiperClickEvent (index) {
+				// 传递轮播图信息
+				let mynavData = {};
+				mynavData['index'] = index;
+				mynavData['content'] = this.bannerList;
+				this.changeSelectBannerMessage(mynavData);
 				uni.navigateTo({
 					url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
 				})
@@ -365,7 +371,8 @@
 							for (let item of res.data.data) {
 								this.bannerList.push({
 									image: item.picUrl,
-									title: ''
+									title: '',
+									content: item.content
 								})
 							}
 						}
