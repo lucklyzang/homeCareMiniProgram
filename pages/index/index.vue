@@ -111,7 +111,7 @@
 							<text>{{ item.organization }}</text>
 						</view>
 						<view class="rate">
-							<u-rate :count="item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
+							<u-rate :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
 							<text>{{ item.commentCount }}</text>
 							<text>条评价</text>
 						</view>

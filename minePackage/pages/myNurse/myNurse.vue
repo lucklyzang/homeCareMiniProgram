@@ -36,7 +36,7 @@
 								<text>{{ item.organization }}</text>
 							</view>
 							<view class="rate">
-								<u-rate :count="item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
+								<u-rate :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
 								<text :class="{'textStyle' : item.rateValue < 5}">{{ item.commentScore == 0 ? '0.0' : item.rateValue.toFixed(1) }}</text>
 							</view>
 							<view class="nurse-practitioner-performance">

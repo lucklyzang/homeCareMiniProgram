@@ -1,5 +1,11 @@
 <template>
 	<view class="content-box">
+		<!-- 放大图片弹框 -->
+		<view class="magnify-img-box">
+			<u-popup :show="magnifyImgDialogShow" @close="magnifyImgDialogShow = false" :closeable="true" mode="center" round="6" :closeOnClickOverlay="true" :safeAreaInsetTop="true">
+				<image :src="currentImgUrl" mode="widthFix"></image>
+			</u-popup>
+		</view>
 		<!-- 删除订单提示 -->
 		<view class="delete-info">
 			<u-modal :show="deleteShow" @confirm="deleteOrderSureEvent" @cancel="deleteShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :content="deleteInfoContent" :showCancelButton="true" title="是否删除订单">
@@ -153,7 +159,7 @@
 							<text>服务态度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceMessage.attitudeScores" v-model="serviceMessage.attitudeScores"></u-rate>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.attitudeScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.attitudeScores ? 5 : serviceMessage.commentRespVO.attitudeScores" v-model="serviceMessage.commentRespVO.attitudeScores"></u-rate>
 						</view>
 					</view>
 					<view class="service-attitude">
@@ -161,7 +167,7 @@
 							<text>服务速度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceMessage.speedScores" v-model="serviceMessage.speedScores"></u-rate>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.speedScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.speedScores ? 5 : serviceMessage.commentRespVO.speedScores" v-model="serviceMessage.commentRespVO.speedScores"></u-rate>
 						</view>
 					</view>
 					<view class="service-attitude">
@@ -169,33 +175,21 @@
 							<text>专业程度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly active-color="#F2A15F" size="30" :count="serviceMessage.specialityScores" v-model="serviceMessage.specialityScores"></u-rate>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.specialityScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.specialityScores ? 5 : serviceMessage.commentRespVO.specialityScores" v-model="serviceMessage.commentRespVO.specialityScores"></u-rate>
 						</view>
 					</view>
 					<view class="evaluate-text">
-						<text>啥就看啥酷酷酷酷酷酷酷酷酷酷酷酷给大家都开始了萨迪克</text>
+						<text>{{ serviceMessage.commentRespVO.content }}</text>
 					</view>
 					<view class="evaluate-picture">
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
+						<view class="service-list" v-for="(item,index) in serviceMessage.images" :key="index" @click="magnifyImgEvent(item,index)">
+							<u-image width="100" mode="widthFix" :src="item">
+								<template v-slot:loading>
 									<u-loading-icon color="red"></u-loading-icon>
 								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
-						<u-image src="@/static/img/health-nurse.png" width="88" height="88">
-							 <template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-						</u-image>
+							</u-image>
+							<text>{{ item.name }}</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -292,6 +286,8 @@
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '加载中···',
 				showLoadingHint: true,
+				magnifyImgDialogShow: false,
+				currentImgUrl: '',
 				currentFlow: null,
 				serviceMessage: {
 					id: '',
@@ -408,6 +404,12 @@
 			...mapMutations([
 				'storeEditServiceOrderFormSureChooseMessage'
 			]),
+			
+			// 查看放大图片事件
+			magnifyImgEvent (item,index) {
+				this.magnifyImgDialogShow = true;
+				this.currentImgUrl = item
+			},
 			
 			// 复制事件
 			copyContent(data) {
@@ -637,6 +639,7 @@
 						this.serviceMessage = res.data.data;
 						this.serviceMessage.payPrice = fenToYuan(this.serviceMessage.payPrice);
 						this.currentFlow = this.transitionOrderFlowStatusText(this.serviceMessage.workerStatus,this.serviceMessage);
+						console.log('订单详情',this.serviceMessage);
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -867,6 +870,27 @@
 	.content-box {
 		@include content-wrapper;
 		position: relative;
+		.magnify-img-box {
+			::v-deep .u-popup {
+				flex: none !important;
+				.u-transition {
+					.u-popup__content {
+						width: 98%;
+						max-height: 90vh;
+						overflow: auto;
+						image {
+							width: 100%;
+						};
+						.u-popup__content__close {
+							.uicon-close {
+								color: #00070F !important;
+								font-weight: bold !important
+							}
+						}
+					}	
+				}
+			}
+		};
 		::v-deep .u-popup {
 			flex: none !important
 		};
@@ -1274,20 +1298,31 @@
 					margin-top: 20px;
 					display: flex;
 					flex-wrap: wrap;
-					::v-deep .u-transition {
-						width: 32% !important;
-						height: 88px !important;
+					max-height: 240px;
+					overflow: auto;
+					.service-list {
+						width: 32%;
+						display: flex;
+						padding: 10px 0;
+						box-sizing: border-box;
+						flex-direction: column;
+						align-items: center;
 						margin-right: 2%;
 						margin-bottom: 10px;
-						&:nth-child(3n+3) {
-							margin-right: 0 !important
+						>text {
+							margin-top: 6px;
+							font-size: 12px;
+							color: #101010
 						};
 						.u-image {
-							.uni-image {
-								width: 100% !important
-							}
+							height: auto !important
 						}
-					}
+					};
+					.service-list {
+						&:nth-child(3n) {
+							margin-right: 0 !important
+						}
+					}	
 				}
 			}
 		};

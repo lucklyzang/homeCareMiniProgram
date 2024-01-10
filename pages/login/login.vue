@@ -5,12 +5,12 @@
 			<u-popup :show="privacyPolicyBoxShow" mode="bottom" border-radius="30" :closeOnClickOverlay="false" :safeAreaInsetBottom="true">
 					<view class="privacy-policy-title">
 						<text>
-							守护家隐私政策概要
+							护享家隐私政策概要
 						</text>
 					</view>
 					<view class="privacy-policy-content">
 						<text>
-							欢迎您使用守护家小程序。您可以使用本小程序以实现智能设备的控制、共享功能。我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。为提供基本服务,需要联网以及调用您的如下权限或功能,以搜集必要的个人信息:
+							欢迎您使用护享家小程序。您可以使用本小程序以实现智能设备的控制、共享功能。我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。为提供基本服务,需要联网以及调用您的如下权限或功能,以搜集必要的个人信息:
 						</text>
 					</view>
 					<view class="privilege-box">
@@ -181,14 +181,14 @@
 				fullFamilyMemberList: [],
 				showGetVerificationCode: true,
 				isSetPassword: false,
-				isPasswordLogin: true,
+				isPasswordLogin: false,
 				isForgetPassword: false,
 				count: '',
-				privacyPolicyBoxShow: true,
+				privacyPolicyBoxShow: false,
 				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
 				isClickGetCode: false,
-				isReadAgreeChecked: [],
+				isReadAgreeChecked: ['阅读并同意协议'],
 				showLoadingHint: false,
 				modalShow: false,
 				modalContent: ''
@@ -242,7 +242,7 @@
 				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!myreg.test(value)) {
 					this.$refs.uToast.show({
-						message: '手机号格式有误,请重新输入!',
+						message: '请输入正确的手机号!',
 						type: 'error',
 						position: 'bottom'
 					})
@@ -264,7 +264,10 @@
 				this.form.username = '';
 				this.form.password = '';
 				this.form.verificationCode = '';
-				this.form.newPassword = ''
+				this.form.newPassword = '';
+				this.showGetVerificationCode = true;
+				clearInterval(this.timer);
+				this.timer = null
 			},
 			
 			// 获取验证码事件
@@ -280,7 +283,7 @@
 				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!myreg.test(this.form.username)) {
 					this.$refs.uToast.show({
-						message: '手机号格式有误,请重新输入!',
+						message: '请输入正确的手机号!',
 						type: 'error',
 						position: 'bottom'
 					});
@@ -333,6 +336,15 @@
 				if (!this.form.username) {
 					this.$refs.uToast.show({
 						message: '请输入手机号',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.username)) {
+					this.$refs.uToast.show({
+						message: '请输入正确的手机号!',
 						type: 'error',
 						position: 'bottom'
 					});
@@ -429,6 +441,15 @@
 					});
 					return
 				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.username)) {
+					this.$refs.uToast.show({
+						message: '请输入正确的手机号!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
 				if (!this.form.verificationCode) {
 					this.$refs.uToast.show({
 						message: '请输入验证码',
@@ -497,6 +518,15 @@
 					});
 					return
 				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.username)) {
+					this.$refs.uToast.show({
+						message: '请输入正确的手机号!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
 				let loginMessage = {
 				  mobile: this.form.username,
 					scene: this.isForgetPassword ? 4 : 1
@@ -506,7 +536,7 @@
 					if ( res && res.data.code == 0) {
 						if (res.data.data == true) {
 							this.$refs.uToast.show({
-								message: '发送成功!',
+								message: '验证码已发送至您的手机，请查收!',
 								type: 'success',
 								position: 'bottom'
 							})
@@ -553,6 +583,15 @@
 						});
 						return
 					};
+					let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+					if (!myreg.test(this.form.username)) {
+						this.$refs.uToast.show({
+							message: '请输入正确的手机号!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
 					if (!this.form.verificationCode) {
 						this.$refs.uToast.show({
 							message: '请输入验证码',
@@ -572,6 +611,7 @@
 					let loginMessage = {
 						password: this.form.newPassword,
 						code: this.form.verificationCode,
+						type: 0,
 					  mobile: this.form.username
 					};
 					this.showLoadingHint = true;
