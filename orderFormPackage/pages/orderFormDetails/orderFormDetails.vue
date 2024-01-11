@@ -275,7 +275,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getOrderDetail, getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder } from '@/api/orderForm.js'
+	import { getOrderDetail, getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder, afterSaleOrder } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -688,10 +688,48 @@
 			
 			// 申请退款确定事件
 			applyRefundSureEvent () {
-				this.orderRefundPort(this.currentSelectOrderMessage.id,this.refundReason)
+				// 已完成的订单申请退款调用该接口
+				if (this.currentSelectOrderMessage.status == 60) {
+					this.afterSaleOrderPort({
+						orderItemId: this.currentSelectOrderMessage.items[0].id,
+						applyReason: this.refundReason
+					});
+				} else {
+					this.orderRefundPort(this.currentSelectOrderMessage.id,this.refundReason)
+				}
 			},
 			
-			// 订单退款
+			// 订单退款(已完成)
+			afterSaleOrderPort(data) {
+				this.infoText = '订单退款申请中···';
+				this.showLoadingHint = true;
+				afterSaleOrder(data).then((res) => {
+					this.applyRefundShow = false;
+					if ( res && res.data.code == 0) {
+						this.haveDeleteShow = true;
+						this.haveDeleteInfoContent = '订单退款申请成功';
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.applyRefundShow = false;
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 订单退款(未完成)
 			orderRefundPort(id,reason) {
 				this.infoText = '订单退款申请中···';
 				this.showLoadingHint = true;

@@ -35,6 +35,15 @@ export function cancelOrder(id,reason) {
   })
 };
 
+// 退款(订单已完成)
+export function afterSaleOrder(data) {
+  return request({
+    url: '/app-api/trade/after-sale/create',
+    method: 'post',
+		data
+  })
+};
+
 // 删除交易订单
 export function deleteOrder(id) {
   return request({
