@@ -96,7 +96,7 @@
 									<text>{{ item.organization }}</text>
 								</view>
 								<view class="rate">
-									<u-rate :count="item.rateValue" readonly v-model="item.rateValue" active-color="#E86F50"></u-rate>
+									<u-rate :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
 									<text>{{ item.commentCount }}</text>
 									<text>条评价</text>
 								</view>
@@ -284,7 +284,7 @@
 							this.isShowNoHomeNoData = true;
 						} else {
 							this.nurseList.forEach((item) => {
-								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount)
+								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount) > 5 ? 5 : Math.floor(item.commentScore/item.commentCount); 
 							})
 						};
 						this.fullNurseList = this.fullNurseList.concat(this.nurseList);
@@ -729,6 +729,7 @@
 							.rate {
 								display: flex;
 								margin-top: 4px;
+								align-items: center;
 								>text {
 									font-size: 12px;
 									&:nth-of-type(1) {

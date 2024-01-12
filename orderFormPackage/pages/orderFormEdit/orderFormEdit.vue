@@ -341,7 +341,7 @@
 			};
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseProtegePersonMessage')) {
 				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage) != "{}") {
-					this.protectedPerson = `${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.editServiceOrderFormSureChooseMessage.chooseAddressMessage.sex == 1 ? '男' : '女'} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
+					this.protectedPerson = `${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.name} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.sex == 1 ? '男' : '女'} ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.age}岁 ${this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.mobile}`
 				}
 			}
 		},
@@ -418,7 +418,7 @@
 						
 						// 将该服务订单的服务地址存入store 
 						let temporaryAddressMessage = {};
-						temporaryAddressMessage['address'] = res.data.data.receiverAreaName.replace(/\s*/g,"");
+						temporaryAddressMessage['address'] = !res.data.data.receiverAreaName ? '' : res.data.data.receiverAreaName.replace(/\s*/g,"");
 						temporaryAddressMessage['detailAddress'] =  res.data.data.receiverDetailAddress;
 						temporaryAddressMessage['areaId'] =  res.data.data.receiverAreaId;
 						temporaryAddressMessage['id'] =  '';
@@ -1450,7 +1450,8 @@
 						};
 						>text {
 							font-size: 15px;
-							color: #777777
+							color: #777777;
+							vertical-align: middle
 						}
 					};
 					.serve-site-right {

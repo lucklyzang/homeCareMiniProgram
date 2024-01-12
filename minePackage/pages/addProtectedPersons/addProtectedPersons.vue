@@ -341,6 +341,28 @@
 							urls: res.tempFilePaths
 						});
 						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
+							let url = res.tempFiles[imgI].path;
+							//获取最后一个的位置
+							let index = url.lastIndexOf(".");
+							//获取后缀
+							let jpgUrl = url.substr(index + 1);
+							if (jpgUrl != "png" && jpgUrl != "jpg" && jpgUrl != "jpeg") {
+								that.$refs.uToast.show({
+									message: '只能上传jpg或png格式的图片!',
+									type: 'error',
+									position: 'center'
+								});
+								continue
+							};
+							let isLt2M = res.tempFiles[imgI].size/1024/1024 < 5;
+							if (!isLt2M) {
+								that.$refs.uToast.show({
+									message: '文件必须小于5MB!',
+									type: 'error',
+									position: 'center'
+								});
+								continue
+							};
 							if (text == '医保卡正面') {
 								that.medicareCardFileList.push(res.tempFiles[imgI]['path']);
 							} else if (text == '医保卡反面') {
@@ -453,6 +475,7 @@
 			// 保存被护人事件
 			async saveProtectedPersonsEvent () {
 				let regIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!this.protectedPersonsNameValue) {
 					this.$refs.uToast.show({
 						message: '被护人姓名不能为空',
@@ -467,9 +490,25 @@
 						position: 'center'
 					});
 					return
+				} else if (!regIdCard.test(this.idNumberValue)) {
+					if (this.idNumberValue) {
+						this.$refs.uToast.show({
+							message: '身份证格式格式有误,请重新输入!',
+							type: 'error',
+							position: 'center'
+						});
+						return
+					}
 				} else if (!this.contactWayValue) {
 					this.$refs.uToast.show({
 						message: '联系方式不能为空',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				} else if (!myreg.test(this.contactWayValue)) {
+					this.$refs.uToast.show({
+						message: '联系方式输入有误，请核对后重新输入中国大陆电话号码!',
 						type: 'error',
 						position: 'center'
 					});
@@ -481,15 +520,13 @@
 						position: 'center'
 					});
 					return
-				} else if (!regIdCard.test(this.idNumberValue)) {
-					if (this.idNumberValue) {
-						this.$refs.uToast.show({
-							message: '身份证格式格式有误,请重新输入!',
-							type: 'error',
-							position: 'center'
-						});
-						return
-					}
+				} else if (!myreg.test(this.emergencyContactValue)) {
+					this.$refs.uToast.show({
+						message: '紧急联系人输入有误，请核对后重新输入中国大陆电话号码!',
+						type: 'error',
+						position: 'center'
+					});
+					return
 				};
 				// 上传图片文件流到服务端(医保卡正面)
 				if (this.medicareCardFileList.length > 0) {

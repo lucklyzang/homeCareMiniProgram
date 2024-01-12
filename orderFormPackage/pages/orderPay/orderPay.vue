@@ -54,7 +54,7 @@
 			<view class="pay-area-bottom">
 				<view class="order-form-price">
 					<text>订单金额</text>
-					<text>{{ `￥${payOrderMessage.price}` }}</text>
+					<text v-if="payOrderMessage.price">{{ `￥${payOrderMessage.price}` }}</text>
 				</view>
 				<view class="to-pay-btn" @click="toPayEvent">
 					立即支付

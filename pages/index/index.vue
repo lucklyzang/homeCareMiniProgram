@@ -52,11 +52,8 @@
 					<image src="@/static/img/latest-news.png" @click="enterMessageListEvent"></image>
 				</view>
 				<view class="latest-news-right">
-					<view class="new-content-list">
-						空腹能不能吃汤圆？无糖汤圆不“胖人”吗？
-					</view>
-					<view class="new-content-list">
-						空腹能不能吃汤圆？无糖汤圆不“胖人”吗？
+					<view class="new-content-list" v-for="(item,index) in noticeList" :key="index" @click="enterLatestNewsDetailsEvent(item)">
+						{{ item.title }}
 					</view>
 				</view>
 			</view>
@@ -142,7 +139,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import { getUserBannerList, getNurse, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
+	import { getUserBannerList, getNurse, newsPage, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
 	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
@@ -157,11 +154,19 @@
 				recommendProductList: [],
 				nurseList: [],
 				searchValue: '',
-				showLoadingHint: false
+				showLoadingHint: false,
+				noticeList: [],
+				currentPage: 1,
+				pageSize: 2
 			}
 		},	
 		onShow() {
 			this.queryUserBannerList({position: 1});
+			this.queryNewsPageList({
+				pageNo: this.currentPage,
+				pageSize: this.pageSize,
+				terminal: 'USER'
+			});
 			this.queryNurseList({
 				pageNo: 1,
 				pageSize: 3
@@ -214,6 +219,49 @@
 				let titleText = '';
 				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
 				return titleText
+			},
+			
+			// 获取最新资讯列表
+			queryNewsPageList (data) {
+				this.showLoadingHint = true;
+				this.noticeList = [];
+				newsPage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (JSON.stringify(res.data.data) == '{}') {
+							return
+						};
+						this.noticeList = res.data.data.list;
+						this.noticeList.forEach((item) => {
+							item.description = item.description.replace(/\<img/gi, '<img class="mystyle"');
+							item.description = item.description.replace(/\<p/gi, '<p class="pstyle"');
+							item.description = item.description.replace(/\<div/gi, '<div class="dstyle"')
+						});
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 进入最新资讯详情事件
+			enterLatestNewsDetailsEvent (item) {
+				// 传递资讯详情内容
+				let mynavData = encodeURIComponent(JSON.stringify(item));
+				uni.navigateTo({
+					url: '/messagePackage/pages/latestNewsDetails/latestNewsDetails?transmitData='+mynavData
+				})
 			},
 			
 			// 查询首页医护

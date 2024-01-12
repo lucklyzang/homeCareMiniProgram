@@ -54,6 +54,17 @@
 			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
 			</u-modal>
 		</view>
+		<!-- 申请退款成功提示 -->
+		<view class="apply-refund-success-info">
+			<u-modal :show="applySuccessShow" @confirm="applySuccessSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+				<view class="slot-content">
+					<view>
+						<u-icon name="checkmark-circle" color="#289E8E" size="28"></u-icon>
+						<text>{{ applyText }}</text>
+					</view>
+				</view>
+			</u-modal>
+		</view>
 		<!-- 提醒派单提示 -->
 		<view class="remind-send-orders-info">
 			<u-modal :show="remindSendOrdersShow" @confirm="remindSendOrdersShow=false" confirmText="确定" confirmColor="#EB3E67">
@@ -105,7 +116,7 @@
 						</view>
 						<view class="expectation-date">
 							<text>期望时间</text>
-							<text>{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
+							<text v-if="serviceMessage.serviceDate">{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
 						</view>
 						<view class="evaluation-form">
 							<text>初步评估单</text>
@@ -251,7 +262,7 @@
 					<text>联系护士</text>
 				</view>
 				<view class="btn-area-right">
-					<text v-if="serviceMessage.workerStatus != 0 && serviceMessage.refundStatus == 0" @click="applyRefundEvent(serviceMessage)">申请退款</text>
+					<text v-if="serviceMessage.workerStatus != 0 && serviceMessage.refundStatus == 0 && serviceMessage.status != 70" @click="applyRefundEvent(serviceMessage)">申请退款</text>
 					<text v-if="(serviceMessage.status == 60 && serviceMessage.commentStatus) || serviceMessage.status == 70" @click="deleteOrder(serviceMessage)">删除订单</text>
 					<text v-if="serviceMessage.status == 60 || serviceMessage.status == 70" @click="appointmentServiceEvent(serviceMessage)">再次预约</text>
 					<text v-if="serviceMessage.workerStatus != 3 && serviceMessage.workerStatus != 4" @click="cancelOrderEvent(serviceMessage)">取消订单</text>
@@ -377,6 +388,8 @@
 				copyValue: '复制测试',
 				deleteShow: false,
 				haveDeleteShow: false,
+				applySuccessShow: false,
+				applyText: '提交成功! 等待审核',
 				cancelOrderFormShow: false,
 				quitPayShow: false,
 				applyRefundShow: false,
@@ -622,6 +635,11 @@
 				return currentdate
 			},
 			
+			// 申请退款成功弹框确定事件
+			applySuccessSuccessSureEvent () {
+				this.applySuccessShow = false
+			},
+			
 			// 操作订单成功确定事件
 			operateOrderSuccessSureEvent () {
 				this.haveDeleteShow = false;
@@ -683,7 +701,8 @@
 			// 申请退款弹框显示
 			applyRefundEvent (item) {
 				this.currentSelectOrderMessage = item;
-				this.applyRefundShow = true
+				this.applyRefundShow = true;
+				this.refundReason = ''
 			},
 			
 			// 申请退款确定事件
@@ -706,8 +725,8 @@
 				afterSaleOrder(data).then((res) => {
 					this.applyRefundShow = false;
 					if ( res && res.data.code == 0) {
-						this.haveDeleteShow = true;
-						this.haveDeleteInfoContent = '订单退款申请成功';
+						this.applySuccessShow = true;
+						this.applyText = '提交成功! 等待审核';
 						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
 					} else {
 						this.$refs.uToast.show({
@@ -1041,6 +1060,37 @@
 						.u-modal__button-group {
 							.u-modal__button-group__wrapper--confirm {
 								margin-left: 0 !important
+							}
+						}
+					}
+				}
+			}
+		};
+		.apply-refund-success-info {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.u-modal__content {
+							padding: 50px 10px !important;
+							box-sizing: border-box;
+							.slot-content {
+								>view {
+									display: flex;
+									justify-content: center;
+									align-items: center;
+									>text {
+										font-size: 14px !important;
+										color: #101010 !important;
+										margin-left: 14px
+									}
+								}
+							}
+						};
+						.u-modal__button-group {
+							.u-modal__button-group__wrapper--confirm {
+								border-radius: 7px !important;
+								margin-left: 0 !important;
+								background: #FF698C !important
 							}
 						}
 					}

@@ -22,7 +22,7 @@
 					<view class="service-name">
 						<text>{{ productDetailsMessage.name }}</text>
 					</view>
-					<view class="service-price">
+					<view class="service-price" v-if="productDetailsMessage.price">
 						<text>{{ `￥${productDetailsMessage.price}` }}</text>
 					</view>
 				</view>
