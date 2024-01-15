@@ -383,7 +383,7 @@
 							let jpgUrl = url.substr(index + 1);
 							if (jpgUrl != "png" && jpgUrl != "jpg" && jpgUrl != "jpeg") {
 								that.$refs.uToast.show({
-									message: '只能上传jpg或png格式的图片!',
+									message: '只能上传jpg/png格式的图片!',
 									type: 'error',
 									position: 'center'
 								});
@@ -392,7 +392,7 @@
 							let isLt2M = res.tempFiles[imgI].size/1024/1024 < 5;
 							if (!isLt2M) {
 								that.$refs.uToast.show({
-									message: '文件必须小于5MB!',
+									message: '文件不能大于5MB!',
 									type: 'error',
 									position: 'center'
 								});
@@ -437,12 +437,20 @@
 					this.medicareCardRecordDataOnlinePathArr = [];
 					this.specialCircumstancesOnlinePathArr = [];
 					if ( res && res.data.code == 0) {
-						this.$refs.uToast.show({
-							message: '编辑被护人成功',
-							type: 'success',
-							position: 'center'
-						});
-						uni.navigateBack()
+						if (res.data.data) {
+							this.$refs.uToast.show({
+								message: '编辑被护人成功',
+								type: 'success',
+								position: 'center'
+							});
+							uni.navigateBack()
+						} else {
+							this.$refs.uToast.show({
+								message: res.data.msg,
+								type: 'error',
+								position: 'center'
+							})
+						}
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -459,7 +467,7 @@
 					this.specialCircumstancesOnlinePathArr = [];
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						message: err.message,
+						message: `${JSON.stringify(err)}`,
 						type: 'error',
 						position: 'center'
 					})

@@ -120,6 +120,7 @@ export default {
 			getLocation() {
 				uni.getLocation({
 						type: 'gcj02',
+						isHighAccuracy: true,
 						success: (res) => {
 							this.latitude = res.latitude.toString();
 							this.longitude = res.longitude.toString();
@@ -127,6 +128,13 @@ export default {
 							this.covers[0]['longitude'] = res.longitude;
 							// 获取地理位置详情信息
 							this.getLocationDetail()
+						},
+						fail: (err) => {
+							this.$refs.uToast.show({
+								message: '无法获取位置信息！无法使用位置功能',
+								type: 'error',
+								position: 'center'
+							})
 						}
 				})
 			},
@@ -152,6 +160,13 @@ export default {
 								icon: "none"
 							})
 						}
+					},
+					fail: (err) => {
+						this.$refs.uToast.show({
+							message: `${err.errMsg}`,
+							type: 'error',
+							position: 'center'
+						})
 					}
 				})
 			},

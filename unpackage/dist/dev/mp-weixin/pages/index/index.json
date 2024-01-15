@@ -11,7 +11,6 @@
     "u-loading-icon": "/node-modules/uview-ui/components/u-loading-icon/u-loading-icon",
     "u-swiper": "/node-modules/uview-ui/components/u-swiper/u-swiper",
     "u-image": "/node-modules/uview-ui/components/u-image/u-image",
-    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "u-rate": "/node-modules/uview-ui/components/u-rate/u-rate"
   }
 }

@@ -193,12 +193,12 @@ page {
   justify-content: space-between;
 }
 .content-box .center-area .nurse-type .nurse-type-list > image {
-  width: 46px;
-  height: 46px;
+  width: 45px;
+  height: 45px;
 }
 .content-box .center-area .nurse-type .nurse-type-list > text {
-  font-size: 12px;
-  color: #898C8C;
+  font-size: 14px;
+  color: #000000;
 }
 .content-box .center-area .latest-news {
   display: flex;
@@ -245,20 +245,17 @@ page {
 .content-box .center-area .recommend-service {
   width: 98%;
   margin: 0 auto;
-  margin-top: 10px;
-  border-radius: 7px;
-  padding: 10px;
+  margin-top: 15px;
+  padding: 0 10px 0 10px;
   box-sizing: border-box;
-  background: #fff;
-  box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.12);
 }
 .content-box .center-area .recommend-service .service-title {
   display: flex;
   align-items: center;
 }
 .content-box .center-area .recommend-service .service-title .service-title-left {
-  font-size: 16px;
-  color: #101010;
+  font-size: 17px;
+  color: #000000;
   font-weight: bold;
   margin-right: 10px;
 }
@@ -267,72 +264,73 @@ page {
   color: #888888;
   margin-top: 4px;
 }
-.content-box .center-area .recommend-service .service-list {
-  margin-top: 10px;
-  padding: 4px 8px;
-  height: 75px;
-  box-sizing: border-box;
-  background: #F8F8F8;
-  border-radius: 8px;
+.content-box .center-area .recommend-service .service-list-box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+.content-box .center-area .recommend-service .service-list-box .service-list {
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.content-box .center-area .recommend-service .service-list .service-list-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 10px;
+  padding: 4px 4px 10px 4px;
+  width: 48%;
+  background: #fff;
+  margin-right: 4%;
   box-sizing: border-box;
-}
-.content-box .center-area .recommend-service .service-list .service-list-right .service-project {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  width: 0;
+  align-items: center;
 }
-.content-box .center-area .recommend-service .service-list .service-list-right .service-project > text {
+.content-box .center-area .recommend-service .service-list-box .service-list:nth-child(2n) {
+  margin-right: 0 !important;
+}
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-top {
+  width: 100%;
+}
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-bottom {
+  margin-top: 10px;
+  width: 100%;
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-bottom .service-project > text {
   display: inline-block;
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
-.content-box .center-area .recommend-service .service-list .service-list-right .service-project > text:first-child {
-  font-size: 16px;
-  color: #101010;
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-bottom .service-project > text:first-child {
+  font-size: 13px;
+  color: #333333;
   font-weight: bold;
-  margin-bottom: 12px;
 }
-.content-box .center-area .recommend-service .service-list .service-list-right .service-project > text:last-child {
-  font-size: 12px;
-  color: #888888;
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-bottom .service-project > text:last-child {
+  font-size: 11px;
+  color: #999999;
 }
-.content-box .center-area .recommend-service .service-list .service-list-right .service-price > text {
-  font-size: 16px;
-  color: #E95E5E;
+.content-box .center-area .recommend-service .service-list-box .service-list .service-list-bottom .service-price > text {
+  font-size: 17px;
+  color: #F92C20;
+  font-weight: bold;
 }
 .content-box .center-area .recommend-nurse-practitioner {
   width: 98%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
-  border-radius: 7px;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   box-sizing: border-box;
-  background: #fff;
-  box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.12);
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-title .nurse-practitioner-title-left > text {
-  font-size: 16px;
-  color: #101010;
+  font-size: 17px;
+  color: #000000;
   font-weight: bold;
   margin-right: 10px;
 }
@@ -340,29 +338,54 @@ page {
   display: flex;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-title .nurse-practitioner-title-right > text {
-  font-size: 12px;
-  color: #3B9DF9;
+  font-size: 13px;
+  color: #999999;
+  font-weight: 400;
   margin-right: 4px;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list {
-  margin-top: 20px;
-  padding: 4px 8px;
+  padding: 10px;
   box-sizing: border-box;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .nurse-practitioner-list-left-top {
   width: 73px;
   height: 73px;
-  margin-right: 20px;
   border-radius: 50%;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left  .u-image {
-  width: 73px !important;
-  height: 73px !important;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .nurse-practitioner-list-left-top  .u-image {
+  width: 70px !important;
+  height: 70px !important;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text > text {
+  font-size: 11px;
+  font-weight: 400;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text > text:nth-of-type(1) {
+  margin-left: 6px;
+  color: #999999;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text > text:nth-of-type(2) {
+  color: #999999;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text .textStyle {
+  color: #d6d6d6 !important;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right {
   flex: 1;
@@ -373,87 +396,106 @@ page {
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-name > text:nth-child(1) {
   font-size: 16px;
-  color: #101010;
+  color: #000000;
   margin-right: 10px;
   font-weight: bold;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-name > text:nth-child(2) {
-  font-size: 12px;
-  color: #fff;
-  display: inline-block;
-  width: 67px;
-  height: 22px;
-  text-align: center;
-  line-height: 22px;
-  background: #F2A15F;
-  border-radius: 3px;
+  font-size: 14px;
+  color: #F2A15F;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-name {
-  margin-top: 6px;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center {
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAFA;
+  padding: 6px;
+  box-sizing: border-box;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-name > text {
-  word-break: break-all;
-  font-size: 12px;
-  color: #898C8C;
-}
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate {
-  margin-top: 6px;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .hospital-name {
   display: flex;
   align-items: center;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate > text {
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .hospital-name > text:nth-child(1) {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #E81F50;
+  margin-right: 6px;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .hospital-name > text:nth-child(2) {
+  flex: 1;
+  word-break: break-all;
   font-size: 12px;
+  color: #333333;
+  font-weight: 400;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate > text:nth-of-type(1) {
-  margin-left: 6px;
-  font-weight: bold;
-  color: #101010;
-}
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate > text:nth-of-type(2) {
-  color: rgba(16, 16, 16, 0.35);
-}
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .rate .textStyle {
-  color: #d6d6d6 !important;
-}
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance {
-  margin-top: 6px;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance {
   display: flex;
+  margin-top: 4px;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-left {
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left {
   margin-right: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-left > text {
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left > text {
   font-size: 12px;
+  font-weight: 400;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(1) {
-  color: rgba(16, 16, 16, 0.35);
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(1) {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #E81F50;
+  margin-right: 6px;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(2) {
-  font-weight: bold;
-  color: #101010;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(2) {
+  color: #333333;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(3) {
-  color: rgba(16, 16, 16, 0.35);
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(3) {
+  color: #E81F50;
+  margin: 0 4px;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-right > text {
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left > text:nth-child(4) {
+  color: #333333;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-left ::after {
+  content: '';
+  width: 1px;
+  height: 14px;
+  background: #333333;
+  position: absolute;
+  top: 1px;
+  right: -10px;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-right {
+  display: flex;
+  align-items: center;
+}
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-right > text {
   font-size: 12px;
+  font-weight: 400;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(1) {
-  color: rgba(16, 16, 16, 0.35);
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(1) {
+  color: #333333;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(2) {
-  font-weight: bold;
-  color: #101010;
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(2) {
+  margin: 0 4px;
+  color: #E81F50;
 }
-.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(3) {
-  color: rgba(16, 16, 16, 0.35);
+.content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .hospital-message-center .nurse-practitioner-performance .nurse-practitioner-performance-right > text:nth-child(3) {
+  color: #333333;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .good-territory {
   display: flex;
   margin-top: 6px;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-right .good-territory > text {
-  font-size: 12px;
+  font-size: 11px;
   color: #fff;
   display: inline-block;
   width: 57px;

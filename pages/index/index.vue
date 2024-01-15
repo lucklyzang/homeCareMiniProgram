@@ -60,23 +60,25 @@
 			<view class="recommend-service">
 				<view class="service-title">
 					<view class="service-title-left">推荐服务</view>
-					<view class="service-title-right">我们的每一位护工都是经过严格培训!</view>
+					<view class="service-title-right"></view>
 				</view>
-				<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item.id)">
-					<view class="service-list-left">
-						<u-image :src="item.picUrl" width="63" height="63">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
-					</view>
-					<view class="service-list-right">
-						<view class="service-project">
-							<text>{{ item.name }}</text>
-							<text>内部专属护理,欢迎体验!</text>
+				<view class="service-list-box">
+					<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item.id)">
+						<view class="service-list-top">
+							<u-image :src="item.picUrl" width="157" height="157">
+								 <template v-slot:loading>
+								    <u-loading-icon color="red"></u-loading-icon>
+								  </template>
+							</u-image>
 						</view>
-						<view class="service-price">
-							<text>{{ `￥${item.price}起` }}</text>
+						<view class="service-list-bottom">
+							<view class="service-project">
+								<text>{{ item.name }}</text>
+								<text>内部专属护理,欢迎体验!</text>
+							</view>
+							<view class="service-price">
+								<text>{{ `￥${item.price}` }}</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -88,40 +90,48 @@
 					</view>
 					<view class="nurse-practitioner-title-right" @click="viewMoreSpecialistEvent">
 						<text>查看更多</text>
-						<u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon>
+						<!-- <u-icon name="arrow-right" color="#3B9DF9" size="18"></u-icon> -->
 					</view>
 				</view>
 				<view class="nurse-practitioner-list" v-for="(item,index) in nurseList" @click="viewSpecialistDetailsEvent(item)">
 					<view class="nurse-practitioner-list-left">
-						<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
-							 <template v-slot:loading>
-							    <u-loading-icon color="red"></u-loading-icon>
-							  </template>
-						</u-image>
+						<view class="nurse-practitioner-list-left-top">
+							<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="70" height="70">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+						</view>
+						<view class="rate">
+							<u-rate size="12" :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#F9B128' : '#d6d6d6'"></u-rate>
+							<view class="rate-text">
+								<text>{{ item.commentCount }}</text>
+								<text>条评价</text>
+							</view>
+						</view>
 					</view>
 					<view class="nurse-practitioner-list-right">
 						<view class="nurse-practitioner-name">
 							<text>{{ item.name }}</text>
 							<text>{{ item.title ? nurseTitleTransition(item.title) : '无' }}</text>
 						</view>
-						<view class="hospital-name">
-							<text>{{ item.organization }}</text>
-						</view>
-						<view class="rate">
-							<u-rate :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
-							<text>{{ item.commentCount }}</text>
-							<text>条评价</text>
-						</view>
-						<view class="nurse-practitioner-performance">
-							<view class="nurse-practitioner-performance-left">
-								<text>帮助</text>
-								<text>{{ item.quantity }}</text>
-								<text>人</text>
+						<view class="hospital-message-center">
+							<view class="hospital-name">
+								<text></text>
+								<text>{{ item.organization }}</text>
 							</view>
-							<view class="nurse-practitioner-performance-right">
-								<text>服务</text>
-								<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
-								<text>小时</text>
+							<view class="nurse-practitioner-performance">
+								<view class="nurse-practitioner-performance-left">
+									<text></text>
+									<text>帮助</text>
+									<text>{{ item.quantity }}</text>
+									<text>人</text>
+								</view>
+								<view class="nurse-practitioner-performance-right">
+									<text>服务</text>
+									<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
+									<text>小时</text>
+								</view>
 							</view>
 						</view>
 						<view class="good-territory">
@@ -173,7 +183,7 @@
 			});
 			this.queryHomeHotProduct({
 				recommendType: 'hot',
-				count: 3
+				count: 4
 			});
 			this.queryHomeProductCategory()
 		},
@@ -618,12 +628,12 @@
 					align-items: center;
 					justify-content: space-between;
 					>image {
-						width: 46px;
-						height: 46px
+						width: 45px;
+						height: 45px
 					};
 					>text {
-						font-size: 12px;
-						color: #898C8C
+						font-size: 14px;
+						color: #000000
 					}
 				}
 			};
@@ -668,18 +678,15 @@
 			.recommend-service {
 				width: 98%;
 				margin: 0 auto;
-				margin-top: 10px;
-				border-radius: 7px;
-				padding: 10px;
+				margin-top: 15px;
+				padding: 0 10px 0 10px;
 				box-sizing: border-box;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.12);
 				.service-title {
 					display: flex;
 					align-items: center;
 					.service-title-left {
-						font-size: 16px;
-						color: #101010;
+						font-size: 17px;
+						color: #000000;
 						font-weight: bold;
 						margin-right: 10px
 					};
@@ -689,55 +696,54 @@
 						margin-top: 4px;
 					}
 				};
-				.service-list {
-					margin-top: 10px;
-					padding: 4px 8px;
-					height: 75px;
-					box-sizing: border-box;
-					background: #F8F8F8;
-					border-radius: 8px;
-					margin-bottom: 10px;
+				.service-list-box {
 					display: flex;
-					align-items: center;
 					justify-content: space-between;
-					.service-list-left {
-						::v-deep .u-image {
-							// width: 63px !important;
-							// height: 63px !important
-						}
-					};
-					.service-list-right {
-						flex: 1;
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-						padding-left: 10px;
+					flex-wrap: wrap;
+					margin-top: 15px;
+					.service-list {
+						margin-bottom: 10px;
+						padding: 4px 4px 10px 4px;
+						width: 48%;
+						background: #fff;
+						margin-right: 4%;
 						box-sizing: border-box;
-						.service-project {
-							display: flex;
-							flex-direction: column;
-							flex: 1;
-							width: 0;
-							>text {
-								display: inline-block;
-								width: 100%;
-								@include no-wrap;
-								&:first-child {
-									font-size: 16px;
-									color: #101010;
-									font-weight: bold;
-									margin-bottom: 12px
-								};
-								&:last-child {
-									font-size: 12px;
-									color: #888888
-								}
-							}
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						&:nth-child(2n) {
+							margin-right: 0 !important
 						};
-						.service-price {
-							>text {
-								font-size: 16px;
-								color: #E95E5E
+						.service-list-top {
+							width: 100%;
+						};
+						.service-list-bottom {
+							margin-top: 10px;
+							width: 100%;
+							padding-left: 8px;
+							box-sizing: border-box;
+							.service-project {
+								>text {
+									display: inline-block;
+									width: 100%;
+									@include no-wrap;
+									&:first-child {
+										font-size: 13px;
+										color: #333333;
+										font-weight: bold;
+									};
+									&:last-child {
+										font-size: 11px;
+										color: #999999 
+									}
+								}
+							};
+							.service-price {
+								>text {
+									font-size: 17px;
+									color: #F92C20;
+									font-weight: bold;
+								}
 							}
 						}
 					}
@@ -746,21 +752,19 @@
 			.recommend-nurse-practitioner {
 				width: 98%;
 				margin: 0 auto;
-				margin-top: 10px;
+				margin-top: 5px;
 				margin-bottom: 10px;
-				border-radius: 7px;
-				padding: 10px;
+				padding: 0 10px 10px 10px;
 				box-sizing: border-box;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.12);
 				.nurse-practitioner-title {
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
+					margin-bottom: 15px;
 					.nurse-practitioner-title-left {
 						>text {
-							font-size: 16px;
-							color: #101010;
+							font-size: 17px;
+							color: #000000;
 							font-weight: bold;
 							margin-right: 10px
 						}
@@ -768,29 +772,56 @@
 					.nurse-practitioner-title-right {
 						display: flex;
 						>text {
-							font-size: 12px;
-							color: #3B9DF9;
+							font-size: 13px;
+							color: #999999;
+							font-weight: 400;
 							margin-right: 4px
 						}
 					}
 				};
 				.nurse-practitioner-list {
-					margin-top: 20px;
-					padding: 4px 8px;
+					padding: 10px;
 					box-sizing: border-box;
-					border-radius: 8px;
-					margin-bottom: 20px;
+					margin-bottom: 14px;
+					background: #fff;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					.nurse-practitioner-list-left {
-						width: 73px;
-						height: 73px;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
 						margin-right: 20px;
-						border-radius: 50%;
-						::v-deep .u-image {
-							width: 73px !important;
-							height: 73px !important
+						.nurse-practitioner-list-left-top {
+							width: 73px;
+							height: 73px;
+							border-radius: 50%;
+							::v-deep .u-image {
+								width: 70px !important;
+								height: 70px !important
+							}
+						};
+						.rate {
+							margin-top: 6px;
+							display: flex;
+							flex-direction: column;
+							.rate-text {
+								>text {
+									font-size: 11px;
+									font-weight: 400;
+									&:nth-of-type(1) {
+										margin-left: 6px;
+										color: #999999;
+									};
+									&:nth-of-type(2) {
+										color: #999999;
+									}
+								};
+								.textStyle {
+									color: #d6d6d6 !important;
+								}
+							}
 						}
 					};
 					.nurse-practitioner-list-right {
@@ -801,81 +832,100 @@
 							>text {
 								&:nth-child(1) {
 									font-size: 16px;
-									color: #101010;
+									color: #000000;;
 									margin-right: 10px;
 									font-weight: bold
 								};
 								&:nth-child(2) {
-									font-size: 12px;
-									color: #fff;
-									display: inline-block;
-									width: 67px;
-									height: 22px;
-									text-align: center;
-									line-height: 22px;
-									background: #F2A15F;
-									border-radius: 3px;
+									font-size: 14px;
+									color: #F2A15F;
 								}
 							}
 						};
-						.hospital-name {
-							margin-top: 6px;
-							>text {
-								word-break: break-all;
-								font-size: 12px;
-								color: #898C8C;
-							}
-						};
-						.rate {
-							margin-top: 6px;
+						.hospital-message-center {
+							margin: 8px 0;
 							display: flex;
-							align-items: center;
-							>text {
-								font-size: 12px;
-								&:nth-of-type(1) {
-									margin-left: 6px;
-									font-weight: bold;
-									color: #101010;
-								};
-								&:nth-of-type(2) {
-									color: rgba(16, 16, 16, 0.35);
-								}
-							};
-							.textStyle {
-								color: #d6d6d6 !important;
-							}
-						};
-						.nurse-practitioner-performance {
-							margin-top: 6px;
-							display: flex;
-							.nurse-practitioner-performance-left {
-								margin-right: 20px;
+							flex-direction: column;
+							background: #FAFAFA;
+							padding: 6px;
+							box-sizing: border-box;
+							.hospital-name {
+								display: flex;
+								align-items: center;
 								>text {
-									font-size: 12px;
 									&:nth-child(1) {
-										color: rgba(16, 16, 16, 0.35);
+										display: inline-block;
+										width: 6px;
+										height: 6px;
+										border-radius: 50%;
+										background: #E81F50;
+										margin-right: 6px;
 									};
 									&:nth-child(2) {
-										font-weight: bold;
-										color: #101010;
-									};
-									&:nth-child(3) {
-										color: rgba(16, 16, 16, 0.35);
+										flex: 1;
+										word-break: break-all;
+										font-size: 12px;
+										color: #333333;
+										font-weight: 400;
 									}
 								}
 							};
-							.nurse-practitioner-performance-right {
-								>text {
-									font-size: 12px;
-									&:nth-child(1) {
-										color: rgba(16, 16, 16, 0.35);
-									};
-									&:nth-child(2) {
-										font-weight: bold;
-										color: #101010;
-									};
-									&:nth-child(3) {
-										color: rgba(16, 16, 16, 0.35);
+							.nurse-practitioner-performance {
+								display: flex;
+								margin-top: 4px;
+								.nurse-practitioner-performance-left {
+									margin-right: 20px;
+									display: flex;
+									align-items: center;
+									position: relative;
+									>text {
+										font-size: 12px;
+										font-weight: 400;
+										&:nth-child(1) {
+											display: inline-block;
+											width: 6px;
+											height: 6px;
+											border-radius: 50%;
+											background: #E81F50;
+											margin-right: 6px;
+										};
+										&:nth-child(2) {
+											color: #333333;
+										};
+										&:nth-child(3) {
+											color: #E81F50;
+											margin: 0 4px;
+										};
+										&:nth-child(4) {
+											color: #333333;
+										}
+									}
+								};
+								.nurse-practitioner-performance-left ::after {
+									content: '';
+									width: 1px;
+									height: 14px;
+									background: #333333;
+									position: absolute;
+									top: 1px;
+									right: -10px;
+								};
+								.nurse-practitioner-performance-right {
+									display: flex;
+									align-items: center;
+									>text {
+										font-size: 12px;
+										font-weight: 400;
+										&:nth-child(1) {
+											color: #333333;
+										};
+										&:nth-child(2) {
+											margin: 0 4px;
+											color: #E81F50;
+										};
+										&:nth-child(3) {
+											color: #333333
+										}
 									}
 								}
 							}
@@ -884,7 +934,7 @@
 							display: flex;
 							margin-top: 6px;
 							>text {
-								font-size: 12px;
+								font-size: 11px;
 								color: #fff;
 								display: inline-block;
 								width: 57px;

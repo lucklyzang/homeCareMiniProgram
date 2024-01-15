@@ -31,8 +31,8 @@
 							<view class="check-status check-status-applying" v-if="item.status == 'APPLYING'">
 								<text>审核中</text>
 							</view>
-							<view class="check-status check-status-refused" v-if="item.status == 'REFUSED'" @click.stop="againCheckEvent(item)">
-								<text>点击重新提交审核</text>
+							<view class="check-status check-status-refused"  v-if="item.status == 'REFUSED'">
+								<text>未通过审核</text>
 							</view>
 						</view>
 						<view class="protected-persons-top-right">
@@ -55,7 +55,12 @@
 						</view>
 						<view class="emergency-contact">
 							<text>紧急联系人</text>
-							<text>{{ item.critical }}</text>
+							<text>{{ !item.critical ? '暂无' : item.critical }}</text>
+						</view>
+					</view>
+					<view class="again-check-area">
+						<view v-if="item.status == 'REFUSED'" @click.stop="againCheckEvent(item)">
+							<text>点击重新提交审核</text>
 						</view>
 					</view>
 				</view>
@@ -467,6 +472,23 @@
 								text-align: right
 							}
 						}
+					}
+				};
+				.again-check-area {
+					width: 100%;
+					margin-top: 20px;
+					display: flex;
+					justify-content: flex-end;
+					>view {
+						height: 30px;
+						border-radius: 4px;
+						padding: 0 10px;
+						box-sizing: border-box;
+						background: #43a4ff;
+						color: #fff;
+						font-size: 12px;
+						text-align: center;
+						line-height: 30px
 					}
 				}
 			}

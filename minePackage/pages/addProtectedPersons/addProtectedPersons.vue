@@ -348,7 +348,7 @@
 							let jpgUrl = url.substr(index + 1);
 							if (jpgUrl != "png" && jpgUrl != "jpg" && jpgUrl != "jpeg") {
 								that.$refs.uToast.show({
-									message: '只能上传jpg或png格式的图片!',
+									message: '只能上传jpg/png格式的图片!',
 									type: 'error',
 									position: 'center'
 								});
@@ -357,7 +357,7 @@
 							let isLt2M = res.tempFiles[imgI].size/1024/1024 < 5;
 							if (!isLt2M) {
 								that.$refs.uToast.show({
-									message: '文件必须小于5MB!',
+									message: '文件不能大于5MB!',
 									type: 'error',
 									position: 'center'
 								});
