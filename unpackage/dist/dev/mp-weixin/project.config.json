@@ -18,7 +18,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "2.25.4",
+  "libVersion": "3.3.1",
   "appid": "wx8092eaa31667c755",
   "projectname": "homeCareMiniProgram",
   "condition": {},

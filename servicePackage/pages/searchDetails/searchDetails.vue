@@ -80,29 +80,41 @@
 					<u-empty text="暂无医护" v-if="isShowNoHomeNoData"></u-empty>
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 						<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent(item)">
+							<view class="nurse-practitioner-list-top">
+								<text>{{ item.practice }}</text>
+							</view>
 							<view class="nurse-practitioner-list-left">
-								<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="63" height="63">
-									 <template v-slot:loading>
-											<u-loading-icon color="red"></u-loading-icon>
-										</template>
-								</u-image>
+								<view class="nurse-practitioner-list-left-top">
+									<u-image :src="!item.avatar ? defaultNurseAvatar : item.avatar" width="70" height="70">
+										 <template v-slot:loading>
+												<u-loading-icon color="red"></u-loading-icon>
+											</template>
+									</u-image>
+								</view>
+								<view class="rate">
+									<view class="rate-box">
+										<u-rate size="12" :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#F9B128' : '#d6d6d6'"></u-rate>
+										<text :class="{'textStyle' : item.rateValue >= 5}">{{ item.commentScore == 0 ? '0.0' : item.rateValue.toFixed(1) }}</text>
+									</view>
+									<view class="rate-text">
+										<text>{{ item.commentCount }}</text>
+										<text>条评价</text>
+									</view>
+								</view>
 							</view>
 							<view class="nurse-practitioner-list-right">
 								<view class="nurse-practitioner-name">
 									<text>{{ item.name }}</text>
-									<text>{{ item.title ? nurseTitleTransition(item.title) : '无' }}</text>
+									<text>{{ nurseTitleTransition(item.title) }}</text>
 								</view>
-								<view class="hospital-name">
-									<text>{{ item.organization }}</text>
-								</view>
-								<view class="rate">
-									<u-rate :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#E86F50' : '#d6d6d6'"></u-rate>
-									<text>{{ item.commentCount }}</text>
-									<text>条评价</text>
-								</view>
-								<view class="nurse-practitioner-performance">
-									<view class="nurse-practitioner-performance-message">
+								<view class="hospital-message-center">
+									<view class="hospital-name">
+										<text></text>
+										<text>{{ item.organization }}</text>
+									</view>
+									<view class="nurse-practitioner-performance">
 										<view class="nurse-practitioner-performance-left">
+											<text></text>
 											<text>帮助</text>
 											<text>{{ item.quantity }}</text>
 											<text>人</text>
@@ -112,14 +124,14 @@
 											<text>{{ item.timeLength == 0 ? 0 : (item.timeLength/60).toFixed(2) }}</text>
 											<text>小时</text>
 										</view>
-									</view>	
+									</view>
 								</view>
 								<view class="good-territory">
 									<text v-for="(innerItem,innerIndex) in item.genius" :key="innerIndex">{{ innerItem }}</text>
 								</view>
 							</view>
 						</view>
-					<u-loadmore :status="status" v-if="fullNurseList.length > 0" />
+						<u-loadmore :status="status" v-if="fullNurseList.length > 0" />
 					</scroll-view>
 				</view>
 			</view>
@@ -675,21 +687,83 @@
 					 	transform: translate(-50%,-50%)
 					 };
 					.nurse-practitioner-list {
-						padding: 10px 0;
+						padding: 30px 6px 20px 6px;
 						box-sizing: border-box;
 						background: #fff;
+						border-radius: 8px;
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						position: relative;
+						box-shadow: 0px 1px 2px 0px rgba(202, 200, 200, 0.46);
+						margin-bottom: 10px;
+						.nurse-practitioner-list-top {
+							position: absolute;
+							top: 0;
+							right: 0;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 111px;
+							height: 26px;
+							background: linear-gradient(to right, #ffa7c0, #FC4278);
+							box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+							border-top-right-radius: 8px;
+							>text {
+								font-size: 12px;
+								color: #fff
+							}
+						};
 						.nurse-practitioner-list-left {
-							width: 73px;
-							height: 73px;
-							margin-right: 10px;
-							border-radius: 50%;
-							::v-deep .u-image {
-								width: 73px !important;
-								height: 73px !important
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							margin-right: 20px;
+							.nurse-practitioner-list-left-top {
+								width: 70px;
+								height: 70px;
+								::v-deep .u-image {
+									width: 70px !important;
+									height: 70px !important;
+									border-radius: 50% !important;
+									uni-image {
+										width: 70px !important;
+										height: 70px !important;
+										border-radius: 50% !important;
+									}
+								}
+							};
+							.rate {
+								margin-top: 6px;
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+								.rate-box {
+									display: flex;
+									color: #d6d6d6;
+									font-size: 12px;
+									align-items: center;
+									::v-deep .u-rate {
+										margin-right: 2px;
+									};
+									.textStyle {
+										color: #F9B128 !important
+									}
+								};
+								.rate-text {
+									>text {
+										font-size: 11px;
+										font-weight: 400;
+										&:nth-of-type(1) {
+											margin-left: 4px;
+											color: #999999;
+										};
+										&:nth-of-type(2) {
+											color: #999999;
+										}
+									}
+								}
 							}
 						};
 						.nurse-practitioner-list-right {
@@ -698,92 +772,111 @@
 								display: flex;
 								align-items: center;
 								>text {
-									display: inline-block;
 									&:nth-child(1) {
 										font-size: 16px;
-										color: #101010;
+										color: #000000;;
 										margin-right: 10px;
-										font-weight: bold
+										font-weight: bold;
+										max-width: 100px;
+										@include no-wrap;
 									};
 									&:nth-child(2) {
-										width: 67px;
-										height: 22px;
-										text-align: center;
-										line-height: 22px;
-										background: #F2A15F;
-										color: #fff;
-										border-radius: 3px;
-										font-size: 12px;
-										margin-top: 4px;
+										font-size: 14px;
+										color: #F2A15F;
 									}
 								}
 							};
-							.hospital-name {
-								margin-top: 4px;
-								>text {
-									word-break: break-all;
-									font-size: 12px;
-									color: #898C8C;
-								}
-							};
-							.rate {
+							.hospital-message-center {
+								margin: 8px 0;
 								display: flex;
-								margin-top: 4px;
-								align-items: center;
-								>text {
-									font-size: 12px;
-									&:nth-of-type(1) {
-										color: #101010;
-										margin-left: 4px
-									};
-									&:nth-of-type(2) {
-										color: rgba(16, 16, 16, 0.35)
-									}
-								}
-							};
-							.nurse-practitioner-performance {
-								margin-top: 4px;
-								display: flex;
-								.nurse-practitioner-performance-message {
+								flex-direction: column;
+								background: #FAFAFA;
+								padding: 6px;
+								box-sizing: border-box;
+								.hospital-name {
 									display: flex;
-									justify-content: space-between;
+									align-items: center;
+									>text {
+										&:nth-child(1) {
+											display: inline-block;
+											width: 6px;
+											height: 6px;
+											border-radius: 50%;
+											background: #E81F50;
+											margin-right: 6px;
+										};
+										&:nth-child(2) {
+											flex: 1;
+											word-break: break-all;
+											font-size: 12px;
+											color: #333333;
+											font-weight: 400;
+										}
+									}
+								};
+								.nurse-practitioner-performance {
+									display: flex;
+									margin-top: 4px;
 									.nurse-practitioner-performance-left {
 										margin-right: 20px;
+										display: flex;
+										align-items: center;
+										position: relative;
 										>text {
 											font-size: 12px;
+											font-weight: 400;
 											&:nth-child(1) {
-												color: rgba(16, 16, 16, 0.35);
+												display: inline-block;
+												width: 6px;
+												height: 6px;
+												border-radius: 50%;
+												background: #E81F50;
+												margin-right: 6px;
 											};
 											&:nth-child(2) {
-												font-weight: bold;
-												color: #101010;
+												color: #333333;
 											};
 											&:nth-child(3) {
-												color: rgba(16, 16, 16, 0.35);
+												color: #E81F50;
+												margin: 0 4px;
+											};
+											&:nth-child(4) {
+												color: #333333;
 											}
 										}
 									};
+									.nurse-practitioner-performance-left ::after {
+										content: '';
+										width: 1px;
+										height: 14px;
+										background: #333333;
+										position: absolute;
+										top: 1px;
+										right: -10px;
+									};
 									.nurse-practitioner-performance-right {
+										display: flex;
+										align-items: center;
 										>text {
 											font-size: 12px;
+											font-weight: 400;
 											&:nth-child(1) {
-												color: rgba(16, 16, 16, 0.35);
+												color: #333333;
 											};
 											&:nth-child(2) {
-												font-weight: bold;
-												color: #101010;
+												margin: 0 4px;
+												color: #E81F50;
 											};
 											&:nth-child(3) {
-												color: rgba(16, 16, 16, 0.35);
+												color: #333333
 											}
 										}
 									}
 								}
 							};
 							.good-territory {
-								margin-top: 4px;
 								display: flex;
-								align-items: center;
+								margin-top: 4px;
 								>text {
 									font-size: 12px;
 									color: #fff;

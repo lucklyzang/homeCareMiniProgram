@@ -25,7 +25,7 @@
 		</view>
 		<view class="top-area">
 			<view class="top-area-left" @click="searchEvent">
-				<u-search placeholder="输入医院护士服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
+				<u-search placeholder="输入医院、护士、服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
 			</view>
 			<view class="top-area-right">
 				<image src="@/static/img/scan-icon.png"></image>
@@ -65,7 +65,7 @@
 				<view class="service-list-box">
 					<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item.id)">
 						<view class="service-list-top">
-							<u-image :src="item.picUrl" width="157" height="157">
+							<u-image :src="item.picUrl">
 								 <template v-slot:loading>
 								    <u-loading-icon color="red"></u-loading-icon>
 								  </template>
@@ -622,6 +622,7 @@
 				justify-content: center;
 				.nurse-type-list {
 					flex: 1;
+					width: 100%;
 					height: 73px;
 					display: flex;
 					flex-direction: column;
@@ -632,6 +633,11 @@
 						height: 45px
 					};
 					>text {
+						@include no-wrap;
+						width: 90px;
+						text-align: center;
+						display: inline-block;
+						font-weight: 400;
 						font-size: 14px;
 						color: #000000
 					}
@@ -644,7 +650,7 @@
 				justify-content: space-between;
 				height: 63px;
 				width: 100%;
-				padding: 0 0 0 20px;
+				padding: 0 0 0 10px;
 				background: #fff;
 				box-sizing: border-box;
 				.latest-news-left {
@@ -676,7 +682,7 @@
 				}
 			};
 			.recommend-service {
-				width: 98%;
+				width: 100%;
 				margin: 0 auto;
 				margin-top: 15px;
 				padding: 0 10px 0 10px;
@@ -716,6 +722,18 @@
 						};
 						.service-list-top {
 							width: 100%;
+							::v-deep .u-image {
+								width: 100% !important;
+								height: 157px !important;
+								uni-image {
+									width: 100% !important;
+									height: 157px !important;
+								}
+							};
+							::v-deep image {
+								width: 100% !important;
+								height: 157px !important;
+							}
 						};
 						.service-list-bottom {
 							margin-top: 10px;
@@ -750,7 +768,7 @@
 				}
 			};
 			.recommend-nurse-practitioner {
-				width: 98%;
+				width: 100%;
 				margin: 0 auto;
 				margin-top: 5px;
 				margin-bottom: 10px;
@@ -794,12 +812,22 @@
 						align-items: center;
 						margin-right: 20px;
 						.nurse-practitioner-list-left-top {
-							width: 73px;
-							height: 73px;
-							border-radius: 50%;
+							width: 70px;
+							height: 70px;
 							::v-deep .u-image {
 								width: 70px !important;
-								height: 70px !important
+								height: 70px !important;
+								border-radius: 50% !important;
+								uni-image {
+									width: 70px !important;
+									height: 70px !important;
+									border-radius: 50% !important;
+								}
+							};
+							::v-deep image {
+								width: 70px !important;
+								height: 70px !important;
+								border-radius: 50% !important;
 							}
 						};
 						.rate {
@@ -811,7 +839,7 @@
 									font-size: 11px;
 									font-weight: 400;
 									&:nth-of-type(1) {
-										margin-left: 6px;
+										margin-left: 4px;
 										color: #999999;
 									};
 									&:nth-of-type(2) {
@@ -834,7 +862,9 @@
 									font-size: 16px;
 									color: #000000;;
 									margin-right: 10px;
-									font-weight: bold
+									max-width: 100px;
+									@include no-wrap;
+									font-weight: bold;
 								};
 								&:nth-child(2) {
 									font-size: 14px;

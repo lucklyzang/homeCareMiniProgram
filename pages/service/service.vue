@@ -314,7 +314,6 @@
 				overflow: auto;
 				background: #F5F5F5;
 				.service-list {
-					height: 100%;
 					height: 48px;
 					width: 100%;
 					>text {
@@ -324,7 +323,8 @@
 						text-align: center;
 						line-height: 48px;
 						font-size: 13px;
-						color: #666667
+						color: #666667;
+						@include no-wrap;
 					};
 					.selectServieTypeStyle {
 						font-size: 14px !important;

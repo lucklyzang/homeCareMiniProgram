@@ -383,6 +383,7 @@
 				z-index: 1;
 				@include no-wrap;
 				>text {
+					@include no-wrap;
 				}
 			};
 			.center-area-box {

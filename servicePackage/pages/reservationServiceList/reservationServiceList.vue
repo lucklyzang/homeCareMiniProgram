@@ -82,11 +82,14 @@
 					<text>{{ nurseMessage.practice }}</text>
 				</view>
 				<view class="nurse-practitioner-list-left">
-					<u-image :src="!nurseMessage.avatar ? defaultNurseAvatar : nurseMessage.avatar" width="63" height="63">
+					<u-image :src="!nurseMessage.avatar ? defaultNurseAvatar : nurseMessage.avatar" width="61" height="61">
 						 <template v-slot:loading>
 						    <u-loading-icon color="red"></u-loading-icon>
 						  </template>
 					</u-image>
+					<view class="change-nurse" @click="cutNurseEvent('指定')">
+						<text>更换</text>
+					</view>
 				</view>
 				<view class="nurse-practitioner-list-right">
 					<view class="nurse-practitioner-name">
@@ -1197,10 +1200,35 @@
 					width: 73px;
 					height: 73px;
 					margin-right: 10px;
-					border-radius: 50%;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
 					::v-deep .u-image {
-						width: 73px !important;
-						height: 73px !important
+						width: 61px !important;
+						height: 61px !important;
+						border-radius: 50% !important;
+						uni-image {
+							width: 61px !important;
+							height: 61px !important;
+							border-radius: 50% !important;
+						}
+					};
+					::v-deep image {
+						width: 70px !important;
+						height: 70px !important;
+						border-radius: 50% !important;
+					};
+					.change-nurse {
+						margin-top: 10px;
+						width: 70px;
+						height: 30px;
+						text-align: center;
+						line-height: 30px;
+						border-radius: 10px;
+						background: linear-gradient(to right, #ffa7c0, #FC4278);
+						color: #fff;
+						font-size: 12px
 					}
 				};
 				.nurse-practitioner-list-right {
@@ -1213,7 +1241,9 @@
 								font-size: 16px;
 								color: #101010;
 								margin-right: 10px;
-								font-weight: bold
+								font-weight: bold;
+								max-width: 100px;
+								@include no-wrap;
 							};
 							&:nth-child(2) {
 								font-size: 12px;
@@ -1233,6 +1263,7 @@
 					.rate {
 						display: flex;
 						margin-top: 4px;
+						align-items: center;
 						>text {
 							font-size: 12px;
 							&:nth-of-type(1) {
