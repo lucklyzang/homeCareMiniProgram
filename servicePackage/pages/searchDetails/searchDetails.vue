@@ -692,7 +692,6 @@
 						background: #fff;
 						border-radius: 8px;
 						display: flex;
-						align-items: center;
 						justify-content: space-between;
 						position: relative;
 						box-shadow: 0px 1px 2px 0px rgba(202, 200, 200, 0.46);
@@ -719,7 +718,8 @@
 							flex-direction: column;
 							justify-content: center;
 							align-items: center;
-							margin-right: 20px;
+							margin-right: 10px;
+							width: 110px;
 							.nurse-practitioner-list-left-top {
 								width: 70px;
 								height: 70px;
@@ -758,6 +758,7 @@
 										&:nth-of-type(1) {
 											margin-left: 4px;
 											color: #999999;
+											word-break: break-all;
 										};
 										&:nth-of-type(2) {
 											color: #999999;

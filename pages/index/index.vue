@@ -28,7 +28,7 @@
 				<u-search placeholder="输入医院、护士、服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
 			</view>
 			<view class="top-area-right">
-				<image src="@/static/img/scan-icon.png"></image>
+				<image src="@/static/img/scan-icon.png" @click="scanCodeEvent"></image>
 				<image src="@/static/img/home-service-icon.png" @click="showSupportStaffBox = true"></image>
 			</view>
 		</view>
@@ -217,6 +217,22 @@
 				this.showSupportStaffBox = false
 			},
 			
+			// 扫码事件
+			scanCodeEvent () {
+				let that = this;
+				uni.scanCode({
+					success: function (res) {
+					},
+					fail: function (err) {
+						that.$refs.uToast.show({
+							message: `${err.errMsg}`,
+							type: 'error',
+							position: 'center'
+						})
+					}
+				})
+			},
+			
 			handleContact(e) {
 				console.log(e.detail.path,e.detail.quer)
 			},
@@ -248,7 +264,7 @@
 						});
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							message: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -258,7 +274,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err.message,
+						message: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -803,14 +819,14 @@
 					margin-bottom: 14px;
 					background: #fff;
 					display: flex;
-					align-items: center;
 					justify-content: space-between;
 					.nurse-practitioner-list-left {
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
 						align-items: center;
-						margin-right: 20px;
+						margin-right: 10px;
+						width: 100px;
 						.nurse-practitioner-list-left-top {
 							width: 70px;
 							height: 70px;
@@ -841,6 +857,7 @@
 									&:nth-of-type(1) {
 										margin-left: 4px;
 										color: #999999;
+										word-break: break-all;
 									};
 									&:nth-of-type(2) {
 										color: #999999;

@@ -369,7 +369,6 @@ page {
   margin-bottom: 14px;
   background: #fff;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left {
@@ -377,7 +376,8 @@ page {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
+  width: 100px;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .nurse-practitioner-list-left-top {
   width: 70px;
@@ -410,6 +410,7 @@ page {
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text > text:nth-of-type(1) {
   margin-left: 4px;
   color: #999999;
+  word-break: break-all;
 }
 .content-box .center-area .recommend-nurse-practitioner .nurse-practitioner-list .nurse-practitioner-list-left .rate .rate-text > text:nth-of-type(2) {
   color: #999999;

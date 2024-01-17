@@ -513,8 +513,9 @@
 					 fail: (err) => {
 						this.showLoadingHint = false;
 						this.$refs.uToast.show({
-							message: err,
+							message: err.errMsg,
 							type: 'error',
+							duration: 5000,
 							position: 'center'
 						});
 						reject()
