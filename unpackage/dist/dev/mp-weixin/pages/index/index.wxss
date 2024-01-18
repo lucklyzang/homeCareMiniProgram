@@ -47,6 +47,52 @@ page {
   height: 100px;
   display: block;
 }
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__title {
+  font-size: 16px !important;
+  color: #101010 !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-line {
+  border: none !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__content {
+  text-align: center;
+  padding: 20px 10px 30px 10px !important;
+  font-size: 14px !important;
+  color: #898C8C !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group {
+  height: 50px;
+  justify-content: center;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group .u-line {
+  border: none !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group .u-modal__button-group__wrapper--cancel {
+  flex: none !important;
+  width: 110px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  border-radius: 7px !important;
+  border: 1px solid #FF698C !important;
+  margin-right: 30px;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group .u-modal__button-group__wrapper--cancel .u-modal__button-group__wrapper__text {
+  font-size: 14px;
+  color: #FF698C !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group .u-modal__button-group__wrapper--confirm {
+  flex: none !important;
+  width: 110px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  border-radius: 7px !important;
+  background: #FF698C !important;
+  border: none !important;
+}
+.content-box .subscription-dialog-box  .u-popup__content .u-modal .u-modal__button-group .u-modal__button-group__wrapper--confirm .u-modal__button-group__wrapper__text {
+  font-size: 14px;
+  color: #fff !important;
+}
 .content-box  .u-popup .u-popup__content {
   width: 90%;
   padding: 30px 10px 20px 10px;
