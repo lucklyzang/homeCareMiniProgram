@@ -250,7 +250,7 @@
 			getSubscribeTemplateListEvent() {
 				this.showLoadingHint = true;
 				this.tmplId = [];
-				getSubscribeTemplateList(0).then((res) => {
+				getSubscribeTemplateList(1).then((res) => {
 					if ( res && res.data.code == 0) {
 						for (let item of res.data.data) {
 							this.tmplId.push(item.templateId)
@@ -388,6 +388,7 @@
 						})
 					},
 					fail: (err) => {
+						console.log('sas',err);
 						this.$refs.uToast.show({
 							message: err.errMsg,
 							type: 'error',
