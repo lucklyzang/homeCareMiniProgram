@@ -210,6 +210,9 @@
 			// 选择地址事件
 			chooseAddressEvent (item) {
 				// 传递地址信息
+				if (this.beforePageRoute == 'pages/personInfo/personInfo') {
+					return
+				};
 				if (this.beforePageRoute == 'orderFormPackage/pages/orderFormEdit/orderFormEdit') {
 					let tmporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
 					tmporaryEditServiceOrderFormSureChooseMessage['chooseAddressMessage'] = item;

@@ -159,6 +159,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { createSubscribe, getSubscribeTemplateList } from '@/api/login.js'
 	import { getUserBannerList, getNurse, newsPage, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
 	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
@@ -254,10 +255,41 @@
 						for (let item of res.data.data) {
 							this.tmplId.push(item.templateId)
 						};
-						this.showTriggerPopup = true
+						if (this.tmplId.length > 0) {
+							this.showTriggerPopup = true
+						}
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 创建订阅
+			createSubscribeEvent(data) {
+				this.showLoadingHint = true;
+				createSubscribe(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '订阅成功!',
+							type: 'success',
+							position: 'center'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: '订阅失败!',
 							type: 'error',
 							position: 'center'
 						})
@@ -347,7 +379,13 @@
 								});
 								temporaryTemIdArr.push(key)
 							}
-						}
+						};
+						// 创建订阅
+						this.createSubscribeEvent({
+							templateIdList: temporaryTemIdArr,
+							code: this.userCode,
+							type: 1
+						})
 					},
 					fail: (err) => {
 						this.$refs.uToast.show({
