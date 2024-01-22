@@ -7,7 +7,7 @@
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="专家详情">
 					<template #left>
-						<u-icon name="arrow-left" color="#fff" size="22" @click="backTo"></u-icon>
+						<u-icon name="arrow-left" color="#000000" size="22" @click="backTo"></u-icon>
 					</template>
 				</nav-bar> 
 			</view>
@@ -66,10 +66,10 @@
 			</view>
 		</view>
 		<view class="bottom-area-box">
+			<view class="title-area">
+				<text>服务项目</text>
+			</view>
 			<view class="service-project">
-				<view class="title-area">
-					<text>服务项目</text>
-				</view>
 				<view class="service-list-area">
 					<u-empty text="暂无服务" v-if="isShowNoServiceData"></u-empty>
 					<scroll-view class="scroll-view" enable-flex scroll-y="true"  @scrolltolower="scrolltolower">
@@ -92,27 +92,27 @@
 					</view>
 					<view class="title-right" @click="viewMoreUserEvaluateEvent">
 						<text>查看更多</text>
-						<u-icon name="arrow-right" color="#3B9DF9"></u-icon>
 					</view>
 				</view>
 				<view class="evaluate-list-area">
 					<u-empty text="暂无评价" v-if="isShowNoCommentData"></u-empty>
 					<view class="user-evaluate-list" v-for="(item,index) in commentList" :key="index">
-						<view class="user-evaluate-list-left">
-							<view>
-								<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
-							</view>
+						<view class="user-evaluate-list-top">
 							<view>
 								<text>{{ item.content }}</text>
 							</view>
 							<view>
-								<text>{{ item.userNickname }}</text>
-								<text>互联网预约</text>
+								<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
+								<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
 							</view>
 						</view>
-						<view class="user-evaluate-list-right">
-							<text>{{ item.spuName }}</text>
-							<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+						<view class="user-evaluate-list-bottom">
+							<view>
+								<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+							</view>
+							<view>
+								<text>{{ item.spuName }}</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -553,7 +553,7 @@
 		.top-area-box {
 			position: relative;
 			width: 100%;
-			height: 330px;
+			height: 343px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -566,9 +566,9 @@
 					}
 				};
 				.header_title_center {
-					color: #fff !important;
+					color: #000000 !important;
 					text {
-						color: #fff !important;
+						color: #000000 !important;
 					}
 				}
 			};
@@ -620,9 +620,15 @@
 							color: #F6F8FF;
 							&:nth-child(1) {
 								font-size: 18px;
-								margin-right: 6px;
+								margin-right: 10px;
 							};
 							&:nth-child(2) {
+								display: inline-block;
+								padding: 3px 6px;
+								box-sizing: border-box;
+								background: #fff;
+								border-radius: 4px;
+								color: orange;
 								font-size: 14px;
 							}
 						}
@@ -649,7 +655,7 @@
 				position: absolute;
 				left: 2%;
 				top: 180px;
-				height: 137px;
+				height: 150px;
 				background: #fff;
 				margin: 0 auto;
 				padding: 20px;
@@ -687,6 +693,8 @@
 									font-size: 10px;
 									color: rgba(137, 140, 140, 0.61);
 									&:nth-child(1) {
+										color: #000000;
+										font-weight: 500;
 										margin-bottom: 3px
 									}
 								}
@@ -700,7 +708,10 @@
 					margin-top: 10px;
 					font-size: 12px;
 					color: rgba(137, 140, 140, 1);
-					line-height: 20px
+					line-height: 20px;
+					padding: 8px 10px;
+					box-sizing: border-box;
+					background: #fbfbfb;
 				}
 			}
 		};
@@ -709,23 +720,22 @@
 			margin: 0 auto;
 			flex: 1;
 			overflow: auto;
+			.title-area {
+				height: 50px;
+				line-height: 50px;
+				margin-top: -10px;
+				>text {
+					font-size: 17px;
+					color: #000000;
+					font-weight: bold;
+				}
+			};
 			.service-project {
 				padding: 0 10px 10px 10px;
 				box-sizing: border-box;
 				background: #fff;
 				border-radius: 8px;
 				box-shadow: 0px 2px 6px 0 rgba(202, 200, 200, 0.4);
-				.title-area {
-					height: 50px;
-					line-height: 50px;
-					@include bottom-border-1px(#DEDEDE);
-					padding: 0 10px;
-					box-sizing: border-box;
-					>text {
-						font-size: 16px;
-						color: #101010
-					}
-				};
 				.service-list-area {
 					max-height: 240px;
 					overflow: auto;
@@ -803,40 +813,40 @@
 				}
 			};
 			.user-evaluate {
-				padding: 0 10px 10px 10px;
-				box-sizing: border-box;
-				background: #fff;
 				margin-top: 10px;
 				border-radius: 8px;
 				box-shadow: 0px 2px 6px 0 rgba(202, 200, 200, 0.4);
 				.title-area {
 					height: 50px;
-					@include bottom-border-1px(#DEDEDE);
-					padding: 0 10px;
-					box-sizing: border-box;
+					// @include bottom-border-1px(#DEDEDE);
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					.title-left {
 						>text {
-							font-size: 16px;
-							color: #101010
+							font-size: 17px;
+							color: #000000;
+							font-weight: bold;
+							margin-right: 10px;
 						}
 					};
 					.title-right {
 						display: flex;
 						>text {
-							font-size: 12px;
-							color: #3B9DF9
+							font-size: 13px;
+							color: #999999;
+							font-weight: 400;
+							margin-right: 4px
 						}
 					}
 				};
 				.evaluate-list-area {
 					max-height: 400px;
 					min-height: 120px;
-					overflow: auto;
-					padding: 0 10px;
+					padding-bottom: 10px;
 					box-sizing: border-box;
+					background: #fff;
+					overflow: auto;
 					position: relative;
 					::v-deep .u-empty {
 					 	position: absolute;
@@ -845,47 +855,59 @@
 					 	transform: translate(-50%,-50%)
 					};
 					.user-evaluate-list {
-						display: flex;
-						justify-content: space-between;
-						padding: 10px 0;
+						padding: 14px 14px 0 14px;
 						box-sizing: border-box;
-						@include bottom-border-1px(#E5EBFF);
-						.user-evaluate-list-left {
-							flex: 1;
+						@include bottom-border-1px(#b8b8b8);
+						.user-evaluate-list-top {
+							padding: 8px;
+							box-sizing: border-box;
+							background: #fbfbfb;
 							>view {
+								&:nth-child(1) {
+									word-break: break-all;
+								};
 								&:nth-child(2) {
 									margin: 4px 0;
+									display: flex;
+									justify-content: space-between;
+									align-items: center;
 									>text {
-										font-size: 14px;
-										color: #101010;
-										word-break: break-all
-									}
-								};
-								&:nth-child(3) {
-									>text {
+										display: inline-block;
 										font-size: 12px;
 										color: #BBBBBB;
-										word-break: break-all;
 										&:nth-child(1) {
-											margin-right: 4px
+											flex: 1;
+											@include no-wrap;
+											padding-right: 8px;
+											box-sizing: border-box;
+										};
+										&:nth-child(2) {
+											font-size: 12px;
+											color: #BBBBBB;
 										}
 									}
 								}
 							}
 						};
-						.user-evaluate-list-right {
+						.user-evaluate-list-bottom {
+							height: 40px;
 							display: flex;
-							flex-direction: column;
 							justify-content: space-between;
-							align-items: flex-end;
-							>text {
+							align-items: center;
+							>view {
 								&:nth-child(1) {
-									font-size: 12px;
-									color: #FF698C;
+									flex: 1
 								};
 								&:nth-child(2) {
-									font-size: 12px;
-									color: #BBBBBB;
+									>text {
+										font-size: 11px;
+										color: #fff;
+										display: inline-block;
+										padding: 3px 6px;
+										box-sizing: border-box;
+										background: #FEB8B7;
+										border-radius: 3px;
+									}
 								}
 							}
 						}

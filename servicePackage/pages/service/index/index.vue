@@ -87,21 +87,22 @@
 						<u-empty text="暂无评价" v-if="isShowNoHomeNoData"></u-empty>
 						<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 							<view class="user-evaluate-list" v-for="(item,index) in fullCommentList" :key="index">
-								<view class="user-evaluate-list-left">
-									<view>
-										<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
-									</view>
+								<view class="user-evaluate-list-top">
 									<view>
 										<text>{{ item.content }}</text>
 									</view>
 									<view>
-										<text>{{ item.userNickname }}</text>
-										<text>互联网预约</text>
+										<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
+										<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
 									</view>
 								</view>
-								<view class="user-evaluate-list-right">
-									<text>{{ item.spuName }}</text>
-									<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+								<view class="user-evaluate-list-bottom">
+									<view>
+										<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+									</view>
+									<view>
+										<text>{{ item.spuName }}</text>
+									</view>
 								</view>
 							</view>
 							<u-loadmore :status="status" v-if="fullCommentList.length > 0" />
@@ -678,47 +679,59 @@
 						 	transform: translate(-50%,-50%)
 						 };
 						.user-evaluate-list {
-							display: flex;
-							justify-content: space-between;
-							padding: 10px 0;
+							padding: 14px 14px 0 14px;
 							box-sizing: border-box;
-							@include bottom-border-1px(#E5EBFF);
-							.user-evaluate-list-left {
-								flex: 1;
+							@include bottom-border-1px(#b8b8b8);
+							.user-evaluate-list-top {
+								padding: 8px;
+								box-sizing: border-box;
+								background: #fbfbfb;
 								>view {
+									&:nth-child(1) {
+										word-break: break-all;
+									};
 									&:nth-child(2) {
 										margin: 4px 0;
+										display: flex;
+										justify-content: space-between;
+										align-items: center;
 										>text {
-											font-size: 14px;
-											color: #101010;
-											word-break: break-all
-										}
-									};
-									&:nth-child(3) {
-										>text {
+											display: inline-block;
 											font-size: 12px;
 											color: #BBBBBB;
-											word-break: break-all;
 											&:nth-child(1) {
-												margin-right: 4px
+												flex: 1;
+												@include no-wrap;
+												padding-right: 8px;
+												box-sizing: border-box;
+											};
+											&:nth-child(2) {
+												font-size: 12px;
+												color: #BBBBBB;
 											}
 										}
 									}
 								}
 							};
-							.user-evaluate-list-right {
+							.user-evaluate-list-bottom {
+								height: 40px;
 								display: flex;
-								flex-direction: column;
 								justify-content: space-between;
-								align-items: flex-end;
-								>text {
+								align-items: center;
+								>view {
 									&:nth-child(1) {
-										font-size: 12px;
-										color: #FF698C;
+										flex: 1
 									};
 									&:nth-child(2) {
-										font-size: 12px;
-										color: #BBBBBB;
+										>text {
+											font-size: 11px;
+											color: #fff;
+											display: inline-block;
+											padding: 3px 6px;
+											box-sizing: border-box;
+											background: #FEB8B7;
+											border-radius: 3px;
+										}
 									}
 								}
 							}
