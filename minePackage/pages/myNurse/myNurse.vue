@@ -46,12 +46,12 @@
 							</view>
 							<view class="hospital-message-center">
 								<view class="hospital-name">
-									<text></text>
+									<image src="@/static/img/red-circle-icon.png"></image>
 									<text>{{ item.organization }}</text>
 								</view>
 								<view class="nurse-practitioner-performance">
 									<view class="nurse-practitioner-performance-left">
-										<text></text>
+										<image src="@/static/img/red-circle-icon.png"></image>
 										<text>帮助</text>
 										<text>{{ item.quantity }}</text>
 										<text>人</text>
@@ -477,22 +477,17 @@
 							.hospital-name {
 								display: flex;
 								align-items: center;
+								image {
+									width: 6px;
+									height: 6px;
+									margin-right: 4px;
+								};
 								>text {
-									&:nth-child(1) {
-										display: inline-block;
-										width: 6px;
-										height: 6px;
-										border-radius: 50%;
-										background: #E81F50;
-										margin-right: 6px;
-									};
-									&:nth-child(2) {
-										flex: 1;
-										word-break: break-all;
-										font-size: 12px;
-										color: #333333;
-										font-weight: 400;
-									}
+									flex: 1;
+									word-break: break-all;
+									font-size: 12px;
+									color: #333333;
+									font-weight: 400;
 								}
 							};
 							.nurse-practitioner-performance {
@@ -503,17 +498,14 @@
 									display: flex;
 									align-items: center;
 									position: relative;
+									image {
+										width: 6px;
+										height: 6px;
+										margin-right: 4px; 
+									};
 									>text {
 										font-size: 12px;
 										font-weight: 400;
-										&:nth-child(1) {
-											display: inline-block;
-											width: 6px;
-											height: 6px;
-											border-radius: 50%;
-											background: #E81F50;
-											margin-right: 6px;
-										};
 										&:nth-child(2) {
 											color: #333333;
 										};

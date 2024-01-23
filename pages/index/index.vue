@@ -1138,9 +1138,9 @@
 								display: flex;
 								align-items: center;
 								image {
-									width: 4px;
-									height: 4px;
-									margin-right: 3px;
+									width: 6px;
+									height: 6px;
+									margin-right: 4px;
 								};
 								>text {
 									flex: 1;
@@ -1159,9 +1159,9 @@
 									align-items: center;
 									position: relative;
 									image {
-										width: 4px;
-										height: 4px;
-										margin-right: 3px; 
+										width: 6px;
+										height: 6px;
+										margin-right: 4px; 
 									};
 									>text {
 										font-size: 12px;
