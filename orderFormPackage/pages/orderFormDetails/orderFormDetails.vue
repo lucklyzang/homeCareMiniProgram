@@ -90,37 +90,39 @@
 		<view class="order-form-list-wrapper">
 			<view class="order-form-list">
 				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>{{ serviceMessage.items[0]['spuName'] }}</text>
+					<view class="expectation-date">
+						<text>期望时间：</text>
+						<text v-if="serviceMessage.serviceDate">{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
 					</view>
 					<view class="order-form-status" v-if="serviceMessage.workerStatus != null">
-						<text>{{ transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) }}</text>
+						<text :class="{'waitPayStyle' : transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '派单中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待支付' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '服务中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待评价'}">
+						{{ transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) }}</text>
 					</view>
 				</view>
 				<view class="order-form-center">
 					<view class="order-form-center-left">
-						<u-image :src="serviceMessage.items[0]['picUrl']" width="88" height="88">
+						<u-image :src="serviceMessage.items[0]['picUrl']" width="74" height="74">
 							<template v-slot:loading>
 								<u-loading-icon color="red"></u-loading-icon>
 							</template>
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>{{ `${serviceMessage.serverPerson.name} ${serviceMessage.serverPerson.age}岁` }}</text>
+						<view class="order-form-title">
+							<text>{{ serviceMessage.items[0]['spuName'] }}</text>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>{{ serviceMessage.receiverDetailAddress }}</text>
-						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text v-if="serviceMessage.serviceDate">{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
+						<view class="order-form-center-right-wrapper">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${serviceMessage.serverPerson.name} ${serviceMessage.serverPerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ serviceMessage.receiverDetailAddress }}</text>
+							</view>
 						</view>
 						<view class="evaluation-form">
 							<text>初步评估单</text>
-							<text>点击查看</text>
 						</view>
 					</view>
 				</view>
@@ -131,37 +133,55 @@
 						<text>订单价格清单</text>
 					</view>
 				</view>
-				<view class="price-list-content">
-					<view class="price-list-one">
-						<text>{{ serviceMessage.items[0]['spuName'] }}</text>
-						<text>{{`￥${serviceMessage.payPrice}`}}</text>
-					</view>
-					<view class="price-list-one price-list-two">
-						<text>路程费用</text>
-						<text>￥0</text>
-					</view>
-					<view class="price-list-one price-list-three">
-						<text>超时费用</text>
-						<text>￥0</text>
-					</view>
-					<view class="price-list-one price-list-four">
-						<text>材料费用</text>
-						<text>￥0</text>
-					</view>
-					<view class="price-list-one price-list-five">
-						<text>优惠</text>
-						<text>￥0</text>
-					</view>
-					<view class="price-list-one price-list-last">
-						<text>实付款</text>
-						<text>{{`￥${serviceMessage.payPrice}`}}</text>
+				<view class="price-list-content-wrapper">
+					<view class="price-list-content">
+						<view class="price-list-one">
+							<text>{{ serviceMessage.items[0]['spuName'] }}</text>
+							<text>{{`￥${serviceMessage.payPrice}`}}</text>
+						</view>
+						<view class="price-list-one price-list-two">
+							<text>路程费用</text>
+							<text>￥0</text>
+						</view>
+						<view class="price-list-one price-list-three">
+							<text>超时费用</text>
+							<text>￥0</text>
+						</view>
+						<view class="price-list-one price-list-four">
+							<text>材料费用</text>
+							<text>￥0</text>
+						</view>
+						<view class="price-list-one price-list-five">
+							<text>优惠</text>
+							<text>￥0</text>
+						</view>
+						<view class="price-list-one price-list-last">
+							<text>实付款</text>
+							<text>￥</text>
+							<text>{{`${serviceMessage.payPrice}`}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
-			<view class="evaluate-message" v-if="serviceMessage.workerStatus == 3 && serviceMessage.commentStatus">
-				<view class="evaluate-message-top">
-					<view class="evaluate-message-title">
-						<text>评价信息</text>
+			<view class="evaluate-message-top" 	v-if="serviceMessage.commentStatus">
+				<view class="evaluate-message-title">
+					<text>评价信息</text>
+				</view>
+			</view>
+			<view class="evaluate-message" 	v-if="serviceMessage.commentStatus">
+				<view class="evaluate-message-center">
+					<view class="evaluate-picture">
+						<view class="service-list" v-for="(item,index) in serviceMessage.images" :key="index" @click="magnifyImgEvent(item,index)">
+							<u-image :src="item" width="80" mode="widthFix">
+								<template v-slot:loading>
+									<u-loading-icon color="red"></u-loading-icon>
+								</template>
+							</u-image>
+							<text>{{ item.name }}</text>
+						</view>
+					</view>
+					<view class="evaluate-text">
+						<text>{{ serviceMessage.commentRespVO.content }}</text>
 					</view>
 				</view>
 				<view class="evaluate-message-bottom">
@@ -170,7 +190,7 @@
 							<text>服务态度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.attitudeScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.attitudeScores ? 5 : serviceMessage.commentRespVO.attitudeScores" v-model="serviceMessage.commentRespVO.attitudeScores"></u-rate>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.attitudeScores ? '#DCDCDC' : '#F9B128'" size="10" :count="!serviceMessage.commentRespVO.attitudeScores ? 5 : serviceMessage.commentRespVO.attitudeScores" v-model="serviceMessage.commentRespVO.attitudeScores"></u-rate>
 						</view>
 					</view>
 					<view class="service-attitude">
@@ -178,7 +198,7 @@
 							<text>服务速度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.speedScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.speedScores ? 5 : serviceMessage.commentRespVO.speedScores" v-model="serviceMessage.commentRespVO.speedScores"></u-rate>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.speedScores ? '#DCDCDC' : '#F9B128'" size="10" :count="!serviceMessage.commentRespVO.speedScores ? 5 : serviceMessage.commentRespVO.speedScores" v-model="serviceMessage.commentRespVO.speedScores"></u-rate>
 						</view>
 					</view>
 					<view class="service-attitude">
@@ -186,28 +206,15 @@
 							<text>专业程度</text>
 						</view>
 						<view class="service-attitude-score">
-							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.specialityScores ? '#e5e5e5' : '#F2A15F'" size="30" :count="!serviceMessage.commentRespVO.specialityScores ? 5 : serviceMessage.commentRespVO.specialityScores" v-model="serviceMessage.commentRespVO.specialityScores"></u-rate>
-						</view>
-					</view>
-					<view class="evaluate-text">
-						<text>{{ serviceMessage.commentRespVO.content }}</text>
-					</view>
-					<view class="evaluate-picture">
-						<view class="service-list" v-for="(item,index) in serviceMessage.images" :key="index" @click="magnifyImgEvent(item,index)">
-							<u-image width="100" mode="widthFix" :src="item">
-								<template v-slot:loading>
-									<u-loading-icon color="red"></u-loading-icon>
-								</template>
-							</u-image>
-							<text>{{ item.name }}</text>
+							<u-rate readonly :active-color=" !serviceMessage.commentRespVO.specialityScores ? '#DCDCDC' : '#F9B128'" size="10" :count="!serviceMessage.commentRespVO.specialityScores ? 5 : serviceMessage.commentRespVO.specialityScores" v-model="serviceMessage.commentRespVO.specialityScores"></u-rate>
 						</view>
 					</view>
 				</view>
 			</view>
+			<view class="order-flow-title" v-if="serviceMessage.workerStatus != null && serviceMessage.status != 0 && serviceMessage.status < 70">
+				<text>订单流程</text>
+			</view>
 			<view class="order-flow" v-if="serviceMessage.workerStatus != null && serviceMessage.status != 0 && serviceMessage.status < 70">
-				<view class="order-flow-title">
-					<text>订单流程</text>
-				</view>
 				<view class="order-flow-content">
 					<u-steps :current="currentFlow" dot inactiveColor="rgba(255, 255, 255, 0.5)" activeColor="#fff">
 						<u-steps-item title="已支付"></u-steps-item>
@@ -219,12 +226,12 @@
 					</u-steps>
 				</view>
 			</view>
-			<view class="order-message">
-				<view class="order-message-top">
-					<view class="order-message-title">
-						<text>订单信息</text>
-					</view>
+			<view class="order-message-top">
+				<view class="order-message-title">
+					<text>订单信息</text>
 				</view>
+			</view>
+			<view class="order-message">
 				<view class="order-message-content">
 					<view class="order-message-one-special">
 						<view class="order-message-one-special-left">
@@ -1153,25 +1160,34 @@
 			box-sizing: border-box;
 			position: relative;
 			.order-form-list {
-				padding: 0px 4px 8px 4px;
 				background: #fff;
-				box-sizing: border-box;
-				margin-bottom: 10px;
 				.order-form-top {
 					display: flex;
 					align-items: center;
 					height: 50px;
-					@include bottom-border-1px(#BBBBBB);
+					@include bottom-border-1px(#DCDCDC);
 					justify-content: space-between;
 					padding: 0 8px 0 10px;
 					box-sizing: border-box;
-					.order-form-title {
-						flex: 1;
-						@include no-wrap();
+					.expectation-date {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
 						>text {
-							font-size: 16px;
-							color: #444444;
-							font-weight: bold
+							display: inline-block;
+							&:nth-child(1) {
+								margin-right: 4px;
+								font-size: 12px;
+								color: #333333;
+								font-weight: 400;
+							};
+							&:nth-child(2) {
+								flex: 1;
+								font-size: 12px;
+								color: #000000;
+								font-weight: 400;
+								word-break: break-all
+							}
 						}
 					};
 					.order-form-status {
@@ -1180,8 +1196,11 @@
 							padding: 0 0 0 4px;
 							box-sizing: border-box;
 							font-size: 14px;
-							color: #444444;
-							font-weight: bold
+							color: #999999;
+							font-weight: 400;
+						};
+						.waitPayStyle {
+							color: #E81F50 !important;
 						}
 					}
 				};
@@ -1191,50 +1210,60 @@
 					padding: 8px;
 					box-sizing: border-box;
 					.order-form-center-left {
-						margin-right: 10px;
+						margin-right: 12px;
 						::v-deep .u-image {
-							width: 88px !important;
-							height: 88px !important
+							width: 74px !important;
+							height: 74px !important
 						}
 					};
 					.order-form-center-right {
-						padding-top: 10px;
-						box-sizing: border-box;
-						.brotected-person {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
+						flex: 1;
+						.order-form-title {
+							word-break: break-all;
 							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									word-break: break-all
-								}
+								font-size: 16px;
+								color: #000000;
+								font-weight: 400;
 							}
 						};
-						.service-address {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
-							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									word-break: break-all
+						.order-form-center-right-wrapper {
+							margin-top: 6px;
+							background: #FAFAFA;
+							padding: 4px;
+							box-sizing: border-box;
+							.brotected-person {
+								margin-bottom: 6px;
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
+								}
+							};
+							.service-address {
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
 								}
 							}
 						};
@@ -1258,22 +1287,20 @@
 							}
 						};
 						.evaluation-form {
-							margin-bottom: 6px;
+							margin-top: 10px;
 							display: flex;
 							justify-content: space-between;
 							>text {
 								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 66px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #3388FF;
-									word-break: break-all
-								}
+								font-size: 14px;
+								font-weight: 500;
+								width: 98px;
+								height: 30px;
+								text-align: center;
+								line-height: 30px;
+								color: #fff;
+								background: #E81F50;
+								border-radius: 3px;
 							}
 						}
 					}
@@ -1281,118 +1308,110 @@
 			}
 		};
 		.price-list {
-			background: #fff;
-			margin-bottom: 10px;
 			.price-list-top {
 				display: flex;
 				align-items: center;
 				height: 50px;
-				@include bottom-border-1px(#BBBBBB);
 				justify-content: space-between;
-				padding: 0 12px;
+				padding: 0 10px;
 				box-sizing: border-box;
 				.price-list-title {
 					flex: 1;
 					@include no-wrap();
 					>text {
-						font-size: 16px;
-						color: #444444;
-						font-weight: bold
+						font-size: 17px;
+						color: #000000;
+						font-weight: 500;
 					}
 				}
 			};
-			.price-list-content {
-				padding: 6px 16px;
+			.price-list-content-wrapper {
+				padding: 0 10px;
 				box-sizing: border-box;
-				.price-list-one {
-					display: flex;
-					justify-content: space-between;
-					margin-bottom: 6px;
-					>text {
-						display: inline-block;
-						font-size: 14px;
-						color: #3E4248;
-						font-weight: bold;
-						&:first-child {
-							flex: 1;
-							word-break: break-all
-						};
-						&:last-child {
-							
+				.price-list-content {
+					background: #fff;
+					padding-top: 10px;
+					box-sizing: border-box;
+					.price-list-one {
+						padding: 0 10px;
+						box-sizing: border-box;
+						display: flex;
+						justify-content: space-between;
+						margin-bottom: 10px;
+						>text {
+							display: inline-block;
+							font-size: 14px;
+							&:first-child {
+								color: #666666;
+								font-weight: 400;
+								flex: 1;
+								word-break: break-all
+							};
+							&:last-child {
+								color: #333333;
+								font-weight: 400;
+							}
 						}
-					}
-				};
-				.price-list-last {
-					>text {
-						&:last-child {
-							color: #E82050;
-							font-size: 16px;
-							font-weight: bold;
+					};
+					.price-list-last {
+						height: 40px;
+						line-height: 40px;
+						margin-bottom: 0 !important;
+						@include top-border-1px(#DCDCDC);
+						>text {
+							&:nth-child(2) {
+								font-size: 12px;
+								color: #000000;
+								font-weight: 600;
+							};
+							&:last-child {
+								font-size: 17px;
+								color: #000000;
+								font-weight: 700;
+							}
 						}
 					}
 				}
 			}
 		};
-		.evaluate-message {
-			background: #fff;
-			margin-bottom: 10px;
-			.evaluate-message-top {
-				display: flex;
-				align-items: center;
-				height: 50px;
-				@include bottom-border-1px(#BBBBBB);
-				justify-content: space-between;
-				padding: 0 12px;
-				box-sizing: border-box;
-				.evaluate-message-title {
-					flex: 1;
-					@include no-wrap();
-					>text {
-						font-size: 16px;
-						color: #444444;
-						font-weight: bold
-					}
+		.evaluate-message-top {
+			display: flex;
+			align-items: center;
+			height: 50px;
+			justify-content: space-between;
+			padding: 0 10px;
+			box-sizing: border-box;
+			.evaluate-message-title {
+				flex: 1;
+				@include no-wrap();
+				>text {
+					font-size: 17px;
+					color: #000000;
+					font-weight: 500;
 				}
-			};
-			.evaluate-message-bottom {
-				padding: 6px 16px;
+			}
+		};
+		.evaluate-message {
+			padding: 0 10px;
+			box-sizing: border-box;
+			.evaluate-message-center {
+				background: #fff;
+				padding: 10px;
 				box-sizing: border-box;
-				.service-attitude {
-					display: flex;
-					justify-content: space-between;
-					margin-top: 6px;
-					align-items: center;
-					.service-attitude-title {
-						>text {
-							font-size: 14px;
-							color: #3E4248;
-							font-weight: bold;
-						}
-					};
-					.service-attitude-score {
-						flex: 1;
-						padding-left: 20px;
-						box-sizing: border-box;
-					}
-				};
 				.evaluate-text {
-					padding: 4px 6px;
-					margin-top: 20px;
-					box-sizing: border-box;
+					font-size: 15px;
+					color: #333333;
+					font-weight: 400;
 					word-break: break-all;
-					border: 1px solid #BBBBBB
 				};
 				.evaluate-picture {
-					margin-top: 20px;
 					display: flex;
 					flex-wrap: wrap;
 					max-height: 240px;
 					overflow: auto;
 					.service-list {
-						width: 32%;
+						width: 23.5%;
 						display: flex;
-						padding: 10px 0;
-						box-sizing: border-box;
 						flex-direction: column;
 						align-items: center;
 						margin-right: 2%;
@@ -1402,32 +1421,64 @@
 							font-size: 12px;
 							color: #101010
 						};
-						.u-image {
-							height: auto !important
+						::v-deep .u-image {
+							height: auto !important;
 						}
 					};
 					.service-list {
-						&:nth-child(3n) {
+						&:nth-child(4n) {
 							margin-right: 0 !important
 						}
 					}	
 				}
+			};
+			.evaluate-message-bottom {
+				background: #fff;
+				padding: 10px;
+				box-sizing: border-box;
+				@include top-border-1px(#DCDCDC);
+				.service-attitude {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					.service-attitude-title {
+						>text {
+							font-size: 11px;
+							color: #999999;
+							letter-spacing: 0;
+							font-weight: 400;
+						}
+					};
+					.service-attitude-score {
+						flex: 1;
+						margin-top: 4px;
+						padding-left: 10px;
+						box-sizing: border-box;
+					}
+				}
 			}
 		};
-		.order-flow {
-			height: 113px;
-			background: #EB3E67;
-			margin-bottom: 10px;
-			padding: 6px 16px 10px 16px;
+		.order-flow-title {
+			height: 50px;
+			display: flex;
+			align-items: center;
+			padding-left: 4px;
 			box-sizing: border-box;
-			.order-flow-title {
-				padding-left: 4px;
-				box-sizing: border-box;
-				font-size: 14px;
-				color: #fff;
-				margin-bottom: 20px
-			};
+			font-size: 17px;
+			color: #000000;
+			font-weight: 500;
+			padding: 0 10px;
+			box-sizing: border-box;
+		};
+		.order-flow {
+			height: 60px;
+			padding: 0 10px;
+			box-sizing: border-box;
 			.order-flow-content {
+				display: flex;
+				align-items: center;
+				height: 60px;
+				background: #EB3E67;
 				::v-deep .u-steps {
 					.u-steps-item {
 						.u-steps-item__wrapper {
@@ -1436,7 +1487,9 @@
 						.u-steps-item__content {
 							.u-text {
 								.u-text__value {
-									color: #fff !important
+									font-size: 11px !important;
+									color: #FFFFFF !important;
+									font-weight: 400 !important;
 								}
 							}
 						}
@@ -1444,29 +1497,24 @@
 				}
 			}
 		};
-		.order-message {
-			background: #fff;
-			margin-bottom: 10px;
-			.order-message-top {
+		.order-message-top {
+			.order-message-title {
+				height: 50px;
 				display: flex;
 				align-items: center;
-				height: 50px;
-				@include bottom-border-1px(#BBBBBB);
-				justify-content: space-between;
-				padding: 0 12px;
+				font-size: 17px;
+				color: #000000;
+				font-weight: 500;
+				padding: 0 10px;
 				box-sizing: border-box;
-				.order-message-title {
-					flex: 1;
-					@include no-wrap();
-					>text {
-						font-size: 16px;
-						color: #444444;
-						font-weight: bold
-					}
-				}
-			};
+			}
+		};
+		.order-message {
+			padding: 0 10px;
+			box-sizing: border-box;
 			.order-message-content {
-				padding: 6px 16px;
+				background: #fff;
+				padding: 10px;
 				box-sizing: border-box;
 				.order-message-one-special {
 					display: flex;
@@ -1474,8 +1522,8 @@
 					margin-bottom: 10px;
 					.order-message-one-special-left {
 						font-size: 14px;
-						font-weight: bold;
-						color: #3E4248;
+						color: #666666;
+						font-weight: 400;
 					};
 					.order-message-one-special-right {
 						display: flex;
@@ -1484,17 +1532,25 @@
 						>text {
 							display: inline-block;
 							font-size: 14px;
-							color: #3E4248;
-							font-weight: bold;
+							color: #999999;
+							text-align: right;
+							font-weight: 400;
 							&:first-child {
 								flex: 1;
-								color: #B7B6B6;
 								margin-right: 4px;
 								text-align: right;
 								word-break: break-all
 							};
 							&:last-child {
-								color: #3E4248
+								width: 40px;
+								height: 18px;
+								text-align: center;
+								line-height: 18px;
+								color: #666666;
+								font-size: 12px;
+								background: #F9F9F9;
+								border: 1px solid rgba(204,204,204,1);
+								border-radius: 4px;
 							}
 						}
 					}
@@ -1505,15 +1561,18 @@
 					margin-bottom: 10px;
 					>text {
 						display: inline-block;
-						font-size: 14px;
-						color: #3E4248;
-						font-weight: bold;
 						&:first-child {
+							font-size: 14px;
+							color: #666666;
+							font-weight: 400;
 							flex: 1;
 							word-break: break-all
 						};
 						&:last-child {
-							color: #B7B6B6
+							font-size: 14px;
+							color: #999999;
+							text-align: right;
+							font-weight: 400;
 						}
 					}
 				}
@@ -1534,15 +1593,16 @@
 				>text {
 					min-width: 78px;
 					display: inline-block;
-					height: 26px;
+					height: 30px;
 					padding: 0 12px;
 					box-sizing: border-box;
 					text-align: center;
-					line-height: 26px;
-					font-size: 13px;
+					line-height: 30px;
+					font-size: 14px;
 					color: #fff;
 					background: #289E8E;
-					border-radius: 22px
+					font-weight: 400;
+					border-radius: 3px
 				}
 			};
 			.btn-area-right {
@@ -1552,15 +1612,16 @@
 				>text {
 					min-width: 78px;
 					display: inline-block;
-					height: 26px;
+					height: 30px;
 					padding: 0 12px;
 					box-sizing: border-box;
 					text-align: center;
-					line-height: 26px;
-					font-size: 13px;
-					color: #5E5E5E;
-					border: 1px solid #BBBBBB;
-					border-radius: 22px;
+					line-height: 30px;
+					font-size: 14px;
+					color: #666666;
+					font-weight: 400;
+					border: 1px solid rgba(153,153,153,1);
+					border-radius: 3px;
 					margin-right: 10px;
 					&:last-child {
 						margin-right: 0

@@ -77,35 +77,49 @@
 					</view>
 				</view>
 			</view>
+			<view class="nurse-choose-title">
+				<text>医护选择</text>
+			</view>
 			<view class="nurse-practitioner-list-platform-recommend" v-if="isPlatformRecommendNurse">
-				<view class="nurse-practitioner-list-top">
-					<text>{{ nurseMessage.practice }}</text>
-				</view>
-				<view class="nurse-practitioner-list-left">
-					<u-image :src="!nurseMessage.avatar ? defaultNurseAvatar : nurseMessage.avatar" width="61" height="61">
+				<view class="nurse-practitioner-list-top" @click="cutNurseEvent('指定')">
+					<u-image src="@/static/img/change-nurse.png" width="80" height="34">
 						 <template v-slot:loading>
 						    <u-loading-icon color="red"></u-loading-icon>
 						  </template>
 					</u-image>
-					<view class="change-nurse" @click="cutNurseEvent('指定')">
-						<text>更换</text>
+				</view>
+				<view class="nurse-practitioner-list-left">
+					<view class="nurse-practitioner-list-left-top">
+						<u-image :src="!nurseMessage.avatar ? defaultNurseAvatar : nurseMessage.avatar" width="61" height="61">
+							 <template v-slot:loading>
+									<u-loading-icon color="red"></u-loading-icon>
+								</template>
+						</u-image>
+					</view>
+					<view class="rate">
+						<view class="rate-text">
+							<u-rate size="12" :count="nurseMessage.rateValue" readonly v-model="nurseMessage.rateValue" :active-color="nurseMessage.rateValue == 5 ? '#F9B128' : '#DCDCDC'"></u-rate>
+							<text>{{ nurseMessage.commentScore == 0 ? '0.0' : Math.floor(nurseMessage.commentScore/nurseMessage.commentCount).toFixed(1) }}</text>
+						</view>
 					</view>
 				</view>
 				<view class="nurse-practitioner-list-right">
 					<view class="nurse-practitioner-name">
 						<text>{{ nurseMessage.name }}</text>
-						<text>{{ nurseTitleTransition(nurseMessage.title) }}</text>
+						<text>{{ nurseMessage.title ? nurseTitleTransition(nurseMessage.title) : '无' }}</text>
 					</view>
-					<view class="hospital-name">
-						<text>{{ nurseMessage.organization }}</text>
-					</view>
-					<view class="rate">
-						<u-rate :count="nurseMessage.rateValue" readonly v-model="nurseMessage.rateValue" active-color="#E86F50"></u-rate>
-						<text>{{ nurseMessage.commentScore == 0 ? '0.0' : Math.floor(nurseMessage.commentScore/nurseMessage.commentCount).toFixed(1) }}</text>
-					</view>
-					<view class="nurse-practitioner-performance">
-						<view class="nurse-practitioner-performance-message">
+					<view class="hospital-message-center">
+						<view class="hospital-name">
+							<image src="@/static/img/red-circle-icon.png"></image>
+							<text>{{ nurseMessage.organization }}</text>
+						</view>
+						<view class="nurse-service-time">
+							<image src="@/static/img/red-circle-icon.png"></image>
+							<text>{{ nurseMessage.practice }}</text>
+						</view>
+						<view class="nurse-practitioner-performance">
 							<view class="nurse-practitioner-performance-left">
+								<image src="@/static/img/red-circle-icon.png"></image>
 								<text>帮助</text>
 								<text>{{ nurseMessage.quantity }}</text>
 								<text>人</text>
@@ -120,13 +134,9 @@
 					<view class="good-territory">
 						<text v-for="(innerItem,innerIndex) in nurseMessage.genius" :key="innerIndex">{{ innerItem }}</text>
 					</view>
-					<view class="cut-nurse" @click="cutNurseEvent('推荐')">
-						<image :src="cutIconPng"></image>
-						<text>切换为平台推荐护士</text>
-					</view>
 				</view>
 			</view>
-			<view class="nurse-practitioner-list-platform-assign" v-else>
+			<view class="nurse-practitioner-list-platform-assign" v-if="!isPlatformRecommendNurse">
 				<view class="nurse-practitioner-list-platform-assign-left">
 					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
 						 <template v-slot:loading>
@@ -138,11 +148,15 @@
 					<view class="platform-assign-right-top">
 						<text>平台指派护士</text>
 					</view>
-					<view class="platform-assign-right-bottom" @click="cutNurseEvent('指定')">
-						<image :src="cutIconPng"></image>
-						<text>切换为指定护士</text>
-					</view>
 				</view>
+			</view>
+			<view class="cut-nurse" @click="cutNurseEvent('推荐')" v-if="isPlatformRecommendNurse">
+				<image :src="cutIconPng"></image>
+				<text>切换为平台推荐护士</text>
+			</view>
+			<view class="cut-nurse" @click="cutNurseEvent('指定')" v-if="!isPlatformRecommendNurse">
+				<image :src="cutIconPng"></image>
+				<text>切换为指定护士</text>
 			</view>
 			<view class="serve-people-message">
 				<view class="serve-site">
@@ -150,8 +164,11 @@
 						<image :src="serviceSitePng"></image>
 						<text>服务地址</text>
 					</view>
-					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceSite != '上门服务详细地址'}" @click="serviceSiteEvent">
+					<view class="serve-site-center" :class="{'serveSiteRightStyle' : serviceSite != '上门服务详细地址'}" @click="serviceSiteEvent">
 						{{ serviceSite }}
+					</view>
+					<view class="function-item-right" @click="serviceSiteEvent">
+						<u-icon name="arrow-right" color="#CCCCCC" size="20"></u-icon>
 					</view>
 				</view>
 				<view class="serve-site serve-person">
@@ -159,8 +176,11 @@
 						<image :src="serviceTimePng"></image>
 						<text>服务时间</text>
 					</view>
-					<view class="serve-site-right" :class="{'serveSiteRightStyle' : serviceDate != '期望服务时间'}" @click="expectationServiceTimeClickEvent">
+					<view class="serve-site-center" :class="{'serveSiteRightStyle' : serviceDate != '期望服务时间'}" @click="expectationServiceTimeClickEvent">
 						{{ serviceDate }}
+					</view>
+					<view class="function-item-right" @click="expectationServiceTimeClickEvent">
+						<u-icon name="arrow-right" color="#CCCCCC" size="20"></u-icon>
 					</view>
 				</view>
 				<view class="serve-site evaluation-form">
@@ -168,8 +188,11 @@
 						<image :src="servedPersonPng"></image>
 						<text>被服务人</text>
 					</view>
-					<view class="serve-site-right" :class="{'serveSiteRightStyle' : protectedPerson != '请选择被服务人'}" @click="chooseProtectedPersonEvent">
+					<view class="serve-site-center" :class="{'serveSiteRightStyle' : protectedPerson != '请选择被服务人'}" @click="chooseProtectedPersonEvent">
 						{{ protectedPerson }}
+					</view>
+					<view class="function-item-right" @click="chooseProtectedPersonEvent">
+						<u-icon name="arrow-right" color="#CCCCCC" size="20"></u-icon>
 					</view>
 				</view>
 				<view class="serve-site serve-time">
@@ -177,8 +200,11 @@
 						<image :src="evaluationFormPng"></image>
 						<text>初步评估单</text>
 					</view>
-					<view class="serve-site-right" :class="{'serveSiteRightStyle' : writeEvaluationForm != '点击填写评估单'}" @click="writeEvaluationFormEvent">
+					<view class="serve-site-center" :class="{'serveSiteRightStyle' : writeEvaluationForm != '点击填写评估单'}" @click="writeEvaluationFormEvent">
 						{{ writeEvaluationForm }}
+					</view>
+					<view class="function-item-right" @click="writeEvaluationFormEvent">
+						<u-icon name="arrow-right" color="#CCCCCC" size="20"></u-icon>
 					</view>
 				</view>
 			</view>
@@ -1112,33 +1138,38 @@
 				.service-project-left {
 					margin-right: 10px;
 					>image {
-						width: 58px;
-						height: 58px
+						width: 66px;
+						height: 66px
 					}
 				};
 				.service-project-right {
 					flex: 1;
 					@include no-wrap;
 					.service-project-right-top {
-						margin-bottom: 10px;
+						margin-bottom: 5px;
 						width: 100%;
 						>text {
 							display: inline-block;
-							font-size: 18px;
-							color: #101010;
-							font-weight: bold;
 							width: 100%;
+							font-size: 16px;
+							color: #000000;
+							font-weight: 400;
 							@include no-wrap;
 						}
 					};
 					.service-project-right-bottom {
 						>text {
 							display: inline-block;
-							font-size: 16px;
+							font-size: 11px;
 							color: #fff;
+							font-weight: 600;
 							margin-right: 4px;
-							background: rgba(241, 108, 140, 0.64);
-							padding: 4px 6px;
+							background: #F16C8C;
+							box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+							border-radius: 3px;
+							height: 20px;
+							line-height: 20px;
+							padding: 0 6px;
 							box-sizing: border-box;
 							&:last-child {
 								margin-right: 0 !important
@@ -1170,34 +1201,24 @@
 					.platform-assign-right-top {
 						color: #000000;
 						font-size: 18px;
-					};
-					.platform-assign-right-bottom {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						width: 185px;
-						height: 31px;
-						margin-top: 16px;
-						border-radius: 10px;
-						background: linear-gradient(to right, #ffa7c0, #FC4278);
-						>image {
-							width: 27px;
-							height: 22px;
-							margin-right: 8px
-						};
-						>text {
-							font-size: 12px;
-							color: #fff
-						}
 					}
 				}
+			};
+			.nurse-choose-title {
+				height: 50px;
+				padding: 0 10px;
+				box-sizing: border-box;
+				font-size: 17px;
+				color: #000000;
+				font-weight: 500;
+				display: flex;
+				align-items: center
 			};
 			.nurse-practitioner-list-platform-recommend {
 				margin-top: 4px;
 				padding: 30px 10px 20px 10px;
 				box-sizing: border-box;
 				background: #fff;
-				border-radius: 8px;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
@@ -1206,52 +1227,54 @@
 					position: absolute;
 					top: 0;
 					right: 0;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					width: 111px;
-					height: 26px;
-					background: linear-gradient(to right, #ffa7c0, #FC4278);
-					box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
-					border-top-right-radius: 8px;
-					>text {
-						font-size: 12px;
-						color: #fff
-					}
+					width: 80px;
+					height: 34px;
 				};
 				.nurse-practitioner-list-left {
-					width: 73px;
-					height: 73px;
-					margin-right: 10px;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					::v-deep .u-image {
-						width: 61px !important;
-						height: 61px !important;
-						border-radius: 50% !important;
-						uni-image {
-							width: 61px !important;
-							height: 61px !important;
+					margin-right: 10px;
+					width: 100px;
+					.nurse-practitioner-list-left-top {
+						width: 70px;
+						height: 70px;
+						::v-deep .u-image {
+							width: 70px !important;
+							height: 70px !important;
+							border-radius: 50% !important;
+							uni-image {
+								width: 70px !important;
+								height: 70px !important;
+								border-radius: 50% !important;
+							}
+						};
+						::v-deep image {
+							width: 70px !important;
+							height: 70px !important;
 							border-radius: 50% !important;
 						}
 					};
-					::v-deep image {
-						width: 70px !important;
-						height: 70px !important;
-						border-radius: 50% !important;
-					};
-					.change-nurse {
-						margin-top: 10px;
-						width: 70px;
-						height: 30px;
-						text-align: center;
-						line-height: 30px;
-						border-radius: 10px;
-						background: linear-gradient(to right, #ffa7c0, #FC4278);
-						color: #fff;
-						font-size: 12px
+					.rate {
+						margin-top: 6px;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						.rate-text {
+							>text {
+								width: 100%;
+								text-align: center;
+								display: inline-block;
+								font-size: 11px;
+								font-weight: 400;
+								color: #999999;
+								font-weight: 400;
+							};
+							.textStyle {
+								color: #d6d6d6 !important;
+							}
+						}
 					}
 				};
 				.nurse-practitioner-list-right {
@@ -1262,85 +1285,119 @@
 						>text {
 							&:nth-child(1) {
 								font-size: 16px;
-								color: #101010;
+								color: #000000;;
 								margin-right: 10px;
-								font-weight: bold;
 								max-width: 100px;
 								@include no-wrap;
+								font-weight: bold;
 							};
 							&:nth-child(2) {
-								font-size: 12px;
-								color: #101010;
-								margin-top: 4px;
+								font-size: 14px;
+								color: #F2A15F;
 							}
 						}
 					};
-					.hospital-name {
-						margin-top: 4px;
-						>text {
-							word-break: break-all;
-							font-size: 12px;
-							color: #898C8C;
-						}
-					};
-					.rate {
+					.hospital-message-center {
+						margin: 8px 0;
 						display: flex;
-						margin-top: 4px;
-						align-items: center;
-						>text {
-							font-size: 12px;
-							&:nth-of-type(1) {
-								color: #E86F50;
-								font-weight: bold;
-								margin-left: 4px
-							}
-						}
-					};
-					.nurse-practitioner-performance {
-						margin-bottom: 4px;
-						display: flex;
-						.nurse-practitioner-performance-message {
+						flex-direction: column;
+						background: #FAFAFA;
+						padding: 6px;
+						box-sizing: border-box;
+						.hospital-name {
 							display: flex;
-							justify-content: space-between;
+							align-items: center;
+							image {
+								width: 6px;
+								height: 6px;
+								margin-right: 4px;
+							};
+							>text {
+								flex: 1;
+								word-break: break-all;
+								font-size: 12px;
+								color: #333333;
+								font-weight: 400;
+							}
+						};
+						.nurse-service-time {
+							display: flex;
+							align-items: center;
+							margin: 4px 0;
+							image {
+								width: 6px;
+								height: 6px;
+								margin-right: 4px;
+							};
+							>text {
+								flex: 1;
+								word-break: break-all;
+								font-size: 12px;
+								color: #333333;
+								font-weight: 400;
+							}
+						};
+						.nurse-practitioner-performance {
+							display: flex;
 							.nurse-practitioner-performance-left {
 								margin-right: 20px;
+								display: flex;
+								align-items: center;
+								position: relative;
+								image {
+									width: 6px;
+									height: 6px;
+									margin-right: 4px; 
+								};
 								>text {
 									font-size: 12px;
-									&:nth-child(1) {
-										color: rgba(16, 16, 16, 0.35);
-									};
+									font-weight: 400;
 									&:nth-child(2) {
-										font-weight: bold;
-										color: #101010;
+										color: #333333;
 									};
 									&:nth-child(3) {
-										color: rgba(16, 16, 16, 0.35);
+										color: #E81F50;
+										margin: 0 4px;
+									};
+									&:nth-child(4) {
+										color: #333333;
 									}
 								}
 							};
+							.nurse-practitioner-performance-left ::after {
+								content: '';
+								width: 1px;
+								height: 14px;
+								background: #333333;
+								position: absolute;
+								top: 1px;
+								right: -10px;
+							};
 							.nurse-practitioner-performance-right {
+								display: flex;
+								align-items: center;
 								>text {
 									font-size: 12px;
+									font-weight: 400;
 									&:nth-child(1) {
-										color: rgba(16, 16, 16, 0.35);
+										color: #333333;
 									};
 									&:nth-child(2) {
-										font-weight: bold;
-										color: #101010;
+										margin: 0 4px;
+										color: #E81F50;
 									};
 									&:nth-child(3) {
-										color: rgba(16, 16, 16, 0.35);
+										color: #333333
 									}
 								}
 							}
 						}
 					};
 					.good-territory {
-						margin-top: 4px;
 						display: flex;
-						align-items: center;
+						margin-top: 6px;
 						>text {
-							font-size: 12px;
+							font-size: 11px;
 							color: #fff;
 							display: inline-block;
 							width: 57px;
@@ -1353,63 +1410,69 @@
 								margin-right: 6px
 							}
 						}
-					};
-					.cut-nurse {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						width: 185px;
-						height: 31px;
-						margin-top: 16px;
-						border-radius: 10px;
-						background: linear-gradient(to right, #ffa7c0, #FC4278);
-						>image {
-							width: 27px;
-							height: 22px;
-							margin-right: 8px
-						};
-						>text {
-							font-size: 12px;
-							color: #fff
-						}
 					}
 				}
 			};
+			.cut-nurse {
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 10px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #FFFFFF;
+				box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+				border-radius: 5px;
+				image {
+					width: 20px;
+					height: 20px;
+				};
+				>text {
+					font-size: 14px;
+					color: #333333;
+					font-weight: 400;
+				}
+			};
 			.serve-people-message {
-				margin-top: 4px;
+				margin-top: 10px;
 				padding: 0 2px;
 				box-sizing: border-box;
 				background: #fff;
 				.serve-site {
 					display: flex;
-					padding: 10px 4px 8px 10px;
+					padding: 10px 4px 10px 10px;
+					align-items: center;
 					box-sizing: border-box;
 					justify-content: space-between;
-					@include bottom-border-1px(#E3E3E3);
+					@include bottom-border-1px(#DCDCDC);
 					.serve-site-left {
+						margin-right: 10px;
 						>image {
-							width: 24px;
-							height: 24px;
+							width: 18px;
+							height: 18px;
 							margin-right: 8px;
 							vertical-align: middle
 						};
 						>text {
-							font-size: 15px;
-							color: #777777;
+							font-size: 14px;
+							color: #333333;
+							font-weight: 400;
 							vertical-align: middle
 						}
 					};
-					.serve-site-right {
-						text-align: right;
-						padding-left: 4px;
+					.serve-site-center {
+						text-align: left;
+						padding: 0 4px;
 						box-sizing: border-box;
 						flex: 1;
 						word-break: break-all;
 						font-size: 14px;
-						color: #777777
+						color: #999999;
+						font-weight: 400;
 					};
 					.serveSiteRightStyle {
-						color: #F16C8C !important
+						color: #333333 !important
 					}
 				}
 			};

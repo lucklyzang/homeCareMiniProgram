@@ -51,7 +51,7 @@
 					<text>{{ item.name }}</text>
 				</view>
 				<view class="function-item-right">
-					<u-icon name="arrow-right" color="#737373" size="20"></u-icon>
+					<u-icon name="arrow-right" color="#CCCCCC" size="20"></u-icon>
 				</view>
 			</view>
 		</view>
@@ -329,7 +329,7 @@
 		.top-area-box {
 			position: relative;
 			width: 100%;
-			height: 330px;
+			height: 290px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -360,15 +360,15 @@
 				padding-left: 10px;
 				box-sizing: border-box;
 				.user-photo {
-					width: 76px;
-					height: 76px;
+					width: 70px;
+					height: 70px;
 					background: #fff;
-					margin-right: 15px;
+					margin: 0 15px;
 					border-radius: 50%;
 					z-index:1;
 					image {
-						width: 76px;
-						height: 76px;
+						width: 70px;
+						height: 70px;
 						border-radius: 50%;
 					}
 				}
@@ -381,6 +381,9 @@
 				padding-right: 10px;
 				box-sizing: border-box;
 				z-index: 1;
+				font-size: 16px;
+				color: #FFFFFF;
+				font-weight: 400;
 				@include no-wrap;
 				>text {
 					@include no-wrap;
@@ -390,15 +393,14 @@
 				width: 94%;
 				position: absolute;
 				left: 3%;
-				top: 190px;
-				height: 130px;
-				background: #fff;
-				margin: 0 auto;
+				top: 170px;
+				height: 110px;
+				background: #FFFFFF;
+				box-shadow: 0 4px 20px 0 rgba(0,0,0,0.08);
 				border-radius: 10px;
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				box-shadow: 0px 2px 6px 0 rgba(92, 133, 136, 0.29);
 				>view {
 					flex: 1;
 					display: flex;
@@ -406,22 +408,21 @@
 					justify-content: center;
 					align-items: center;
 					>image {
-						width: 58px;
-						height: 58px;
+						width: 45px;
+						height: 45px;
 						margin-bottom: 10px
 					};
 					>text {
-						color: #101010;
-						font-size: 14px
+						font-size: 13px;
+						color: #333333;
+						font-weight: 400;
 					}
 				}
 			}
 		};
 		.bottom-area-box {
-			width: 90%;
+			width: 94%;
 			margin: 0 auto;
-			padding: 0 2px;
-			box-sizing: border-box;
 			margin-top: 6px;
 			display: flex;
 			flex-direction: column;
@@ -431,18 +432,20 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				height: 40px;
-				margin-bottom: 16px;
+				height: 50px;
+				position: relative;
+				@include bottom-border-1px(#DCDCDC);
 				.function-item-left {
 					>image {
-						width: 24px;
-						height: 24px;
+						width: 20px;
+						height: 20px;
 						margin-right: 6px;
 						vertical-align: middle
 					};
 					>text {
-						color: #101010;
 						font-size: 14px;
+						color: #333333;
+						font-weight: 400;
 						vertical-align: middle
 					}
 				};

@@ -37,7 +37,7 @@
 							</view>
 							<view class="rate">
 								<view class="rate-box">
-									<u-rate size="12" :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#F9B128' : '#d6d6d6'"></u-rate>
+									<u-rate size="12" :count="!item.rateValue ? 5 : item.rateValue" readonly v-model="item.rateValue" :active-color="item.rateValue == 5 ? '#F9B128' : '#DCDCDC'"></u-rate>
 									<text :class="{'textStyle' : item.rateValue >= 5}">{{ item.commentScore == 0 ? '0.0' : item.rateValue.toFixed(1) }}</text>
 								</view>
 								<view class="rate-text">

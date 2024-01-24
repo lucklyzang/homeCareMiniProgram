@@ -71,13 +71,17 @@
 		</view>
 		<view class="order-form-tabs">
 			<u-tabs :list="list" :current="current" @change="change"
-				lineWidth="50"
-				lineColor="#FF698C"
+				lineWidth="30"
+				lineColor="#E81F50"
 				:activeStyle="{
-					color: '#FF698C'
+					color: '#333333',
+					fontWeight: 500,
+					fontSize: '15px'
 				}"
 				:inactiveStyle="{
-					color: '#444444'
+					color: '#666666',
+					fontWeight: 400,
+					fontSize: '15px'
 				}"
 			></u-tabs>
 		</view>
@@ -86,33 +90,36 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -123,8 +130,9 @@
 							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
-							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
-							<text>{{ `￥${item.payPrice}` }}</text>
+							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额`}}</text>
+							<text>￥</text>
+							<text>{{ `${item.payPrice}` }}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -150,33 +158,36 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
@@ -187,8 +198,9 @@
 							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
 						<view class="consumption-rental-right">
-							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额:`}}</text>
-							<text>{{`￥${item.payPrice}`}}</text>
+							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额`}}</text>
+							<text>￥</text>
+							<text>{{`${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -207,40 +219,44 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-right">
-							<text>实付总额:</text>
-							<text>{{`￥${item.payPrice}`}}</text>
+							<text>实付总额</text>
+							<text>￥</text>
+							<text>{{`${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -258,40 +274,44 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-right">
-							<text>实付总额:</text>
-							<text>{{`￥${item.payPrice}`}}</text>
+							<text>实付总额</text>
+							<text>￥</text>
+							<text>{{`${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -311,40 +331,44 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-right">
-							<text>实付总额:</text>
-							<text>{{`￥${item.payPrice}`}}</text>
+							<text>实付总额</text>
+							<text>￥</text>
+							<text>{{`${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -362,40 +386,44 @@
 			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 				<view class="order-form-list" v-for="(item,index) in fullTradeList" :key="index" @click="enterOrderDetailsEvent(item)">
 					<view class="order-form-top">
-						<view class="order-form-title">
-							<text>{{ item.items[0]['spuName'] }}</text>
+						<view class="expectation-date">
+							<text>期望时间：</text>
+							<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
 						</view>
 						<view class="order-form-status">
-							<text>{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
+							<text :class="{'waitPayStyle' : transitionOrderStatusText(item.workerStatus,item) == '派单中' || transitionOrderStatusText(item.workerStatus,item) == '待支付' || transitionOrderStatusText(item.workerStatus,item) == '服务中' || transitionOrderStatusText(item.workerStatus,item) == '待评价'}">
+							{{ transitionOrderStatusText(item.workerStatus,item) }}</text>
 						</view>
 					</view>
 					<view class="order-form-center">
 						<view class="order-form-center-left">
-							<u-image :src="item.items[0]['picUrl']" width="88" height="88">
+							<u-image :src="item.items[0]['picUrl']" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
 							</u-image>
 						</view>
 						<view class="order-form-center-right">
-							<view class="brotected-person">
-								<text>被护人</text>
-								<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+							<view class="order-form-title">
+								<text>{{ item.items[0]['spuName'] }}</text>
 							</view>
-							<view class="service-address">
-								<text>服务地址</text>
-								<text>{{ item.receiverDetailAddress }}</text>
-							</view>
-							<view class="expectation-date">
-								<text>期望时间</text>
-								<text>{{ `${getNowFormatDateText(item.serviceDate)} (${judgeWeek(item.serviceDate)}) ${item.serviceTime}` }}</text>
+							<view class="order-form-center-right-wrapper">
+								<view class="brotected-person">
+									<text>被护人</text>
+									<text>{{ `${item.servicePerson.name} ${item.servicePerson.age}岁` }}</text>
+								</view>
+								<view class="service-address">
+									<text>服务地址</text>
+									<text>{{ item.receiverDetailAddress }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-right">
-							<text>实付总额:</text>
-							<text>{{`￥${item.payPrice}`}}</text>
+							<text>实付总额</text>
+							<text>￥</text>
+							<text>{{`${item.payPrice}`}}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -1132,7 +1160,6 @@
 			}
 		};
 		.order-form-tabs {
-			box-shadow: 0 2px 6px 0 rgba(202, 200, 200, 0.4);
 			z-index: 1;
 			::v-deep .u-tabs {
 				.u-tabs__wrapper__scroll-view {
@@ -1143,8 +1170,8 @@
 							top: 0;
 							right: -6px;
 							background: #fff !important;
-							border: 1px solid #D84959;
-							color: #D84959 !important;
+							border: 1px solid #E81F50 ;
+							color: #E81F50 !important;
 							width: 16px !important;
 							height: 16px !important;
 							border-radius: 50%;
@@ -1171,7 +1198,7 @@
 			background: #f5f5f5;
 			overflow: auto;
 			width: 100%;
-			padding: 10px 6px;
+			padding: 10px 0;
 			box-sizing: border-box;
 			position: relative;
 			.scroll-view {
@@ -1184,27 +1211,35 @@
 				transform: translate(-50%,-50%)
 			};
 			.order-form-list {
-				border-radius: 7px;
-				padding: 0px 4px 8px 4px;
 				background: #fff;
-				box-sizing: border-box;
 				margin-bottom: 10px;
-				box-shadow: 0px 1px 4px 0px rgba(137, 140, 140, 0.24);
 				.order-form-top {
 					display: flex;
 					align-items: center;
 					height: 50px;
-					@include bottom-border-1px(#BBBBBB);
+					@include bottom-border-1px(#DCDCDC);
 					justify-content: space-between;
 					padding: 0 8px 0 10px;
 					box-sizing: border-box;
-					.order-form-title {
-						flex: 1;
-						@include no-wrap();
+					.expectation-date {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
 						>text {
-							font-size: 16px;
-							color: #444444;
-							font-weight: bold
+							display: inline-block;
+							&:nth-child(1) {
+								margin-right: 4px;
+								font-size: 12px;
+								color: #333333;
+								font-weight: 400;
+							};
+							&:nth-child(2) {
+								flex: 1;
+								font-size: 12px;
+								color: #000000;
+								font-weight: 400;
+								word-break: break-all
+							}
 						}
 					};
 					.order-form-status {
@@ -1213,85 +1248,79 @@
 							padding: 0 0 0 4px;
 							box-sizing: border-box;
 							font-size: 14px;
-							color: #444444;
-							font-weight: bold
+							color: #999999;
+							font-weight: 400;
+						};
+						.waitPayStyle {
+							color: #E81F50 !important;
 						}
 					}
 				};
 				.order-form-center {
 					display: flex;
 					justify-content: space-between;
-					padding: 8px;
+					padding: 8px 8px 0 8px;
 					box-sizing: border-box;
 					.order-form-center-left {
-						margin-right: 10px;
+						margin-right: 12px;
 						::v-deep .u-image {
 						}
 					};
 					.order-form-center-right {
-						padding-top: 10px;
-						box-sizing: border-box;
-						.brotected-person {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
+						flex: 1;
+						.order-form-title {
+							word-break: break-all;
 							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									word-break: break-all
-								}
+								font-size: 16px;
+								color: #000000;
+								font-weight: 400;
 							}
 						};
-						.service-address {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
-							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									word-break: break-all
+						.order-form-center-right-wrapper {
+							margin-top: 6px;
+							background: #FAFAFA;
+							padding: 4px;
+							box-sizing: border-box;
+							.brotected-person {
+								margin-bottom: 6px;
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
 								}
-							}
-						};
-						.expectation-date {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
-							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									word-break: break-all
+							};
+							.service-address {
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
 								}
 							}
 						}
 					}
 				};
 				.consumption-rental {
-					padding: 0 8px 20px 8px;
+					padding: 10px 8px;
 					box-sizing: border-box;
 					display: flex;
 					align-items: center;
@@ -1322,26 +1351,32 @@
 						flex: 1;
 						display: flex;
 						width: 0;
+						align-items: center;
 						justify-content: flex-end;
 						>text {
 							display: inline-block;
-							font-size: 12px;
 							&:nth-child(1) {
-								color: #777777;
-								margin-right: 4px;
+								font-size: 14px;
+								color: #000000;
+								font-weight: 600;
 							};
 							&:nth-child(2) {
-								color: #F16C8C;
-								font-weight: bold;
-								word-break: break-all
+								margin-top: 3px;
+								font-size: 12px;
+								color: #000000;
+								font-weight: 600;
+							};
+							&:nth-child(3) {
+								font-size: 17px;
+								color: #000000;
+								font-weight: 700;
 							}
 						}
 					}
 				};
 				.order-form-bottom {
-					height: 30px;
 					display: flex;
-					padding: 0 8px;
+					padding: 0 8px 8px 8px;
 					box-sizing: border-box;
 					justify-content: space-between;
 					align-items: center;
@@ -1350,15 +1385,16 @@
 						>text {
 							min-width: 78px;
 							display: inline-block;
-							height: 26px;
+							height: 30px;
 							padding: 0 12px;
 							box-sizing: border-box;
 							text-align: center;
-							line-height: 26px;
-							font-size: 13px;
+							line-height: 30px;
+							font-size: 14px;
 							color: #fff;
 							background: #289E8E;
-							border-radius: 22px
+							font-weight: 400;
+							border-radius: 3px
 						}
 					};
 					.btn-area-right {
@@ -1368,15 +1404,16 @@
 						>text {
 							min-width: 78px;
 							display: inline-block;
-							height: 26px;
+							height: 30px;
 							padding: 0 12px;
 							box-sizing: border-box;
 							text-align: center;
-							line-height: 26px;
-							font-size: 13px;
-							color: #5E5E5E;
-							border: 1px solid #BBBBBB;
-							border-radius: 22px;
+							line-height: 30px;
+							font-size: 14px;
+							color: #666666;
+							font-weight: 400;
+							border: 1px solid rgba(153,153,153,1);
+							border-radius: 3px;
 							margin-right: 10px;
 							&:last-child {
 								margin-right: 0

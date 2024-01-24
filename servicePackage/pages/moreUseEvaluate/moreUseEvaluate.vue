@@ -28,7 +28,7 @@
 						</view>
 						<view class="user-evaluate-list-bottom">
 							<view>
-								<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+								<u-rate :count="item.scores" activeColor="#F9B128" v-model="item.scores" readonly></u-rate>
 								<text>{{ item.scores == 0 || !item.scores ? '0.0' : item.scores.toFixed(1)  }}</text>
 							</view>
 							<view>

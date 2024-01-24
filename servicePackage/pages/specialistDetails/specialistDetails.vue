@@ -7,7 +7,7 @@
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="专家详情">
 					<template #left>
-						<u-icon name="arrow-left" color="#000000" size="22" @click="backTo"></u-icon>
+						<u-icon name="arrow-left" color="#fff" size="22" @click="backTo"></u-icon>
 					</template>
 				</nav-bar> 
 			</view>
@@ -27,7 +27,7 @@
 				</view>
 				<view class="rate-box" v-if="isVerifyNurseFavoriteComplete">
 					<u-icon v-if="!isNurseFavorite" name="star" color="#fff" size="22" @click="collectNurseEvent"></u-icon>
-					<u-icon v-else name="star-fill" color="#E8CB51" size="22" @click="collectNurseEvent"></u-icon>
+					<u-icon v-else name="star-fill" color="#F9B128" size="22" @click="collectNurseEvent"></u-icon>
 				</view>
 			</view>
 			<view class="center-area-box">
@@ -108,7 +108,7 @@
 						</view>
 						<view class="user-evaluate-list-bottom">
 							<view>
-								<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+								<u-rate :count="item.scores" activeColor="#F9B128" v-model="item.scores" readonly></u-rate>
 							</view>
 							<view>
 								<text>{{ item.spuName }}</text>
@@ -566,9 +566,9 @@
 					}
 				};
 				.header_title_center {
-					color: #000000 !important;
+					color: #fff !important;
 					text {
-						color: #000000 !important;
+						color: #fff !important;
 					}
 				}
 			};
