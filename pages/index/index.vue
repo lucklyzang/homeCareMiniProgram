@@ -87,7 +87,8 @@
 								<text>内部专属护理,欢迎体验!</text>
 							</view>
 							<view class="service-price">
-								<text>{{ `￥${item.price}` }}</text>
+								<text>￥</text>
+								<text>{{ `${item.price}` }}</text>
 							</view>
 						</view>
 					</view>
@@ -947,7 +948,7 @@
 					.service-title-left {
 						font-size: 17px;
 						color: #000000;
-						font-weight: bold;
+						font-weight: 500;
 						margin-right: 10px
 					};
 					.service-title-right {
@@ -1002,19 +1003,27 @@
 									&:first-child {
 										font-size: 13px;
 										color: #333333;
-										font-weight: bold;
+										font-weight: 400;
 									};
 									&:last-child {
 										font-size: 11px;
-										color: #999999 
+										color: #999999;
+										font-weight: 400;
 									}
 								}
 							};
 							.service-price {
 								>text {
-									font-size: 17px;
-									color: #F92C20;
-									font-weight: bold;
+									&:nth-child(1) {
+										font-size: 12px;
+										color: #F92C20;
+										font-weight: 500;
+									};
+									&:nth-child(2) {
+										font-size: 17px;
+										color: #F92C20;
+										font-weight: 500;
+									}
 								}
 							}
 						}
@@ -1037,7 +1046,7 @@
 						>text {
 							font-size: 17px;
 							color: #000000;
-							font-weight: bold;
+							font-weight: 500;
 							margin-right: 10px
 						}
 					};
@@ -1119,11 +1128,12 @@
 									margin-right: 10px;
 									max-width: 100px;
 									@include no-wrap;
-									font-weight: bold;
+									font-weight: 400;
 								};
 								&:nth-child(2) {
 									font-size: 14px;
 									color: #F2A15F;
+									font-weight: 400;
 								}
 							}
 						};
@@ -1145,7 +1155,7 @@
 								>text {
 									flex: 1;
 									word-break: break-all;
-									font-size: 12px;
+									font-size: 13px;
 									color: #333333;
 									font-weight: 400;
 								}
@@ -1164,7 +1174,7 @@
 										margin-right: 4px; 
 									};
 									>text {
-										font-size: 12px;
+										font-size: 13px;
 										font-weight: 400;
 										&:nth-child(2) {
 											color: #333333;
@@ -1191,7 +1201,7 @@
 									display: flex;
 									align-items: center;
 									>text {
-										font-size: 12px;
+										font-size: 13px;
 										font-weight: 400;
 										&:nth-child(1) {
 											color: #333333;
@@ -1214,12 +1224,14 @@
 								font-size: 11px;
 								color: #fff;
 								display: inline-block;
-								width: 57px;
-								height: 19px;
+								padding: 0 6px;
+								box-sizing: border-box;
+								height: 20px;
 								text-align: center;
-								line-height: 19px;
+								line-height: 20px;
 								background: #FEB8B7;
 								border-radius: 3px;
+								font-weight: 600;
 								&:nth-child(1) {
 									margin-right: 6px
 								}

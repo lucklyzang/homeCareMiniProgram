@@ -265,7 +265,7 @@
 				</view>
 			</view>
 			<view class="btn-area">
-				<view class="btn-area-left" v-if="serviceMessage.status == 30 || serviceMessage.status == 40 || serviceMessage.status == 50">
+				<view class="btn-area-left" @click="contactNurseEvent" v-if="serviceMessage.status == 30 || serviceMessage.status == 40 || serviceMessage.status == 50">
 					<text>联系护士</text>
 				</view>
 				<view class="btn-area-right">
@@ -424,6 +424,9 @@
 			...mapMutations([
 				'storeEditServiceOrderFormSureChooseMessage'
 			]),
+			
+			// 联系护士事件
+			contactNurseEvent () {},
 			
 			// 查看放大图片事件
 			magnifyImgEvent (item,index) {

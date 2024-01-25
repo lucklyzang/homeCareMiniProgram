@@ -55,7 +55,7 @@
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolowerService">
 						<view class="service-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
 							<view class="service-list-left">
-								<u-image :src="item.picUrl" width="63" height="63">
+								<u-image :src="item.picUrl" width="76" height="76">
 									 <template v-slot:loading>
 											<u-loading-icon color="red"></u-loading-icon>
 										</template>
@@ -67,7 +67,8 @@
 									<text>内部专属护理,欢迎体验!</text>
 								</view>
 								<view class="service-price">
-									<text>{{ `￥${item.price}起` }}</text>
+									<text>￥</text>
+									<text>{{ `${item.price}` }}</text>
 								</view>
 							</view>
 						</view>
@@ -109,12 +110,12 @@
 								</view>
 								<view class="hospital-message-center">
 									<view class="hospital-name">
-										<text></text>
+										<image src="@/static/img/red-circle-icon.png"></image>
 										<text>{{ item.organization }}</text>
 									</view>
 									<view class="nurse-practitioner-performance">
 										<view class="nurse-practitioner-performance-left">
-											<text></text>
+											<image src="@/static/img/red-circle-icon.png"></image>
 											<text>帮助</text>
 											<text>{{ item.quantity }}</text>
 											<text>人</text>
@@ -613,7 +614,7 @@
 					.service-list {
 						margin-top: 10px;
 						padding: 4px 8px;
-						height: 75px;
+						height: 100px;
 						box-sizing: border-box;
 						background: #F8F8F8;
 						border-radius: 8px;
@@ -639,6 +640,8 @@
 								flex-direction: column;
 								flex: 1;
 								width: 0;
+								height: 76px;
+								justify-content: space-between;
 								>text {
 									display: inline-block;
 									width: 100%;
@@ -646,19 +649,28 @@
 									&:first-child {
 										font-size: 16px;
 										color: #101010;
-										font-weight: bold;
+										font-weight: 400;
 										margin-bottom: 12px
 									};
 									&:last-child {
-										font-size: 12px;
-										color: #888888
+										font-size: 11px;
+										color: #999999;
+										font-weight: 400;
 									}
 								}
 							};
 							.service-price {
 								>text {
-									font-size: 16px;
-									color: #E95E5E
+									&:nth-child(1) {
+										font-size: 12px;
+										color: #F92C20;
+										font-weight: 500;
+									};
+									&:nth-child(2) {
+										font-size: 17px;
+										color: #F92C20;
+										font-weight: 500;
+									}
 								}
 							}
 						}
@@ -777,12 +789,13 @@
 										font-size: 16px;
 										color: #000000;;
 										margin-right: 10px;
-										font-weight: bold;
+										font-weight: 400;
 										max-width: 100px;
 										@include no-wrap;
 									};
 									&:nth-child(2) {
 										font-size: 14px;
+										font-weight: 400;
 										color: #F2A15F;
 									}
 								}
@@ -797,22 +810,17 @@
 								.hospital-name {
 									display: flex;
 									align-items: center;
+									image {
+										width: 6px;
+										height: 6px;
+										margin-right: 4px;
+									};
 									>text {
-										&:nth-child(1) {
-											display: inline-block;
-											width: 6px;
-											height: 6px;
-											border-radius: 50%;
-											background: #E81F50;
-											margin-right: 6px;
-										};
-										&:nth-child(2) {
-											flex: 1;
-											word-break: break-all;
-											font-size: 12px;
-											color: #333333;
-											font-weight: 400;
-										}
+										flex: 1;
+										word-break: break-all;
+										font-size: 13px;
+										color: #333333;
+										font-weight: 400;
 									}
 								};
 								.nurse-practitioner-performance {
@@ -823,17 +831,14 @@
 										display: flex;
 										align-items: center;
 										position: relative;
+										image {
+											width: 6px;
+											height: 6px;
+											margin-right: 4px; 
+										};
 										>text {
-											font-size: 12px;
+											font-size: 13px;
 											font-weight: 400;
-											&:nth-child(1) {
-												display: inline-block;
-												width: 6px;
-												height: 6px;
-												border-radius: 50%;
-												background: #E81F50;
-												margin-right: 6px;
-											};
 											&:nth-child(2) {
 												color: #333333;
 											};
@@ -859,7 +864,7 @@
 										display: flex;
 										align-items: center;
 										>text {
-											font-size: 12px;
+											font-size: 13px;
 											font-weight: 400;
 											&:nth-child(1) {
 												color: #333333;
@@ -882,10 +887,11 @@
 									font-size: 12px;
 									color: #fff;
 									display: inline-block;
-									width: 57px;
-									height: 19px;
+									padding: 0 6px;
+									box-sizing: border-box;
+									height: 20px;
 									text-align: center;
-									line-height: 19px;
+									line-height: 20px;
 									background: #FEB8B7;
 									border-radius: 3px;
 									&:nth-child(1) {

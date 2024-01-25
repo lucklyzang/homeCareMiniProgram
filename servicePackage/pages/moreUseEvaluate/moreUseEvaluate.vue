@@ -295,6 +295,9 @@
 						background: #fbfbfb;
 						>view {
 							&:nth-child(1) {
+								font-size: 15px;
+								color: #333333;
+								font-weight: 400;
 								word-break: break-all;
 							};
 							&:nth-child(2) {
@@ -304,17 +307,14 @@
 								align-items: center;
 								>text {
 									display: inline-block;
-									font-size: 12px;
-									color: #BBBBBB;
+									font-size: 11px;
+									color: #999999;
+									font-weight: 400;
 									&:nth-child(1) {
 										flex: 1;
 										@include no-wrap;
 										padding-right: 8px;
 										box-sizing: border-box;
-									};
-									&:nth-child(2) {
-										font-size: 12px;
-										color: #BBBBBB;
 									}
 								}
 							}
@@ -343,6 +343,7 @@
 									font-size: 11px;
 									color: #fff;
 									display: inline-block;
+									font-weight: 600;
 									padding: 3px 6px;
 									box-sizing: border-box;
 									background: #FEB8B7;

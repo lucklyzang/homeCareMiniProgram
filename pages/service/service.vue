@@ -16,7 +16,8 @@
 		<view class="content-area-box">
 			<view class="content-left">
 				<view class="service-list" v-for="(item,index) in serviceCategoryList" :key="index" @click="serviceTypeClickEvent(item,index)">
-					<text :class="{'selectServieTypeStyle': currentIndex === index }">{{ item.name }}</text>
+					<text class="right-line" v-if="currentIndex === index"></text>
+					<text class="name-text" :class="{'selectServieTypeStyle': currentIndex === index }">{{ item.name }}</text>
 				</view>
 			</view>
 			<view class="content-right">
@@ -24,7 +25,7 @@
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="content-list" v-for="(item,index) in fullServiceCategoryDetailsList" :key="index" @click="enterServiceDetailsEvent(item.id)">
 						<view class="content-list-left">
-							<u-image :src="item.picUrl" width="70" height="70">
+							<u-image :src="item.picUrl" width="76" height="76">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
@@ -36,7 +37,8 @@
 									<text>{{ item.name }}</text>
 								</view>
 								<view class="service-price">
-									<text>{{ `￥${item.price}` }}</text>
+									<text>￥</text>
+									<text>{{ `${item.price}` }}</text>
 								</view>
 							</view>
 							<!-- <view class="collect-icon">
@@ -100,7 +102,7 @@
 			workerId() {
 			}
 		},
-		onShow() {
+		onLoad() {
 			this.queryServiceProductCategory()
 		},
 		methods: {
@@ -315,20 +317,36 @@
 				background: #F5F5F5;
 				.service-list {
 					height: 48px;
+					line-height: 48px;
+					text-align: center;
 					width: 100%;
-					>text {
+					position: relative;
+					.right-line {
+						width: 3px;
+						height: 28px;
+						background: #F92C20;
+						border-radius: 1px;
+						position: absolute;
+						top: 50%;
+						left: 0;
+						transform: translateY(-50%)
+					};
+					.name-text {
+						padding-left: 6px;
+						box-sizing: border-box;
 						width: 100%;
 						display: inline-block;
 						height: 48px;
 						text-align: center;
 						line-height: 48px;
-						font-size: 13px;
-						color: #666667;
+						font-size: 12px;
+						font-weight: 400;
+						color: #666666;
 						@include no-wrap;
 					};
 					.selectServieTypeStyle {
-						font-size: 14px !important;
-						color: #F16C8C !important;
+						font-size: 12px !important;
+						color: #000000 !important;
 						background: #fff !important
 					}
 				}
@@ -365,6 +383,7 @@
 					};
 					.content-list-right {
 						margin-left: 10px;
+						height: 76px;
 						padding-right: 10px;
 						box-sizing: border-box;
 						flex: 1;
@@ -374,22 +393,34 @@
 						justify-content: space-between;
 						.service-introduce {
 							flex: 1;
+							height: 76px;
+							display: flex;
+							flex-direction: column;
+							justify-content: space-between;
 							@include no-wrap;
 							.service-name {
 								>text {
 									@include no-wrap;
 									width: 100%;
 									display: inline-block;
-									font-size: 14px;
 									margin-bottom: 20px;
-									color: #101010;
-									font-weight: bold
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
 								}
 							};
 							.service-price {
 								>text {
-									font-size: 14px;
-									color: #E86F50;
+									&:nth-child(1) {
+										font-size: 12px;
+										color: #F92C20;
+										font-weight: 500;
+									};
+									&:nth-child(2) {
+										font-size: 17px;
+										color: #F92C20;
+										font-weight: 500;
+									}
 								}
 							}
 						};

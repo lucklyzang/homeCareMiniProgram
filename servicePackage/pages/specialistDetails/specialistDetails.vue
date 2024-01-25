@@ -592,15 +592,15 @@
 					margin-top: 20px;
 				};
 				.user-photo {
-					width: 76px;
-					height: 76px;
+					width: 70px;
+					height: 70px;
 					background: #fff;
 					margin-right: 15px;
 					border-radius: 50%;
 					z-index:1;
 					image {
-						width: 76px;
-						height: 76px;
+						width: 70px;
+						height: 70px;
 						border-radius: 50%;
 					}
 				}
@@ -618,18 +618,24 @@
 					&:nth-child(1) {
 						>text {
 							color: #F6F8FF;
+							display: inline-block;
 							&:nth-child(1) {
-								font-size: 18px;
+								font-size: 16px;
+								font-weight: 400;
 								margin-right: 10px;
 							};
 							&:nth-child(2) {
 								display: inline-block;
-								padding: 3px 6px;
+								height: 20px;
+								line-height: 20px;
+								padding: 0 6px;
 								box-sizing: border-box;
-								background: #fff;
-								border-radius: 4px;
-								color: orange;
-								font-size: 14px;
+								background: #FFFFFF;
+								box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+								border-radius: 3px;
+								font-size: 12px;
+								color: #F2A15F;
+								font-weight: 500;
 							}
 						}
 					};
@@ -640,8 +646,10 @@
 							display: inline-block;
 							width: 100%;
 							@include no-wrap;
-							color: #F6F8FF;
 							font-size: 12px;
+							color: #FFFFFF;
+							opacity: 0.8;
+							font-weight: 400;
 						}
 					}
 				}
@@ -678,11 +686,12 @@
 						>view {
 							&:nth-child(1) {
 								display: flex;
-								align-items: center;
+								padding-top: 3px;
+								box-sizing: border-box;
 								margin-right: 6px;
 								>image {
-									width: 22px;
-									height: 22px;
+									width: 15px;
+									height: 15px;
 									vertical-align: middle
 								}
 							};
@@ -690,11 +699,13 @@
 								display: flex;
 								flex-direction: column;
 								>text {
-									font-size: 10px;
-									color: rgba(137, 140, 140, 0.61);
+									font-size: 13px;
+									color: #999999;
+									font-weight: 400;
 									&:nth-child(1) {
+										font-size: 16px;
 										color: #000000;
-										font-weight: 500;
+										font-weight: 400;
 										margin-bottom: 3px
 									}
 								}
@@ -706,12 +717,13 @@
 					flex: 1;
 					overflow: auto;
 					margin-top: 10px;
-					font-size: 12px;
-					color: rgba(137, 140, 140, 1);
 					line-height: 20px;
 					padding: 8px 10px;
 					box-sizing: border-box;
-					background: #fbfbfb;
+					font-size: 14px;
+					background: #FAFAFA;
+					color: #666666;
+					font-weight: 400;
 				}
 			}
 		};
@@ -727,7 +739,7 @@
 				>text {
 					font-size: 17px;
 					color: #000000;
-					font-weight: bold;
+					font-weight: 500;
 				}
 			};
 			.service-project {
@@ -762,9 +774,10 @@
 							margin-right: 2%;
 							margin-bottom: 10px;
 							>text {
-								margin-top: 6px;
-								font-size: 12px;
-								color: #101010
+								margin-top: 8px;
+								font-size: 13px;
+								color: #333333;
+								font-weight: 400;
 							};
 							.u-image {
 								height: auto !important
@@ -796,9 +809,10 @@
 							margin-right: 2%;
 							margin-bottom: 10px;
 							>text {
-								margin-top: 6px;
-								font-size: 12px;
-								color: #101010
+								margin-top: 8px;
+								font-size: 13px;
+								color: #333;
+								font-weight: 400;
 							};
 							.u-image {
 								height: auto !important
@@ -818,7 +832,6 @@
 				box-shadow: 0px 2px 6px 0 rgba(202, 200, 200, 0.4);
 				.title-area {
 					height: 50px;
-					// @include bottom-border-1px(#DEDEDE);
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -826,7 +839,7 @@
 						>text {
 							font-size: 17px;
 							color: #000000;
-							font-weight: bold;
+							font-weight: 500;
 							margin-right: 10px;
 						}
 					};
@@ -864,6 +877,9 @@
 							background: #fbfbfb;
 							>view {
 								&:nth-child(1) {
+									font-size: 15px;
+									color: #333333;
+									font-weight: 400;
 									word-break: break-all;
 								};
 								&:nth-child(2) {
@@ -873,17 +889,14 @@
 									align-items: center;
 									>text {
 										display: inline-block;
-										font-size: 12px;
-										color: #BBBBBB;
+										font-size: 11px;
+										color: #999999;
+										font-weight: 400;
 										&:nth-child(1) {
 											flex: 1;
 											@include no-wrap;
 											padding-right: 8px;
 											box-sizing: border-box;
-										};
-										&:nth-child(2) {
-											font-size: 12px;
-											color: #BBBBBB;
 										}
 									}
 								}
@@ -901,6 +914,7 @@
 								&:nth-child(2) {
 									>text {
 										font-size: 11px;
+										font-weight: 600;
 										color: #fff;
 										display: inline-block;
 										padding: 3px 6px;

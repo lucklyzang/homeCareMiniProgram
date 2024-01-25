@@ -307,45 +307,50 @@
 			flex: 1;
 			background: #F8F8F8;
 			overflow: auto;
-			padding: 4px 0;
+			padding: 10px 0 0 0;
 			box-sizing: border-box;
 			width: 100%;
 			.service-project {
-				width: 100%;
+				width: 95%;
+				margin: 0 auto;
 				display: flex;
-				padding: 12px 6px;
+				padding: 12px 10px;
 				box-sizing: border-box;
 				background: #fff;
 				.service-project-left {
 					margin-right: 10px;
 					>image {
-						width: 58px;
-						height: 58px
+						width: 66px;
+						height: 66px
 					}
 				};
 				.service-project-right {
 					flex: 1;
 					@include no-wrap;
 					.service-project-right-top {
-						margin-bottom: 10px;
+						margin-bottom: 5px;
 						width: 100%;
 						>text {
 							display: inline-block;
-							font-size: 18px;
-							color: #101010;
-							font-weight: bold;
 							width: 100%;
+							font-size: 16px;
+							color: #000000;
+							font-weight: 400;
 							@include no-wrap;
 						}
 					};
 					.service-project-right-bottom {
 						>text {
 							display: inline-block;
-							font-size: 16px;
+							font-size: 11px;
 							color: #fff;
+							font-weight: 600;
 							margin-right: 4px;
-							background: rgba(241, 108, 140, 0.64);
-							padding: 4px 6px;
+							background: #FEB8B7;
+							border-radius: 3px;
+							height: 20px;
+							line-height: 20px;
+							padding: 0 6px;
 							box-sizing: border-box;
 							&:last-child {
 								margin-right: 0 !important
@@ -387,38 +392,48 @@
 		};
 		.pay-area {
 			background: #ffff;
-			width: 100%;
+			width: 95%;
 			margin: 0 auto;
-			padding: 4px 6px;
-			box-sizing: border-box;
-			height: 100px;
+			height: 65px;
+			justify-content: space-between;
+			display: flex;
+			align-items: center;
 			.pay-area-bottom {
-				margin-top: 10px;
+				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				.order-form-price {
 					>text {
 						&:first-child {
-							font-size: 16px;
-							color: #101010;
+							font-size: 13px;
+							color: #333333;
+							font-weight: 400;
 							margin-right: 8px
 						};
+						&:nth-child(2) {
+							font-size: 12px;
+							color: #F92C20;
+							font-weight: 500;
+						};
 						&:last-child {
-							font-size: 18px;
-							color: #E95E5E
+							font-size: 17px;
+							color: #F92C20;
+							font-weight: 500;
 						}
 					}
 				};
 				.to-pay-btn {
-					width: 118px;
-					height: 38px;
-					border-radius: 19px;
-					background: #EB3E67;
+					width: 90px;
+					height: 40px;
+					line-height: 40px;
+					background: #E81F50;
+					box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+					border-radius: 5px;
+					font-size: 14px;
+					color: #FFFFFF;
 					text-align: center;
-					line-height: 38px;
-					font-size: 12px;
-					color: #fff
+					font-weight: 400;
 				}
 			}
 		}

@@ -459,12 +459,13 @@
 									font-size: 16px;
 									color: #000000;;
 									margin-right: 10px;
-									font-weight: bold;
+									font-weight: 400;
 									max-width: 100px;
 									@include no-wrap;
 								};
 								&:nth-child(2) {
 									font-size: 14px;
+									font-weight: 400;
 									color: #F2A15F;
 								}
 							}
@@ -487,7 +488,7 @@
 								>text {
 									flex: 1;
 									word-break: break-all;
-									font-size: 12px;
+									font-size: 13px;
 									color: #333333;
 									font-weight: 400;
 								}
@@ -506,7 +507,7 @@
 										margin-right: 4px; 
 									};
 									>text {
-										font-size: 12px;
+										font-size: 13px;
 										font-weight: 400;
 										&:nth-child(2) {
 											color: #333333;
@@ -553,15 +554,17 @@
 							display: flex;
 							margin-top: 4px;
 							>text {
-								font-size: 12px;
+								font-size: 11px;
 								color: #fff;
 								display: inline-block;
-								width: 57px;
-								height: 19px;
+								padding: 0 6px;
+								box-sizing: border-box;
+								height: 20px;
 								text-align: center;
-								line-height: 19px;
+								line-height: 20px;
 								background: #FEB8B7;
 								border-radius: 3px;
+								font-weight: 600;
 								&:nth-child(1) {
 									margin-right: 6px
 								}

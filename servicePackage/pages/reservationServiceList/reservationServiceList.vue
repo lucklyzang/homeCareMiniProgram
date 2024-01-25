@@ -138,7 +138,7 @@
 			</view>
 			<view class="nurse-practitioner-list-platform-assign" v-if="!isPlatformRecommendNurse">
 				<view class="nurse-practitioner-list-platform-assign-left">
-					<u-image src="@/static/img/health-nurse.png" width="63" height="63">
+					<u-image src="@/static/img/health-nurse.png" width="73" height="73">
 						 <template v-slot:loading>
 						    <u-loading-icon color="red"></u-loading-icon>
 						  </template>
@@ -208,46 +208,52 @@
 					</view>
 				</view>
 			</view>
-			<view class="upload-photo">
-				<view class="upload-photo-title">
-					上传图片
-				</view>
-				<view class="upload-photo-content">
-					您可上传就诊人的报告单、处方单、患处照片等图像资料。注射项目必须上传医疗诊断、药品包装及注射单(最多9)
-				</view>
-				<view class="upload-photo-list-wrapper">
-					<view>
-						<view v-for="(item, index) in imgArr" :key='index'>
-							<image :src="item" mode="aspectFit"></image>
-							<u-icon name="close" size="20" color="#000000" @click="photoDelete(item,index)">></u-icon>
-						</view>
-						<view @click="getImg">
-							<u-icon name="plus" size="10"></u-icon>
-							<text>上传图片</text>
+			<view class="upload-photo-title">
+				上传图片
+			</view>
+			<view class="upload-photo-wrapper">
+				<view class="upload-photo">
+					<view class="upload-photo-list-wrapper">
+						<view>
+							<view v-for="(item, index) in imgArr" :key='index'>
+								<image :src="item" mode="aspectFit"></image>
+								<u-icon name="close" size="20" color="#000000" @click="photoDelete(item,index)">></u-icon>
+							</view>
+							<view @click="getImg">
+								<u-icon name="plus" size="22" color="#CCCCCC"></u-icon>
+							</view>
 						</view>
 					</view>
+					<view class="upload-photo-content">
+						您可上传就诊人的报告单、处方单、患处照片等图像资料。注射项目必须上传医疗诊断、药品包装及注射单(最多9)
+					</view>
+				</view>
+			</view>
+			<view class="pay-area-top-wrapper">
+				<view class="pay-area-top">
+					<u-checkbox-group v-model="isReadAgreeChecked">
+						<u-checkbox 
+							shape="square" 
+							v-for="(item, index) in checkboxList"
+							:key="index"
+							size="18"
+							icon-size="16"
+							label-size="13"
+							:label="item.name"
+							:name="item.name"
+							active-color="#F92C20">
+						</u-checkbox>
+					</u-checkbox-group>
+					<text @click="userLicenseAgreementClickEvent">《用户授权协议》</text>
 				</view>
 			</view>
 		</view>
 		<view class="pay-area">
-			<view class="pay-area-top">
-				<u-checkbox-group v-model="isReadAgreeChecked">
-					<u-checkbox 
-						shape="circle" 
-						v-for="(item, index) in checkboxList"
-						:key="index"
-						label-size="12"
-						:label="item.name"
-						:name="item.name"
-						active-color="#F16C8C">
-					</u-checkbox>
-				</u-checkbox-group>
-				<text @click="userLicenseAgreementClickEvent">《用户授权协议》</text>
-			</view>
 			<view class="pay-area-bottom">
 				<view class="order-form-price">
 					<text>订单金额</text>
-					<text>{{ `￥${serviceMessage.price}` }}</text>
+					<text>￥</text>
+					<text>{{ `${serviceMessage.price}` }}</text>
 				</view>
 				<view class="to-pay-btn" @click="toAppointmentEvent">
 					立即预约
@@ -295,7 +301,7 @@
 				expectationServiceTimeShow: false,
 				checkboxList: [
 					{
-						name: '阅读并同意协议',
+						name: '我已阅读并同意协议',
 						disabled: false
 					}
 				],
@@ -1126,13 +1132,14 @@
 			flex: 1;
 			background: #F8F8F8;
 			overflow: auto;
-			padding: 4px 0;
+			padding: 10px 0 0 0;
 			box-sizing: border-box;
 			width: 100%;
 			.service-project {
-				width: 100%;
+				width: 95%;
+				margin: 0 auto;
 				display: flex;
-				padding: 12px 6px;
+				padding: 12px 10px;
 				box-sizing: border-box;
 				background: #fff;
 				.service-project-left {
@@ -1164,8 +1171,7 @@
 							color: #fff;
 							font-weight: 600;
 							margin-right: 4px;
-							background: #F16C8C;
-							box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+							background: #FEB8B7;
 							border-radius: 3px;
 							height: 20px;
 							line-height: 20px;
@@ -1179,8 +1185,9 @@
 				}
 			};
 			.nurse-practitioner-list-platform-assign {
-				margin-top: 4px;
-				padding: 30px 10px 20px 10px;
+				width: 95%;
+				margin: 0 auto;
+				padding: 20px 10px;
 				box-sizing: border-box;
 				background: #fff;
 				border-radius: 8px;
@@ -1191,23 +1198,23 @@
 					width: 73px;
 					height: 73px;
 					margin-right: 10px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
 					border-radius: 50%;
-					::v-deep .u-image {
-						width: 73px !important;
-						height: 73px !important
-					}
 				};
 				.nurse-practitioner-list-platform-assign-right {
 					.platform-assign-right-top {
-						color: #000000;
 						font-size: 18px;
+						color: #000000;
+						font-weight: 400;
 					}
 				}
 			};
 			.nurse-choose-title {
+				width: 95%;
+				margin: 0 auto;
 				height: 50px;
-				padding: 0 10px;
-				box-sizing: border-box;
 				font-size: 17px;
 				color: #000000;
 				font-weight: 500;
@@ -1215,7 +1222,8 @@
 				align-items: center
 			};
 			.nurse-practitioner-list-platform-recommend {
-				margin-top: 4px;
+				width: 95%;
+				margin: 0 auto;
 				padding: 30px 10px 20px 10px;
 				box-sizing: border-box;
 				background: #fff;
@@ -1226,7 +1234,7 @@
 				.nurse-practitioner-list-top {
 					position: absolute;
 					top: 0;
-					right: 0;
+					right: -10px;
 					width: 80px;
 					height: 34px;
 				};
@@ -1236,7 +1244,7 @@
 					justify-content: center;
 					align-items: center;
 					margin-right: 10px;
-					width: 100px;
+					width: 90px;
 					.nurse-practitioner-list-left-top {
 						width: 70px;
 						height: 70px;
@@ -1289,10 +1297,11 @@
 								margin-right: 10px;
 								max-width: 100px;
 								@include no-wrap;
-								font-weight: bold;
+								font-weight: 400;
 							};
 							&:nth-child(2) {
 								font-size: 14px;
+								font-weight: 400;
 								color: #F2A15F;
 							}
 						}
@@ -1315,8 +1324,8 @@
 							>text {
 								flex: 1;
 								word-break: break-all;
-								font-size: 12px;
-								color: #333333;
+								font-size: 13px;
+								color: #666666;
 								font-weight: 400;
 							}
 						};
@@ -1332,8 +1341,8 @@
 							>text {
 								flex: 1;
 								word-break: break-all;
-								font-size: 12px;
-								color: #333333;
+								font-size: 13px;
+								color: #666666;
 								font-weight: 400;
 							}
 						};
@@ -1350,17 +1359,17 @@
 									margin-right: 4px; 
 								};
 								>text {
-									font-size: 12px;
+									font-size: 13px;
 									font-weight: 400;
 									&:nth-child(2) {
-										color: #333333;
+										color: #666666;
 									};
 									&:nth-child(3) {
 										color: #E81F50;
 										margin: 0 4px;
 									};
 									&:nth-child(4) {
-										color: #333333;
+										color: #666666;
 									}
 								}
 							};
@@ -1368,7 +1377,7 @@
 								content: '';
 								width: 1px;
 								height: 14px;
-								background: #333333;
+								background: #666666;
 								position: absolute;
 								top: 1px;
 								right: -10px;
@@ -1377,17 +1386,17 @@
 								display: flex;
 								align-items: center;
 								>text {
-									font-size: 12px;
+									font-size: 13px;
 									font-weight: 400;
 									&:nth-child(1) {
-										color: #333333;
+										color: #666666;
 									};
 									&:nth-child(2) {
 										margin: 0 4px;
 										color: #E81F50;
 									};
 									&:nth-child(3) {
-										color: #333333
+										color: #666666
 									}
 								}
 							}
@@ -1400,10 +1409,11 @@
 							font-size: 11px;
 							color: #fff;
 							display: inline-block;
-							width: 57px;
-							height: 19px;
+							padding: 0 6px;
+							box-sizing: border-box;
+							height: 20px;
 							text-align: center;
-							line-height: 19px;
+							line-height: 20px;
 							background: #FEB8B7;
 							border-radius: 3px;
 							&:nth-child(1) {
@@ -1414,7 +1424,7 @@
 				}
 			};
 			.cut-nurse {
-				width: 90%;
+				width: 95%;
 				margin: 0 auto;
 				margin-top: 10px;
 				height: 40px;
@@ -1427,6 +1437,7 @@
 				image {
 					width: 20px;
 					height: 20px;
+					margin-right: 10px;
 				};
 				>text {
 					font-size: 14px;
@@ -1435,13 +1446,13 @@
 				}
 			};
 			.serve-people-message {
+				width: 95%;
+				margin: 0 auto;
 				margin-top: 10px;
-				padding: 0 2px;
-				box-sizing: border-box;
 				background: #fff;
 				.serve-site {
 					display: flex;
-					padding: 10px 4px 10px 10px;
+					padding: 10px;
 					align-items: center;
 					box-sizing: border-box;
 					justify-content: space-between;
@@ -1463,7 +1474,7 @@
 					};
 					.serve-site-center {
 						text-align: left;
-						padding: 0 4px;
+						padding: 2px 4px 0 4px;
 						box-sizing: border-box;
 						flex: 1;
 						word-break: break-all;
@@ -1476,127 +1487,142 @@
 					}
 				}
 			};
-			.upload-photo {
-				margin-top: 4px;
-				padding: 4px 6px 10px 6px;
-				box-sizing: border-box;
-				background: #fff;
-				.upload-photo-title {
-					font-size: 16px;
-					color: #101010
-				};
-				.upload-photo-content {
-					font-size: 12px;
-					line-height: 16px;
-					color: rgba(0, 0, 0, 0.4);
-					margin: 2px 0
-				};
-				.upload-photo-list-wrapper {
-					border: 1px solid #DCDCDC;
-					padding: 6px 10px 10px 10px;
-						background: #fff;
-						box-sizing: border-box;
-						>view {
-							&:nth-child(1) {
-								width: 100%;
-								font-size: 34px;
-								display: flex;
-								flex-wrap: wrap;
-								>view {
-									width: 18%;
-									height: 56px;
+			.upload-photo-title {
+				height: 50px;
+				width: 95%;
+				margin: 0 auto;
+				font-size: 17px;
+				color: #000000;
+				font-weight: 500;
+				display: flex;
+				align-items: center;
+			};
+			.upload-photo-wrapper {
+				width: 95%;
+				margin: 0 auto;
+				.upload-photo {
+					padding: 10px;
+					box-sizing: border-box;
+					background: #fff;
+					.upload-photo-content {
+						font-size: 12px;
+						line-height: 16px;
+						color: #999999;
+						font-weight: 400;
+						margin-top: 10px;
+					};
+					.upload-photo-list-wrapper {
+							background: #fff;
+							>view {
+								&:nth-child(1) {
+									width: 100%;
+									font-size: 34px;
 									display: flex;
-									align-items: center;
-									justify-content: center;
-									vertical-align: top;
-									margin-right: 2.5%;
-									margin-top: 2%;
-									position: relative;
-									.u-icon {
-										position: absolute;
-										top: 0;
-										right: 0
-									};
-									&:nth-child(5n+5) {
-										margin-right: 0;
-									};
-									&:last-child {
+									flex-wrap: wrap;
+									>view {
+										width: 18%;
+										height: 56px;
 										display: flex;
 										align-items: center;
 										justify-content: center;
-										flex-direction: column;
+										vertical-align: top;
+										margin-right: 2.5%;
+										margin-top: 2%;
+										position: relative;
 										.u-icon {
-											position: relative !important; 
+											position: absolute;
+											top: 0;
+											right: 0
 										};
-										background: rgba(119, 119, 119, 0.2);
-										>text {
-											margin-top: 6px;
-											font-size: 10px;
-											color: rgba(0, 0, 0, 0.4)
+										&:nth-child(5n+5) {
+											margin-right: 0;
+										};
+										&:last-child {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											flex-direction: column;
+											.u-icon {
+												position: relative !important; 
+											};
+											background: #EEEEEE;
+											border: 1px solid rgba(220,220,220,1);
+											border-radius: 3px;
+										};
+										image {
+											width: 100%;
+											height: 100%
 										}
-									};
-									image {
-										width: 100%;
-										height: 100%
 									}
 								}
 							}
+					}
+				}
+			};
+			.pay-area-top-wrapper {
+				.pay-area-top {
+					width: 95%;
+					margin: 0 auto;
+					align-items: center;
+					display: flex;
+					height: 40px;
+					border-radius: 5px;
+					::v-deep .u-checkbox-group {
+						.u-checkbox {
 						}
+					};
+					>text {
+						font-size: 13px;
+						color: #508BED;
+						font-weight: 400;
+					}
 				}
 			}
 		};
 		.pay-area {
 			background: #ffff;
-			width: 100%;
+			width: 95%;
 			margin: 0 auto;
-			padding: 4px 6px;
-			box-sizing: border-box;
-			height: 100px;
-			.pay-area-top {
-				margin-top: 8px;
-				width: 100%;
-				align-items: center;
-				display: flex;
-				::v-deep .u-checkbox-group {
-					.u-checkbox {
-						.u-checkbox__icon-wrap {
-							width: 15px !important;
-							height: 15px !important
-						}
-					}
-				};
-				>text {
-					color: #F16C8C;
-					font-size: 13px
-				}
-			};
+			height: 65px;
+			justify-content: space-between;
+			display: flex;
+			align-items: center;
 			.pay-area-bottom {
-				margin-top: 10px;
+				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				.order-form-price {
 					>text {
 						&:first-child {
-							font-size: 16px;
-							color: #101010;
+							font-size: 13px;
+							color: #333333;
+							font-weight: 400;
 							margin-right: 8px
 						};
+						&:nth-child(2) {
+							font-size: 12px;
+							color: #F92C20;
+							font-weight: 500;
+						};
 						&:last-child {
-							font-size: 18px;
-							color: #E95E5E
+							font-size: 17px;
+							color: #F92C20;
+							font-weight: 500;
 						}
 					}
 				};
 				.to-pay-btn {
-					width: 118px;
-					height: 38px;
-					border-radius: 19px;
-					background: #EB3E67;
+					width: 90px;
+					height: 40px;
+					line-height: 40px;
+					background: #E81F50;
+					box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
+					border-radius: 5px;
+					font-size: 14px;
+					color: #FFFFFF;
 					text-align: center;
-					line-height: 38px;
-					font-size: 12px;
-					color: #fff
+					font-weight: 400;
 				}
 			}
 		}

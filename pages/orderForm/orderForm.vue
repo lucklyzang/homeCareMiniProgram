@@ -125,7 +125,7 @@
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-left" v-if="item.workerStatus == 0">
-							<text>剩余支付时间:</text>
+							<text>剩余支付时间：</text>
 							<u-count-down v-if="item.countTime > 0" :time="item.countTime" format="mm:ss"></u-count-down>
 							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
@@ -136,7 +136,7 @@
 						</view>
 					</view>
 					<view class="order-form-bottom">
-						<view class="btn-area-left" v-if="item.status == 30 || item.status == 40 || item.status == 50">
+						<view class="btn-area-left" @click.stop="contactNurseEvent" v-if="item.status == 30 || item.status == 40 || item.status == 50">
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
@@ -193,7 +193,7 @@
 					</view>
 					<view class="consumption-rental">
 						<view class="consumption-rental-left">
-							<text>剩余支付时间:</text>
+							<text>剩余支付时间：</text>
 							<u-count-down v-if="item.countTime > 0" :time="item.countTime" format="mm:ss"></u-count-down>
 							<text v-if="item.countTime <= 0 ">00:00</text>
 						</view>
@@ -315,7 +315,7 @@
 						</view>
 					</view>
 					<view class="order-form-bottom">
-						<view class="btn-area-left">
+						<view class="btn-area-left" @click.stop="contactNurseEvent">
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
@@ -461,7 +461,7 @@
 				infoText: '加载中···',
 				showLoadingHint: false,
 				currentPageNum: 1,
-				pageSize: 20,
+				pageSize: 5,
 				totalCount: 0,
 				status: 'nomore',
 				tradeList: [],
@@ -653,7 +653,7 @@
 						};
 						this.fullTradeList = this.fullTradeList.concat(this.tradeList);
 						// 展示当期类型订单数量
-						this.list[this.current]['badge']['value'] = this.fullTradeList.length;
+						this.list[this.current]['badge']['value'] = this.totalCount;
 						if (this.fullTradeList.length == 0) {
 							this.isShowNoData = true
 						} else {
@@ -964,6 +964,9 @@
 					url: '/orderFormPackage/pages/orderFormEdit/orderFormEdit'
 				})
 			},
+			
+			// 联系护士事件
+			contactNurseEvent () {},
 			
 			// 订单详情点击事件
 			enterOrderDetailsEvent (item) {
