@@ -9,7 +9,7 @@
 				</nav-bar> 
 			</view>
 			<view class="search-box">
-				<u-search placeholder="搜索服务名称" height="30" shape="square" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" v-model="searchValue"></u-search>
+				<u-search placeholder="搜索服务名称" height="30" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" v-model="searchValue"></u-search>
 			</view>
 			<image :src="loginBackgroundPng"></image>
 		</view>
@@ -35,6 +35,9 @@
 							<view class="service-introduce">
 								<view class="service-name">
 									<text>{{ item.name }}</text>
+								</view>
+								<view class="other-info">
+									<text>内部专属护理，欢迎体验！</text>
 								</view>
 								<view class="service-price">
 									<text>￥</text>
@@ -314,7 +317,7 @@
 				width: 25%;
 				height: 100%;
 				overflow: auto;
-				background: #F5F5F5;
+				background: #FAFAFA;
 				.service-list {
 					height: 48px;
 					line-height: 48px;
@@ -403,9 +406,18 @@
 									@include no-wrap;
 									width: 100%;
 									display: inline-block;
-									margin-bottom: 20px;
 									font-size: 13px;
 									color: #333333;
+									font-weight: 400;
+								}
+							};
+							.other-info {
+								margin-top: -20px;
+								>text {
+									width: 100%;
+									display: inline-block;
+									font-size: 11px;
+									color: #999999;
 									font-weight: 400;
 								}
 							};

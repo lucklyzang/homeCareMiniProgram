@@ -359,3 +359,11 @@ export function getNewsDetails(data) {
 		params: data
   })
 }
+
+// 获得组织机构列表
+export function getOrganizationList(data) {
+  return request({
+    url: '/app-api/system/organization/list',
+    method: 'get'
+  })
+};

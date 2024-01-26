@@ -138,14 +138,8 @@
 			</view>
 			<view class="organization-box" v-if="current == 2">
 				<view class="organization-list-box">
-					<view class="organization-list">
-						
-					</view>
-					<view class="organization-list">
-						
-					</view>
-					<view class="organization-list">
-						
+					<view class="organization-list" v-for="(item,index) in organizationList" :key="index">
+						{{ item.content }}
 					</view>
 				</view>
 			</view>
@@ -163,7 +157,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getNurse } from '@/api/user.js'
+	import { getNurse, getOrganizationList } from '@/api/user.js'
 	import { getServiceProductCategoryDetails } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
@@ -172,10 +166,10 @@
 		},
 		data() {
 			return {
-				showLoadingHint: false,
 				searchValue: '',
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
+				showLoadingHint: false,
 				infoText: '加载中···',
 				currentPageNum: 1,
 				pageSize: 20,
@@ -186,6 +180,7 @@
 				fullNurseList: [],
 				serviceCategoryDetailsList: [],
 				fullServiceCategoryDetailsList: [],
+				organizationList: [],
 				searchHistoryList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				searchHotList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				current: 0,
@@ -239,7 +234,7 @@
 					this.fullServiceCategoryDetailsList = [];
 					this.queryServiceProductCategoryDetails({
 						pageNo: this.currentPageNum,
-						pageSize: this.pageSize
+						pageSize: this.pageSize,
 					},true)
 				} else if (this.current == 1) {
 					this.fullNurseList = [];
@@ -249,6 +244,8 @@
 						name: '',
 						userId: this.userInfo.userId
 					},true)
+				} else if (this.current == 2) {
+					this.getOrganizationListEvent()
 				}
 			},
 			
@@ -391,7 +388,7 @@
 					this.currentPageNum = this.currentPageNum + 1;
 					this.queryServiceProductCategoryDetails({
 						pageNo: this.currentPageNum,
-						pageSize: this.pageSize
+						pageSize: this.pageSize,
 					},false)
 				}
 			},
@@ -400,6 +397,7 @@
 			queryServiceProductCategoryDetails(data,flag) {
 				this.serviceCategoryDetailsList = [];
 				if (flag) {
+					this.fullServiceCategoryDetailsList = [];
 					this.showLoadingHint = true
 				} else {
 					this.showLoadingHint = false;
@@ -451,6 +449,34 @@
 				})
 			},
 			
+			// 获取组织机构列表
+			getOrganizationListEvent () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.organizationList = [];
+				getOrganizationList().then((res) => {
+					this.showLoadingHint = false;
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length > 0) {
+							for (let item of res.data.data) {
+								this.organizationList.push({
+									id: item.id.toString(),
+									content: item.name
+								})
+							}
+						}
+					}
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 查看护师详情事件
 			viewSpecialistDetailsEvent (item) {
 				// 传递护师信息
@@ -470,7 +496,15 @@
 			
 			// 搜索事件
 			searchEvent () {
-				if (this.current == 1) {
+				if (this.current == 0) {
+					this.currentPageNum = 1;
+					this.queryServiceProductCategoryDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						keyword: this.searchValue
+					},true)
+				} else if (this.current == 1) {
+					this.currentPageNum = 1;
 					this.queryNurseListByName({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
@@ -604,6 +638,7 @@
 			};
 			.all-service-box {
 				flex: 1;
+				overflow: auto;
 				.all-service-list-box {
 					padding: 10px 0;
 					box-sizing: border-box;
@@ -611,6 +646,16 @@
 					width: 94%;
 					margin: 0 auto;
 					overflow: auto;
+					position: relative;
+					.scroll-view {
+						height: 100%
+					};
+					::v-deep .u-empty {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%)
+					 };
 					.service-list {
 						margin-top: 10px;
 						padding: 4px 8px;
@@ -905,6 +950,7 @@
 			};
 			.organization-box {
 				flex: 1;
+				overflow: auto;
 				.organization-list-box {
 					padding: 10px 0;
 					width: 94%;
@@ -919,11 +965,14 @@
 						width: 49%;
 						margin-right: 2%;
 						box-sizing: border-box;
+						display: flex;
+						align-items: center;
+						justify-content: center;
 						height: 190px;
-						border: 1px solid #FEB8B7;
+						background: #FAFAFA;
 						border-radius: 9px;
 						margin-bottom: 10px;
-						&:nth-child(2) {
+						&:nth-child(even) {
 							margin-right: 0 !important;
 						}
 					}

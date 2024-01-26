@@ -737,7 +737,7 @@
 					if ( res && res.data.code == 0) {
 						this.applySuccessShow = true;
 						this.applyText = '提交成功! 等待审核';
-						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -767,7 +767,7 @@
 					if ( res && res.data.code == 0) {
 						this.haveDeleteShow = true;
 						this.haveDeleteInfoContent = '订单退款申请成功';
-						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -796,7 +796,7 @@
 					if ( res && res.data.code == 0) {
 						this.haveDeleteShow = true;
 						this.haveDeleteInfoContent = '已取消订单';
-						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -850,7 +850,7 @@
 				reminderOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.remindSendOrdersShow = true;
-						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -1358,7 +1358,8 @@
 					};
 					.price-list-last {
 						height: 40px;
-						line-height: 40px;
+						display: flex;
+						align-items: center;
 						margin-bottom: 0 !important;
 						@include top-border-1px(#DCDCDC);
 						>text {

@@ -261,7 +261,7 @@
 				<view class="order-form-price">
 					<text>订单金额</text>
 					<text>￥</text>
-					<text>{{ `￥${serVicePrice}` }}</text>
+					<text>{{ `${serVicePrice}` }}</text>
 				</view>
 				<view class="to-pay-btn" @click="sureEditEvent">
 					确认修改
@@ -339,9 +339,9 @@
 				picUrl: '',
 				serVicePrice: '',
 				aptitudes: '',
-				timeQuantumList: ['上午8：00—9：00','上午9：00—10：00','上午10：00—11：00',
-				'上午11：00—12：00','上午12：00—13：00','下午13：00—14：00','下午14：00—15：00',
-				'下午15：00—16：00','下午16：00—17：00','下午17：00—18：00'
+				timeQuantumList: ['上午8:00 - 9:00','上午9:00 - 10:00','上午10:00 - 11:00',
+				'上午11:00 - 12:00','上午12:00 - 13:00','下午13:00 - 14:00','下午14:00 - 15:00',
+				'下午15:00 - 16:00','下午16:00 - 17:00','下午17:00 - 18:00'
 				]
 			}
 		},
@@ -374,7 +374,7 @@
 			}
 		},
 		onLoad(options) {
-			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id})
+			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type:1})
 		},
 		methods: {
 			...mapMutations([
@@ -631,7 +631,8 @@
 					this.currentDateIndex = this.currentDateList.findIndex((item) => { return item.showDate == `${temporarayArr[0]} ${temporarayArr[1]}` });
 					this.currentSelectDate = this.currentDateList[this.currentDateIndex];
 					// 时间段
-					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == temporarayArr[2] });;
+					console.log('sa',temporarayArr);
+					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == `${temporarayArr[2]} ${temporarayArr[3]} ${temporarayArr[4]}` });;
 					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex]
 				}
 			},
@@ -1637,6 +1638,7 @@
 												position: relative !important; 
 											};
 											background: #EEEEEE;
+											box-sizing: border-box;
 											border: 1px solid rgba(220,220,220,1);
 											border-radius: 3px;
 										};

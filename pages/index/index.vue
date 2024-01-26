@@ -35,7 +35,7 @@
 		</view>
 		<view class="top-area">
 			<view class="top-area-left" @click="searchEvent">
-				<u-search placeholder="输入医院、护士、服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
+				<u-search disabled placeholder="输入医院、护士、服务项目" bg-color="#fff" :show-action="false" v-model="searchValue"></u-search>
 			</view>
 			<view class="top-area-right">
 				<image src="@/static/img/scan-icon.png" @click="scanCodeEvent"></image>

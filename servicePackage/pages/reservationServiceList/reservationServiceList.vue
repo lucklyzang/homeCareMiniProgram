@@ -616,7 +616,8 @@
 					this.currentDateIndex = this.currentDateList.findIndex((item) => { return item.showDate == `${temporarayArr[0]} ${temporarayArr[1]}` });
 					this.currentSelectDate = this.currentDateList[this.currentDateIndex];
 					// 时间段
-					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == temporarayArr[2] });;
+					console.log('时间段回显',temporarayArr);
+					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == `${temporarayArr[2]} ${temporarayArr[3]} ${temporarayArr[4]}` });;
 					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex]
 				}
 			},
@@ -1546,6 +1547,7 @@
 												position: relative !important; 
 											};
 											background: #EEEEEE;
+											box-sizing: border-box;
 											border: 1px solid rgba(220,220,220,1);
 											border-radius: 3px;
 										};

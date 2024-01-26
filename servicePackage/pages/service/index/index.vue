@@ -23,7 +23,8 @@
 						<text>{{ productDetailsMessage.name }}</text>
 					</view>
 					<view class="service-price" v-if="productDetailsMessage.price">
-						<text>{{ `￥${productDetailsMessage.price}` }}</text>
+						<text>￥</text>
+						<text>{{ `${productDetailsMessage.price}` }}</text>
 					</view>
 				</view>
 			</view>
@@ -98,7 +99,7 @@
 								</view>
 								<view class="user-evaluate-list-bottom">
 									<view>
-										<u-rate :count="item.scores" activeColor="#FFA903" v-model="item.scores" readonly></u-rate>
+										<u-rate :count="item.scores" size="10" activeColor="#F9B128" v-model="item.scores" readonly></u-rate>
 									</view>
 									<view>
 										<text>{{ item.spuName }}</text>
@@ -522,13 +523,22 @@
 						box-sizing: border-box;
 						>text {
 							font-size: 18px;
-							color: #101010
+							color: #333333;
+							font-weight: 400;
 						}
 					};
 					.service-price {
 						>text {
-							font-size: 18px;
-							color: #E86F50
+							&:nth-child(1) {
+								font-size: 12px;
+								color: #F92C20;
+								font-weight: 500;
+							};
+							&:nth-child(2) {
+								font-size: 17px;
+								color: #F92C20;
+								font-weight: 500;
+							}
 						}
 					}
 				}
@@ -688,6 +698,9 @@
 								background: #fbfbfb;
 								>view {
 									&:nth-child(1) {
+										font-size: 15px;
+										color: #333333;
+										font-weight: 400;
 										word-break: break-all;
 									};
 									&:nth-child(2) {
@@ -697,17 +710,14 @@
 										align-items: center;
 										>text {
 											display: inline-block;
-											font-size: 12px;
-											color: #BBBBBB;
+											font-size: 11px;
+											color: #999999;
+											font-weight: 400;
 											&:nth-child(1) {
 												flex: 1;
 												@include no-wrap;
 												padding-right: 8px;
 												box-sizing: border-box;
-											};
-											&:nth-child(2) {
-												font-size: 12px;
-												color: #BBBBBB;
 											}
 										}
 									}
@@ -725,9 +735,12 @@
 									&:nth-child(2) {
 										>text {
 											font-size: 11px;
+											font-weight: 600;
 											color: #fff;
 											display: inline-block;
-											padding: 3px 6px;
+											height: 20px;
+											line-height: 20px;
+											padding: 0 6px;
 											box-sizing: border-box;
 											background: #FEB8B7;
 											border-radius: 3px;
