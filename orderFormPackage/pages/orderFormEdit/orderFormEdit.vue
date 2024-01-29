@@ -81,7 +81,7 @@
 						<text>{{ serViceName }}</text>
 					</view>
 					<view class="service-project-right-bottom">
-						<text v-for="(item,index) in serviceMessage.keyword" :key="index">{{ item }}</text>
+						<text v-for="(item,index) in serviceMessage.keywords" :key="index">{{ item }}</text>
 					</view>
 				</view>
 			</view>
@@ -881,6 +881,7 @@
 			},
 			
 			// 确认修改事件
+			// this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,'')
 			async sureEditEvent () {
 				if (this.serviceSite == '上门服务详细地址') {
 					this.$refs.uToast.show({
@@ -927,7 +928,7 @@
 					careId: this.isPlatformRecommendNurse ? this.editServiceOrderFormSureChooseMessage.chooseNurseMessage.id : "",
 					remark: "",
 					serviceDate: this.currentSelectDate.actualDate,
-					serviceTime: this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,''),
+					serviceTime: this.currentSelectTimeQuantum,
 					servicePersonId: this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
 					images: this.imgOnlinePathArr.concat(this.exitImgOnlinePathArr),
 					assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
@@ -1243,7 +1244,7 @@
 				};
 				.service-project-right {
 					flex: 1;
-					@include no-wrap;
+					width: 0;
 					.service-project-right-top {
 						margin-bottom: 5px;
 						width: 100%;
@@ -1257,6 +1258,8 @@
 						}
 					};
 					.service-project-right-bottom {
+						width: 100%;
+						word-break: break-all;
 						>text {
 							display: inline-block;
 							font-size: 11px;
@@ -1265,9 +1268,8 @@
 							margin-right: 4px;
 							background: #FEB8B7;
 							border-radius: 3px;
-							height: 20px;
-							line-height: 20px;
-							padding: 0 6px;
+							margin-bottom: 4px;
+							padding: 2px 6px;
 							box-sizing: border-box;
 							&:last-child {
 								margin-right: 0 !important

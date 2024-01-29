@@ -108,6 +108,9 @@
 			//回传已选的省市区的值
 			choseValue (res) {
 				this.areaId = res.townCode;
+				if (res.province === '海外' || res.province === '台湾省' || res.province === '香港特别行政区' || res.province === '澳门特别行政区') {
+					this.areaId = res.provinceCode;
+				};
 				//res数据源包括已选省市区与省市区code
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选

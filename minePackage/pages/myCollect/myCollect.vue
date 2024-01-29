@@ -25,7 +25,7 @@
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="content-list" v-for="(item,index) in fullProductList" :key="index" @click="enterServiceDetailsEvent(item.spuId)">
 						<view class="content-list-left">
-							<u-image :src="item.picUrl" width="70" height="70">
+							<u-image :src="item.picUrl" width="74" height="74">
 								 <template v-slot:loading>
 										<u-loading-icon color="red"></u-loading-icon>
 									</template>
@@ -37,7 +37,8 @@
 									<text>{{ item.spuName }}</text>
 								</view>
 								<view class="service-price">
-									<text> {{ `￥${item.price}` }}</text>
+									<text>￥</text>
+									<text> {{ `${item.price}` }}</text>
 								</view>
 							</view>
 							<view class="collect-icon" @click.stop="cancelCollectEvent(item,index)">
@@ -403,8 +404,8 @@
 					@include bottom-border-1px(rgba(157, 156, 156, 0.8));
 					.content-list-left {
 						::v-deep .u-image {
-							// width: 70px !important;
-							// height: 70px !important
+							width: 74px !important;
+							height: 74px !important
 						}
 					};
 					.content-list-right {
@@ -424,16 +425,22 @@
 									@include no-wrap;
 									width: 100%;
 									display: inline-block;
-									font-size: 14px;
+									font-size: 16px;
 									margin-bottom: 20px;
-									color: #101010;
-									font-weight: bold
+									color: #000000;
+									font-weight: 400;
 								}
 							};
 							.service-price {
 								>text {
-									font-size: 14px;
-									color: #E86F50;
+									color: #F92C20;
+									font-weight: 500;
+									&:nth-child(1) {
+										font-size: 12px;
+									};
+									&:nth-child(2) {
+										font-size: 17px;
+									}
 								}
 							}
 						};

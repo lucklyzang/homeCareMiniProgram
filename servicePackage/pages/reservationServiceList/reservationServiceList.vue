@@ -1152,7 +1152,7 @@
 				};
 				.service-project-right {
 					flex: 1;
-					@include no-wrap;
+					width: 0;
 					.service-project-right-top {
 						margin-bottom: 5px;
 						width: 100%;
@@ -1166,7 +1166,10 @@
 						}
 					};
 					.service-project-right-bottom {
+						width: 100%;
+						word-break: break-all;
 						>text {
+							margin-bottom: 4px;
 							display: inline-block;
 							font-size: 11px;
 							color: #fff;
@@ -1174,9 +1177,7 @@
 							margin-right: 4px;
 							background: #FEB8B7;
 							border-radius: 3px;
-							height: 20px;
-							line-height: 20px;
-							padding: 0 6px;
+							padding: 2px 6px;
 							box-sizing: border-box;
 							&:last-child {
 								margin-right: 0 !important
