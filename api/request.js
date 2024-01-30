@@ -1,6 +1,6 @@
 import axios from 'axios-miniprogram'
-import store from '@/store'
 import Qs from 'qs'
+import store from '@/store'
 import { setCache, getCache, removeAllLocalStorage } from '@/common/js/utils'
 const instance = axios.create({
 	// 开发域名 'http://dev.nurse.blinktech.cn/nurse'

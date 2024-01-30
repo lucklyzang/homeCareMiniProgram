@@ -369,7 +369,7 @@
 				};
 				uni.chooseImage({
 					count: temporaryCount,
-					sizeType: ['original', 'compressed'],
+					sizeType: ['compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
 						uni.previewImage({

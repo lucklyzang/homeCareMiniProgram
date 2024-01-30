@@ -239,7 +239,9 @@
 			</view>
 			<view class="pay-area-top-wrapper">
 				<view class="pay-area-top">
-					<u-checkbox-group v-model="isReadAgreeChecked">
+					<u-checkbox-group v-model="isReadAgreeChecked"
+						@change="checkboxAgreementChange"
+					>
 						<u-checkbox 
 							shape="square" 
 							v-for="(item, index) in checkboxList"
@@ -313,7 +315,7 @@
 				expectationServiceTimeShow: false,
 				checkboxList: [
 					{
-						name: '阅读并同意协议',
+						name: '我已阅读并同意协议',
 						disabled: false
 					}
 				],
@@ -384,6 +386,13 @@
 			// 顶部导航返回事件
 			backTo () {
 				this.quitPayShow = true
+			},
+			
+			// 协议弹框值变化事件
+			checkboxAgreementChange (n) {
+				if (n.length > 0) {
+					this.userLicenseAgreementClickEvent()
+				}
 			},
 			
 			// 确定退出支付事件
@@ -915,6 +924,14 @@
 				};
 				// 上传图片文件流到服务端
 				if (this.imgFileArr.length > 0) {
+					if (this.imgFileArr.length >= 9) {
+						this.$refs.uToast.show({
+							message: '至多只能上传9张图片!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
 					// 已经上传过的文件不在上传
 					let temporaryProblemPicturesList = this.imgFileArr.filter((item) => { return item.indexOf('https://') == -1});
 					this.exitImgOnlinePathArr = this.imgFileArr.filter((item) => { return item.indexOf('https://') != -1});

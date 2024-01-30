@@ -276,6 +276,15 @@
 					}
 				},
 				{
+					"path": "pages/personalData/personalData",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/addressManagement/addressManagement",
 					"style": {
 						"navigationBarTitleText": "",

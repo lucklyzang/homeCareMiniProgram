@@ -51,12 +51,12 @@
 		</view>
 		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
-			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent">
 			</u-modal>
 		</view>
 		<!-- 申请退款成功提示 -->
 		<view class="apply-refund-success-info">
-			<u-modal :show="applySuccessShow" @confirm="applySuccessSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent" title="">
+			<u-modal :show="applySuccessShow" @confirm="applySuccessSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent">
 				<view class="slot-content">
 					<view>
 						<u-icon name="checkmark-circle" color="#289E8E" size="28"></u-icon>
@@ -765,8 +765,8 @@
 				cancelOrder(id,reason).then((res) => {
 					this.applyRefundShow = false;
 					if ( res && res.data.code == 0) {
-						this.haveDeleteShow = true;
-						this.haveDeleteInfoContent = '订单退款申请成功';
+						this.applySuccessShow = true;
+						this.applyText = '提交成功! 等待审核';
 						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({

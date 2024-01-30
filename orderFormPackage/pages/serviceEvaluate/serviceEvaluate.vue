@@ -139,7 +139,6 @@
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
 			this.serviceMessage = temporaryAddress;
-			console.log('信息',this.serviceMessage);
 		},
 		methods: {
 			...mapMutations([

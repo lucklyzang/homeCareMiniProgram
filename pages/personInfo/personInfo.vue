@@ -33,7 +33,7 @@
 				<view class="user-photo" @click="enterPersonMessagePageEvent">
 					<image :src="personPhotoSource"></image>
 				</view>
-				<view class="user-nickname">
+				<view class="user-nickname" @click="enterPersonMessagePageEvent">
 					<text>{{ niceNameValue }}</text>
 				</view>
 			</view>
@@ -159,11 +159,11 @@
 				'changeUserBasicInfo'
 			]),
 			
-			// 头像点击事件
+			// 头像和昵称点击事件
 			enterPersonMessagePageEvent () {
-				uni.navigateTo({
-					url: '/generalSetPackage/pages/privateInfo/privateInfo'
-				})
+				// uni.navigateTo({
+				// 	url: '/minePackage/pages/personalData/personalData'
+				// })
 			},
 			
 			// 获取用户基本信息

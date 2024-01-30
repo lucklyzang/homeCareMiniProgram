@@ -231,7 +231,9 @@
 			</view>
 			<view class="pay-area-top-wrapper">
 				<view class="pay-area-top">
-					<u-checkbox-group v-model="isReadAgreeChecked">
+					<u-checkbox-group v-model="isReadAgreeChecked"
+					 @change="checkboxAgreementChange"
+					>
 						<u-checkbox 
 							shape="square" 
 							v-for="(item, index) in checkboxList"
@@ -386,6 +388,13 @@
 				uni.navigateBack()
 			},
 			
+			// 协议弹框值变化事件
+			checkboxAgreementChange (n) {
+				if (n.length > 0) {
+					this.userLicenseAgreementClickEvent()
+				}
+			},
+			
 			// 切换护士类型事件
 			cutNurseEvent (text) {
 				if (text == '指定') {
@@ -438,7 +447,7 @@
 				getOrderDetail(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.serviceMessage = res.data.data;
-						this.serviceMessage.keyword = [];
+						this.serviceMessage.keyword = res.data.data.keywords;
 						this.serviceMessage.picUrl = res.data.data.items[0]['picUrl'];
 						this.serviceMessage.name = res.data.data.items[0]['spuName'];
 						this.serviceMessage.price = fenToYuan(res.data.data.items[0]['price']);
@@ -736,7 +745,7 @@
 				let that = this;
 				uni.chooseImage({
 					count: 3,
-					sizeType: ['original', 'compressed'],
+					sizeType: ['compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
 						uni.previewImage({
@@ -883,6 +892,14 @@
 				};
 				// 上传图片文件流到服务端
 				if (this.imgFileArr.length > 0) {
+					if (this.imgFileArr.length >= 9) {
+						this.$refs.uToast.show({
+							message: '至多只能上传9张图片!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
 					for (let imgI of this.imgFileArr) {
 						await this.uploadFileEvent(imgI)
 					}

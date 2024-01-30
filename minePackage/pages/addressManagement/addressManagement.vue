@@ -31,13 +31,12 @@
 				<view class="line"></view>
 				<view class="address-list-bottom">
 					<view class="list-bottom-left">
-						<u-checkbox-group 
+						<u-radio-group 
 								v-model="item.defaultStatus"
-								 @change="checkboxChange"
+								 @change="(n) => { checkboxChange(item,n) }"
 								shape="circle">
-							<u-checkbox :disabled="true" activeColor="#11D183" size="18" iconSize="12" name="1"></u-checkbox>
-						</u-checkbox-group>
-						<text>默认地址</text>
+							<u-radio activeColor="#11D183" size="18" iconSize="12" name="默认地址" label="默认地址"></u-radio>
+						</u-radio-group>
 					</view>
 					<view class="list-bottom-right">
 						<image :src="editBlackIconPng" @click.stop="editAddressEvent(item)"></image>
@@ -61,7 +60,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import { getUserAddressList, deleteUserAddress } from '@/api/user.js'
+	import { getUserAddressList, deleteUserAddress, updateDefaultAddress } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -72,7 +71,7 @@
 				showLoadingHint: false,
 				infoText: '加载中···',
 				addressList: [],
-				defaultStatus: ['1'],
+				defaultStatus: '默认地址',
 				isEmpty: false,
 				modalShow: false,
 				modalContent: '',
@@ -111,8 +110,49 @@
 				uni.navigateBack()
 			},
 			
-			checkboxChange(n) {
-				console.log('change', n);
+			checkboxChange(item,n) {
+				console.log('change', item,n);
+				if (n == '默认地址') {
+					this.updateUserDefaultAddress({
+						userId: item.userId,
+						areaId: item.areaId,
+						address: item.address,
+						detailAddress: item.detailAddress,
+						defaultStatus: true,
+						coordinate: "",
+						id: item.id
+					})
+				}
+			},
+			
+			// 更新用户默认地址
+			updateUserDefaultAddress (data) {
+				this.showLoadingHint = true;
+				updateDefaultAddress(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '默认地址更新成功',
+							type: 'success',
+							position: 'center'
+						});
+						this.queryUserAddressList();
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
 			},
 			
 			// 获取用户服务地址列表
@@ -128,7 +168,7 @@
 							this.isEmpty = false;
 							this.addressList = res.data.data;
 							this.addressList.forEach((item) => {
-								item.defaultStatus = item.defaultStatus == false ? [] : ['1']
+								item.defaultStatus = item.defaultStatus == false ? '' : '默认地址';
 							})
 						} else {
 							this.isEmpty = true
@@ -346,11 +386,12 @@
 					box-sizing: border-box;
 					.list-bottom-left {
 						display: flex;
-						>text {
-							&:nth-of-type(1) {
-								margin-left: 4px;
-								font-size: 14px;
-								color: #686868
+						::v-deep .u-radio-group {
+							.u-radio {
+								.u-radio__text {
+									font-size: 14px !important;
+									color: #686868 !important;
+								}
 							}
 						}
 					};

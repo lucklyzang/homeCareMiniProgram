@@ -50,6 +50,7 @@
       "pages": [
         "pages/mine/index/index",
         "pages/myCollect/myCollect",
+        "pages/personalData/personalData",
         "pages/addressManagement/addressManagement",
         "pages/addAddress/addAddress",
         "pages/editAddress/editAddress",

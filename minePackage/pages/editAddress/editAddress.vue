@@ -94,7 +94,7 @@
 			console.log('dizhi',temporaryAddress);
 			this.areaId = temporaryAddress['areaId'];
 			this.servericeAddressId = temporaryAddress['id'];
-			this.checked = temporaryAddress['defaultStatus'] == true ? ["默认地址"] : [];
+			this.checked = temporaryAddress['defaultStatus'] == '默认地址' ? ["默认地址"] : [];
 			let reg = /.+?(省|市|自治区|自治州|县|区)/g;
 			let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区))+?|.+)/g;
 			let cutoutAddressArray = temporaryAddress['address'].match(reg);

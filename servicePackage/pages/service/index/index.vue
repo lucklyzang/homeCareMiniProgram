@@ -14,7 +14,7 @@
 				<view class="service-image">
 					<image :src="productDetailsMessage.picUrl" mode="widthFix"></image>
 					<view class="rate-box" v-if="isVerifyProductFavoriteComplete">
-						<u-icon v-if="!isProductFavorite" name="heart" color="#fff" size="26" @click="collectProductEvent"></u-icon>
+						<u-icon v-if="!isProductFavorite" name="heart-fill" color="#d8d8d8" size="26" @click="collectProductEvent"></u-icon>
 						<u-icon v-else name="heart-fill" color="#FC4579" size="26" @click="collectProductEvent"></u-icon>
 					</view>
 				</view>

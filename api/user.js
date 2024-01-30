@@ -54,6 +54,15 @@ export function updateAddress(data) {
   })
 };
 
+// 更新用户默认服务地址
+export function updateDefaultAddress(data) {
+  return request({
+    url: '/app-api/member/server-address/updateAddressDefaultStatus',
+    method: 'put',
+		data
+  })
+};
+
 // 获取用户服务地址列表
 export function getUserAddressList(data) {
   return request({
