@@ -473,7 +473,7 @@
 				applyRefundShow: false,
 				remindSendOrdersShow: false,
 				refundReason: '',
-				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员资讯',
+				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员咨询',
 				haveDeleteInfoContent: '已删除订单',
 				isShowNoData: false,
 				list: [

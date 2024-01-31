@@ -16,8 +16,8 @@
 		<view class="collect-content-box">
 			<view class="tabs-box">
 				<view class="tabs-list" :class="{'tabsListStyle' : curentIndex === index}" v-for="(item,index) in tabsList" :key="index" @click="tabsCutEvent(item,index)">
-					<text>{{ item }}</text>
-					<text> {{ `(${fullProductList.length})` }}</text>
+					<text>{{ item.text }}</text>
+					<text> {{ item.value }}</text>
 				</view>
 			</view>
 			<view class="collect-service-box" v-if="curentIndex === 0">
@@ -50,52 +50,33 @@
 				</scroll-view>
 			</view>
 			<view class="collect-article-box" v-if="curentIndex === 1">
-				<view class="content-list">
-					<view class="content-list-top">
-						<view class="list-top-left">
-							<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-								 <template v-slot:loading>
-								    <u-loading-icon color="red"></u-loading-icon>
-								  </template>
-							</u-image>
+				<u-empty text="暂无收藏文章" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="informationScrolltolower">
+					<view class="content-list"  v-for="(item,index) in fullInformationList" :key="index" @click="enterLatestNewsDetailsEvent(item)">
+						<view class="content-list-top">
+							<view class="list-top-left">
+								<u-image :src="!item.image ? defaultPersonPhotoIconPng : item.image" width="70" height="70">
+									 <template v-slot:loading>
+											<u-loading-icon color="red"></u-loading-icon>
+										</template>
+								</u-image>
+							</view>
+							<view class="list-top-right">
+								{{ item.title }}
+							</view>
 						</view>
-						<view class="list-top-right">
-							这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题
-						</view>
-					</view>
-					<view class="content-list-bottom">
-						<view class="list-bottom-left">
-							<text>成都</text>
-							<text>一天前</text>
-						</view>
-						<view class="list-bottom-right">
-							<u-icon name="heart-fill" color="#FC4579" size="30"></u-icon>
-						</view>
-					</view>
-				</view>
-				<view class="content-list">
-					<view class="content-list-top">
-						<view class="list-top-left">
-							<u-image src="@/static/img/health-nurse.png" width="70" height="70">
-								 <template v-slot:loading>
-								    <u-loading-icon color="red"></u-loading-icon>
-								  </template>
-							</u-image>
-						</view>
-						<view class="list-top-right">
-							这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题这里是标题
+						<view class="content-list-bottom">
+							<view class="list-bottom-left">
+								<text>{{ item.articleType == 0 ? '最新资讯' : '其它' }}</text>
+								<text>{{ item.realTime }}</text>
+							</view>
+							<view class="list-bottom-right" @click="deleteInformationFavoriteEvent(item,index)">
+								<u-icon name="heart-fill" color="#FC4579" size="30"></u-icon>
+							</view>
 						</view>
 					</view>
-					<view class="content-list-bottom">
-						<view class="list-bottom-left">
-							<text>成都</text>
-							<text>一天前</text>
-						</view>
-						<view class="list-bottom-right">
-							<u-icon name="heart-fill" color="#FC4579" size="30"></u-icon>
-						</view>
-					</view>
-				</view>
+					<u-loadmore :status="status" v-if="fullInformationList.length > 0" />
+				</scroll-view>	
 			</view>
 		</view>
 	</view>
@@ -109,9 +90,10 @@
 	import {
 		setCache,
 		removeAllLocalStorage,
-		fenToYuan
+		fenToYuan,
+		formatMsgTime
 	} from '@/common/js/utils'
-	import { getProductFavorite, deleteProductFavorite } from '@/api/user.js'
+	import { getProductFavorite, deleteProductFavorite,deleteInformationFavorite, myCollectInformationList } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -120,6 +102,7 @@
 		data() {
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
+				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '加载中···',
 				curentIndex: 0,
 				currentPageNum: 1,
@@ -127,9 +110,20 @@
 				totalCount: 0,
 				isShowNoHomeNoData: false,
 				status: 'nomore',
-				tabsList: ['服务','文章'],
+				tabsList: [
+					{
+						text: '服务',
+						value: 0
+					},
+					{
+						text: '文章',
+						value: 0
+					},
+				],
 				productList: [],
 				fullProductList: [],
+				informationList: [],
+				fullInformationList: [],
 				showLoadingHint: false
 			}
 		},
@@ -167,10 +161,17 @@
 			// tab切换事件
 			tabsCutEvent (item,index) {
 				this.curentIndex = index;
+				this.currentPageNum = 1;
 				if (this.curentIndex == 0) {
 					this.fullProductList = [];
 					this.isShowNoHomeNoData = false;
 					this.queryUserCollectProductList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},true)
+				} else if (this.curentIndex == 1) {
+					this.fullInformationList = [];
+					this.queryMyCollectInformationList({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize
 					},true)
@@ -182,6 +183,7 @@
 				uni.navigateBack()
 			},
 			
+			// 收藏服务滚动
 			scrolltolower () {
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPageNum >= totalPage) {
@@ -190,6 +192,21 @@
 					this.status = 'loadmore';
 					this.currentPageNum = this.currentPageNum + 1;
 					this.queryUserCollectProductList({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize
+					},false)
+				}
+			},
+			
+			// 收藏文章滚动
+			informationScrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryMyCollectInformationList({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize
 					},false)
@@ -209,6 +226,7 @@
 				getProductFavorite(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
+						this.tabsList[0]['value'] = this.totalCount;
 						this.productList = res.data.data.list;
 						this.productList.forEach((item) => {
 							return item.price = fenToYuan(item.price)
@@ -251,11 +269,137 @@
 				})
 			},
 			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let seperator3 = " ";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
+				};
+				return currentdate
+			},
+			
+			// 查询我的收藏文章
+			queryMyCollectInformationList(data,flag) {
+				this.informationList = [];
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = '';
+					this.status = 'loading';
+				};
+				myCollectInformationList(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.tabsList[1]['value'] = this.totalCount;
+						this.informationList = res.data.data.list;
+						this.informationList.forEach((item) => {
+							item.realTime = formatMsgTime(this.getNowFormatDate(new Date(item.createTime),4))
+						})
+						this.fullInformationList = this.fullInformationList.concat(this.informationList);
+						if (this.fullInformationList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 取消服务收藏事件
 			cancelCollectEvent (item,index) {
 				this.showLoadingHint = true;
 				this.infoText = '取消收藏中···';
 				deleteProductFavorite({spuId:item.spuId }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.fullInformationList.splice(index,1);
+						if (this.fullInformationList.length == 0) {
+							this.isShowNoHomeNoData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 取消资讯收藏事件
+			deleteInformationFavoriteEvent (item,index) {
+				this.showLoadingHint = true;
+				this.infoText = '取消收藏中···';
+				deleteInformationFavorite({id: item.articleId }).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.fullProductList.splice(index,1);
 						if (this.fullProductList.length == 0) {
@@ -277,6 +421,19 @@
 						type: 'error',
 						position: 'bottom'
 					})
+				})
+			},
+			
+			// 进入最新资讯详情事件
+			enterLatestNewsDetailsEvent (item) {
+				// 传递资讯详情内容
+				let temporaryMessage = {
+					id: item.articleId,
+					createTime: item.createTime
+				};
+				let mynavData = encodeURIComponent(JSON.stringify(temporaryMessage));
+				uni.navigateTo({
+					url: '/messagePackage/pages/latestNewsDetails/latestNewsDetails?transmitData='+mynavData
 				})
 			},
 			
@@ -453,6 +610,15 @@
 				padding: 0 10px 10px 10px;
 				box-sizing: border-box;
 				overflow: auto;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				 };
 				.content-list {
 					padding: 10px 12px 6px 12px;
 					box-sizing: border-box;

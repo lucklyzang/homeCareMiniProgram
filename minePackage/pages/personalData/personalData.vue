@@ -2,7 +2,7 @@
 	<view class="content-box">
 		<u-toast ref="uToast" />
 		<u-modal :show="modalShow" :title="modalContent"
-		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
+		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure" cancelColor="#747679" confirmColor="#FC4579">
 		</u-modal>
 		<view class="top-area-box">
 			<view class="nav">
@@ -10,40 +10,29 @@
 				</nav-bar> 
 		  </view>
 		</view>
+		<view class="personal-photo">
+			<image :src="personPhotoSource"></image>
+			<view class="change-avatar" @click="getImg">
+				<text>更换头像</text>
+			</view>
+		</view>
 		<view class="set-center-content">
+			<view class="update-phone-number" @click="updateNickNameEvent">
+				<view class="update-phone-number-left">
+					<text>昵称</text>
+				</view>
+				<view class="update-phone-number-right">
+					<text>{{ niceNameValue }}</text>
+					<u-icon name="arrow-right" color="#000000" size="18"></u-icon>
+				</view>
+			</view>
 			<view class="update-phone-number" @click="updatePhoneNumberEvent">
 				<view class="update-phone-number-left">
-					<text>更换手机号</text>
+					<text>绑定号码</text>
 				</view>
 				<view class="update-phone-number-right">
 					<text>{{ phoneNumberValue }}</text>
-					<u-icon name="arrow-right" color="#C6C9CC" size="18"></u-icon>
-				</view>
-			</view>
-			<view class="new-message-inform">
-				<view class="new-message-inform-left">
-					<text>新消息通知</text>
-				</view>
-				<view class="new-message-inform-right">
-					<u-switch v-model="isNewMessageInformValue" activeColor="#88BFFF"></u-switch>
-				</view>
-			</view>
-			<view class="weixin-binding">
-				<view class="weixin-binding-left">
-					<text>微信绑定</text>
-				</view>
-				<view class="weixin-binding-right">
-					<text>未绑定</text>
-					<u-icon name="arrow-right" color="#C6C9CC" size="18"></u-icon>
-				</view>
-			</view>
-			<view class="weixin-binding">
-				<view class="weixin-binding-left">
-					<text>支付宝绑定</text>
-				</view>
-				<view class="weixin-binding-right">
-					<text>未绑定</text>
-					<u-icon name="arrow-right" color="#C6C9CC" size="18"></u-icon>
+					<u-icon name="arrow-right" color="#000000" size="18"></u-icon>
 				</view>
 			</view>
 			<view class="weixin-binding">
@@ -52,15 +41,7 @@
 				</view>
 				<view class="weixin-binding-right">
 					<text>5.8M</text>
-					<u-icon name="arrow-right" color="#C6C9CC" size="18"></u-icon>
-				</view>
-			</view>
-			<view class="weixin-binding">
-				<view class="weixin-binding-left">
-					<text>检查更新</text>
-				</view>
-				<view class="weixin-binding-right">
-					<u-icon name="arrow-right" color="#C6C9CC" size="18"></u-icon>
+					<text @click="clearCacheEvent">清除缓存</text>
 				</view>
 			</view>
 		</view>
@@ -77,6 +58,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import store from '@/store'
 	import {
 		setCache,
 		removeAllLocalStorage
@@ -91,10 +73,14 @@
 			return {
 				showLoadingHint: false,
 				infoText: '加载中',
-				isNewMessageInformValue: true,
 				modalShow: false,
+				niceNameValue: '',
 				phoneNumberValue: '',
-				modalContent: ''
+				modalContent: '',
+				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
+				personPhotoSource: '',
+				personPhotoFile: '',
+				photoImageOnlinePath: ''
 			}
 		},
 		computed: {
@@ -107,21 +93,121 @@
 			}
 		},
 		onShow() {
+			this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
+			this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 			this.phoneNumberValue = !this.userBasicInfo || JSON.stringify(this.userBasicInfo) == '{}' ? '' : this.userBasicInfo.mobile
 		},
 		methods: {
 			...mapMutations([
+				'changeUserBasicInfo'
 			]),
 			
 			// 顶部导航返回事件
 			backTo () {
+				this.changeUserBasicInfo({});
 				uni.navigateBack()
+			},
+			
+			// 清除缓存事件
+			clearCacheEvent () {},
+			
+			// 上传图片方法
+			getImg() {
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['compressed'],
+					sourceType: ['album', 'camera'],
+					success: function(res) {
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
+						for (let imgI = 0, len = res.tempFilePaths.length; imgI < len; imgI++) {
+							let url = res.tempFiles[imgI].path;
+							//获取最后一个的位置
+							let index = url.lastIndexOf(".");
+							//获取后缀
+							let jpgUrl = url.substr(index + 1);
+							if (jpgUrl != "png" && jpgUrl != "jpg" && jpgUrl != "jpeg") {
+								that.$refs.uToast.show({
+									message: '只可上传jpg或png格式的图片!',
+									type: 'error',
+									position: 'center'
+								});
+								continue
+							};
+							let isLt2M = res.tempFiles[imgI].size/1024/1024 < 5;
+							if (!isLt2M) {
+								that.$refs.uToast.show({
+									message: '图片必须小于5MB!',
+									type: 'error',
+									position: 'center'
+								});
+								continue
+							};
+							that.personPhotoFile = res.tempFiles[imgI]['path'];
+							that.uploadFileEvent(that.personPhotoFile);
+							uni.getFileSystemManager().readFile({
+								filePath: res.tempFilePaths[imgI],
+								encoding: 'base64',
+								success: res => {
+									let base64 = 'data:image/jpeg;base64,' + res.data;
+									that.personPhotoBase64 = base64;
+									that.personPhotoSource = that.personPhotoBase64;
+								}
+							})
+						}
+					}
+				})
+			},
+			
+			// 上传图片到服务器
+			uploadFileEvent (imgI) {
+				this.infoText = '上传中···';
+				this.showLoadingHint = true;
+				return new Promise((resolve, reject) => {
+					uni.uploadFile({
+					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+					 filePath: imgI,
+					 name: 'file',
+					 header: {
+						'content-type': 'multipart/form-data',
+						'Authorization': `Bearer ${store.getters.token}`
+					 },
+					 success: (res) => {
+						if (res.statusCode == 200) {
+							let temporaryData = JSON.parse(res.data);
+							this.photoImageOnlinePath = temporaryData.data;
+							this.personPhotoSource = this.photoImageOnlinePath;
+							resolve()
+						} else {
+							this.showLoadingHint = false;
+							this.$refs.uToast.show({
+								message: '上传图片失败',
+								type: 'error',
+								position: 'center'
+							});
+							reject()
+						}
+					 },
+					 fail: (err) => {
+						this.showLoadingHint = false;
+						this.$refs.uToast.show({
+							message: err.errMsg,
+							type: 'error',
+							duration: 5000,
+							position: 'center'
+						});
+						reject()
+					 }
+					})
+				})
 			},
 			
 			// 退出登录事件
 			logOutEvent () {
 				this.modalShow = true;
-				this.modalContent = '确认退出登录?'
+				this.modalContent = '是否确定退出登录?'
 			},
 			
 			// 是否退出登录弹框确定事件
@@ -162,7 +248,14 @@
 				this.modalShow = false
 			},
 			
-			// 更换手机号事件
+			// 修改昵称事件
+			updateNickNameEvent () {
+				uni.navigateTo({
+					url: '/minePackage/pages/setNickName/setNickName'
+				})
+			},
+			
+			// 更换绑定手机号事件
 			updatePhoneNumberEvent () {
 				uni.navigateTo({
 					url: '/minePackage/pages/updatePhoneOldCode/updatePhoneOldCode'
@@ -203,22 +296,45 @@
 				}
 			}
 		};
+		.personal-photo {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			.change-avatar {
+				margin-top: 20px;
+				width: 90px;
+				height: 32px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: 1px solid #FC4579;
+				font-size: 14px;
+				color: #FC4579
+			};
+			image {
+				width: 77px;
+				height: 77px;
+				border-radius: 50%;
+			}
+		};
 		.set-center-content {
 			flex: 1;
 			overflow: auto;
-			padding: 10px;
+			padding: 20px 10px 10px 10px;
 			box-sizing: border-box;
 			.update-phone-number {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				height: 73px;
-				@include bottom-border-1px(#BBBBBB);
+				height: 60px;
+				@include bottom-border-1px(#F7F7F7);
 				.update-phone-number-left {
 					padding-right: 10px;
 					box-sizing: border-box;
-					font-size: 16px;
-					color: #1C222A
+					font-size: 14px;
+					color: #000000
 				};
 				.update-phone-number-right {
 					flex: 1;
@@ -226,42 +342,23 @@
 					justify-content: flex-end;
 					align-items: center;
 					>text {
-						font-size: 16px;
-						color: #999999;
+						font-size: 14px;
+						color: #000000;
 						margin-right: 6px;
 					}
-				}
-			};
-			.new-message-inform {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				height: 73px;
-				@include bottom-border-1px(#BBBBBB);
-				.new-message-inform-left {
-					padding-right: 10px;
-					box-sizing: border-box;
-					font-size: 16px;
-					color: #1C222A
-				};
-				.new-message-inform-right {
-					flex: 1;
-					display: flex;
-					justify-content: flex-end;
-					align-items: center
 				}
 			};
 			.weixin-binding {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				height: 73px;
-				@include bottom-border-1px(#BBBBBB);
+				height: 60px;
+				@include bottom-border-1px(#F7F7F7);
 				.weixin-binding-left {
 					padding-right: 10px;
 					box-sizing: border-box;
-					font-size: 16px;
-					color: #1C222A
+					font-size: 14px;
+					color: #000000
 				};
 				.weixin-binding-right {
 					flex: 1;
@@ -269,9 +366,22 @@
 					justify-content: flex-end;
 					align-items: center;
 					>text {
-						font-size: 16px;
-						color: #1C222A;
-						margin-right: 6px;
+						&:nth-child(1) {
+							font-size: 14px;
+							color: #000000;
+							margin-right: 6px;
+						};
+						&:nth-child(2) {
+							font-size: 12px;
+							color: #ffffff;
+							display: inline-block;
+							width: 65px;
+							height: 24px;
+							text-align: center;
+							line-height: 24px;
+							background: #FC4579;
+							border-radius: 4px;
+						}
 					}
 				}
 			}
@@ -288,10 +398,10 @@
 				align-items: center;
 				justify-content: center;
 				height: 46px;
-				border: 1px solid #E86F50;
+				border: 1px solid #FC4579;
 				border-radius: 8px;
-				font-size: 12px;
-				color: #E86F50
+				font-size: 14px;
+				color: #FC4579;
 			};
 			.quitLoginBtnStyle {
 				opacity: 0.5;

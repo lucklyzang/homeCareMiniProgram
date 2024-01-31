@@ -872,6 +872,7 @@
 			.nurse-type {
 				height: 90px;
 				width: 100%;
+				overflow-x: scroll;
 				display: flex;
 				align-items: center;
 				justify-content: center;

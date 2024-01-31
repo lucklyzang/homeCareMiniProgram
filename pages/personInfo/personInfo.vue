@@ -147,7 +147,7 @@
 		},
 		onShow() {
 			// 初次进入该页面时，查询用户基本信息
-			if (!this.userBasicInfo) {
+			if (!this.userBasicInfo || JSON.stringify(this.userBasicInfo) == '{}') {
 				this.queryUserBasicMessage()
 			} else {
 				this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;

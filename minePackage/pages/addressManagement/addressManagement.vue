@@ -121,12 +121,12 @@
 						defaultStatus: true,
 						coordinate: "",
 						id: item.id
-					})
+					},item)
 				}
 			},
 			
 			// 更新用户默认地址
-			updateUserDefaultAddress (data) {
+			updateUserDefaultAddress (data,item) {
 				this.showLoadingHint = true;
 				updateDefaultAddress(data).then((res) => {
 					if ( res && res.data.code == 0) {
@@ -137,6 +137,7 @@
 						});
 						this.queryUserAddressList();
 					} else {
+						item.defaultStatus = '';
 						this.$refs.uToast.show({
 							message: res.data.msg,
 							type: 'error',
@@ -146,6 +147,7 @@
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
+					item.defaultStatus = '';
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						message: err.message,

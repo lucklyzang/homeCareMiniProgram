@@ -139,6 +139,7 @@
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
 			this.serviceMessage = temporaryAddress;
+			this.serviceMessage['servicePerson'] = !temporaryAddress['serverPerson'] ? temporaryAddress['servicePerson'] : temporaryAddress['serverPerson'];
 		},
 		methods: {
 			...mapMutations([
@@ -152,7 +153,8 @@
 			// 弹框确定按钮
 			sureCancel() {
 				this.sureCancelShow = false;
-				this.imgArr.splice(this.imgIndex, 1)
+				this.imgArr.splice(this.imgIndex,1);
+				this.fileList.splice(this.imgIndex,1)
 			},
 			
 			// 弹框取消按钮
@@ -209,9 +211,7 @@
 			// 图片删除事件
 			photoDelete(item, index) {
 				this.sureCancelShow = true;
-				this.imgIndex = index;
-				this.imgArr.splice(this.imgIndex,1);
-				this.fileList.splice(this.imgIndex,1)
+				this.imgIndex = index
 			},
 			
 			// 选择图片方法
@@ -337,7 +337,7 @@
 					this.$refs.uToast.show({
 						message: err.message,
 						type: 'error',
-						position: 'bottom'
+						position: 'center'
 					})
 				})
 			},
@@ -350,12 +350,36 @@
 						await this.uploadFileEvent(imgI)
 					}
 				};
+				if (!this.serviceAttitudeValue) {
+					this.$refs.uToast.show({
+						message: '请对服务态度进行打分',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				if (!this.serviceSpeedValue) {
+					this.$refs.uToast.show({
+						message: '请对服务速度进行打分',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				if (!this.majorLevelValue) {
+					this.$refs.uToast.show({
+						message: '请对专业程度进行打分',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
 				this.createOrderCommentEvent({
 					anonymous: false,
 					orderItemId: this.serviceMessage.items[0].id,
-					attitudeScores: this.serviceAttitudeValue,
-					speedScores: this.serviceSpeedValue,
-					specialityScores: this.majorLevelValue,
+					attitudeScores: !this.serviceAttitudeValue ? 0 : this.serviceAttitudeValue,
+					speedScores: !this.serviceSpeedValue ? 0 : this.serviceSpeedValue,
+					specialityScores: !this.majorLevelValue ? 0 : this.majorLevelValue,
 					content: this.evaluateValue,
 					picUrls: this.imgOnlinePathArr
 				})

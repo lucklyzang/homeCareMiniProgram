@@ -228,7 +228,7 @@
 				if (value <= 0) {
 					return 0
 				} else {
-					return `${value/1000}千`
+					return `${value/1000}K`
 				}
 			},
 			

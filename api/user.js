@@ -201,6 +201,33 @@ export function deleteNurseFavorite(data) {
   })
 }
 
+// 创建资讯收藏
+export function createInformationFavorite(data) {
+  return request({
+    url: '/app-api/promotion/information/add/collect',
+    method: 'post',
+		data
+  })
+}
+
+// 取消资讯收藏
+export function deleteInformationFavorite(data) {
+  return request({
+    url: '/app-api/promotion/information/delete/collect',
+    method: 'post',
+		data
+  })
+}
+
+// 获取我的收藏列表
+export function myCollectInformationList(data) {
+  return request({
+    url: '/app-api/promotion/information/page/favorites',
+    method: 'get',
+		params: data
+  })
+}
+
 // 创建被服务人
 export function createServerPerson(data) {
   return request({
@@ -374,5 +401,14 @@ export function getOrganizationList(data) {
   return request({
     url: '/app-api/system/organization/list',
     method: 'get'
+  })
+};
+
+// 修改手机号
+export function updateMobile(data) {
+  return request({
+    url: '/app-api/member/user/update-mobile',
+    method: 'put',
+		data
   })
 };
