@@ -11,8 +11,20 @@
 		</view>
 		<view class="service-details-content">
 			<view class="service-details-top">
-				<view class="service-image">
-					<image :src="productDetailsMessage.picUrl" mode="widthFix"></image>
+				<view class="service-swiper-box">
+					<u-swiper
+						:list="swiperList"
+						height="240px"
+						@change="e => currentNum = e.current"
+						indicatorStyle="right: 20px"
+					>
+						<view
+							slot="indicator"
+							class="indicator-num"
+						>
+							<text class="indicator-num__text">{{ currentNum + 1 }}/{{ swiperList.length }}</text>
+						</view>
+					</u-swiper>
 					<view class="rate-box" v-if="isVerifyProductFavoriteComplete">
 						<u-icon v-if="!isProductFavorite" name="heart-fill" color="#d8d8d8" size="26" @click="collectProductEvent"></u-icon>
 						<u-icon v-else name="heart-fill" color="#FC4579" size="26" @click="collectProductEvent"></u-icon>
@@ -154,6 +166,8 @@
 				commentList: [],
 				spuId: '',
 				fullCommentList: [],
+				currentNum: 0,
+				swiperList: [],
 				listTabsName: [
 					{
 						name: '服务详情'
@@ -216,6 +230,7 @@
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.productDetailsMessage = res.data.data;
+						this.swiperList = res.data.data['sliderPicUrls'];
 						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
 						this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/\<img/gi, '<img class="mystyle"')
 					} else {
@@ -476,7 +491,7 @@
 			position: relative;
 			background: #fff;
 			width: 100%;
-			height: 100px;
+			height: 120px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -497,18 +512,51 @@
 			padding-bottom: 80px;
 			box-sizing: border-box;
 			.service-details-top {
-				.service-image {
+				.service-swiper-box {
 					position: relative;
-					width: 100%;
-					>image {
-						width: 100%;
-					};
+					min-height: 135px;
+					::v-deep .u-swiper {
+						.u-swiper-item {
+							height: 100%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						};
+						.indicator {
+							display: flex;
+							justify-content: center;
+						  &__dot {
+								height: 6px;
+								width: 6px;
+								border-radius: 100px;
+								background-color: rgba(255, 255, 255, 0.35);
+								margin: 0 5px;
+								transition: background-color 0.3s;
+							 
+							 &--active {
+									background-color: #ffffff;
+								}
+							}
+						};		
+						.indicator-num {
+							padding: 2px 0;
+							background-color: rgba(0, 0, 0, 0.35);
+							border-radius: 100px;
+							width: 35px;
+							display: flex;
+							justify-content: center;
+							&__text {
+								color: #FFFFFF;
+								font-size: 12px;
+							}
+						}
+					}
 					.rate-box {
 						position: absolute;
 						bottom: 10px;
 						left: 20px
 					}
-				};
+				};	
 				.service-price-message {
 					display: flex;
 					justify-content: space-between;

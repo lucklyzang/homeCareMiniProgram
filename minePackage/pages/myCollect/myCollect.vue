@@ -50,7 +50,7 @@
 				</scroll-view>
 			</view>
 			<view class="collect-article-box" v-if="curentIndex === 1">
-				<u-empty text="暂无收藏文章" v-if="isShowNoHomeNoData"></u-empty>
+				<u-empty text="暂无收藏文章" v-if="isArticleShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="informationScrolltolower">
 					<view class="content-list"  v-for="(item,index) in fullInformationList" :key="index" @click="enterLatestNewsDetailsEvent(item)">
 						<view class="content-list-top">
@@ -70,7 +70,7 @@
 								<text>{{ item.articleType == 0 ? '最新资讯' : '其它' }}</text>
 								<text>{{ item.realTime }}</text>
 							</view>
-							<view class="list-bottom-right" @click="deleteInformationFavoriteEvent(item,index)">
+							<view class="list-bottom-right" @click.stop="deleteInformationFavoriteEvent(item,index)">
 								<u-icon name="heart-fill" color="#FC4579" size="30"></u-icon>
 							</view>
 						</view>
@@ -109,15 +109,16 @@
 				pageSize: 20,
 				totalCount: 0,
 				isShowNoHomeNoData: false,
+				isArticleShowNoHomeNoData: false,
 				status: 'nomore',
 				tabsList: [
 					{
 						text: '服务',
-						value: 0
+						value: ''
 					},
 					{
 						text: '文章',
-						value: 0
+						value: ''
 					},
 				],
 				productList: [],
@@ -149,6 +150,10 @@
 			this.queryUserCollectProductList({
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize
+			},true);
+			this.queryMyCollectInformationList({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize
 			},true)
 		},
 		
@@ -170,6 +175,7 @@
 						pageSize: this.pageSize
 					},true)
 				} else if (this.curentIndex == 1) {
+					this.isArticleShowNoHomeNoData = false;
 					this.fullInformationList = [];
 					this.queryMyCollectInformationList({
 						pageNo: this.currentPageNum,
@@ -330,9 +336,9 @@
 						})
 						this.fullInformationList = this.fullInformationList.concat(this.informationList);
 						if (this.fullInformationList.length == 0) {
-							this.isShowNoHomeNoData = true
+							this.isArticleShowNoHomeNoData = true
 						} else {
-							this.isShowNoHomeNoData = false
+							this.isArticleShowNoHomeNoData = false
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -372,8 +378,9 @@
 				this.infoText = '取消收藏中···';
 				deleteProductFavorite({spuId:item.spuId }).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.fullInformationList.splice(index,1);
-						if (this.fullInformationList.length == 0) {
+						this.fullProductList.splice(index,1);
+						this.tabsList[0]['value']--;
+						if (this.fullProductList.length == 0) {
 							this.isShowNoHomeNoData = true
 						}
 					} else {
@@ -401,9 +408,10 @@
 				this.infoText = '取消收藏中···';
 				deleteInformationFavorite({id: item.articleId }).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.fullProductList.splice(index,1);
-						if (this.fullProductList.length == 0) {
-							this.isShowNoHomeNoData = true
+						this.fullInformationList.splice(index,1);
+						this.tabsList[1]['value']--;
+						if (this.fullInformationList.length == 0) {
+							this.isArticleShowNoHomeNoData = true
 						}
 					} else {
 						this.$refs.uToast.show({

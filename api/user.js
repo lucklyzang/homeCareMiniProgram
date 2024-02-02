@@ -91,6 +91,14 @@ export function getUserCollectNurse(data) {
 }
 
 // 获取医护(首页)
+export function getNurseHome() {
+  return request({
+    url: '/app-api/hospital/medical-care/list',
+    method: 'get'
+  })
+}
+
+// 获取医护
 export function getNurse(data) {
   return request({
     url: '/app-api/hospital/medical-care/page',
@@ -397,9 +405,9 @@ export function getNewsDetails(data) {
 }
 
 // 获得组织机构列表
-export function getOrganizationList(data) {
+export function getOrganizationList(name) {
   return request({
-    url: '/app-api/system/organization/list',
+    url: `/app-api/system/organization/list?name=${name}`,
     method: 'get'
   })
 };

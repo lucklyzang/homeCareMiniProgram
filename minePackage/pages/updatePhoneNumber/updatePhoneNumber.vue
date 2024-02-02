@@ -283,6 +283,7 @@
 					return
 				};
 				this.updateMobileEvent({
+					type: 0,
 					code: this.verificationCodeValue,
 					mobile: this.phoneNumberValue,
 					oldCode: this.oldMessage.oldCode

@@ -245,7 +245,7 @@
 						userId: this.userInfo.userId
 					},true)
 				} else if (this.current == 2) {
-					this.getOrganizationListEvent()
+					this.getOrganizationListEvent(this.searchValue)
 				}
 			},
 			
@@ -450,11 +450,11 @@
 			},
 			
 			// 获取组织机构列表
-			getOrganizationListEvent () {
+			getOrganizationListEvent (name) {
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.organizationList = [];
-				getOrganizationList().then((res) => {
+				getOrganizationList(name).then((res) => {
 					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length > 0) {
@@ -511,6 +511,8 @@
 						name: this.searchValue,
 						userId: this.userInfo.userId
 					})
+				} else if (this.current == 2) {
+					this.getOrganizationListEvent(this.searchValue)
 				}
 			},
 			

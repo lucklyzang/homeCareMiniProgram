@@ -9,7 +9,7 @@
 				</nav-bar> 
 			</view>
 			<view class="search-box">
-				<u-search placeholder="搜索服务名称" height="30" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" v-model="searchValue"></u-search>
+				<u-search placeholder="搜索服务名称" height="30" :action-style="{color: '#fff',fontSize: '16px'}" :clearabled="true" bg-color="#fff" :showAction="true" @custom="searchEvent" v-model="searchValue"></u-search>
 			</view>
 			<image :src="loginBackgroundPng"></image>
 		</view>
@@ -105,7 +105,7 @@
 			workerId() {
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.queryServiceProductCategory()
 		},
 		methods: {
@@ -115,6 +115,7 @@
 			
 			// 服务类型点击事件
 			serviceTypeClickEvent (item,index) {
+				this.searchValue = '';
 				this.currentIndex = index;
 				this.currentId = item.id;
 				this.fullServiceCategoryDetailsList = [];
@@ -249,7 +250,20 @@
 						position: 'bottom'
 					})
 				})
+			},
+			
+			// 搜索事件
+			searchEvent () {
+				this.currentPageNum = 1;
+				this.fullServiceCategoryDetailsList = [];
+				this.queryServiceProductCategoryDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					categoryId: JSON.stringify(this.parentServiceCategoryMessage) != '{}' ? this.parentServiceCategoryMessage.id : this.serviceCategoryList[0]['id'],
+					keyword: this.searchValue
+				},true)
 			}
+			
 		}
 	}
 </script>

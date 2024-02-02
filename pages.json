@@ -15,6 +15,12 @@
 			}
 		},
 		{
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",

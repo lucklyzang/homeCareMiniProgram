@@ -161,7 +161,7 @@
 		mapMutations
 	} from 'vuex'
 	import { createSubscribe, getSubscribeTemplateList } from '@/api/login.js'
-	import { getUserBannerList, getNurse, newsPage, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
+	import { getUserBannerList, getNurseHome, newsPage, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
 	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
@@ -411,11 +411,11 @@
 					success: function (res) {
 					},
 					fail: function (err) {
-						that.$refs.uToast.show({
-							message: `${err.errMsg}`,
-							type: 'error',
-							position: 'center'
-						})
+						// that.$refs.uToast.show({
+						// 	message: `${err.errMsg}`,
+						// 	type: 'error',
+						// 	position: 'center'
+						// })
 					}
 				})
 			},
@@ -480,10 +480,10 @@
 			// 查询首页医护
 			queryNurseList(data) {
 				this.showLoadingHint = true;
-				getNurse(data).then((res) => {
+				getNurseHome(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.nurseList = res.data.data.list;
-						if (res.data.data.list.length == 0) {
+						this.nurseList = res.data.data;
+						if (res.data.data.length == 0) {
 						} else {
 							this.nurseList.forEach((item) => {
 								item['rateValue'] = item.commentScore == 0 ? 0 : Math.floor(item.commentScore/item.commentCount) > 5 ? 5 : Math.floor(item.commentScore/item.commentCount); 
@@ -514,6 +514,7 @@
 				getHomeProductCategory().then((res) => {
 					if ( res && res.data.code == 0) {
 						this.productTypeList = res.data.data;
+						console.log('12',this.productTypeList);
 						if (res.data.data.length == 0) {
 						}
 					} else {
@@ -571,6 +572,13 @@
 				let mynavData = {};
 				mynavData['index'] = index;
 				mynavData['content'] = this.bannerList;
+				// if (this.bannerList[index]['url'].indexOf('http://') != -1 || this.bannerList[index]['url'].indexOf('https://') != -1) {
+				// 	//需要跳转的外部路径
+				// 	let url = this.bannerList[index]['urlTo'];
+				// 	uni.navigateTo({
+				// 		url:'/pages/webView/webView?url='+url
+				// 	})
+				// };
 				this.changeSelectBannerMessage(mynavData);
 				uni.navigateTo({
 					url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
@@ -633,6 +641,8 @@
 								this.bannerList.push({
 									image: item.picUrl,
 									title: '',
+									urlTo: item.url,
+									url: item.picUrl,
 									content: item.content
 								})
 							}
@@ -875,10 +885,9 @@
 				overflow-x: scroll;
 				display: flex;
 				align-items: center;
-				justify-content: center;
 				.nurse-type-list {
+					flex-shrink: 0;
 					flex: 1;
-					width: 100%;
 					height: 73px;
 					display: flex;
 					flex-direction: column;
@@ -890,7 +899,7 @@
 					};
 					>text {
 						@include no-wrap;
-						width: 90px;
+						width: 94px;
 						text-align: center;
 						display: inline-block;
 						font-weight: 400;
