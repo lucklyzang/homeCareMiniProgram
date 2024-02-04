@@ -895,7 +895,8 @@
 					justify-content: space-between;
 					>image {
 						width: 45px;
-						height: 45px
+						height: 45px;
+						border-radius: 50%;
 					};
 					>text {
 						@include no-wrap;

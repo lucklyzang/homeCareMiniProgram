@@ -146,6 +146,7 @@
 		},
 		onLoad(options) {
 			let temporaryAddress = JSON.parse(decodeURIComponent(options.transmitData));
+			console.log('传递西悉尼',temporaryAddress);
 			this.serviceName = temporaryAddress.name;
 			this.aptitudes = temporaryAddress.aptitudes;
 			this.queryNurseList({

@@ -13,12 +13,13 @@
 		<view class="order-form-list-wrapper">
 			<view class="order-form-list">
 				<view class="order-form-top">
-					<view class="order-form-title">
-						<text>{{ serviceMessage.items[0]['spuName'] }}</text>
+					<view class="expectation-date">
+						<text>期望时间：</text>
+						<text>{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
 					</view>
 					<view class="order-form-status">
-						<text>实付总金额</text>
-						<text>{{`￥${serviceMessage.payPrice}`}}</text>
+						<text :class="{'waitPayStyle' : transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '派单中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待支付' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '服务中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待评价'}">
+						{{ transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) }}</text>
 					</view>
 				</view>
 				<view class="order-form-center">
@@ -30,18 +31,26 @@
 						</u-image>
 					</view>
 					<view class="order-form-center-right">
-						<view class="brotected-person">
-							<text>被护人</text>
-							<text>{{ `${serviceMessage.servicePerson.name} ${serviceMessage.servicePerson.age}岁` }}</text>
+						<view class="order-form-title">
+							<text>{{ serviceMessage.items[0]['spuName'] }}</text>
 						</view>
-						<view class="service-address">
-							<text>服务地址</text>
-							<text>{{ serviceMessage.receiverDetailAddress }}</text>
+						<view class="order-form-center-right-wrapper">
+							<view class="brotected-person">
+								<text>被护人</text>
+								<text>{{ `${serviceMessage.servicePerson.name} ${serviceMessage.servicePerson.age}岁` }}</text>
+							</view>
+							<view class="service-address">
+								<text>服务地址</text>
+								<text>{{ serviceMessage.receiverDetailAddress }}</text>
+							</view>
 						</view>
-						<view class="expectation-date">
-							<text>期望时间</text>
-							<text>{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
-						</view>
+					</view>
+				</view>
+				<view class="consumption-rental">
+					<view class="consumption-rental-right">
+						<text>实付总额</text>
+						<text>￥</text>
+						<text>{{`${serviceMessage.payPrice}`}}</text>
 					</view>
 				</view>
 			</view>
@@ -51,7 +60,7 @@
 						<text>服务态度</text>
 					</view>
 					<view class="service-attitude-score">
-						<u-rate active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="serviceAttitudeValue"></u-rate>
+						<u-rate active-color="#F2A15F" size="22" :count="serviceAttitudeCount" v-model="serviceAttitudeValue"></u-rate>
 					</view>
 				</view>
 				<view class="service-attitude">
@@ -59,7 +68,7 @@
 						<text>服务速度</text>
 					</view>
 					<view class="service-attitude-score">
-						<u-rate active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="serviceSpeedValue"></u-rate>
+						<u-rate active-color="#F2A15F" size="22" :count="serviceAttitudeCount" v-model="serviceSpeedValue"></u-rate>
 					</view>
 				</view>
 				<view class="service-attitude">
@@ -67,7 +76,7 @@
 						<text>专业程度</text>
 					</view>
 					<view class="service-attitude-score">
-						<u-rate active-color="#F2A15F" size="30" :count="serviceAttitudeCount" v-model="majorLevelValue"></u-rate>
+						<u-rate active-color="#F2A15F" size="22" :count="serviceAttitudeCount" v-model="majorLevelValue"></u-rate>
 					</view>
 				</view>
 			</view>
@@ -206,6 +215,60 @@
 						return "周六"
 						break
 					}
+			},
+			
+			// 转换订单状态
+			transitionOrderStatusText(status,item) {
+				let temporaryStatus = status.toString();
+				let temporaryWorkerStatus = item.status.toString();
+				// 服务中类型的订单下包含3个子状态(30-待出发 40-待服务 50-服务中)
+				if (this.current == 3) {
+					switch(temporaryWorkerStatus) {
+						case '30' :
+						return '待出发'
+						break;
+						case '40' :
+						return '待服务'
+						break;
+						case '50' :
+						return '服务中'
+						break;
+					}	
+				} else {
+					switch(temporaryStatus) {
+						case '0' :
+						return '待支付'
+						break;
+						case '1' :
+						return '派单中'
+						break;
+						case '2' :
+						if (temporaryWorkerStatus == '30') {
+							return '待出发'
+						} else if (temporaryWorkerStatus == '40') {
+							return '待服务'
+						} else if (temporaryWorkerStatus == '50') {
+							return '服务中'
+						}
+						break;
+						case '3' :
+						if (!item.commentStatus) {
+							return '待评价'
+						} else {
+							return '已完成'
+						}
+						break;
+						case '4' :
+						if (item.refundStatus == 0) {
+							return '已取消'
+						} else if (item.refundStatus == 1) {
+							return '退款中'
+						} else if (item.refundStatus == 2) {
+							return '已退款'
+						}
+						break
+					}
+				}
 			},
 			
 			// 图片删除事件
@@ -434,22 +497,34 @@
 			box-sizing: border-box;
 			position: relative;
 			.order-form-list {
-				padding: 0px 4px 8px 4px;
 				background: #fff;
-				box-sizing: border-box;
 				.order-form-top {
 					display: flex;
 					align-items: center;
-					height: 30px;
+					height: 50px;
+					@include bottom-border-1px(#DCDCDC);
 					justify-content: space-between;
-					padding: 0 8px 0 10px;
+					padding: 0 8px;
 					box-sizing: border-box;
-					.order-form-title {
-						flex: 1;
-						@include no-wrap();
+					.expectation-date {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
 						>text {
-							font-size: 13px;
-							color: #444444
+							display: inline-block;
+							&:nth-child(1) {
+								margin-right: 4px;
+								font-size: 12px;
+								color: #333333;
+								font-weight: 400;
+							};
+							&:nth-child(2) {
+								flex: 1;
+								font-size: 12px;
+								color: #000000;
+								font-weight: 400;
+								word-break: break-all
+							}
 						}
 					};
 					.order-form-status {
@@ -458,96 +533,135 @@
 							padding: 0 0 0 4px;
 							box-sizing: border-box;
 							font-size: 14px;
-							color: #3E4248;
-							font-weight: bold;
-							&:last-child {
-								font-size: 12px;
-								color: #F76025;
-								margin-left: 10px
-							}
+							color: #999999;
+							font-weight: 400;
+						};
+						.waitPayStyle {
+							color: #E81F50 !important;
 						}
 					}
 				};
 				.order-form-center {
 					display: flex;
 					justify-content: space-between;
-					padding: 0 8px;
+					padding: 8px 8px 0 8px;
 					box-sizing: border-box;
 					.order-form-center-left {
-						margin-right: 10px;
+						margin-right: 12px;
 						::v-deep .u-image {
-							// width: 88px !important;
-							// height: 88px !important
 						}
 					};
 					.order-form-center-right {
-						padding-top: 10px;
-						box-sizing: border-box;
-						.brotected-person {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
+						flex: 1;
+						.order-form-title {
+							word-break: break-all;
 							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									text-align: right;
-									word-break: break-all
-								}
+								font-size: 16px;
+								color: #000000;
+								font-weight: 400;
 							}
 						};
-						.service-address {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
-							>text {
-								display: inline-block;
-								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									text-align: right;
-									word-break: break-all
+						.order-form-center-right-wrapper {
+							margin-top: 6px;
+							background: #FAFAFA;
+							padding: 4px;
+							box-sizing: border-box;
+							.brotected-person {
+								margin-bottom: 6px;
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
+								}
+							};
+							.service-address {
+								display: flex;
+								justify-content: space-between;
+								>text {
+									display: inline-block;
+									font-size: 13px;
+									color: #333333;
+									font-weight: 400;
+									&:nth-child(1) {
+										margin-right: 10px;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										word-break: break-all
+									}
 								}
 							}
+						}
+					}
+				};
+				.consumption-rental {
+					padding: 10px 8px;
+					box-sizing: border-box;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					.consumption-rental-left {
+						display: flex;
+						align-items: center;
+						::v-deep .u-count-down {
+							.u-count-down__text {
+								font-size: 13px !important; 
+								font-weight: bold !important;
+								color: #FF0000 !important;
+							}
 						};
-						.expectation-date {
-							margin-bottom: 6px;
-							display: flex;
-							justify-content: space-between;
-							>text {
-								display: inline-block;
+						>text {
+							display: inline-block;
+							font-size: 13px;
+							font-weight: bold;
+							color: #FF0000;
+							&:nth-child(1) {
+								margin-right: 4px
+							};
+							&:nth-child(2) {
+							}
+						}
+					};
+					.consumption-rental-right {
+						flex: 1;
+						display: flex;
+						width: 0;
+						align-items: center;
+						justify-content: flex-end;
+						>text {
+							display: inline-block;
+							&:nth-child(1) {
+								font-size: 14px;
+								color: #000000;
+								font-weight: 600;
+							};
+							&:nth-child(2) {
+								margin-top: 3px;
 								font-size: 12px;
-								&:nth-child(1) {
-									width: 60px;
-									color: #777777;
-									margin-right: 6px;
-								};
-								&:nth-child(2) {
-									flex: 1;
-									color: #F16C8C;
-									text-align: right;
-									word-break: break-all
-								}
+								color: #000000;
+								font-weight: 600;
+							};
+							&:nth-child(3) {
+								font-size: 17px;
+								color: #000000;
+								font-weight: 700;
 							}
 						}
 					}
 				}
 			};
 			.order-form-evaluate-content {
-				padding: 6px 10px 10px 10px;
+				padding: 6px 8px 10px 8px;
 				background: #fff;
 				box-sizing: border-box;
 				border-top: 1px solid #f5f5f5;
@@ -558,9 +672,9 @@
 					align-items: center;
 					.service-attitude-title {
 						>text {
-							font-size: 16px;
-							color: #3E4248;
-							font-weight: bold;
+							font-size: 11px;
+							color: #999999;
+							font-weight: 400;
 						}
 					};
 					.service-attitude-score {
@@ -597,12 +711,12 @@
 				}
 			};
 			.textarea-wrapper {
-				padding: 6px 10px 10px 10px;
+				padding: 6px 8px 10px 8px;
 				background: #fff;
 				box-sizing: border-box;
 			};
 			.upload-photo-area {
-				padding: 6px 10px 10px 10px;
+				padding: 6px 8px 10px 8px;
 				background: #fff;
 				box-sizing: border-box;
 				>view {
@@ -666,8 +780,8 @@
 				height: 50px;
 				text-align: center;
 				line-height: 50px;
-				background: #EB3E67;
-				border-radius: 5px;
+				background: #E81F50;
+				border-radius: 6px;
 				font-size: 14px;
 				color: #fff;
 			}

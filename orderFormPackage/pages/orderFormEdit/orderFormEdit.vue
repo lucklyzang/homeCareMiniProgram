@@ -107,7 +107,7 @@
 					<view class="rate">
 						<view class="rate-text">
 							<u-rate size="12" :count="nurseMessage.rateValue" readonly v-model="nurseMessage.rateValue" :active-color="nurseMessage.rateValue == 5 ? '#F9B128' : '#DCDCDC'"></u-rate>
-							<text>{{ nurseMessage.commentScore == 0 ? '0.0' : Math.floor(nurseMessage.commentScore/nurseMessage.commentCount).toFixed(1) }}</text>
+							<text v-if="nurseMessage.commentScore">{{ nurseMessage.commentScore == 0 ? '0.0' : Math.floor(nurseMessage.commentScore/nurseMessage.commentCount).toFixed(1) }}</text>
 						</view>
 					</view>
 				</view>
@@ -134,7 +134,7 @@
 							</view>
 							<view class="nurse-practitioner-performance-right">
 								<text>服务</text>
-								<text>{{ nurseMessage.timeLength == 0 ? 0 : (nurseMessage.timeLength/60).toFixed(2) }}</text>
+								<text v-if="nurseMessage.timeLength">{{ nurseMessage.timeLength == 0 ? 0 : (nurseMessage.timeLength/60).toFixed(2) }}</text>
 								<text>小时</text>
 							</view>
 						</view>
@@ -362,7 +362,11 @@
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseNurseMessage')) {
 				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
 					this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage
+				} else {
+					this.isPlatformRecommendNurse = false;
 				}
+			} else {
+				this.isPlatformRecommendNurse = false;
 			};
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseAddressMessage')) {
 				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseAddressMessage) != "{}") {
@@ -772,10 +776,10 @@
 				if (text == '指定') {
 					// 传递服务资质
 					let temporaryMessage = {
-						name: this.serviceName,
+						name: this.serViceName,
 						aptitudes: this.aptitudes
 					};
-					let mynavData = JSON.stringify(temporaryMessage);
+					let mynavData = encodeURIComponent(JSON.stringify(temporaryMessage));
 					uni.navigateTo({
 						url: '/servicePackage/pages/chooseNurse/chooseNurse?transmitData='+mynavData
 					});
@@ -1563,18 +1567,19 @@
 				background: #fff;
 				.serve-site {
 					display: flex;
-					padding: 10px;
+					padding: 12px 10px;
 					align-items: center;
 					box-sizing: border-box;
 					justify-content: space-between;
 					@include bottom-border-1px(#DCDCDC);
 					.serve-site-left {
+						display: flex;
+						align-items: center;
 						margin-right: 10px;
 						>image {
 							width: 18px;
 							height: 18px;
 							margin-right: 8px;
-							vertical-align: middle
 						};
 						>text {
 							font-size: 14px;
@@ -1585,7 +1590,7 @@
 					};
 					.serve-site-center {
 						text-align: left;
-						padding: 2px 4px 0 4px;
+						padding: 0 4px 0 4px;
 						box-sizing: border-box;
 						flex: 1;
 						word-break: break-all;
