@@ -1445,17 +1445,19 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					margin-bottom: 2px;
 					.service-attitude-title {
+						display: flex;
+						align-items: center;
 						>text {
 							font-size: 11px;
 							color: #999999;
-							letter-spacing: 0;
 							font-weight: 400;
 						}
 					};
 					.service-attitude-score {
 						flex: 1;
-						margin-top: 4px;
+						margin-top: 2px;
 						padding-left: 10px;
 						box-sizing: border-box;
 					}

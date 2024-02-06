@@ -213,6 +213,11 @@
 			</view>
 			<view class="upload-photo-wrapper">
 				<view class="upload-photo">
+					<view class="number-statistics">
+						<text>(</text>
+						<text>{{`${imgArr.length}/`}}</text>
+						<text>9)</text>
+					</view>
 					<view class="upload-photo-list-wrapper">
 						<view>
 							<view v-for="(item, index) in imgArr" :key='index'>
@@ -1524,9 +1529,18 @@
 				width: 95%;
 				margin: 0 auto;
 				.upload-photo {
-					padding: 10px;
+					position: relative;
+					padding: 18px 10px 10px 10px;
 					box-sizing: border-box;
 					background: #fff;
+					.number-statistics {
+						position: absolute;
+						top: 6px;
+						right: 4px;
+						font-size: 12px;
+						color: #999999;
+						font-weight: 400;
+					};
 					.upload-photo-content {
 						font-size: 12px;
 						line-height: 16px;

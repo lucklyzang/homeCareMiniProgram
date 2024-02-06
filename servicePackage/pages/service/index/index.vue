@@ -491,7 +491,7 @@
 			position: relative;
 			background: #fff;
 			width: 100%;
-			height: 120px;
+			height: 100px;
 			::v-deep .nav {
 				width: 100%;
 				background: #fff;
@@ -508,6 +508,7 @@
 		};
 		.service-details-content {
 			width: 100%;
+			flex: 1;
 			overflow: auto;
 			padding-bottom: 80px;
 			box-sizing: border-box;

@@ -48,7 +48,7 @@
 			</view>
 		</u-transition>
 		<view class="banner-area-box">
-			<u-swiper @click="swiperClickEvent" keyName="image"  indicator :list="bannerList"></u-swiper>
+			<u-swiper indicatorMode="dot" @click="swiperClickEvent" keyName="image"  indicator :list="bannerList"></u-swiper>
 		</view>
 		<view class="center-area">
 			<view class="nurse-type">
@@ -939,10 +939,10 @@
 						font-size: 12px;
 						color: #2C2C2C;
 						&:first-child {
-							margin-top: 2px;
+							margin-top: 3px;
 						}
 						&:last-child {
-							margin-top: 10px
+							margin-top: 8px
 						}
 					}
 				}

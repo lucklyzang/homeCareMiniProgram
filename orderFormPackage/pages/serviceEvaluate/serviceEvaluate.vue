@@ -90,7 +90,7 @@
 						<u-icon name="close" size="20" color="#000000" @click="photoDelete(item,index)">></u-icon>
 					</view>
 					<view @click="getImg">
-						<u-icon name="plus" size="30"></u-icon>
+						<u-icon name="plus" size="36" color="#CCCCCC"></u-icon>
 					</view>
 				</view>
 			</view>
@@ -671,9 +671,11 @@
 					margin-top: 6px;
 					align-items: center;
 					.service-attitude-title {
+						display: flex;
+						align-content: center;
 						>text {
-							font-size: 11px;
-							color: #999999;
+							font-size: 14px;
+							color: #333333;
 							font-weight: 400;
 						}
 					};
@@ -756,7 +758,10 @@
 								.u-icon {
 									position: relative !important; 
 								};
-								background: rgba(119, 119, 119, 0.2);
+								box-sizing: border-box;
+								background: #EEEEEE;
+								border: 1px solid rgba(220,220,220,1);
+								border-radius: 6px;
 							};
 							image {
 								width: 100%;
