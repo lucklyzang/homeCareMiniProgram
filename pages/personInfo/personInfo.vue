@@ -81,7 +81,7 @@
 				showLoadingHint: false,
 				showSupportStaffBox: false,
 				personPhotoSource: '',
-				niceNameValue: '张三',
+				niceNameValue: '',
 				functionList: [
 					{
 						name: '守望家',
@@ -161,9 +161,9 @@
 			
 			// 头像和昵称点击事件
 			enterPersonMessagePageEvent () {
-				// uni.navigateTo({
-				// 	url: '/minePackage/pages/personalData/personalData'
-				// })
+				uni.navigateTo({
+					url: '/minePackage/pages/personalData/personalData'
+				})
 			},
 			
 			// 获取用户基本信息

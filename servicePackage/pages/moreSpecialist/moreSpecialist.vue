@@ -14,7 +14,7 @@
 				<u-search v-model="searchValue" bgColor="#fff" :actionStyle="{color: '#FF698C',fontSize: '16px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 			<view class="specialist-list-box">
-				<u-empty text="暂无收藏医护" v-if="isShowNoHomeNoData"></u-empty>
+				<u-empty text="暂无更多医护" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="nurse-practitioner-list" v-for="(item,index) in fullNurseList" :key="index" @click="viewSpecialistDetailsEvent(item)">
 						<view class="nurse-practitioner-list-top">

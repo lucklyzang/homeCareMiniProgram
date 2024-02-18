@@ -40,7 +40,7 @@
 					<text>清除缓存</text>
 				</view>
 				<view class="weixin-binding-right">
-					<text>5.8M</text>
+					<text>{{ `${currentSize}M` }}</text>
 					<text @click="clearCacheEvent">清除缓存</text>
 				</view>
 			</view>
@@ -64,6 +64,7 @@
 		removeAllLocalStorage
 	} from '@/common/js/utils'
 	import { userSignOut } from '@/api/login.js'
+	import { updateUserMessage } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -72,7 +73,7 @@
 		data() {
 			return {
 				showLoadingHint: false,
-				infoText: '加载中',
+				infoText: '加载中···',
 				modalShow: false,
 				niceNameValue: '',
 				phoneNumberValue: '',
@@ -80,7 +81,8 @@
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				personPhotoSource: '',
 				personPhotoFile: '',
-				photoImageOnlinePath: ''
+				photoImageOnlinePath: '',
+				currentSize: ''
 			}
 		},
 		computed: {
@@ -93,9 +95,10 @@
 			}
 		},
 		onShow() {
+			this.getStorageInfoSyncEvent();
 			this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
-			this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
-			this.phoneNumberValue = !this.userBasicInfo || JSON.stringify(this.userBasicInfo) == '{}' ? '' : this.userBasicInfo.mobile
+			this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname;
+			this.phoneNumberValue = !this.userBasicInfo || JSON.stringify(this.userBasicInfo) == '{}' ? '' : this.userBasicInfo.mobile;
 		},
 		methods: {
 			...mapMutations([
@@ -108,8 +111,24 @@
 				uni.navigateBack()
 			},
 			
+			// 获取应用缓存大小事件
+			getStorageInfoSyncEvent () {
+				this.currentSize = uni.getStorageInfoSync()['currentSize']/1000
+			},
+			
 			// 清除缓存事件
-			clearCacheEvent () {},
+			clearCacheEvent () {
+				uni.showLoading({
+				  title: '正在清除缓存'
+				});
+				uni.clearStorageSync();
+				uni.hideLoading();
+				uni.showToast({
+				  title: '缓存已清除',
+				  icon: 'success'
+				});
+				this.getStorageInfoSyncEvent()
+			},
 			
 			// 上传图片方法
 			getImg() {
@@ -165,41 +184,72 @@
 			uploadFileEvent (imgI) {
 				this.infoText = '上传中···';
 				this.showLoadingHint = true;
-				return new Promise((resolve, reject) => {
-					uni.uploadFile({
-					 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
-					 filePath: imgI,
-					 name: 'file',
-					 header: {
-						'content-type': 'multipart/form-data',
-						'Authorization': `Bearer ${store.getters.token}`
-					 },
-					 success: (res) => {
-						if (res.statusCode == 200) {
-							let temporaryData = JSON.parse(res.data);
-							this.photoImageOnlinePath = temporaryData.data;
-							this.personPhotoSource = this.photoImageOnlinePath;
-							resolve()
-						} else {
-							this.showLoadingHint = false;
-							this.$refs.uToast.show({
-								message: '上传图片失败',
-								type: 'error',
-								position: 'center'
-							});
-							reject()
-						}
-					 },
-					 fail: (err) => {
+				uni.uploadFile({
+				 url: 'https://dev.nurse.blinktech.cn/nurse/app-api/infra/file/upload',
+				 filePath: imgI,
+				 name: 'file',
+				 header: {
+					'content-type': 'multipart/form-data',
+					'Authorization': `Bearer ${store.getters.token}`
+				 },
+				 success: (res) => {
+					if (res.statusCode == 200) {
+						let temporaryData = JSON.parse(res.data);
+						this.photoImageOnlinePath = temporaryData.data;
+						this.personPhotoSource = this.photoImageOnlinePath;
+						this.updateUserMessageEvent({
+							avatar: this.photoImageOnlinePath
+						})
+					} else {
 						this.showLoadingHint = false;
 						this.$refs.uToast.show({
-							message: err.errMsg,
+							message: '上传图片失败',
 							type: 'error',
-							duration: 5000,
+							position: 'center'
+						})
+					}
+				 },
+				 fail: (err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.errMsg,
+						type: 'error',
+						duration: 5000,
+						position: 'center'
+					})
+				 }
+				})
+			},
+			
+			// 修改用户头像事件
+			updateUserMessageEvent (data) {
+				this.infoText = '头像更换中···';
+				this.showLoadingHint = true;
+				updateUserMessage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '修改头像成功',
+							type: 'success',
 							position: 'center'
 						});
-						reject()
-					 }
+						let temporaryUserBasicInfo = this.userBasicInfo;
+						temporaryUserBasicInfo['avatar'] = this.photoImageOnlinePath;
+						this.changeUserBasicInfo(temporaryUserBasicInfo)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'center'
 					})
 				})
 			},

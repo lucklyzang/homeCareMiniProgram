@@ -132,7 +132,13 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.navigateBack()
+				if (this.isUpdatePhoneNumberSuccess) {
+					uni.navigateBack({
+						delta: 2
+					})
+				} else {
+					uni.navigateBack()
+				}
 			},
 			
 			// 手机国际区号区域点击事件
@@ -153,7 +159,7 @@
 					this.$refs.uToast.show({
 						message: '请输入手机号码!',
 						type: 'error',
-						position: 'bottom'
+						position: 'center'
 					});
 					return
 				};
@@ -162,7 +168,7 @@
 					this.$refs.uToast.show({
 						message: '请输入正确的手机号!',
 						type: 'error',
-						position: 'bottom'
+						position: 'center'
 					})
 					return
 				};

@@ -5,7 +5,7 @@
 			<view class="nav">
 				<nav-bar :home="false" backState='3000' bgColor="none" title="设置昵称" @backClick="backTo">
 					<template #right>
-						<view>
+						<view @click="setNickNameEvent">
 							<text>完成</text>
 						</view>
 					</template>
@@ -36,6 +36,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import { updateUserMessage } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -68,6 +69,54 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 设置昵称事件
+			setNickNameEvent () {
+				if (this.niceNameValue === '') {
+					this.$refs.uToast.show({
+						message: '昵称不能为空!',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				this.updateUserMessageEvent({
+					nickname: this.niceNameValue
+				})
+			},
+			
+			// 修改用户头像事件
+			updateUserMessageEvent (data) {
+				this.infoText = '昵称设置中···';
+				this.showLoadingHint = true;
+				updateUserMessage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '修改昵称成功',
+							type: 'success',
+							position: 'center'
+						});
+						let temporaryUserBasicInfo = this.userBasicInfo;
+						temporaryUserBasicInfo['nickname'] = this.niceNameValue;
+						this.changeUserBasicInfo(temporaryUserBasicInfo)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
 			}
 		}
 	}

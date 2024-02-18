@@ -22,7 +22,7 @@ export function getUserMessage() {
 export function updateUserMessage(data) {
   return request({
     url: '/app-api/member/user/update',
-    method: 'post',
+    method: 'put',
 		data
   })
 };
