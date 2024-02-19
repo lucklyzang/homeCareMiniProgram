@@ -83,6 +83,36 @@
 			...mapMutations([
 			]),
 			
+			// 提取视频资源链接
+			getVideo(data) {
+				let videoList = [];
+				let videoReg = /<video.*?(?:>|\/>)/gi; //匹配到字符串中的 video 标签
+				let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; //匹配到字符串中的 video 标签 的路径
+				let arr = data.match(videoReg) || []; // arr 为包含所有video标签的数组
+				let articleList = data.split('</video>'); // 把字符串 从视频标签分成数组
+				arr.forEach((item, index) => {
+					var src = item.match(srcReg);
+					videoList.push(src[1]) //所要显示的字符串中 所有的video 标签 的路径
+				});
+				let needArticleList = [];
+				articleList.forEach((item, index) => {
+					if (item != "" && item != undefined) { // 常见的标签渲染
+						needArticleList.push({
+							type: 'rich-text',
+							value: item + "</video>"
+						})
+					};
+					let articleListLength = articleList.length; // 插入到原有video 标签位置
+					if (index < articleListLength && videoList[index] != undefined) {
+						needArticleList.push({
+						type: 'video',
+						value: videoList[index]
+						})
+					}
+				});
+				return needArticleList
+			},
+			
 			// 进入通知详情事件
 			enterLatestNewsDetailsEvent (item,innerItem) {
 				this.updateNotifyReadEvent(innerItem.id);

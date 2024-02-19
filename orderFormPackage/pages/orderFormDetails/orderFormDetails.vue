@@ -37,7 +37,7 @@
 		<view class="apply-refund-info">
 			<u-modal :show="applyRefundShow" @confirm="applyRefundSureEvent" @cancel="applyRefundShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="申请退款">
 				<view class="slot-content">
-					<u-textarea height="100" v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
+					<u-textarea height="100" :formatter="formatter" ref="textarea" v-model="refundReason" placeholder="请填写申请退款理由" count ></u-textarea>
 				</view>
 			</u-modal>
 		</view>
@@ -420,6 +420,9 @@
 		onShow() {
 			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id, type: 1})
 		},
+		onReady() {
+			this.$refs.textarea.setFormatter(this.formatter)
+		},
 		methods: {
 			...mapMutations([
 				'storeEditServiceOrderFormSureChooseMessage'
@@ -696,6 +699,11 @@
 				})
 			},
 			
+			// 退款理由过滤空格函数
+			formatter(value) {
+				return value.replace(/\s*/g,"")
+			},
+			
 			// 立即付款事件
 			immediatePayEvent (item) {
 				// 传递订单信息
@@ -717,6 +725,15 @@
 			
 			// 申请退款确定事件
 			applyRefundSureEvent () {
+				if (!this.refundReason) {
+					this.$refs.uToast.show({
+						message: '退款理由不能为空!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				this.applyRefundShow = false;
 				// 已完成的订单申请退款调用该接口
 				if (this.currentSelectOrderMessage.status == 60) {
 					this.afterSaleOrderPort({

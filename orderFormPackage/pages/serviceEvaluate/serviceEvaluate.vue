@@ -81,7 +81,7 @@
 				</view>
 			</view>
 			<view class="textarea-wrapper">
-				<u--textarea v-model="evaluateValue" maxlength="150" height="140" placeholder="请填写你的评价内容 (150字)" count ></u--textarea>
+				<u--textarea :formatter="formatter" ref="textarea" v-model="evaluateValue" maxlength="150" height="140" placeholder="请填写你的评价内容 (150字)" count ></u--textarea>
 			</view>
 			<view class="upload-photo-area">
 				<view>
@@ -144,6 +144,9 @@
 			proId() {
 			}
 		},
+		onReady() {
+			this.$refs.textarea.setFormatter(this.formatter)
+		},
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryAddress = JSON.parse(options.transmitData);
@@ -157,6 +160,11 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 评价内容过滤空格函数
+			formatter(value) {
+				return value.replace(/\s*/g,"")
 			},
 			
 			// 弹框确定按钮
