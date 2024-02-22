@@ -10,12 +10,16 @@
 			<u-modal :show="cancelOrderFormShow" @cancel="cancelOrderFormShow=false" @confirm="cancelOrderSureEvent" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="取消订单">
 				<view class="slot-content">
 					<view class="top-content">
-						为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。<br/>
-						今日剩余 3 次，确认取消订单吗？
+						<view>
+							为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。
+						</view>
+						<view>
+							{{ `今日剩余 ${canCancelcount} 次，确认取消订单吗？` }} 
+						</view>
 					</view>
 					<view class="bottom-content">
 						<view>
-							护士已接单扣除订单金额30%
+							{{ `护士已接单扣除订单金额30%` }}
 						</view>
 						<view>
 							护士已出发扣除订单金额50%
@@ -449,7 +453,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder } from '@/api/orderForm.js'
+	import { getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder, tradeOrderCancancelcount } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -473,6 +477,7 @@
 				applyRefundShow: false,
 				remindSendOrdersShow: false,
 				refundReason: '',
+				canCancelcount: '',
 				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员咨询',
 				haveDeleteInfoContent: '已删除订单',
 				isShowNoData: false,
@@ -619,6 +624,34 @@
 			operateOrderSuccessSureEvent () {
 				this.haveDeleteShow = false
 			},
+			
+			// 查询交易订单可取消次数
+			tradeOrderCancancelcountEvent () {
+				this.infoText = '加载···';
+				this.showLoadingHint = true;
+				tradeOrderCancancelcount().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.cancelOrderFormShow = true;
+						this.canCancelcount = res.data.data;
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			
 			// 查询交易订单
 			queryTradeOrderPage(data,flag) {
@@ -936,7 +969,7 @@
 			// 取消订单事件
 			cancelOrderEvent(item) {
 				this.currentSelectOrderMessage = item;
-				this.cancelOrderFormShow = true
+				this.tradeOrderCancancelcountEvent()
 			},
 			
 			// 取消订单确定事件

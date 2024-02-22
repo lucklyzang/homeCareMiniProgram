@@ -19,6 +19,14 @@ export function editOrder(data) {
   })
 };
 
+// 查询可取消剩余次数
+export function tradeOrderCancancelcount() {
+  return request({
+    url: '/app-api/trade/order/can-cancel-count',
+    method: 'put'
+  })
+};
+
 // 用户催单
 export function reminderOrder(id) {
   return request({
