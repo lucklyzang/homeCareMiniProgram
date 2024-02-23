@@ -25,7 +25,7 @@
 			</view>
 			<view class="details-site-box">
 				<text>详细地址</text>
-				<u--textarea  maxlength="500" height="200" v-model="detailSiteValue" :count="true" placeholder="请输入详细地址" ></u--textarea>
+				<u--textarea  maxlength="50" height="120" ref="textarea" autoHeight v-model="detailSiteValue" :count="true" placeholder="请输入详细地址" ></u--textarea>
 			</view>
 			<view class="default-site-radio-box">
 				<text>默认地址</text>
@@ -87,6 +87,9 @@
 		},
 		onShow() {
 		},
+		onReady() {
+			this.$refs.textarea.setFormatter(this.formatter)
+		},
 		methods: {
 			...mapMutations([
 			]),
@@ -94,6 +97,11 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 详细地址内容过滤空格函数
+			formatter(value) {
+				return value.replace(/^\s+|\s+$/g, '')
 			},
 			
 			checkboxChange (n) {
@@ -315,13 +323,13 @@
 				}
 			};
 			.details-site-box {
-				height: 200px;
+				min-height: 120px;
 				background: #fff;
 				display: flex;
-				padding: 10px 6px;
+				padding: 8px 6px;
 				box-sizing: border-box;
 				>text {
-					padding-top: 20px;
+					padding-top: 10px;
 					box-sizing: border-box;
 					margin-right: 20px;
 					font-size: 14px;
@@ -330,7 +338,7 @@
 				::v-deep .u-textarea {
 					border: none !important;
 					background: #F8F8F8 !important;
-					padding: 20px 10px 10px 10px !important;
+					padding: 10px !important;
 					border-radius: 4px !important;
 					.u-textarea__count {
 						background: #F8F8F8 !important;

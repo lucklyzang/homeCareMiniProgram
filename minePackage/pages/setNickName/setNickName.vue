@@ -17,7 +17,10 @@
 				 <u--input
 				    placeholder="请输入昵称"
 						clearable
+						:formatter="formatter" ref="textInput"
 						type="text"
+						showWordLimit
+						maxlength="30"
 						border="none"
 				    v-model="niceNameValue"
 				  ></u--input>
@@ -61,6 +64,9 @@
 		onShow() {
 			this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 		},
+		onReady() {
+			this.$refs.textInput.setFormatter(this.formatter)
+		},
 		methods: {
 			...mapMutations([
 				'changeUserBasicInfo'
@@ -71,11 +77,24 @@
 				uni.navigateBack()
 			},
 			
+			// 昵称过滤空格函数
+			formatter(value) {
+				return value.replace(/^\s+|\s+$/g, '')
+			},
+			
 			// 设置昵称事件
 			setNickNameEvent () {
 				if (this.niceNameValue === '') {
 					this.$refs.uToast.show({
 						message: '昵称不能为空!',
+						type: 'error',
+						position: 'center'
+					});
+					return
+				};
+				if (this.niceNameValue.length > 30) {
+					this.$refs.uToast.show({
+						message: '昵称不能超过30字',
 						type: 'error',
 						position: 'center'
 					});

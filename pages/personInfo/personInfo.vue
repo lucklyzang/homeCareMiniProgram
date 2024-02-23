@@ -148,8 +148,9 @@
 		onShow() {
 			// 初次进入该页面时，查询用户基本信息
 			if (!this.userBasicInfo || JSON.stringify(this.userBasicInfo) == '{}') {
-				this.queryUserBasicMessage()
+				this.queryUserBasicMessage(true)
 			} else {
+				this.queryUserBasicMessage(false);
 				this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
 				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 			}
@@ -167,9 +168,11 @@
 			},
 			
 			// 获取用户基本信息
-			queryUserBasicMessage () {
-				this.showLoadingHint = true;
-				this.infoText = '加载中...';
+			queryUserBasicMessage (flag) {
+				if (flag) {
+					this.showLoadingHint = true;
+					this.infoText = '加载中...';
+				};
 				getUserMessage().then((res) => {
 					if ( res && res.data.code == 0) {
 						this.changeUserBasicInfo(res.data.data);
@@ -181,11 +184,15 @@
 							type: 'error',
 							position: 'bottom'
 						})
-					}	
-					this.showLoadingHint = false;
+					};
+					if (flag) {
+						this.showLoadingHint = false
+					}
 				})
 				.catch((err) => {
-					this.showLoadingHint = false;
+					if (flag) {
+						this.showLoadingHint = false
+					};
 					this.$refs.uToast.show({
 						title: err.message,
 						type: 'error',
