@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view class="map_wrap">
-			<map id="mapSelected" style="width: 100%; height: 100vh;" :latitude="latitude" :longitude="longitude" :markers="covers" :controls="controls" :scale="18" @controltap="controltap" @tap="clickMap" 
+			<map id="mapSelected" style="width: 100%; height: 100vh;" :latitude="latitude" :longitude="longitude" :markers="covers" :controls="controls" :scale="18" @tap="clickMap" 
 			@regionchange="regionchange">
 			</map>
 		</view>
@@ -47,7 +47,7 @@ export default {
 			}
     },
 		
-    onShow() {
+    onLoad() {
       this.isGetLocation()
     },
 		
@@ -97,6 +97,7 @@ export default {
 				//直接调用即可
 				uni.chooseLocation({
 					success: (res) => {
+						console.log('确认');
 						if(res.errMsg == "chooseLocation:ok"){
 							this.address_info = res.name + res.address;
 							this.latitude = res.latitude;
@@ -107,11 +108,16 @@ export default {
 							let nowPage = pages[pages.length - 1]; //当前页⾯实例
 							let prevPage = pages[pages.length - 2]; // 上一页面实例
 							prevPage.$vm.prevDateFun(res);
-							uni.navigateBack()
+							uni.navigateBack({
+								delta: 1
+							})
 						}
 					},
 					fail: (err) => {
-						uni.navigateBack()
+						console.log('取消');
+						uni.navigateBack({
+							delta: 1
+						})
 					}
 				})
 			},

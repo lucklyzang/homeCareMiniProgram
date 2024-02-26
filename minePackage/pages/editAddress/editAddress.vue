@@ -95,10 +95,10 @@
 			this.areaId = temporaryAddress['areaId'];
 			this.servericeAddressId = temporaryAddress['id'];
 			this.checked = temporaryAddress['defaultStatus'] == '默认地址' ? ["默认地址"] : [];
-			let reg = /.+?(省|市|自治区|自治州|县|区)/g;
-			let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区))+?|.+)/g;
+			let reg = /.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗)/g;
+			let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗))+?|.+)/g;
 			let cutoutAddressArray = temporaryAddress['address'].match(reg);
-			let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区)/g,'');
+			let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗)/g,'');
 			if (cutoutAddressArray[0] == '北京市' || cutoutAddressArray[0] == '重庆市' || cutoutAddressArray[0] == '上海市' || cutoutAddressArray[0] == '天津市') {
 				if (cutoutAddressArray[0] == '北京市') {
 					cutoutAddressArray.unshift('北京')
@@ -109,6 +109,9 @@
 				} else if (cutoutAddressArray[0] == '天津市') {
 					cutoutAddressArray.unshift('天津')
 				}
+			};
+			if (cutoutAddressArray.length > 3) {
+				cutoutAddressArray.splice(3)
 			};
 			if (cutoutAddressArray.length == 3) {
 				this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省
@@ -166,10 +169,10 @@
 				if(object){
 					// this.$refs['lotusAddress'].initFn();
 					let temporaryAddress = object;
-					let reg = /.+?(省|市|自治区|自治州|县|区)/g;
-					let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区))+?|.+)/g;
+					let reg = /.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗)/g;
+					let regOther = /((.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗))+?|.+)/g;
 					let cutoutAddressArray = temporaryAddress['address'].match(reg);
-					let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区)/g,'');
+					let cutoutAddressDetails = temporaryAddress['address'].replace(/.+?(省|市|自治区|自治州|特别行政区|县|区|盟|旗)/g,'');
 					if (cutoutAddressArray[0] == '北京市' || cutoutAddressArray[0] == '重庆市' || cutoutAddressArray[0] == '上海市' || cutoutAddressArray[0] == '天津市') {
 						if (cutoutAddressArray[0] == '北京市') {
 							cutoutAddressArray.unshift('北京')
@@ -180,6 +183,9 @@
 						} else if (cutoutAddressArray[0] == '天津市') {
 							cutoutAddressArray.unshift('天津')
 						}
+					};
+					if (cutoutAddressArray.length > 3) {
+						cutoutAddressArray.splice(3)
 					};
 					if (cutoutAddressArray.length == 3) {
 						this.lotusAddressData.provinceName = cutoutAddressArray[0]; //省

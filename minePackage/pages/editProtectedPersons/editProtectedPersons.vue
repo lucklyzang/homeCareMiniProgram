@@ -27,6 +27,7 @@
 							<u--input
 								placeholder="请输入被护人姓名"
 								inputAlign="right"
+								:formatter="formatter" ref="textarea"
 								border="none"
 								v-model="protectedPersonsNameValue"
 							></u--input>
@@ -298,6 +299,11 @@
 			this.medicareCardRecordDataFileList = _.cloneDeep(temporaryMessage.medicalRecord);
 			this.specialCircumstancesFileList = _.cloneDeep(temporaryMessage.special)
 		},
+		
+		onReady() {
+			this.$refs.textarea.setFormatter(this.formatter)
+		},
+		
 		methods: {
 			...mapMutations([
 			]),
@@ -305,6 +311,11 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 姓名内容过滤空格函数
+			formatter(value) {
+				return value.replace(/\s*/g,"")
 			},
 			
 			// 身份证号输入框失去焦点事件
