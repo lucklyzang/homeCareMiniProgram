@@ -19,7 +19,7 @@
 				<view class="user-nickname">
 					<view>
 						<text>{{ nurseMessage.name }}</text>
-						<text>{{ nurseTitleTransition(nurseMessage.title) }}</text>
+						<text v-if="nurseMessage.hasOwnProperty('title')">{{ nurseTitleTransition(nurseMessage.title) }}</text>
 					</view>
 					<view>
 						<text>{{ nurseMessage.organization }}</text>
@@ -37,7 +37,7 @@
 							<image :src="serviceQuantityIconPng"></image>
 						</view>
 						<view>
-							<text>{{ nurseMessage.quantity }}</text>
+							<text v-if="nurseMessage.hasOwnProperty('quantity')">{{ nurseMessage.quantity }}</text>
 							<text>服务量(人)</text>
 						</view>
 					</view>
@@ -46,7 +46,7 @@
 							<image :src="serviceHourIconPng"></image>
 						</view>
 						<view>
-							<text>{{ (nurseMessage.timeLength/60).toFixed(2) }}</text>
+							<text v-if="nurseMessage.hasOwnProperty('timeLength')">{{ (nurseMessage.timeLength/60).toFixed(2) }}</text>
 							<text>服务时长(h)</text>
 						</view>
 					</view>
@@ -55,7 +55,7 @@
 							<image :src="collectQuantityIconPng"></image>
 						</view>
 						<view>
-							<text>{{ transitionCollectQuantity(nurseMessage.collect) }}</text>
+							<text v-if="nurseMessage.hasOwnProperty('collect')">{{ transitionCollectQuantity(nurseMessage.collect) }}</text>
 							<text>收藏量</text>
 						</view>
 					</view>

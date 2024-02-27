@@ -743,7 +743,7 @@
 			
 			// 选择图片方法
 			getImg() {
-				if (this.imgFileArr.length >= 9) {
+				if (this.imgFileArr.length > 9) {
 					this.$refs.uToast.show({
 						message: '至多只能上传9张图片!',
 						type: 'error',
@@ -901,7 +901,7 @@
 				};
 				// 上传图片文件流到服务端
 				if (this.imgFileArr.length > 0) {
-					if (this.imgFileArr.length >= 9) {
+					if (this.imgFileArr.length > 9) {
 						this.$refs.uToast.show({
 							message: '至多只能上传9张图片!',
 							type: 'error',
