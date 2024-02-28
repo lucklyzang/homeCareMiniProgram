@@ -49,7 +49,6 @@
 		data() {
 			return {
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
-				infoText: '',
 				showLoadingHint: false,
 				infoText: '加载中···',
 				currentPage: 1,

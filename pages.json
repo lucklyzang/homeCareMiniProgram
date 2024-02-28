@@ -93,6 +93,15 @@
 					}
 				},
 				{
+					"path": "pages/chatInterface/chatInterface",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/advertisingDetails/advertisingDetails",
 					"style": {
 						"navigationBarTitleText": "",

@@ -404,6 +404,32 @@ export function getNewsDetails(data) {
   })
 }
 
+// 获取用户聊天列表
+export function getUserChatList() {
+  return request({
+    url: '/app-api/infra/chat-message/chat-users',
+    method: 'get'
+  })
+}
+
+// 更新聊天消息为已读
+export function chatMessageRead(data) {
+  return request({
+    url: '/app-api/infra/chat-message/read',
+    method: 'put',
+		data
+  })
+}
+
+// 获取用户聊天消息分页
+export function getUserChatPage(data) {
+  return request({
+    url: '/app-api/infra/chat-message/page',
+    method: 'get',
+		params: data
+  })
+}
+
 // 获得组织机构列表
 export function getOrganizationList(name) {
   return request({
