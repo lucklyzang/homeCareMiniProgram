@@ -434,7 +434,11 @@
 			]),
 			
 			// 联系护士事件
-			contactNurseEvent () {},
+			contactNurseEvent () {
+				uni.navigateTo({
+					url: '/messagePackage/pages/chatInterface/chatInterface?transmitData='+this.editServiceOrderFormSureChooseMessage.orderMessage.id
+				})
+			},
 			
 			// 查看放大图片事件
 			magnifyImgEvent (item,index) {

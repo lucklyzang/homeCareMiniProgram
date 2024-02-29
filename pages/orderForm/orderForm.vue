@@ -140,7 +140,7 @@
 						</view>
 					</view>
 					<view class="order-form-bottom">
-						<view class="btn-area-left" @click.stop="contactNurseEvent" v-if="item.status == 30 || item.status == 40 || item.status == 50">
+						<view class="btn-area-left" @click.stop="contactNurseEvent(item)" v-if="item.status == 30 || item.status == 40 || item.status == 50">
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
@@ -319,7 +319,7 @@
 						</view>
 					</view>
 					<view class="order-form-bottom">
-						<view class="btn-area-left" @click.stop="contactNurseEvent">
+						<view class="btn-area-left" @click.stop="contactNurseEvent(item)">
 							<text>联系护士</text>
 						</view>
 						<view class="btn-area-right">
@@ -999,7 +999,11 @@
 			},
 			
 			// 联系护士事件
-			contactNurseEvent () {},
+			contactNurseEvent (item) {
+				uni.navigateTo({
+					url: '/messagePackage/pages/chatInterface/chatInterface?transmitData='+item.id
+				})
+			},
 			
 			// 订单详情点击事件
 			enterOrderDetailsEvent (item) {
