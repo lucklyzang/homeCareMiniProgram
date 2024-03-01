@@ -53,7 +53,7 @@
 					<!-- 好友发的消息 -->
 					<view class="item Ai" v-if="!item.me">
 						<!-- 头像 -->     
-						<image class="avatar" :src="item.toAvatar">
+						<image class="avatar" :src="item.fromAvatar">
 						</image>
 						<!-- 文字内容 -->
 						<view class="content left">
@@ -109,30 +109,13 @@
 				userId:'',
 				//发送的消息
 				chatMsg:"",
-				// socket是否开启
-				socketOpen: false,
 				// 定时器
 				timer: null,
 				fromId: '',
 				fromName: '',
 				careAvatar: '',
 				msgList: [],
-				fullMsgList:[
-					{
-						content: "你好",
-						createTime: 1709024061000,
-						toAvatar: "/static/common/unname1.jpeg",
-						fromAvatar: "/static/common/unname1.jpeg",
-						me: true
-					},
-					{
-						content: "你好呀，非常高兴认识你",
-						createTime: 1709099251000,
-						toAvatar: "/static/common/unname1.jpeg",
-						fromAvatar: "/static/common/unname1.jpeg",
-						me: false
-					}
-				],
+				fullMsgList:[],
 				status: 'nomore',
 				currentPage: 1,
 				pageSize: 15,
@@ -147,6 +130,7 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
+				'socketOpen',
 				'userBasicInfo'
 			]),
 			windowHeight() {
@@ -162,11 +146,11 @@
 			this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
 			let pages = getCurrentPages();//当前页
 			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
-			console.log('页面路劲',this.beforePageRoute);
 			// 从聊天列表进入时不用查医护信息
 			if (this.beforePageRoute == 'pages/message/message') {
 				this.fromId = JSON.parse(options.transmitData).fromId;
 				this.fromName = JSON.parse(options.transmitData).fromName;
+				this.careAvatar = JSON.parse(options.transmitData).avatar;
 				this.queryChatPageList({
 					pageNo: this.currentPage,
 					pageSize: this.pageSize,
@@ -180,9 +164,9 @@
 			this.init();
 	 
 			// 定时器，定时判断socket有没有掉线
-			this.timer = setInterval(() => {
-				this.isSocketConnct()
-			}, 2000);
+			// this.timer = setInterval(() => {
+			// 	this.isSocketConnct()
+			// }, 2000);
 
 			uni.onKeyboardHeightChange(res => {
 				//这里正常来讲代码直接写
@@ -195,7 +179,6 @@
 		
 		onUnload(){
 			uni.offKeyboardHeightChange(() =>{});
-			console.log("卸载了");
 			// 关闭定时器
 			if (this.timer) {
 				clearInterval(this.timer);
@@ -207,6 +190,7 @@
 		
 		methods: {
 			...mapMutations([
+				'changeSocketOpen'
 			]),
 			
       goback() {
@@ -223,7 +207,6 @@
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
-				console.log('日期',currentDate,type);
 				// type:1(只显示小时分钟秒),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟秒)5(显示月日)
 				let currentdate;
 				let strDate = currentDate.getDate();
@@ -272,9 +255,6 @@
 				this.showLoadingHint = true;
 				getTradeOrderUserCareInfo(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						// this.fromName = res.data.data.userName;
-						// this.fromId = res.data.data.userId;
-						// this.userAvatar = res.data.data.userAvatar;
 						this.fromName = res.data.data.careName;
 						this.fromId = res.data.data.careId;
 						this.careAvatar = res.data.data.careAvatar;
@@ -323,38 +303,47 @@
 			// 发送消息(socket)
 			sendSocketMessage(msg) {
 				let that = this;
-				const messageContent = {
-					text: msg, // 消息内容
-					toUserId: this.fromId, // 接受者用户 ID
-					userType: 1  // 用户类型 发送给APP端用户 为1， 发送给管理的为 2
-				};
-				const jsonMessage = JSON.stringify({
-					type: 'chat-message-send', // 消息类型 固定
-					content: messageContent,   //  消息内容
-				});
-				if (this.socketOpen) {
-					uni.sendSocketMessage({
-						data: jsonMessage,
-						success: (res) => {
-							setTimeout(() => {
-								that.sendMessageHandle(msg)
-							}, 300)
-						},
-						fail: (err) => {
-							// 发送失败处理
-							this.$refs.uToast.show({
-								message: err,
-								type: 'error',
-								position: 'center'
-							})
-						}
+				try {
+				 const messageContent = JSON.stringify({
+						text: msg, // 消息内容
+						toUserId: this.fromId, // 接受者用户 ID
+						userType: 1  // 用户类型 发送给APP端用户 为1， 发送给管理的为 2
 					});
-				} else {
-					// Socket没有开启，重新连接并重新发送消息
-					this.init();
-					setTimeout(() => {
-						this.sendSocketMessage(jsonMessage)
-					},300)
+					const jsonMessage = JSON.stringify({
+						type: 'chat-message-send', // 消息类型 固定
+						content: messageContent   //  消息内容
+					});
+					if (this.socketOpen) {
+						uni.sendSocketMessage({
+							data: jsonMessage,
+							success: (res) => {
+								console.log('发送成功',res);
+								setTimeout(() => {
+									that.sendMessageHandle(msg)
+								}, 300)
+							},
+							fail: (err) => {
+								// 发送失败处理
+								this.$refs.uToast.show({
+									message: err,
+									type: 'error',
+									position: 'center'
+								})
+							}
+						});
+					} else {
+						// Socket没有开启，重新连接并重新发送消息
+						this.init();
+						setTimeout(() => {
+							this.sendSocketMessage(jsonMessage)
+						},300)
+					}
+				} catch (err) {
+					this.$refs.uToast.show({
+						message: err,
+						type: 'error',
+						position: 'center'
+					})
 				}
 			},
 	 
@@ -391,7 +380,7 @@
 			onclose() {
 				let that = this
 				uni.onSocketClose((res) => {
-					that.socketOpen = false;
+					that.changeSocketOpen(false)
 				})
 			},
 	 
@@ -408,7 +397,7 @@
 			openSocket() {
 				let that = this;
 				uni.onSocketOpen((res) => {
-					that.socketOpen = true;
+					that.changeSocketOpen(true);
 					console.log('打开Soceket');
 				})
 			},
@@ -417,7 +406,6 @@
 			onSocketMessage() {
 				let that = this;
 				uni.onSocketMessage((res) => {
-					console.log('响应消息',obj);
 					let obj = JSON.parse(res.data)
 					that.onMessageHandle(obj)
 				})
@@ -425,25 +413,23 @@
 	 
 			// 接收到事件后处理的方法
 			onMessageHandle(obj) {
-				let objMsg = {
-					content: obj.msg,
-					createTime: '1709099251000',
-					toAvatar: this.careAvatar,
-					fromAvatar: this.personPhotoSource,
-					me: true
-				};
-				this.msgList = [objMsg];
-				this.fullMsgList = this.fullMsgList.concat(this.msgList);
 				console.log('接收发送成功后返回的消息',obj);
+				this.fullMsgList.push({
+					content: JSON.parse(obj.content)['text'],
+					createTime: 1709275012000,
+					fromAvatar: this.careAvatar,
+					fromId: JSON.parse(obj.content)['fromUserId'],
+					me: false,
+					read: false,
+					toId: this.userInfo.userId
+				})
 			},
 	 
 			// 发送消息后处理的方法
 			sendMessageHandle(msg) {
-				console.log('发送成功了',msg);
 			},
 			
 			scrolltoupper () {
-				console.log('到顶了');
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPage >= totalPage) {
 					this.status = 'nomore'
@@ -477,8 +463,9 @@
 						};
 						console.log('聊天数据',res.data.data);
 						this.totalCount = res.data.data.total;
-						this.noticeList = res.data.data.list;
-						this.fullMsgList = this.fullMsgList.concat(this.msgList);
+						this.msgList = res.data.data.list;
+						let reverseMsgList = this.msgList.reverse();
+						this.fullMsgList.unshift(...reverseMsgList);
 						if (this.fullMsgList.length == 0) {
 							this.isShowNoData = true;
 						}
@@ -534,7 +521,7 @@
 				if(!this.chatMsg||!/^\s+$/.test(this.chatMsg)){
 					let obj = {
 						content: this.chatMsg,
-						createTime: '1709099251000',
+						createTime: 1709099251000,
 						toAvatar: this.careAvatar,
 						fromAvatar: this.personPhotoSource,
 						me: true

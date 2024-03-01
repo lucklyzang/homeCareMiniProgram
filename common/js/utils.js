@@ -277,4 +277,5 @@ export const removeAllLocalStorage = () => {
 	removeCache('userBasicInfo');
 	removeCache('nurseRankDictData');
   removeCache('storeOverDueWay');
+	removeCache('socketOpen')
 }

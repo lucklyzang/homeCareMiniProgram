@@ -41,10 +41,10 @@
 					</view>
 					<view class="message-content-right">
 						<view class="message-date">
-							<text>{{ getNowFormatDate(new Date(item.lastTime),2) }}</text>
+							<text>{{ getNowFormatDate(new Date(item.lastTime),4) }}</text>
 						</view>
-						<view class="message-number">
-							<text>{ item.count }}</text>
+						<view class="message-number" v-if="item.count > 0">
+							<text>{{ item.count }}</text>
 						</view>
 					</view>
 				</view>
@@ -219,10 +219,7 @@
 					this.queryNotifySummary();
 					this.queryNotifyMessageSummary()
 				} else if (this.tabIndex == 0) {
-					this.getUserChatListEvent();
-					uni.navigateTo({
-						url: '/messagePackage/pages/chatInterface/chatInterface'
-					})
+					this.getUserChatListEvent()
 				}
 			},
 			
@@ -259,7 +256,7 @@
 			
 			// 进入聊天界面事件
 			enterChatInterface (item) {
-				this.chatMessageReadEvent({fromId:item.fromId});
+				this.chatMessageReadEvent(item.fromId);
 				let transmitParameter = JSON.stringify(item);
 				uni.navigateTo({
 					url: '/messagePackage/pages/chatInterface/chatInterface?transmitData='+transmitParameter
