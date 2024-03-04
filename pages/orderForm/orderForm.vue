@@ -1000,6 +1000,13 @@
 			
 			// 联系护士事件
 			contactNurseEvent (item) {
+				this.currentPageNum = 1;
+				this.totalCount = 0;
+				// 传递该订单详情及当前切换的订单类型的信息
+				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = item;
+				temporaryEditServiceOrderFormSureChooseMessage['current'] = this.current;
+				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 				uni.navigateTo({
 					url: '/messagePackage/pages/chatInterface/chatInterface?transmitData='+item.id
 				})
