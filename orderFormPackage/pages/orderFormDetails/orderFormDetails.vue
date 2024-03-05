@@ -14,7 +14,7 @@
 		<!-- 取消订单提示 -->
 		<view class="cancel-info">
 			<u-modal :show="cancelOrderFormShow" @cancel="cancelOrderFormShow=false" @confirm="cancelOrderSureEvent" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="取消订单">
-				<view class="slot-content">
+				<view class="slot-content" v-if="currentSelectOrderMessage.hasOwnProperty('workerStatus')">
 					<view class="top-content">
 						<view>
 							为保障医护因无效订单而错过有效接单，每日最多取消3次，超过3次后当日不可再发布订单，请谅解。
@@ -23,11 +23,14 @@
 							{{ `今日剩余 ${canCancelcount} 次，确认取消订单吗？` }} 
 						</view>
 					</view>
-					<view class="bottom-content">
-						<view>
+					<view class="bottom-content" v-if="currentSelectOrderMessage.workerStatus.toString() != 0">
+						<view v-if="currentSelectOrderMessage.workerStatus.toString() == 1">
+							申请退款扣除订单金额10%
+						</view>
+						<view v-if="currentSelectOrderMessage.workerStatus.toString() == 2">
 							护士已接单扣除订单金额30%
 						</view>
-						<view>
+						<view v-if="currentSelectOrderMessage.workerStatus.toString() == 2">
 							护士已出发扣除订单金额50%
 						</view>
 						<view>
@@ -56,6 +59,31 @@
 		<!-- 操作订单成功提示 -->
 		<view class="have-delete-info">
 			<u-modal :show="haveDeleteShow" @confirm="operateOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67" :content="haveDeleteInfoContent">
+			</u-modal>
+		</view>
+		<!-- 取消订单成功提示 -->
+		<view class="have-cancel-info">
+			<u-modal :show="haveCancelShow" @confirm="cancelOrderSuccessSureEvent" confirmText="确定" confirmColor="#EB3E67">
+				<view class="slot-content" v-if="currentSelectOrderMessage.hasOwnProperty('workerStatus')">
+					<view class="cancel-title" v-if="currentSelectOrderMessage.workerStatus.toString() == 0">
+						已取消订单
+					</view>
+					<view class="cancel-title" v-if="currentSelectOrderMessage.workerStatus.toString() != 0">
+						取消订单成功
+					</view>
+					<view class="cancel-content" v-if="currentSelectOrderMessage.workerStatus.toString() == 1">
+						申请退款扣除10%
+					</view>
+					<view class="cancel-content" v-if="currentSelectOrderMessage.workerStatus.toString() == 2">
+						护士已接单扣除订单金额30%
+					</view>
+					<view class="cancel-content" v-if="currentSelectOrderMessage.workerStatus.toString() == 2">
+						护士已出发扣除订单金额50%
+					</view>
+					<view class="cancel-content" v-if="currentSelectOrderMessage.workerStatus.toString() != 0">
+						退款金额会自动退还到原账户
+					</view>
+				</view>
 			</u-modal>
 		</view>
 		<!-- 申请退款成功提示 -->
@@ -309,6 +337,7 @@
 				infoText: '加载中···',
 				showLoadingHint: true,
 				magnifyImgDialogShow: false,
+				haveCancelShow: false,
 				currentImgUrl: '',
 				currentFlow: null,
 				canCancelcount: '',
@@ -842,14 +871,18 @@
 				})
 			},
 			
+			// 取消订单成功确定事件
+			cancelOrderSuccessSureEvent () {
+				this.haveCancelShow = false
+			},
+			
 			// 取消订单
 			cancelOrderPort(id,reason) {
 				this.infoText = '订单取消中···';
 				this.showLoadingHint = true;
 				cancelOrder(id,reason).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.haveDeleteShow = true;
-						this.haveDeleteInfoContent = '已取消订单';
+						this.haveCancelShow = true;
 						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
 					} else {
 						this.$refs.uToast.show({
@@ -1155,6 +1188,38 @@
 								border-radius: 7px !important;
 								margin-left: 0 !important;
 								background: #FF698C !important
+							}
+						}
+					}
+				}
+			}
+		};
+		.have-cancel-info {
+			::v-deep .u-transition {
+				.u-popup__content {
+					.u-modal {
+						.u-modal__content {
+							padding: 40px 10px !important;
+							box-sizing: border-box;
+							.slot-content {
+								.cancel-title {
+									color: #101010;
+									font-size: 18px;
+									text-align: center;
+									margin-bottom: 12px;
+								};
+								.cancel-content {
+									color: #EB3E67;
+									font-size: 16px;
+									margin-bottom: 6px;
+								}
+							}
+						};
+						.u-modal__button-group {
+							.u-modal__button-group__wrapper--confirm {
+								border-radius: 37px !important;
+								margin-left: 0 !important;
+								background: #EB3E67 !important
 							}
 						}
 					}

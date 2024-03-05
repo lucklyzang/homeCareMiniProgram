@@ -48,13 +48,13 @@
 					</view>
 					<view class="expectation-service-time-content">
 						<view class="expectation-service-time-content-left">
-							<view class="date-list" :class="{'dateListStyle': currentDateIndex === index}" @click="dateItemClickEvent(item,index)" v-for="(item,index) in currentDateList">
+							<view class="date-list" :class="{'dateListStyle': currentDateIndex === index,'dateListDisabledStyle': !item.canSelect}" @click="dateItemClickEvent(item,index)" v-for="(item,index) in currentDateList">
 								<text>{{ item['showDate'] }}</text>
 							</view>
 						</view>
 						<view class="expectation-service-time-content-right">
-							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index}" @click="timeQuantumItemClickEvent(item,index)" :key="index" v-for="(item,index) in timeQuantumList">
-								<text>{{ item }}</text>
+							<view class="time-quantum-list" :class="{'timeQuantumListStyle': currentTimeQuantumIndex === index,'timeQuantumListDisabledStyle': !item.canSelect}" @click="timeQuantumItemClickEvent(item,index)" :key="index" v-for="(item,index) in timeQuantumList">
+								<text>{{ item.time }}</text>
 							</view>
 						</view>
 					</view>
@@ -290,7 +290,7 @@
 		fenToYuan
 	} from '@/common/js/utils'
 	import store from '@/store'
-	import { getOrderDetail, editOrder } from '@/api/orderForm.js'
+	import { getOrderDetail, editOrder, getServiceTime } from '@/api/orderForm.js'
 	import { getNurseDetails, uploadFile } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
@@ -334,7 +334,7 @@
 				servedPersonPng: require("@/static/img/served-person.png"),
 				evaluationFormPng: require("@/static/img/evaluation-form.png"),
 				currentTimeQuantumIndex: null,
-				currentSelectTimeQuantum: '',
+				currentSelectTimeQuantum: {},
 				currentDateIndex: null,
 				currentSelectDate: {},
 				currentDateList: [],
@@ -346,10 +346,11 @@
 				picUrl: '',
 				serVicePrice: '',
 				aptitudes: '',
-				timeQuantumList: ['上午8:00 - 9:00','上午9:00 - 10:00','上午10:00 - 11:00',
-				'上午11:00 - 12:00','上午12:00 - 13:00','下午13:00 - 14:00','下午14:00 - 15:00',
-				'下午15:00 - 16:00','下午16:00 - 17:00','下午17:00 - 18:00','下午18:00 - 19:00',
-				'下午19:00 - 20:00'
+				alreadyAppointmentDate: {},
+				timeQuantumList: [{time: '上午8:00 - 9:00',canSelect: true},{time: '上午9:00 - 10:00',canSelect: true},{time: '上午10:00 - 11:00',canSelect: true},
+					{time: '上午11:00 - 12:00',canSelect: true},{time: '上午12:00 - 13:00',canSelect: true},{time: '下午13:00 - 14:00',canSelect: true},{time: '下午14:00 - 15:00',canSelect: true},
+					{time: '下午15:00 - 16:00',canSelect: true},{time: '下午16:00 - 17:00',canSelect: true},{time: '下午17:00 - 18:00',canSelect: true},{time: '下午18:00 - 19:00',canSelect: true},
+					{time: '下午19:00 - 20:00',canSelect: true}
 				]
 			}
 		},
@@ -367,7 +368,7 @@
 		onShow() {
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseNurseMessage')) {
 				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
-					this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage
+					this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage;
 				} else {
 					this.isPlatformRecommendNurse = false;
 				}
@@ -476,8 +477,7 @@
 						// 回显服务时间
 						this.serviceDate = `${this.getNowFormatDateText(res.data.data.serviceDate)} (${this.judgeWeek(res.data.data.serviceDate)}) ${res.data.data.serviceTime}`;
 						this.currentSelectDate.actualDate = res.data.data.serviceDate;
-						this.currentSelectTimeQuantum = `上午${res.data.data.serviceTime}`;
-						
+						this.currentSelectTimeQuantum = {time: res.data.data.serviceTime};
 						this.serViceName = res.data.data.items[0]['spuName'];
 						this.picUrl = res.data.data.items[0]['picUrl'];
 						this.serVicePrice = fenToYuan(res.data.data.items[0]['payPrice']);
@@ -589,26 +589,67 @@
 				this.currentSelectDate = item;
 				if (index == 0) {
 					this.currentTimeQuantumIndex = null
+				};
+				if (this.isPlatformRecommendNurse) {
+					// 重置时间段可预约状态
+					this.timeQuantumList.forEach((el) => { el.canSelect = true });
+					// 为当期日期下已经选过的时间段添加标记
+					let temporaryTimeArr = this.alreadyAppointmentDate.filter((el) => { return el.date == item.actualDate});
+					if (temporaryTimeArr.length == 0) {return};
+					if (temporaryTimeArr[0].times.length > 0) {
+						for (let innerItem of temporaryTimeArr[0].times) {
+							let temporaryIndex = this.timeQuantumList.findIndex((el) => { return el.time == innerItem});
+							if (temporaryIndex != -1 ) {
+								this.timeQuantumList[temporaryIndex]['canSelect'] = false
+							}
+						}
+					}
 				}
 			},
 			
 			// 时间段列表项点击事件
 			timeQuantumItemClickEvent (item,index) {
-				// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
-				if (this.currentDateIndex === 0) {
-					let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
-					if (new Date(fullDateTime).getTime() > new Date().getTime()) {
-						this.currentTimeQuantumIndex = index;
-						this.currentSelectTimeQuantum = item;
-					} else {
+				if (this.isPlatformRecommendNurse) {
+					if (!item.canSelect) {
 						this.$refs.uToast.show({
-							message: "当前选择时间段已过期,请重新选择!",
+							message: "当前选择时间段已被预约,请选择其它时间段!",
 							position: 'top'
 						})
+					} else {
+						// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
+						if (this.currentDateIndex === 0) {
+							let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
+							if (new Date(fullDateTime).getTime() > new Date().getTime()) {
+								this.currentTimeQuantumIndex = index;
+								this.currentSelectTimeQuantum = item;
+							} else {
+								this.$refs.uToast.show({
+									message: "当前选择时间段已过期,请重新选择!",
+									position: 'top'
+								})
+							}
+						} else {
+							this.currentTimeQuantumIndex = index;
+							this.currentSelectTimeQuantum = item
+						}
 					}
 				} else {
-					this.currentTimeQuantumIndex = index;
-					this.currentSelectTimeQuantum = item
+					// 如果当前所在时间段超过当前时间，则不允许点击(选择日期是当天)
+					if (this.currentDateIndex === 0) {
+						let fullDateTime = `${this.currentSelectDate['actualDate']} ${index+9}:00:00`;
+						if (new Date(fullDateTime).getTime() > new Date().getTime()) {
+							this.currentTimeQuantumIndex = index;
+							this.currentSelectTimeQuantum = item;
+						} else {
+							this.$refs.uToast.show({
+								message: "当前选择时间段已过期,请重新选择!",
+								position: 'top'
+							})
+						}
+					} else {
+						this.currentTimeQuantumIndex = index;
+						this.currentSelectTimeQuantum = item
+					}
 				}
 			},
 			
@@ -633,26 +674,77 @@
 					});
 					return
 				};
-				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum}`;
+				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum.time}`;
 				this.expectationServiceTimeShow = false
 			},
 			
+			// 查询服务时间
+			getServiceTimeEvent (data) {
+				return new Promise((resolve,reject) => {
+					getServiceTime(data).then((res) => {
+						if ( res && res.data.code == 0) {
+							this.alreadyAppointmentDate = res.data.data;
+							resolve(this.alreadyAppointmentDate)
+						} else {
+							reject(res.data.msg) 
+						}
+					})
+					.catch((err) => {
+						reject(err) 
+					})
+				})
+			},
+			
 			// 期望服务时间点击事件
-			expectationServiceTimeClickEvent () {
+			async expectationServiceTimeClickEvent () {
 				this.expectationServiceTimeShow = true;
 				this.getCurrentMonth();
 				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
 				this.createCurrentMonthDate();
+				if (this.isPlatformRecommendNurse) {
+					this.showLoadingHint = true;
+					this.infoText = '可预约日期查询中···';
+					await this.getServiceTimeEvent({careId: this.nurseMessage.id});
+					this.showLoadingHint = false;
+					if (this.alreadyAppointmentDate.length > 0) {
+						// 为已经选过的日期添加标记
+						let temporaryDateArr = [];
+						this.alreadyAppointmentDate.forEach((item) => { temporaryDateArr.push(item.date)});
+						if (temporaryDateArr.length > 0) {
+							// for (let innerItem of temporaryDateArr) {
+							// 	let temporaryIndex = this.currentDateList.findIndex((el) => { return el.actualDate == innerItem});
+							// 	if (temporaryIndex != -1 ) {
+							// 		this.currentDateList[temporaryIndex]['canSelect'] = false
+							// 	}
+							// }
+						}
+					}
+				};
+				this.expectationServiceTimeShow = true;
 				// 回显当前显示日期和时间段所在列表的位置
 				if (this.serviceDate != '期望服务时间') {
 					let temporarayArr = this.serviceDate.split(" ");
 					// 日期
 					this.currentDateIndex = this.currentDateList.findIndex((item) => { return item.showDate == `${temporarayArr[0]} ${temporarayArr[1]}` });
 					this.currentSelectDate = this.currentDateList[this.currentDateIndex];
+					if (this.isPlatformRecommendNurse) {
+						// 重置时间段可预约状态
+						this.timeQuantumList.forEach((el) => { el.canSelect = true });
+						// 为回显的当期日期下已经选过的时间段添加标记
+						let temporaryTimeArr = this.alreadyAppointmentDate.filter((el) => { return el.date == this.currentSelectDate.actualDate });
+						if (temporaryTimeArr.length == 0) {return};
+						if (temporaryTimeArr[0].times.length > 0) {
+							for (let innerItem of temporaryTimeArr[0].times) {
+								let temporaryIndex = this.timeQuantumList.findIndex((el) => { return el.time == innerItem});
+								if (temporaryIndex != -1 ) {
+									this.timeQuantumList[temporaryIndex]['canSelect'] = false
+								}
+							}
+						}
+					};
 					// 时间段
-					console.log('sa',temporarayArr);
-					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item == `${temporarayArr[2]} ${temporarayArr[3]} ${temporarayArr[4]}` });;
-					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex]
+					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item.time.replace(/[\u4e00-\u9fa5]+/gi,'') == `${temporarayArr[2].replace(/[\u4e00-\u9fa5]+/gi,'')} ${temporarayArr[3]} ${temporarayArr[4]}` });;
+					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex];
 				}
 			},
 			
@@ -687,7 +779,8 @@
 					this.currentDateList.push(
 						{
 							actualDate: temporaryActualDate,
-							showDate: `${temporaryShowDate} (${temporaryWeek})`
+							showDate: `${temporaryShowDate} (${temporaryWeek})`,
+							canSelect: true
 						}
 					)
 				}
@@ -779,6 +872,13 @@
 			
 			// 切换护士类型事件
 			cutNurseEvent (text) {
+				this.serviceDate = '期望服务时间';
+				this.currentTimeQuantumIndex = null;
+				this.currentDateIndex = null;
+				this.currentSelectTimeQuantum = {};
+				this.currentSelectDate = {};
+				// 重置时间段可预约状态
+				this.timeQuantumList.forEach((el) => { el.canSelect = true });
 				if (text == '指定') {
 					// 传递服务资质
 					let temporaryMessage = {
@@ -900,7 +1000,6 @@
 			},
 			
 			// 确认修改事件
-			// this.currentSelectTimeQuantum.replace(/[\u4e00-\u9fa5]+/gi,'')
 			async sureEditEvent () {
 				if (this.serviceSite == '上门服务详细地址') {
 					this.$refs.uToast.show({
@@ -955,7 +1054,7 @@
 					careId: this.isPlatformRecommendNurse ? this.editServiceOrderFormSureChooseMessage.chooseNurseMessage.id : "",
 					remark: "",
 					serviceDate: this.currentSelectDate.actualDate,
-					serviceTime: this.currentSelectTimeQuantum,
+					serviceTime: this.currentSelectTimeQuantum.time.replace(/[\u4e00-\u9fa5]+/gi,''),
 					servicePersonId: this.editServiceOrderFormSureChooseMessage.chooseProtegePersonMessage.id,
 					images: this.imgOnlinePathArr.concat(this.exitImgOnlinePathArr),
 					assignType: this.isPlatformRecommendNurse ? "USER" : "SYSTEM"
@@ -1199,6 +1298,10 @@
 											margin-bottom: 4px;
 											color: #101010
 										};
+										.dateListDisabledStyle {
+											color: #dadada !important;
+											background: #fbfbfb !important;
+										};
 										.dateListStyle {
 											background: #F1F1F1;
 											border-radius: 5px
@@ -1217,6 +1320,9 @@
 											font-size: 14px;
 											margin-bottom: 4px;
 											color: #101010
+										};
+										.timeQuantumListDisabledStyle {
+											color: #cecece !important
 										};
 										.timeQuantumListStyle {
 											background: #fff;

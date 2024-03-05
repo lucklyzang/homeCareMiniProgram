@@ -69,6 +69,15 @@ export function createPayOrder(data) {
   })
 };
 
+// 查询服务时间
+export function getServiceTime(data) {
+  return request({
+    url: '/app-api/trade/order/get-service-time',
+    method: 'get',
+		params: data
+  })
+};
+
 // 提交支付订单
 export function submitPayOrder(data) {
   return request({
