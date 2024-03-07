@@ -41,87 +41,96 @@
 				</view>
 			</view>
 			<view class="service-details-bottom">
-				<view class="tabs-area">
-					<u-tabs lineColor="#0F0F0F" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
-					 :activeStyle="{color: '#101010',fontSize: '14px',fontWeight:'bold'}"
-					:list="listTabsName" @click="tabClickEvent"></u-tabs>
-				</view>
-				<view class="service-details-box" v-if="current == 0">
-					<view class="title-area">
-						<text>服务详情</text>
+				<u-sticky>
+					<view class="tabs-area">
+						<u-tabs lineColor="#0F0F0F" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
+						 :activeStyle="{color: '#101010',fontSize: '14px',fontWeight:'bold'}"
+						:list="listTabsName" @click="tabClickEvent" :current="current"></u-tabs>
 					</view>
-					<view class="service-content-area">
-						<rich-text class="rich-content" :nodes="productDetailsMessage.description"></rich-text>
-						<!-- <view class="service-goal">
-							<view>
-								<text>服务目的</text>
+				</u-sticky>
+				<view class="service-content-wrapper">
+					<scroll-view :scroll-into-view="toView" @scrolltolower="serviceContentScrolltolower" :show-bar="false" :scroll-y="true" @scroll="scrollEvt" :scroll-with-animation="true">
+						<view class="service-details-box" id="tabContent1">
+							<view class="title-area">
+								<text>服务详情</text>
 							</view>
-							<view>
-								<text>提高家长自我监护新生儿黄宜的能力，避免高胆红素血症导致的不良结局的发生</text>
-							</view>
-						</view>
-						<view class="service-entry">
-							<view>
-								<text>服务内容</text>
-							</view>
-							<view>
-								<text>1.经皮测单新生儿胆红素指数，判断胆红素水平</text>
-								<text>2.黄宜相关知识宣教。</text>
-							</view>
-						</view>
-						<view class="apply-person">
-							<view>
-								<text>适用人群</text>
-							</view>
-							<view>
-								<text>0-6个月婴幼儿</text>
-							</view>
-						</view> -->
-					</view>
-				</view>
-				<view class="appointment-notice-box" v-if="current == 1">
-					<view class="title-area">
-						<text>预约须知</text>
-					</view>
-					<view class="service-content-area">
-						1.每个订单仅为一位用户提供一次服务。 若需在同个时间段下单多个项目，可在护土接单后和护土沟通追加项目，可享受定折扣。<br>
-						2.请务必保证提交的信息真实、准确无误.<br>
-						3.下单后请保持电话通畅，工作人员会联系您确认相关信息4.下单后原则上不支持修改服务时间，如需修改，请联系平台喜服或与服务护土沟通。<br>
-						5.开始服务前，请务必确认上门护士身份、核实订单准确6.受限于客观条件，有以下情况者不在服务范围内: 具有攻击性、传染性、易产生过激反应等7.超时费和超路程费收费规则:<br>
-						(1)超时费: 超出服务标准时长，每超出30分钟，则加收50元，以此类推。<br>
-						(2) 护士已接单未出门，扣除用户订单金额30% <br>
-					</view>
-				</view>
-				<view class="user-evaluate-box" v-if="current == 2">
-					<view class="title-area">
-						<text>用户评价</text>
-					</view>
-					<view class="service-content-area">
-						<u-empty text="暂无评价" v-if="isShowNoHomeNoData"></u-empty>
-						<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-							<view class="user-evaluate-list" v-for="(item,index) in fullCommentList" :key="index">
-								<view class="user-evaluate-list-top">
+							<view class="service-content-area">
+								<rich-text class="rich-content" :nodes="productDetailsMessage.description"></rich-text>
+								<!-- <view class="service-goal">
 									<view>
-										<text>{{ item.content }}</text>
+										<text>服务目的</text>
 									</view>
 									<view>
-										<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
-										<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+										<text>提高家长自我监护新生儿黄宜的能力，避免高胆红素血症导致的不良结局的发生</text>
 									</view>
 								</view>
-								<view class="user-evaluate-list-bottom">
+								<view class="service-entry">
 									<view>
-										<u-rate :count="item.scores" size="10" activeColor="#F9B128" v-model="item.scores" readonly></u-rate>
+										<text>服务内容</text>
 									</view>
 									<view>
-										<text>{{ item.spuName }}</text>
+										<text>1.经皮测单新生儿胆红素指数，判断胆红素水平</text>
+										<text>2.黄宜相关知识宣教。</text>
 									</view>
 								</view>
+								<view class="apply-person">
+									<view>
+										<text>适用人群</text>
+									</view>
+									<view>
+										<text>0-6个月婴幼儿</text>
+									</view>
+								</view> -->
 							</view>
-							<u-loadmore :status="status" v-if="fullCommentList.length > 0" />
-						</scroll-view>
-					</view>
-				</view>
+						</view>
+						<view class="appointment-notice-box" id="tabContent2">
+							<view class="title-area">
+								<text>预约须知</text>
+							</view>
+							<view class="service-content-area">
+								1.每个订单仅为一位用户提供一次服务。 若需在同个时间段下单多个项目，可在护土接单后和护土沟通追加项目，可享受定折扣。<br>
+								2.请务必保证提交的信息真实、准确无误。<br>
+								3.下单后请保持电话通畅，工作人员会联系您确认相关信息。<br>
+								4.下单后原则上不支持修改服务时间，如需修改，请联系平台喜服或与服务护土沟通。<br>
+								5.开始服务前，请务必确认上门护士身份、核实订单准确。<br>
+								6.受限于客观条件，有以下情况者不在服务范围内: 具有攻击性、传染性、易产生过激反应等。<br>
+								7.超时费和超路程费收费规则:<br>
+								(1)超时费: 超出服务标准时长，每超出30分钟，则加收50元，以此类推。<br>
+								(2) 护士已接单未出门，扣除用户订单金额30% <br>
+							</view>
+						</view>
+						<view class="user-evaluate-box" id="tabContent3">
+							<view class="title-area">
+								<text>用户评价</text>
+							</view>
+							<view class="service-content-area">
+								<u-empty text="暂无评价" v-if="isShowNoHomeNoData"></u-empty>
+								<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+									<view class="user-evaluate-list" v-for="(item,index) in fullCommentList" :key="index">
+										<view class="user-evaluate-list-top">
+											<view>
+												<text>{{ item.content }}</text>
+											</view>
+											<view>
+												<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
+												<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+											</view>
+										</view>
+										<view class="user-evaluate-list-bottom">
+											<view>
+												<u-rate :count="item.scores" size="10" activeColor="#F9B128" v-model="item.scores" readonly></u-rate>
+											</view>
+											<view>
+												<text>{{ item.spuName }}</text>
+											</view>
+										</view>
+									</view>
+									<u-loadmore :status="status" v-if="fullCommentList.length > 0" />
+								</scroll-view>
+							</view>
+						</view>
+					</scroll-view>
+				</view>	
 			</view>
 		</view>
 		<view class="appointment-btn-area" @click="appointmentServiceEvent">
@@ -150,6 +159,11 @@
 		data() {
 			return {
 				showLoadingHint: false,
+				distanceList: [],
+				serviceContentHeight: 0,
+				timer: null,
+				isServiceScrolltolower: false,
+				isLeftClick: false,
 				count: 5,
 				value: 2,
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
@@ -168,6 +182,7 @@
 				fullCommentList: [],
 				currentNum: 0,
 				swiperList: [],
+				toView: '',
 				listTabsName: [
 					{
 						name: '服务详情'
@@ -193,7 +208,17 @@
 		onLoad(options) {
 			this.spuId = options.transmitData;
 			this.queryProductDetails(options.transmitData);
-			this.examineProductFavoriteEvent({spuId: this.spuId })
+			this.examineProductFavoriteEvent({spuId: this.spuId });
+			this.currentPageNum = 1;
+			this.totalCount = 0;
+			this.status = 'nomore';
+			this.isShowNoHomeNoData = false;
+			this.queryProductComment({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				spuId: this.spuId,
+				type: 0
+			},true)
 		},
 		methods: {
 			...mapMutations([
@@ -207,19 +232,56 @@
 			// tab切换事件
 			tabClickEvent (item) {
 				this.current = item.index;
-				this.currentPageNum = 1;
-				this.totalCount = 0;
-				this.status = 'nomore';
-				this.isShowNoHomeNoData = false;
-				if (this.current == 2) {
-					this.fullCommentList = [];
-					this.queryProductComment({
-						pageNo: this.currentPageNum,
-						pageSize: this.pageSize,
-						spuId: this.spuId,
-						type: 0
-					},true)
-				}
+				this.isLeftClick = true;
+				this.toView = 'tabContent' + (this.current + 1);
+			},
+			
+			//获取服务介绍各部分距离顶部的距离
+			getDistanceToTop() {
+				let that = this;
+				let selectorQueryOne = uni.createSelectorQuery().in(this);
+				let selectorQueryTwo = uni.createSelectorQuery().in(this);
+				let selectorQueryThree = uni.createSelectorQuery().in(this);
+				selectorQueryOne.selectAll('.service-details-box').boundingClientRect((rects) =>{
+					that.serviceContentHeight += rects[0].height;
+					that.distanceList.push(rects[0].height);
+				}).exec();
+				selectorQueryTwo.selectAll('.appointment-notice-box').boundingClientRect((rects) => {
+					that.serviceContentHeight += rects[0].height;
+					that.distanceList.push(rects[0].height + that.distanceList[0]);
+				}).exec();
+				selectorQueryThree.selectAll('.user-evaluate-box').boundingClientRect((rects) => {
+					that.distanceList.push(rects[0].height + that.distanceList[1]);
+				}).exec()
+			},
+			
+			// 服务内容滚动到底部函数
+			serviceContentScrolltolower () {
+				this.isServiceScrolltolower = true
+			},
+			
+			// 元素滚动到顶部时，对应tab变为选中状态
+			scrollEvt(e){
+				// 点击tab引起的滚动不做判断
+				if(this.isLeftClick){
+					this.isLeftClick = false
+					return
+				};
+				// 防抖
+				if(this.timer){
+					clearTimeout(this.timer)
+				};
+				this.timer = setTimeout(()=>{
+					let scrollTop = e.detail.scrollTop; //滚动的高度
+					// 找到位于顶部元素的索引，距离大于滚动高度的第一个元素的上一个元素就是此时位于顶部的元素
+					let index = this.distanceList.findIndex(it=>{
+						// 滚动条的位置大于元素距离顶部位置的距离时，说明元素已经滑过了顶部
+						return (it > scrollTop)
+					});
+					if (index == -1) { return };
+					console.log('距离信息',scrollTop,this.distanceList);
+					this.current = index;
+				},10)
 			},
 			
 			// 查询服务详情
@@ -232,7 +294,10 @@
 						this.productDetailsMessage = res.data.data;
 						this.swiperList = res.data.data['sliderPicUrls'];
 						this.productDetailsMessage.price = fenToYuan(this.productDetailsMessage.price);
-						this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/\<img/gi, '<img class="mystyle"')
+						this.productDetailsMessage.description = this.productDetailsMessage.description.replace(/\<img/gi, '<img class="mystyle"');
+						setTimeout(()=>{
+							this.getDistanceToTop();
+						},500)
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -252,6 +317,7 @@
 				})
 			},
 			
+			// 服务评价滚动到底部事件
 			scrolltolower () {
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPageNum >= totalPage) {
@@ -596,6 +662,7 @@
 				padding: 10px 0;
 				box-sizing: border-box;
 				.tabs-area {
+					height: 44px;
 					background: #fff;
 					box-shadow: 0px 1px 3px 0px rgba(137, 140, 140, 0.61);
 					::v-deep .u-tabs {
@@ -604,6 +671,11 @@
 								flex: 1
 							}
 						}
+					}
+				};
+				.service-content-wrapper {
+					::v-deep scroll-view {
+						height: 400px;
 					}
 				};
 				.service-details-box {

@@ -118,6 +118,7 @@
 		
 		methods: {
 			...mapMutations([
+				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
 			// 顶部导航返回事件
@@ -164,13 +165,13 @@
 					if ( res && res.data.code == 0) {
 						// mock支付(status==10表示支付成功)
 						if (res.data.data.status == 10) {
-							this.$refs.uToast.show({
-								message: '支付成功',
-								type: 'success',
-								position: 'center'
-							});
-							uni.switchTab({
-								url: '/pages/orderForm/orderForm'
+							// 传递该订单详情及当前切换的订单类型的信息
+							let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+							temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = { id: res.data.data.orderId };
+							temporaryEditServiceOrderFormSureChooseMessage['current'] = 0;
+							this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
+							uni.navigateTo({
+								url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'
 							})
 						}	
 						// 调起微信支付

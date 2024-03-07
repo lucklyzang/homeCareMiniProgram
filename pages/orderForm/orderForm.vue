@@ -164,7 +164,7 @@
 						<view class="consumption-rental-right">
 							<text>{{`${item.workerStatus == 0 ? '待付' : '实付'}总额`}}</text>
 							<text>￥</text>
-							<text>{{ `${item.payPrice}` }}</text>
+							<text>{{ item.status == 70 && item.refundStatus == 0 ? '0.00' : `${item.payPrice}` }}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">
@@ -455,7 +455,7 @@
 						<view class="consumption-rental-right">
 							<text>实付总额</text>
 							<text>￥</text>
-							<text>{{`${item.payPrice}`}}</text>
+							<text>{{ item.status == 70 && item.refundStatus == 0 ? '0.00' : `${item.payPrice}` }}</text>
 						</view>
 					</view>
 					<view class="order-form-bottom">

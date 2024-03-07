@@ -22,8 +22,13 @@
 								<text>{{ item.content }}</text>
 							</view>
 							<view>
-								<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
-								<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+								<view class="user-evaluate-name">
+									<text>{{ !item.userNickname ? '匿名用户' :  item.userNickname }}</text>
+									<text>互联网预约</text>
+								</view>
+								<view class="user-evaluate-date">
+									<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+								</view>
 							</view>
 						</view>
 						<view class="user-evaluate-list-bottom">
@@ -305,17 +310,35 @@
 								display: flex;
 								justify-content: space-between;
 								align-items: center;
-								>text {
-									display: inline-block;
-									font-size: 11px;
-									color: #999999;
-									font-weight: 400;
-									&:nth-child(1) {
-										flex: 1;
-										@include no-wrap;
-										padding-right: 8px;
-										box-sizing: border-box;
+								.user-evaluate-name {
+									display: flex;
+									align-items: center;
+									flex: 1;
+									padding-right: 10px;
+									box-sizing: border-box;
+									>text {
+										display: inline-block;
+										font-size: 11px;
+										color: #999999;
+										font-weight: 400;
+										&:nth-child(1) {
+											max-width: 140px;
+											@include no-wrap;
+											padding-right: 8px;
+											box-sizing: border-box;
+										};
+										&:nth-child(2) {
+											width: 60px;
+										}
 									}
+								};
+								.user-evaluate-date {
+									>text {
+										display: inline-block;
+										font-size: 11px;
+										color: #999999;
+										font-weight: 400;
+									}	
 								}
 							}
 						}

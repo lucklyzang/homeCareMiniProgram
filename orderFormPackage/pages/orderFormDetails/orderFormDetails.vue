@@ -188,9 +188,9 @@
 							<text>￥0</text>
 						</view>
 						<view class="price-list-one price-list-last">
-							<text>实付款</text>
+							<text>{{`${serviceMessage.workerStatus == 0 ? '待付' : '实付'}款`}}</text>
 							<text>￥</text>
-							<text>{{`${serviceMessage.payPrice}`}}</text>
+							<text>{{ serviceMessage.status == 70 && serviceMessage.refundStatus == 0 ? '0.00' : `${serviceMessage.payPrice}` }}</text>
 						</view>
 					</view>
 				</view>
@@ -438,7 +438,8 @@
 				refundReason: '',
 				deleteInfoContent: '删除订单不可恢复，如有疑问请联系客服人员咨询',
 				haveDeleteInfoContent: '已删除订单',
-				currentSelectOrderMessage: {}
+				currentSelectOrderMessage: {},
+				beforePageRoute: ''
 			}
 		},
 		computed: {
@@ -452,6 +453,8 @@
 			}
 		},
 		onShow() {
+			let pages = getCurrentPages();//当前页
+			this.beforePageRoute = pages[pages.length - 2].route;//上个页面路径
 			this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id, type: 1})
 		},
 		onReady() {
@@ -736,7 +739,13 @@
 						this.serviceMessage = res.data.data;
 						this.serviceMessage.payPrice = fenToYuan(this.serviceMessage.payPrice);
 						this.currentFlow = this.transitionOrderFlowStatusText(this.serviceMessage.workerStatus,this.serviceMessage);
-						console.log('订单详情',this.serviceMessage);
+						if (this.beforePageRoute == 'orderFormPackage/pages/orderPay/orderPay') {
+							this.$refs.uToast.show({
+								message: '支付成功！',
+								type: 'success',
+								position: 'center'
+							})
+						}
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -1009,7 +1018,13 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.navigateBack()
+				if (this.beforePageRoute == 'orderFormPackage/pages/orderPay/orderPay') {
+					uni.switchTab({
+						url: '/pages/orderForm/orderForm'
+					})
+				} else {
+					uni.navigateBack()
+				}
 			}	
 		}
 	}
