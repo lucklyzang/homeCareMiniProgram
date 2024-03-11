@@ -74,7 +74,6 @@
             maxlength="300"
             confirm-type="send"
 						autoHeight
-						height="72"
             @confirm="handleSend"
             placeholder="快来聊天吧~"
             :show-confirm-bar="false"
@@ -559,14 +558,34 @@
 				
 			// 滚动至聊天底部
 			scrollToBottom(e) {
-				setTimeout(()=>{
+				setTimeout(() => {
 					let query = uni.createSelectorQuery().in(this);
 					query.select('#scrollview').boundingClientRect();
 					query.select('#msglistview').boundingClientRect();
-					query.exec((res) =>{
-						if(res[1].height > res[0].height){
-							this.scrollTop = this.rpxTopx(res[1].height - res[0].height)
-						}
+					query.exec((res) => {
+						if(res[1].height > res[0].height) {
+							this.scrollTop = this.rpxTopx(res[1].height - res[0].height);
+						};
+						// 匀减速滚动到顶部
+						// if(res[1].height > res[0].height) {
+						// 	let time=+new Date;
+						// 	let distance = this.rpxTopx(Math.abs(res[1].height - res[0].height));
+						// 	let a = 2*distance/1; //x=a*t^2/2 求出加速度
+						// 	let v0 = Math.sqrt(distance*2*a); // 根据公式：2as=v^2求出初速度
+						// 	let func = function() {
+						// 		let time2,offsetDis,durTime,pos;
+						// 		time2=+new Date;
+						// 		durTime = time2-time;
+						// 		offsetDis = Math.ceil(v0*durTime-a*durTime*durTime/2); //根据s=v0*t+1/2*a*t^2求出位移x
+						// 		if (1 < durTime) {
+						// 			this.scrollTop = this.rpxTopx(res[1].height - res[0].height)
+						// 		} else {
+						// 			pos = from > to ? from-offsetDis : from+offsetDis;
+						// 			this.scrollTop = this.rpxTopx(pos);
+						// 			requestFrame(func);
+						// 		}
+						// 	};
+						// 	func()
 					})
 				},15)
 			},
@@ -786,7 +805,7 @@
 					font-size: 32rpx;
 					font-family: PingFang SC;
 					color: #333333;
-					line-height: 74rpx;
+					line-height: 40rpx;
 					padding: 5rpx 8rpx;
           text-indent: 30rpx;
 				}
@@ -795,7 +814,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				margin-bottom: 76rpx;
+				margin-bottom: 70rpx;
 				margin-left: 25rpx;
 				width: 120rpx;
 				height: 75rpx;
