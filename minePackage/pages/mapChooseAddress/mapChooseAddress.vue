@@ -152,14 +152,21 @@ export default {
 						"Content-Type": "application/text"
 					},
 					url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + this.latitude + ',' + this.longitude +
-													'&key=XOXBZ-MZWWD-CDX4H-PONXN-UA5PJ-D7FJN',
+													'&key=TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E',
 					success:(re)=> {
 						//成功获取到经纬度
-						console.log(re)
 						if (re.statusCode == 200) {
-							this.address_info_recomd = re.data.result.formatted_addresses.recommend;
-							this.address_info = re.data.result.address_reference.town.title + re.data.result.address_reference.street.title + re.data.result.address_reference.landmark_l2.title;
-							this.address = re.data.result.address
+							if (re.data.result) {
+								this.address_info_recomd = re.data.result.formatted_addresses.recommend;
+								this.address_info = re.data.result.address_reference.town.title + re.data.result.address_reference.street.title + re.data.result.address_reference.landmark_l2.title;
+								this.address = re.data.result.address
+							} else {
+								this.$refs.uToast.show({
+									message: res.data.message,
+									type: 'error',
+									position: 'center'
+								})
+							}
 						} else {
 							uni.showToast({
 								title: '获取地理位置失败，请重试',
