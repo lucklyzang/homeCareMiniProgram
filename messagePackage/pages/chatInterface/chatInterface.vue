@@ -41,7 +41,7 @@
 						<!-- 文字内容 -->
 						<view class="content right">
 							<text>{{ item.content }}</text>
-							<image src="@/static/img/send-message-load.gif" v-if="item.status == 'sending'"></image>
+						<!-- 	<image src="@/static/img/send-message-load.gif" v-if="item.status == 'sending'"></image> -->
 							<u-icon name="error-circle-fill" size="20" color="red" v-if="item.status == 'fail'"></u-icon>
 						</view>
 						<!-- 头像 -->
@@ -398,9 +398,9 @@
 						// Socket没有开启，重新连接并重新发送消息,并将推入列表的消息的状态变为失败
 						this.fullMsgList[this.fullMsgList.length - 1]['status'] = 'fail';
 						this.init();
-						setTimeout(() => {
-							this.sendSocketMessage(msg)
-						},300)
+						// setTimeout(() => {
+						// 	this.sendSocketMessage(msg)
+						// },300)
 					}
 				} catch (err) {
 					this.$refs.uToast.show({
@@ -495,7 +495,7 @@
 						return
 					};
 					this.chatMessageReadEvent(JSON.parse(obj.content).fromUserId);
-					this.fullMsgList.push({
+					let temporaryMessageList = [{
 						content: JSON.parse(obj.content)['text'],
 						createTime: new Date().getTime(),
 						fromAvatar: this.careAvatar,
@@ -504,15 +504,16 @@
 						me: false,
 						read: false,
 						toId: this.userInfo.userId
-					});
+					}];
+					this.fullMsgList = [...this.fullMsgList,...temporaryMessageList];
 					this.scrollToBottom()
 				} else {
 					if (!obj.hasOwnProperty('content')) {
-						if (this.fullMsgList[this.fullMsgList.length - 1]['status'] == 'fail') {
-							this.fullMsgList[this.fullMsgList.length - 1]['status'] = ''
-						} else {
-							this.fullMsgList[this.fullMsgList.length - 1]['status'] = '';
-						}
+						// if (this.fullMsgList[this.fullMsgList.length - 1]['status'] == 'fail') {
+						// 	this.fullMsgList[this.fullMsgList.length - 1]['status'] = ''
+						// } else {
+						// 	this.fullMsgList[this.fullMsgList.length - 1]['status'] = '';
+						// }
 					}
 				}
 			},
@@ -679,8 +680,7 @@
 						me: true
 					};
 					this.sendSocketMessage(this.chatMsg);
-					this.msgList.push(obj);
-					this.fullMsgList = this.fullMsgList.concat(this.msgList);
+					this.fullMsgList = this.fullMsgList.concat(obj);
 					this.chatMsg = '';
 					this.scrollToBottom()
 				}

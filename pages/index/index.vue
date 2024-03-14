@@ -70,7 +70,7 @@
 			<view class="recommend-service">
 				<view class="service-title">
 					<view class="service-title-left">推荐服务</view>
-					<view class="service-title-right"></view>
+					<view class="service-title-right">我们的每一位护师都是严格培训，持证上岗！</view>
 				</view>
 				<view class="service-list-box">
 					<view class="service-list" v-for="(item,index) in recommendProductList" @click="enterServiceDetailsEvent(item.id)">

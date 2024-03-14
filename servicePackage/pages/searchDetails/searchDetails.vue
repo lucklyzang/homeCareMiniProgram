@@ -138,6 +138,7 @@
 			</view>
 			<view class="organization-box" v-if="current == 2">
 				<view class="organization-list-box">
+					<u-empty text="暂无机构" v-if="isShowNoHomeNoData"></u-empty>
 					<view class="organization-list" v-for="(item,index) in organizationList" :key="index">
 						{{ item.content }}
 					</view>
@@ -454,6 +455,7 @@
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.organizationList = [];
+				this.isShowNoHomeNoData = false;
 				getOrganizationList(name).then((res) => {
 					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
@@ -464,6 +466,8 @@
 									content: item.name
 								})
 							}
+						} else {
+							this.isShowNoHomeNoData = true
 						}
 					}
 				})
@@ -963,6 +967,13 @@
 					display: flex;
 					align-content: flex-start;
 					flex-wrap: wrap;
+					position: relative;
+					::v-deep .u-empty {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%)
+					 };
 					.organization-list {
 						width: 49%;
 						margin-right: 2%;
