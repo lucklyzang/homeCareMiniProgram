@@ -37,7 +37,7 @@
 									<text>{{ item.name }}</text>
 								</view>
 								<view class="other-info">
-									<text>内部专属护理，欢迎体验！</text>
+									<text>{{ item.introduction }}</text>
 								</view>
 								<view class="service-price">
 									<text>￥</text>
@@ -429,6 +429,7 @@
 								margin-top: -20px;
 								>text {
 									width: 100%;
+									@include no-wrap;
 									display: inline-block;
 									font-size: 11px;
 									color: #999999;

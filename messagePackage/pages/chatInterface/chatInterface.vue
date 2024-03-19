@@ -152,7 +152,8 @@
 				totalCount: 0,
 				beforePageRoute: '',
 				personPhotoSource: '',
-				showCallPhoneBox: false
+				showCallPhoneBox: false,
+				newReceiveMessageId: ''
 			}
 		},
 		updated() {},
@@ -230,7 +231,10 @@
 			})
 		},
 		
-		onUnload(){
+		onUnload() {
+			if (this.newReceiveMessageId !== '') {
+				this.chatMessageReadEvent(this.newReceiveMessageId)
+			};
 			uni.offKeyboardHeightChange(() =>{});
 			// 关闭定时器(定时判断是否断开)
 			if (this.timer) {
@@ -574,6 +578,7 @@
 					if (!obj.hasOwnProperty('content')) {
 						return
 					};
+					this.newReceiveMessageId = JSON.parse(obj.content).fromUserId;
 					this.chatMessageReadEvent(JSON.parse(obj.content).fromUserId);
 					let temporaryMessageList = [{
 						content: JSON.parse(obj.content)['text'],

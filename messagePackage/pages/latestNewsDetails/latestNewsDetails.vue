@@ -17,7 +17,7 @@
 				<view class="message-title-left-bottom">
 					<text>{{ detailsMessage.author }}</text>
 					<text>{{ getNowFormatDate(new Date(detailsMessage.createTime),4) }}</text>
-					<text>{{ detailsMessage.userPosition }}</text>
+					<!-- <text>{{ detailsMessage.userPosition }}</text> -->
 				</view>
 			</view>
 			<view class="message-title-right">
