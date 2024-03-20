@@ -64,7 +64,7 @@
 							<view class="service-list-right">
 								<view class="service-project">
 									<text>{{ item.name }}</text>
-									<text>内部专属护理,欢迎体验!</text>
+									<text>{{ item.introduction }}</text>
 								</view>
 								<view class="service-price">
 									<text>￥</text>

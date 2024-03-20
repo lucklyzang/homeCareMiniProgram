@@ -37,16 +37,18 @@
 									<text>{{ item.name }}</text>
 								</view>
 								<view class="other-info">
-									<text>{{ item.introduction }}</text>
+									<!-- <text>{{ item.introduction }}</text> -->
+									<text>{{ item.hasOwnProperty('commentScore') ? `${item.commentScore.toFixed(1)}分` : '暂无评分' }}</text>
+									<text>{{ `销量${item.salesCount}` }}</text>
 								</view>
 								<view class="service-price">
 									<text>￥</text>
 									<text>{{ `${item.price}` }}</text>
 								</view>
 							</view>
-							<!-- <view class="collect-icon">
-								<u-icon name="heart-fill" color="#FC4579" size="34"></u-icon>
-							</view> -->
+							<view class="collect-icon" @click.stop="collectProductEvent(item,index)">
+								<u-icon name="heart-fill" :color="item.collect ? '#FC4579': '#999999'" size="28"></u-icon>
+							</view>
 						</view>
 					</view>
 					<u-loadmore :status="status" v-if="fullServiceCategoryDetailsList.length > 0" />
@@ -67,7 +69,7 @@
 	} from '@/common/js/utils'
 	import navBar from "@/components/zhouWei-navBar"
 	import { fenToYuan } from '@/common/js/utils'
-	import { getServiceProductCategory, getServiceProductCategoryDetails } from '@/api/user.js'
+	import { getServiceProductCategory, getServiceProductCategoryDetails, createProductFavorite, deleteProductFavorite } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -136,6 +138,69 @@
 				// 传递服务地址信息
 				uni.navigateTo({
 					url: '/servicePackage/pages/service/index/index?transmitData='+item
+				})
+			},
+			
+			// 收藏/取消收藏服务事件
+			collectProductEvent (item,index) {
+				if (item.collect) {
+					this.cancelProductCollectEvent(item,index)
+				} else {
+					this.createProductFavoriteEvent(item,index)
+				}
+			},
+			
+			// 创建商品收藏
+			createProductFavoriteEvent(item,index) {
+				this.showLoadingHint = true;
+				this.infoText = '收藏中···';
+				createProductFavorite({spuId: item.id }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$set(this.fullServiceCategoryDetailsList[index],'collect',true);
+						this.$forceUpdate();
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 取消服务收藏事件
+			cancelProductCollectEvent (item,index) {
+				this.showLoadingHint = true;
+				this.infoText = '取消收藏中···';
+				deleteProductFavorite({spuId: item.id }).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$set(this.fullServiceCategoryDetailsList[index],'collect',false);
+						this.$forceUpdate();
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			
@@ -422,18 +487,40 @@
 									display: inline-block;
 									font-size: 13px;
 									color: #333333;
-									font-weight: 400;
+									font-weight: 600;
 								}
 							};
 							.other-info {
-								margin-top: -20px;
+								margin-top: -10px;
+								@include no-wrap;
+								display: flex;
 								>text {
-									width: 100%;
-									@include no-wrap;
 									display: inline-block;
-									font-size: 11px;
-									color: #999999;
-									font-weight: 400;
+									font-size: 12px;
+									&:nth-child(1) {
+										position: relative;
+										color: orange;
+										padding-right: 12px;
+										box-sizing: border-box;
+									};
+									&:nth-child(1) ::after {
+										content: '';
+										width: 1px;
+										height: 12px;
+										background: #b1b1b1;
+										position: absolute;
+										top: 50%;
+										transform: translateY(-50%);
+										right: 0;
+									};
+									&:nth-child(2) {
+										flex: 1;
+										@include no-wrap;
+										padding-left: 12px;
+										color: #333333;
+										font-weight: 400;
+										box-sizing: border-box;
+									}
 								}
 							};
 							.service-price {
