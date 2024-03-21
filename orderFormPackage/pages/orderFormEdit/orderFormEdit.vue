@@ -81,7 +81,7 @@
 						<text>{{ serViceName }}</text>
 					</view>
 					<view class="service-project-right-bottom">
-						<text v-for="(item,index) in serviceMessage.keywords" :key="index">{{ item }}</text>
+						<text v-if="item !== ''" v-for="(item,index) in serviceMessage.keywords" :key="index">{{ item }}</text>
 					</view>
 				</view>
 			</view>

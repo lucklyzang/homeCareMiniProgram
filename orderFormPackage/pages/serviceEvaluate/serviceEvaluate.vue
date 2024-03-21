@@ -15,9 +15,9 @@
 				<view class="order-form-top">
 					<view class="expectation-date">
 						<text>期望时间：</text>
-						<text>{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
+						<text v-if="serviceMessage.serviceDate">{{ `${getNowFormatDateText(serviceMessage.serviceDate)} (${judgeWeek(serviceMessage.serviceDate)}) ${serviceMessage.serviceTime}` }}</text>
 					</view>
-					<view class="order-form-status">
+					<view class="order-form-status" v-if="serviceMessage.workerStatus != null">
 						<text :class="{'waitPayStyle' : transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '派单中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待支付' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '服务中' || transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) == '待评价'}">
 						{{ transitionOrderStatusText(serviceMessage.workerStatus,serviceMessage) }}</text>
 					</view>
