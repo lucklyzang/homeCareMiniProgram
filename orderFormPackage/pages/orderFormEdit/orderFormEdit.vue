@@ -270,7 +270,7 @@
 					<text>￥</text>
 					<text>{{ `${serVicePrice}` }}</text>
 				</view>
-				<view class="to-pay-btn" @click="sureEditEvent">
+				<view class="to-pay-btn" :class="{'toPayBtnStyle': !isCanAppointment}" @click="sureEditEvent">
 					确认修改
 				</view>
 			</view>
@@ -315,9 +315,14 @@
 				serviceDate: '期望服务时间',
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
-				isReadAgreeChecked: ['阅读并同意协议'],
+				isReadAgreeChecked: ['我已阅读并同意协议'],
+				isChooseServiceSite: false,
+				isChooseServiceDate: false,
+				isChooseprotectedPerson: false,
+				isChooseAgreement: false,
 				userLicenseAgreementShow: false,
 				expectationServiceTimeShow: false,
+				isCanAppointment: false,
 				checkboxList: [
 					{
 						name: '我已阅读并同意协议',
@@ -352,6 +357,72 @@
 					{time: '下午15:00 - 16:00',canSelect: true},{time: '下午16:00 - 17:00',canSelect: true},{time: '下午17:00 - 18:00',canSelect: true},{time: '下午18:00 - 19:00',canSelect: true},
 					{time: '下午19:00 - 20:00',canSelect: true}
 				]
+			}
+		},
+		watch: {
+			serviceSite: {
+				handler(newVal, oldVal) {
+					if (newVal != '上门服务详细地址') {
+						this.isChooseServiceSite = true
+					} else {
+						this.isChooseServiceSite = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			serviceDate: {
+				handler(newVal, oldVal) {
+					if (newVal != '期望服务时间') {
+						this.isChooseServiceDate = true
+					} else {
+						this.isChooseServiceDate = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			protectedPerson: {
+				handler(newVal, oldVal) {
+					if (newVal != '请选择被服务人') {
+						this.isChooseprotectedPerson = true
+					} else {
+						this.isChooseprotectedPerson = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			isReadAgreeChecked: {
+				handler(newVal, oldVal) {
+					if (newVal.length > 0) {
+						this.isChooseAgreement = true
+					} else {
+						this.isChooseAgreement = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
 			}
 		},
 		computed: {
@@ -704,7 +775,7 @@
 				if (this.isPlatformRecommendNurse) {
 					this.showLoadingHint = true;
 					this.infoText = '可预约日期查询中···';
-					await this.getServiceTimeEvent({careId: this.nurseMessage.id});
+					await this.getServiceTimeEvent({careId: this.nurseMessage.id, id: this.serviceMessage.id});
 					this.showLoadingHint = false;
 					if (this.alreadyAppointmentDate.length > 0) {
 						// 为已经选过的日期添加标记
@@ -1861,6 +1932,9 @@
 					color: #FFFFFF;
 					text-align: center;
 					font-weight: 400;
+				};
+				.toPayBtnStyle {
+					background: #c8c8c8 !important;
 				}
 			}
 		}

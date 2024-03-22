@@ -262,7 +262,7 @@
 					<text>￥</text>
 					<text>{{ `${serviceMessage.price}` }}</text>
 				</view>
-				<view class="to-pay-btn" @click="toAppointmentEvent">
+				<view class="to-pay-btn" :class="{'toPayBtnStyle': !isCanAppointment}" @click="toAppointmentEvent">
 					立即预约
 				</view>
 			</view>
@@ -300,6 +300,10 @@
 				serviceDate: '期望服务时间',
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
+				isChooseServiceSite: false,
+				isChooseServiceDate: false,
+				isChooseprotectedPerson: false,
+				isChooseAgreement: false,
 				imgArr: [],
 				imgFileArr: [],
 				imgOnlinePathArr: [],
@@ -312,6 +316,7 @@
 						disabled: false
 					}
 				],
+				isCanAppointment: false,
 				isPlatformRecommendNurse: false,
 				timeUserLicenseAgreement: null,
 				imgIndex: '',
@@ -340,6 +345,72 @@
 					{time: '下午19:00 - 20:00',canSelect: true}
 				],
 				alreadyAppointmentDate: {}
+			}
+		},
+		watch: {
+			serviceSite: {
+				handler(newVal, oldVal) {
+					if (newVal != '上门服务详细地址') {
+						this.isChooseServiceSite = true
+					} else {
+						this.isChooseServiceSite = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			serviceDate: {
+				handler(newVal, oldVal) {
+					if (newVal != '期望服务时间') {
+						this.isChooseServiceDate = true
+					} else {
+						this.isChooseServiceDate = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			protectedPerson: {
+				handler(newVal, oldVal) {
+					if (newVal != '请选择被服务人') {
+						this.isChooseprotectedPerson = true
+					} else {
+						this.isChooseprotectedPerson = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
+			},
+			isReadAgreeChecked: {
+				handler(newVal, oldVal) {
+					if (newVal.length > 0) {
+						this.isChooseAgreement = true
+					} else {
+						this.isChooseAgreement = false
+					};
+					if (this.isChooseServiceSite && this.isChooseServiceDate && this.isChooseprotectedPerson && this.isChooseAgreement) {
+						this.isCanAppointment = true
+					} else {
+						this.isCanAppointment = false
+					}
+				},
+				immediate: true,
+				deep: true
 			}
 		},
 		computed: {
@@ -1754,6 +1825,9 @@
 					color: #FFFFFF;
 					text-align: center;
 					font-weight: 400;
+				};
+				.toPayBtnStyle {
+					background: #c8c8c8 !important;
 				}
 			}
 		}
