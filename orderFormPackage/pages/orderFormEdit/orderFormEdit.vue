@@ -315,6 +315,8 @@
 				serviceDate: '期望服务时间',
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
+				practicalServiceDate: '',
+				practicalServiceTime: '',
 				isReadAgreeChecked: ['我已阅读并同意协议'],
 				isChooseServiceSite: false,
 				isChooseServiceDate: false,
@@ -440,6 +442,10 @@
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('chooseNurseMessage')) {
 				if (JSON.stringify(this.editServiceOrderFormSureChooseMessage.chooseNurseMessage) != "{}") {
 					this.nurseMessage = this.editServiceOrderFormSureChooseMessage.chooseNurseMessage;
+					// 查询当期选择护士可预约的时间段
+					if (this.isPlatformRecommendNurse) {
+						this.getServiceTimeEvent({careId: this.nurseMessage.id})
+					}
 				} else {
 					this.isPlatformRecommendNurse = false;
 				}
@@ -670,6 +676,10 @@
 					if (temporaryTimeArr[0].times.length > 0) {
 						for (let innerItem of temporaryTimeArr[0].times) {
 							let temporaryIndex = this.timeQuantumList.findIndex((el) => { return el.time == innerItem});
+							if (temporaryIndex == this.currentTimeQuantumIndex) {
+								this.currentTimeQuantumIndex = null;
+								this.serviceDate = '期望服务时间';
+							};
 							if (temporaryIndex != -1 ) {
 								this.timeQuantumList[temporaryIndex]['canSelect'] = false
 							}
@@ -751,6 +761,43 @@
 			
 			// 查询服务时间
 			getServiceTimeEvent (data) {
+				this.showLoadingHint = true;
+				this.infoText = '可预约日期查询中···';
+				this.currentSelectDate.actualDate = this.practicalServiceDate;
+				this.currentSelectTimeQuantum = this.practicalServiceTime;
+				getServiceTime(data).then((res) => {
+					this.showLoadingHint = false;
+					if ( res && res.data.code == 0) {
+						this.alreadyAppointmentDate = res.data.data;
+						// 如果当前选择的日期和所选择护士已预约的日期有冲突,则重置serviceDate值为期望服务时间
+						if (this.alreadyAppointmentDate.length > 0) {
+							let temporaryDateArr = this.alreadyAppointmentDate.filter((item) => { return item.date ==  this.practicalServiceDate});
+							if (temporaryDateArr.length > 0) {
+								if (temporaryDateArr[0]['times'].indexOf(this.practicalServiceTime) != -1) {
+									this.serviceDate = '期望服务时间';
+								}
+							}
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 查询服务时间(特殊)
+			getServiceTimeSpecialEvent (data) {
 				return new Promise((resolve,reject) => {
 					getServiceTime(data).then((res) => {
 						if ( res && res.data.code == 0) {
@@ -772,11 +819,11 @@
 				this.getCurrentMonth();
 				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
 				this.createCurrentMonthDate();
+				this.showLoadingHint = true;
+				this.infoText = '可预约日期查询中···';
+				await this.getServiceTimeSpecialEvent({careId: this.nurseMessage.id});
+				this.showLoadingHint = false;
 				if (this.isPlatformRecommendNurse) {
-					this.showLoadingHint = true;
-					this.infoText = '可预约日期查询中···';
-					await this.getServiceTimeEvent({careId: this.nurseMessage.id, id: this.serviceMessage.id});
-					this.showLoadingHint = false;
 					if (this.alreadyAppointmentDate.length > 0) {
 						// 为已经选过的日期添加标记
 						let temporaryDateArr = [];
@@ -816,6 +863,21 @@
 					// 时间段
 					this.currentTimeQuantumIndex = this.timeQuantumList.findIndex((item) => { return item.time.replace(/[\u4e00-\u9fa5]+/gi,'') == `${temporarayArr[2].replace(/[\u4e00-\u9fa5]+/gi,'')} ${temporarayArr[3]} ${temporarayArr[4]}` });;
 					this.currentSelectTimeQuantum = this.timeQuantumList[this.currentTimeQuantumIndex];
+					if (this.isPlatformRecommendNurse) {
+						// 重置时间段可预约状态
+						this.timeQuantumList.forEach((el) => { el.canSelect = true });
+						// 为当期日期下已经选过的时间段添加标记
+						let temporaryTimeArr = this.alreadyAppointmentDate.filter((el) => { return el.date == this.currentSelectDate.actualDate});
+						if (temporaryTimeArr.length == 0) {return};
+						if (temporaryTimeArr[0].times.length > 0) {
+							for (let innerItem of temporaryTimeArr[0].times) {
+								let temporaryIndex = this.timeQuantumList.findIndex((el) => { return el.time == innerItem});
+								if (temporaryIndex != -1 ) {
+									this.timeQuantumList[temporaryIndex]['canSelect'] = false
+								}
+							}
+						}
+					}
 				}
 			},
 			
@@ -831,7 +893,7 @@
 				} else {
 					this.currentDate = new Date().getDate()
 				}
-			},
+			}, 
 			
 			// 获取当前月的天数
 			getMonthDay (year, month) {
@@ -943,7 +1005,6 @@
 			
 			// 切换护士类型事件
 			cutNurseEvent (text) {
-				this.serviceDate = '期望服务时间';
 				this.currentTimeQuantumIndex = null;
 				this.currentDateIndex = null;
 				this.currentSelectTimeQuantum = {};

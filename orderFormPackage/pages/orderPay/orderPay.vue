@@ -87,6 +87,7 @@
 				payOrderMessage: {},
 				serverMessage: {},
 				beforePageRoute: '',
+				orderId: '',
 				jaundiceDetectionPng: require("@/static/img/jaundice-detection.png")
 			}
 		},
@@ -104,6 +105,7 @@
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			let temporaryOrderMessage = JSON.parse(options.transmitData);
+			this.orderId = temporaryOrderMessage.id;
 			this.createPayOrderEvent({
 				id: temporaryOrderMessage.payOrderId
 			});
@@ -128,7 +130,15 @@
 			
 			// 确定退出支付事件
 			confirmQuitPayEvent () {
-				uni.navigateBack()
+				// 传递该订单详情及当前切换的订单类型的信息
+				let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
+				temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = { id: this.orderId };
+				temporaryEditServiceOrderFormSureChooseMessage['current'] = 0;
+				temporaryEditServiceOrderFormSureChooseMessage['payStatus'] = '未支付';
+				this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
+				uni.navigateTo({
+					url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'
+				})
 			},
 			
 			// 创建支付订单
@@ -169,6 +179,7 @@
 							let temporaryEditServiceOrderFormSureChooseMessage = this.editServiceOrderFormSureChooseMessage;
 							temporaryEditServiceOrderFormSureChooseMessage['orderMessage'] = { id: res.data.data.orderId };
 							temporaryEditServiceOrderFormSureChooseMessage['current'] = 0;
+							temporaryEditServiceOrderFormSureChooseMessage['payStatus'] = '已支付';
 							this.storeEditServiceOrderFormSureChooseMessage(temporaryEditServiceOrderFormSureChooseMessage);
 							uni.navigateTo({
 								url: '/orderFormPackage/pages/orderFormDetails/orderFormDetails'

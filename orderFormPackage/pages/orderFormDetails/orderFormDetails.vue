@@ -740,11 +740,13 @@
 						this.serviceMessage.payPrice = fenToYuan(this.serviceMessage.payPrice);
 						this.currentFlow = this.transitionOrderFlowStatusText(this.serviceMessage.workerStatus,this.serviceMessage);
 						if (this.beforePageRoute == 'orderFormPackage/pages/orderPay/orderPay') {
-							this.$refs.uToast.show({
-								message: '支付成功！',
-								type: 'success',
-								position: 'center'
-							})
+							if (this.editServiceOrderFormSureChooseMessage['payStatus'] == '已支付') {
+								this.$refs.uToast.show({
+									message: '支付成功！',
+									type: 'success',
+									position: 'center'
+								})
+							}
 						}
 					} else {
 						this.$refs.uToast.show({
