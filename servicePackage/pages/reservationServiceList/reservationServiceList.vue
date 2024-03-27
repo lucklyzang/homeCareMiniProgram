@@ -301,7 +301,7 @@
 				protectedPerson: '请选择被服务人',
 				writeEvaluationForm: '点击填写评估单',
 				practicalServiceDate: '',
-				practicalServiceTime: '',
+				practicalServiceTime: {},
 				isChooseServiceSite: false,
 				isChooseServiceDate: false,
 				isChooseprotectedPerson: false,
@@ -485,10 +485,6 @@
 			
 			// 切换护士类型事件
 			cutNurseEvent (text) {
-				this.currentTimeQuantumIndex = null;
-				this.currentDateIndex = null;
-				this.currentSelectTimeQuantum = {};
-				this.currentSelectDate = {};
 				// 重置时间段可预约状态
 				this.timeQuantumList.forEach((el) => { el.canSelect = true });
 				if (text == '指定') {
@@ -527,7 +523,9 @@
 						if (this.alreadyAppointmentDate.length > 0) {
 							let temporaryDateArr = this.alreadyAppointmentDate.filter((item) => { return item.date ==  this.practicalServiceDate});
 							if (temporaryDateArr.length > 0) {
-								if (temporaryDateArr[0]['times'].indexOf(this.practicalServiceTime) != -1) {
+								if (temporaryDateArr[0]['times'].indexOf(this.practicalServiceTime.time) != -1) {
+									this.currentTimeQuantumIndex = null;
+									this.currentDateIndex = null;
 									this.serviceDate = '期望服务时间';
 								}
 							}
@@ -573,11 +571,11 @@
 				this.getCurrentMonth();
 				this.getMonthDay(new Date().getFullYear(),new Date().getMonth() + 1);
 				this.createCurrentMonthDate();
-				this.showLoadingHint = true;
-				this.infoText = '可预约日期查询中···';
-				await this.getServiceTimeSpecialEvent({careId: this.nurseMessage.id});
-				this.showLoadingHint = false;
 				if (this.isPlatformRecommendNurse) {
+					this.showLoadingHint = true;
+					this.infoText = '可预约日期查询中···';
+					await this.getServiceTimeSpecialEvent({careId: this.nurseMessage.id});
+					this.showLoadingHint = false;
 					if (this.alreadyAppointmentDate.length > 0) {
 						// 为已经选过的日期添加标记
 						let temporaryDateArr = [];
@@ -678,9 +676,14 @@
 						this.serviceSite = '上门服务详细地址'
 						
 						// 回显服务时间
-						this.serviceDate = `${this.getNowFormatDateText(res.data.data.serviceDate)} (${this.judgeWeek(res.data.data.serviceDate)}) ${res.data.data.serviceTime}`;
 						this.currentSelectDate.actualDate = res.data.data.serviceDate;
-						this.currentSelectTimeQuantum = {time: res.data.data.serviceTime};
+						this.practicalServiceDate = res.data.data.serviceDate;
+						let temporaryIndex = this.timeQuantumList.findIndex((item) => { return item.time.replace(/[\u4e00-\u9fa5]+/gi,'') == res.data.data.serviceTime });
+						if (temporaryIndex != -1) {
+							this.practicalServiceTime = {time: this.timeQuantumList[temporaryIndex]['time']};
+							this.currentSelectTimeQuantum = {time: this.timeQuantumList[temporaryIndex]['time']};
+							this.serviceDate = `${this.getNowFormatDateText(res.data.data.serviceDate)} (${this.judgeWeek(res.data.data.serviceDate)}) ${this.timeQuantumList[temporaryIndex]['time']}`;
+						};
 						this.aptitudes = res.data.data.aptitudes
 					} else {
 						this.$refs.uToast.show({
@@ -829,7 +832,7 @@
 				};
 				this.serviceDate = `${this.currentSelectDate.showDate} ${this.currentSelectTimeQuantum.time}`;
 				this.practicalServiceDate = this.currentSelectDate.actualDate;
-				this.practicalServiceTime = this.currentSelectTimeQuantum.time;
+				this.practicalServiceTime = this.currentSelectTimeQuantum;
 				this.expectationServiceTimeShow = false
 			},
 			
@@ -875,7 +878,7 @@
 			
 			// 获取当前月的天数
 			getMonthDay (year, month) {
-			  let days = new Date(year, month, 0).getDate()
+			  let days = new Date(year, month, 0).getDate();
 			  this.currentMonthDay = days
 			},
 			
@@ -894,6 +897,50 @@
 							canSelect: true
 						}
 					)
+				};
+				// 如果当前月不满30天，则从下个月中补充天数
+				let nextMonthDays = new Date(new Date().getMonth() + 1 == 12 ? new Date().getFullYear() + 1 : new Date().getFullYear(), new Date().getMonth() + 1 == 12 ? 1 : new Date().getMonth() + 2, 0).getDate();
+				if (this.currentDateList.length < 30) {
+					let needReplenishdDays = nextMonthDays >= 30 - this.currentDateList.length ? 30 - this.currentDateList.length : nextMonthDays;
+					for (let i = 1; i <= needReplenishdDays; i++) {
+						let currentDate = i < 10 ? `0${i}` : i;
+						let temporaryActualDate = `${parseInt(this.currentMonth) == 12 ? new Date().getFullYear() + 1 : new Date().getFullYear()}-${parseInt(this.currentMonth) == 12 ? `0${1}` : parseInt(this.currentMonth) + 1 < 10 ? `0${parseInt(this.currentMonth) + 1}` : parseInt(this.currentMonth) + 1}-${currentDate}`;
+						let temporaryShowDate = this.getNowFormatDateText(temporaryActualDate);
+						let temporaryWeek = this.judgeWeek(temporaryActualDate);
+						this.currentDateList.push(
+							{
+								actualDate: temporaryActualDate,
+								showDate: `${temporaryShowDate} (${temporaryWeek})`,
+								canSelect: true
+							}
+						)
+					}
+				};
+				// 如果还不够30天，则从下下个月中补充天数
+				if (this.currentDateList.length < 30) {
+					let needReplenishdDays = 30 - this.currentDateList.length;
+					// 判断下下月份
+					let afterNextMonth;
+					if (parseInt(this.currentMonth) == 11) {
+						afterNextMonth = `0${1}`
+					} else if (parseInt(this.currentMonth) == 12) {
+						afterNextMonth = `0${2}`
+					} else {
+						afterNextMonth = parseInt(this.currentMonth) + 2 < 10 ? `0${parseInt(this.currentMonth) + 2}` : parseInt(this.currentMonth) + 2;
+					};
+					for (let i = 1; i <= needReplenishdDays; i++) {
+						let currentDate = i < 10 ? `0${i}` : i;
+						let temporaryActualDate = `${parseInt(this.currentMonth) == 11 || parseInt(this.currentMonth) == 12 ? new Date().getFullYear() + 1 : new Date().getFullYear()}-${afterNextMonth}-${currentDate}`;
+						let temporaryShowDate = this.getNowFormatDateText(temporaryActualDate);
+						let temporaryWeek = this.judgeWeek(temporaryActualDate);
+						this.currentDateList.push(
+							{
+								actualDate: temporaryActualDate,
+								showDate: `${temporaryShowDate} (${temporaryWeek})`,
+								canSelect: true
+							}
+						)
+					}
 				}
 			},
 			

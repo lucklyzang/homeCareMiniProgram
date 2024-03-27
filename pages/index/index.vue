@@ -161,7 +161,7 @@
 		mapMutations
 	} from 'vuex'
 	import { createSubscribe, getSubscribeTemplateList } from '@/api/login.js'
-	import { getUserBannerList, getNurseHome, newsPage, getHomeHotProduct, getHomeProductCategory } from '@/api/user.js'
+	import { getUserBannerList, getNurseHome, newsPage, getHomeHotProduct, getHomeProductCategory, recordBannerBrowse } from '@/api/user.js'
 	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
@@ -588,6 +588,9 @@
 				// 		url:'/pages/webView/webView?url='+url
 				// 	})
 				// };
+				recordBannerBrowse({id:this.bannerList[index]['id']})
+				.then(() => {})
+				.catch((err) => {});
 				this.changeSelectBannerMessage(mynavData);
 				uni.navigateTo({
 					url: '/messagePackage/pages/advertisingDetails/advertisingDetails'
@@ -652,7 +655,8 @@
 									title: '',
 									urlTo: item.url,
 									url: item.picUrl,
-									content: item.content
+									content: item.content,
+									id: item.id
 								})
 							}
 						}
