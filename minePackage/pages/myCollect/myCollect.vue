@@ -316,7 +316,7 @@
 				return currentdate
 			},
 			
-			// 查询我的收藏文章
+			// 查询我的收藏文章formatMsgTime(this.getNowFormatDate(new Date(item.createTime),4))
 			queryMyCollectInformationList(data,flag) {
 				this.informationList = [];
 				if (flag) {
@@ -332,8 +332,8 @@
 						this.tabsList[1]['value'] = this.totalCount;
 						this.informationList = res.data.data.list;
 						this.informationList.forEach((item) => {
-							item.realTime = formatMsgTime(this.getNowFormatDate(new Date(item.createTime),4))
-						})
+							item.realTime = this.disposeArticleCollectDate(item.createTime)
+						});
 						this.fullInformationList = this.fullInformationList.concat(this.informationList);
 						if (this.fullInformationList.length == 0) {
 							this.isArticleShowNoHomeNoData = true
@@ -450,6 +450,86 @@
 				uni.navigateTo({
 					url: '/servicePackage/pages/service/index/index?transmitData='+item
 				})
+			},
+			
+			// 处理收藏文章收藏日期
+			disposeArticleCollectDate (date) {
+				if (!date) { return };
+				let collectDate = this.getNowFormatDate(new Date(date),2);
+				let currentDate = this.getNowFormatDate(new Date(),2);
+				if (collectDate == currentDate) {
+					return '今天'
+				} else if (new Date(date).getFullYear() == new Date().getFullYear()) {
+					return this.getNowFormatDateText(date,3)
+				} else {
+					return this.getNowFormatDateText(date,1)
+				}
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate,type) {
+				// type: 1(展示年月日) 2(只展示月) 3(只展示月日)
+				let currentdate;
+				let strDate = new Date(currentDate).getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let seperator3 = "年";
+				let year = new Date(currentDate).getFullYear();
+				let month = new Date(currentDate).getMonth() + 1;
+				let hour = new Date(currentDate).getHours();
+				if (type == 2) {
+					currentdate = month + seperator1
+				} else if (type == 3){
+					currentdate = month + seperator1 + strDate + seperator2
+				} else if (type == 1){
+					currentdate = year + seperator3 + month + seperator1 + strDate + seperator2
+				};
+				return currentdate
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟秒),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟秒)5(显示月日)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let seperator3 = " ";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				let seconds = currentDate.getSeconds();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (seconds >= 0 && seconds <= 9) {
+					seconds = "0" + seconds;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes + seperator2 + seconds
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes + seperator2 + seconds
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
+				};
+				return currentdate
 			}
 		}
 	}
@@ -640,11 +720,11 @@
 						.list-top-right {
 							flex: 1;
 							font-size: 16px;
-							height: 70px;
+							height: 60px;
 							display: flex;
 							align-items: center;
 							color: #101010;
-							@include no-wrap-line(2)
+							@include no-wrap-line(3)
 						}
 					};
 					.content-list-bottom {

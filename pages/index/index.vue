@@ -161,7 +161,7 @@
 		mapMutations
 	} from 'vuex'
 	import { createSubscribe, getSubscribeTemplateList } from '@/api/login.js'
-	import { getUserBannerList, getNurseHome, newsPage, getHomeHotProduct, getHomeProductCategory, recordBannerBrowse } from '@/api/user.js'
+	import { getUserBannerList, getNurseHome, newsPage, getHomeHotProduct, getHomeProductCategory, recordBannerBrowse, createNurseFavorite } from '@/api/user.js'
 	import { fenToYuan } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
@@ -418,6 +418,18 @@
 				let that = this;
 				uni.scanCode({
 					success: function (res) {
+						let resCodeContent = JSON.parse(res.result);
+						if (resCodeContent.hasOwnProperty('type')) {
+							if (resCodeContent['type'] == 'nurse') {
+								that.createNurseFavoriteEvent(resCodeContent.id)
+							}
+						} else {
+							that.$refs.uToast.show({
+								message: '请扫描医护人员二维码!',
+								type: 'error',
+								position: 'center'
+							})
+						}
 					},
 					fail: function (err) {
 						// that.$refs.uToast.show({
@@ -483,6 +495,35 @@
 				let mynavData = encodeURIComponent(JSON.stringify(item));
 				uni.navigateTo({
 					url: '/messagePackage/pages/latestNewsDetails/latestNewsDetails?transmitData='+mynavData
+				})
+			},
+			
+			// 创建医护收藏
+			createNurseFavoriteEvent(id) {
+				createNurseFavorite(id).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							message: '医护收藏成功',
+							type: 'success',
+							position: 'center'
+						});
+						uni.navigateTo({
+							url: '/minePackage/pages/myNurse/myNurse'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			
