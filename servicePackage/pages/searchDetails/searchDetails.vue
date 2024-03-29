@@ -140,7 +140,19 @@
 				<view class="organization-list-box">
 					<u-empty text="暂无机构" v-if="isShowNoHomeNoData"></u-empty>
 					<view class="organization-list" v-for="(item,index) in organizationList" :key="index">
-						{{ item.content }}
+						<view class="image-area">
+							<u-image :src="item.logo ? item.logo : jaundiceDetectionServicePng" width="70" height="70">
+								 <template v-slot:loading>
+										<u-loading-icon color="red"></u-loading-icon>
+									</template>
+							</u-image>
+							<view class="distance-area">
+								 {{ `<${12}km` }} 
+							</view>
+						</view>
+						<view class="name-text-area">
+							{{ item.content }}
+						</view>
 					</view>
 				</view>
 			</view>
@@ -463,7 +475,8 @@
 							for (let item of res.data.data) {
 								this.organizationList.push({
 									id: item.id.toString(),
-									content: item.name
+									content: item.name,
+									logo: item.logo
 								})
 							}
 						} else {
@@ -978,13 +991,51 @@
 						width: 49%;
 						margin-right: 2%;
 						box-sizing: border-box;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						height: 190px;
-						background: #FAFAFA;
+						height: 150px;
 						border-radius: 9px;
 						margin-bottom: 10px;
+						border: 1px solid #FEB8B7;
+						.image-area {
+							height: 105px;
+							position: relative;
+							::v-deep .u-image {
+								width: 100% !important;
+								height: 105px !important;
+								uni-image {
+									width: 100% !important;
+									height: 105px !important;
+								};
+								.u-image__error {
+									width: 100% !important;
+									height: 105px !important;
+								};
+								.u-image__loading {
+									width: 100% !important;
+									height: 105px !important;
+								};
+								image {
+									width: 100% !important;
+									height: 105px !important;
+								}
+							};
+							.distance-area {
+								position: absolute;
+								top: 80%;
+								left: 50%;
+								transform: translateX(-50%);
+								font-size: 14px;
+								color: #fff;
+							}
+						};
+						.name-text-area {
+							font-size: 12px;
+							color: #101010;
+							height: 45px;
+							padding: 10px 0 0 10px;
+							box-sizing: border-box;
+							font-weight: 500;
+							@include no-wrap-line(2);
+						};
 						&:nth-child(even) {
 							margin-right: 0 !important;
 						}
