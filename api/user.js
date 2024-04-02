@@ -465,10 +465,11 @@ export function getUserChatPage(data) {
 }
 
 // 获得组织机构列表
-export function getOrganizationList(name) {
+export function getOrganizationList(data) {
   return request({
-    url: `/app-api/system/organization/list?name=${name}`,
-    method: 'get'
+    url: '/app-api/system/organization/list',
+    method: 'get',
+		params: data
   })
 };
 

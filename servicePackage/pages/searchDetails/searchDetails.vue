@@ -147,11 +147,14 @@
 									</template>
 							</u-image>
 							<view class="distance-area">
-								 {{ `<${12}km` }} 
+								 {{ `${item.distance}` }} 
 							</view>
 						</view>
 						<view class="name-text-area">
 							{{ item.content }}
+						</view>
+						<view class="address-text-area">
+							{{ item.addressPath }}
 						</view>
 					</view>
 				</view>
@@ -194,6 +197,7 @@
 				serviceCategoryDetailsList: [],
 				fullServiceCategoryDetailsList: [],
 				organizationList: [],
+				coordinate: '',
 				searchHistoryList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				searchHotList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
 				current: 0,
@@ -224,7 +228,17 @@
 			this.queryServiceProductCategoryDetails({
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize
-			},true)
+			},true);
+			// 获取当前所在位置
+			try {
+				this.isGetLocation()
+			} catch(err) {
+				this.$refs.uToast.show({
+					message: `${err}`,
+					type: 'error',
+					position: 'center'
+				})
+			}
 		},
 		methods: {
 			...mapMutations([
@@ -233,6 +247,49 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			isGetLocation(a = "scope.userLocation") { //检查当前是否已经授权访问scope属性
+				let _this = this;
+				uni.getSetting({
+					success(res) {
+						if (!res.authSetting[a]) { //每次进入程序判断当前是否获得授权，如果没有就去获得授权，如果获得授权，就直接获取当前地理位置
+							_this.getAuthorizeInfo()
+						} else {
+							_this.getLocation()
+						}
+					}
+				})
+			},
+			
+			getAuthorizeInfo(a = "scope.userLocation") { // uniapp弹窗弹出获取授权（地理，个人微信信息等授权信息）弹窗
+				let _this = this;
+				uni.authorize({
+					scope: a,
+					success() { //允许授权
+						_this.getLocation()
+					}
+				})
+			},
+			
+			//获取当前所在位置的经纬度
+			getLocation() {
+				console.log(1,'weiodu');
+				uni.getLocation({
+					type: 'gcj02',
+					isHighAccuracy: true,
+					success: (res) => {
+						this.coordinate = `${res.latitude},${res.longitude}`;
+						console.log(2,this.coordinate);
+					},
+					fail: (err) => {
+						this.$refs.uToast.show({
+							message: '无法获取位置信息！无法使用位置功能',
+							type: 'error',
+							position: 'center'
+						})
+					}
+				})
 			},
 			
 			// tab切换事件
@@ -258,7 +315,7 @@
 						userId: this.userInfo.userId
 					},true)
 				} else if (this.current == 2) {
-					this.getOrganizationListEvent(this.searchValue)
+					this.getOrganizationListEvent(this.searchValue,this.coordinate)
 				}
 			},
 			
@@ -463,12 +520,12 @@
 			},
 			
 			// 获取组织机构列表
-			getOrganizationListEvent (name) {
+			getOrganizationListEvent (name,coordinate) {
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.organizationList = [];
 				this.isShowNoHomeNoData = false;
-				getOrganizationList(name).then((res) => {
+				getOrganizationList({name,coordinate}).then((res) => {
 					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length > 0) {
@@ -476,7 +533,9 @@
 								this.organizationList.push({
 									id: item.id.toString(),
 									content: item.name,
-									logo: item.logo
+									logo: item.logo,
+									addressPath: item.addressPath,
+									distance: !item.distance && item.distance != 0 ? '' : `${item.distance}km`
 								})
 							}
 						} else {
@@ -529,7 +588,7 @@
 						userId: this.userInfo.userId
 					})
 				} else if (this.current == 2) {
-					this.getOrganizationListEvent(this.searchValue)
+					this.getOrganizationListEvent(this.searchValue,this.coordinate)
 				}
 			},
 			
@@ -991,10 +1050,12 @@
 						width: 49%;
 						margin-right: 2%;
 						box-sizing: border-box;
-						height: 150px;
-						border-radius: 9px;
+						border-bottom-left-radius: 9px;
+						border-bottom-right-radius: 9px;
 						margin-bottom: 10px;
 						border: 1px solid #FEB8B7;
+						padding-bottom: 8px;
+						box-sizing: border-box;
 						.image-area {
 							height: 105px;
 							position: relative;
@@ -1030,11 +1091,21 @@
 						.name-text-area {
 							font-size: 12px;
 							color: #101010;
-							height: 45px;
-							padding: 10px 0 0 10px;
+							max-height: 45px;
+							overflow-y: auto;
+							word-break: break-all;
+							padding: 6px 8px 0 8px;
 							box-sizing: border-box;
 							font-weight: 500;
-							@include no-wrap-line(2);
+							
+						};
+						.address-text-area {
+							font-size: 12px;
+							color: #a0a0a0;
+							height: 24px;
+							padding: 6px 8px 0 8px;
+							box-sizing: border-box;
+							@include no-wrap;
 						};
 						&:nth-child(even) {
 							margin-right: 0 !important;

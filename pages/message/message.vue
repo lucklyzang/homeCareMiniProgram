@@ -10,6 +10,8 @@
 			<view class="tab-box">
 				<view class="tab-item" :class="{'tabItemStyle': tabIndex == index}" v-for="(item,index) in tabList" :key="index" @click="tabCutEvent(item,index)">
 					<text>{{ item }}</text>
+					<text class="sign-chunk" v-if="isShowChatSignChunk && index == 0"></text>
+					<text class="sign-chunk" v-if="isShowSystemSignChunk && index == 1"></text>
 				</view>
 			</view>
 		</view>
@@ -52,7 +54,7 @@
 		</view>
 		<view class="message-list-wrapper" v-else>
 			<u-empty text="暂无消息" mode="list" v-if="isShowNoData"></u-empty>
-			<view class="message-list" @click="enterMessageListEvent('资讯')" v-if="haveLatestNewInfo == true">
+			<view class="message-list" @click="enterMessageListEvent('资讯')">
 				<view class="message-photo">
 					<u-image src="@/static/img/latest-news-icon.png" width="35" height="35">
 						 <template v-slot:loading>
@@ -81,7 +83,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="message-list" @click="enterMessageListEvent('通知')" v-if="haveNotifyMessageSummaryInfo == true">
+			<view class="message-list" @click="enterMessageListEvent('通知')">
 				<view class="message-photo">
 					<u-image src="@/static/img/inform-icon.png" width="35" height="35">
 						 <template v-slot:loading>
@@ -110,7 +112,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="message-list" @click="enterMessageListEvent('公告')" v-if="haveNotifySummaryInfo == true">
+			<view class="message-list" @click="enterMessageListEvent('公告')">
 				<view class="message-photo">
 					<u-image src="@/static/img/inform-icon.png" width="35" height="35">
 						 <template v-slot:loading>
@@ -168,6 +170,8 @@
 				tabList: ['聊天消息','系统消息'],
 				isNoChat: false,
 				chatList: [],
+				isShowChatSignChunk: false,
+				isShowSystemSignChunk: false,
 				latestNewsSummary: {
 					unReadCount: '',
 					title: '',
@@ -187,7 +191,8 @@
 					time: ''
 				},
 				isShowNoData: false,
-				timer: null
+				timer: null,
+				timerTwo: null
 			}
 		},
 		computed: {
@@ -200,16 +205,20 @@
 			}
 		},
 		onShow() {
+			// 定时器，定时更新聊天列表
+			this.timer = setInterval(() => {
+				this.getUserChatListEvent(false)
+			}, 2000);
+			// 定时器，定时更新系统列表
+			this.timerTwo = setInterval(() => {
+				this.timingRequestSystemMessage()
+			}, 2000);
 			if (this.tabIndex == 0) {
 				this.getUserChatListEvent(true);
-				// 定时器，定时更新聊天列表
-				this.timer = setInterval(() => {
-					this.getUserChatListEvent(false)
-				}, 2000)
 			} else {
-				this.queryLatestNews({terminal: 'USER'});
-				this.queryNotifySummary();
-				this.queryNotifyMessageSummary()
+				this.queryLatestNews({terminal: 'USER'},true);
+				this.queryNotifySummary(true);
+				this.queryNotifyMessageSummary(true)
 			}
 		},
 		onHide() {
@@ -217,51 +226,77 @@
 			if (this.timer) {
 				clearInterval(this.timer);
 				this.timer = null
+			};
+			if (this.timerTwo) {
+				clearInterval(this.timerTwo);
+				this.timerTwo = null
 			}
 		},
 		methods: {
 			...mapMutations([
 			]),
 			
+			// 定时请求系统消息
+			async timingRequestSystemMessage () {
+				await this.queryLatestNews({terminal: 'USER'},false);
+				await this.queryNotifySummary(false);
+				await this.queryNotifyMessageSummary(false);
+				if (this.latestNewsSummary.unReadCount > 0 || this.notifyMessageSummary.notRead > 0 || this.notifySummary.notRead > 0) {
+					this.isShowSystemSignChunk = true
+				} else {
+					this.isShowSystemSignChunk = false
+				}
+			},
+			
 			// tab切换事件
 			tabCutEvent (item,index) {
 				this.tabIndex = index;
 				if (this.tabIndex == 1) {
-					this.queryLatestNews({terminal: 'USER'});
-					this.queryNotifySummary();
-					this.queryNotifyMessageSummary()
+					this.queryLatestNews({terminal: 'USER'},true);
+					this.queryNotifySummary(true);
+					this.queryNotifyMessageSummary(true)
 				} else if (this.tabIndex == 0) {
 					this.getUserChatListEvent(true)
 				}
 			},
 			
 			// 查询最新一条未读资讯
-			queryLatestNews (data) {
-				this.showLoadingHint = true;
+			queryLatestNews (data,flag) {
+				if (flag) {
+					this.showLoadingHint = true
+				};
 				this.haveLatestNewInfo = false;
-				latestNews(data).then((res) => {
-					if ( res && res.data.code == 0) {
-						if (JSON.stringify(res.data.data) == "{}") {
-							this.haveLatestNewInfo = false;
+				return new Promise((resolve,reject) => {
+					latestNews(data).then((res) => {
+						resolve();
+						if ( res && res.data.code == 0) {
+							if (JSON.stringify(res.data.data) == "{}") {
+								this.haveLatestNewInfo = false;
+							} else {
+								this.haveLatestNewInfo = true;
+								this.latestNewsSummary = res.data.data;
+							};
 						} else {
-							this.haveLatestNewInfo = true;
-							this.latestNewsSummary = res.data.data;
+							this.$refs.uToast.show({
+								message: res.data.msg,
+								type: 'error',
+								position: 'center'
+							})
 						};
-					} else {
+						if (flag) {
+							this.showLoadingHint = false
+						}
+					})
+					.catch((err) => {
+						if (flag) {
+							this.showLoadingHint = false
+						};
+						reject();
 						this.$refs.uToast.show({
-							message: res.data.msg,
+							message: err.message,
 							type: 'error',
 							position: 'center'
 						})
-					};
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						message: err.message,
-						type: 'error',
-						position: 'center'
 					})
 				})
 			},
@@ -289,10 +324,17 @@
 					if ( res && res.data.code == 0) {
 						if (!res.data.data || res.data.data.length == 0) {
 							this.isNoChat = true;
-							this.chatList = []
+							this.chatList = [];
+							this.isShowChatSignChunk = false;
 						} else {
 							this.isNoChat = false;
 							this.chatList = res.data.data;
+							let temporaryFlag = this.chatList.some((item) => { return item.count > 0 });
+							if (temporaryFlag) {
+								this.isShowChatSignChunk = true;
+							} else {
+								this.isShowChatSignChunk = false;
+							}
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -343,63 +385,83 @@
 			
 			
 			// 查询通知摘要
-			queryNotifyMessageSummary () {
-				this.showLoadingHint = true;
+			queryNotifyMessageSummary (flag) {
+				if (flag) {
+					this.showLoadingHint = true
+				};
 				this.haveNotifyMessageSummaryInfo = false;
-				notifyMessageSummary().then((res) => {
-					if ( res && res.data.code == 0) {
-						if (!res.data.data) {
-							this.haveNotifyMessageSummaryInfo = false;
+				return new Promise((resolve,reject) => {
+					notifyMessageSummary().then((res) => {
+						resolve();
+						if ( res && res.data.code == 0) {
+							if (!res.data.data) {
+								this.haveNotifyMessageSummaryInfo = false;
+							} else {
+								this.haveNotifyMessageSummaryInfo = true;
+								this.notifyMessageSummary = res.data.data;
+							}
 						} else {
-							this.haveNotifyMessageSummaryInfo = true;
-							this.notifyMessageSummary = res.data.data;
+							this.$refs.uToast.show({
+								message: res.data.msg,
+								type: 'error',
+								position: 'center'
+							})
+						};
+						if (flag) {
+							this.showLoadingHint = false
 						}
-					} else {
+					})
+					.catch((err) => {
+						if (flag) {
+							this.showLoadingHint = false
+						};
+						reject();
 						this.$refs.uToast.show({
-							message: res.data.msg,
+							message: err.message,
 							type: 'error',
 							position: 'center'
 						})
-					};
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						message: err.message,
-						type: 'error',
-						position: 'center'
 					})
 				})
 			},
 			
 			// 查询公告摘要
-			queryNotifySummary () {
-				this.showLoadingHint = true;
+			queryNotifySummary (flag) {
+				if (flag) {
+					this.showLoadingHint = true
+				};
 				this.haveNotifySummaryInfo = false;
-				notifySummary({terminal:'USER'}).then((res) => {
-					if ( res && res.data.code == 0) {
-						if (!res.data.data) {
-							this.haveNotifySummaryInfo = false;
+				return new Promise((resolve,reject) => {
+					notifySummary({terminal:'NURSE'}).then((res) => {
+						resolve();
+						if ( res && res.data.code == 0) {
+							if (!res.data.data) {
+								this.haveNotifySummaryInfo = false;
+							} else {
+								this.haveNotifySummaryInfo = true;
+								this.notifySummary = res.data.data;
+							}
 						} else {
-							this.haveNotifySummaryInfo = true;
-							this.notifySummary = res.data.data;
+							this.$refs.uToast.show({
+								message: res.data.msg,
+								type: 'error',
+								position: 'center'
+							})
+						};
+						if (flag) {
+							this.showLoadingHint = false
 						}
-					} else {
+					})
+					.catch((err) => {
+						if (flag) {
+							this.showLoadingHint = false
+						};
+						reject();
 						this.$refs.uToast.show({
-							message: res.data.msg,
+							message: err.message,
 							type: 'error',
 							position: 'center'
 						})
-					};
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						message: err.message,
-						type: 'error',
-						position: 'center'
 					})
 				})
 			},
@@ -578,6 +640,16 @@
 					font-size: 14px;
 					color: #FFFFFF;
 					margin-right: 10px;
+					position: relative;
+					.sign-chunk {
+						position: absolute;
+						width: 8px;
+						height: 8px;
+						border-radius: 50%;
+						background: #F5506C;
+						top: 6px;
+						right: 16px;
+					};
 					&:last-child {
 						margin-right: 0 !important
 					}
