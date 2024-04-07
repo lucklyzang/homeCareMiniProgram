@@ -1048,9 +1048,17 @@
 								uni-image {
 									width: 100% !important;
 									height: 157px !important;
-								}
+								};
+								.u-image__error {
+									width: 100% !important;
+									height: 157px !important;
+								};
+								.u-image__loading {
+									width: 100% !important;
+									height: 157px !important;
+								};
 							};
-							::v-deep image {
+							::v-deep image {  
 								width: 100% !important;
 								height: 157px !important;
 							}

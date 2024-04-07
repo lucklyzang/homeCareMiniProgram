@@ -1,12 +1,17 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<!-- 删除全部搜索记录提示 -->
+		<view class="delete-info">
+			<u-modal :show="deleteSearchShow" @confirm="deleteSearchSureEvent" @cancel="deleteSearchShow=false" confirmText="确定" cancelColor="#838C97" confirmColor="#EB3E67" :showCancelButton="true" title="删除全部搜索记录后无法恢复,确定删除?">
+			</u-modal>
+		</view>
 		<view class="top-area-box">
 			<view class="top-area-left" @click="backTo">
 				<u-icon name="arrow-left" color="#101010" size="22"></u-icon>
 			</view>
 			<view class="search-box">
-				<u-search v-model="searchValue" placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
+				<u-search @blur="searchInputBlurEvent"  @focus="searchInputFocusEvent" v-model="searchValue" placeholder="请输入您想查询的内容" bgColor="#EBEBEB" searchIconColor="rgba(232, 32, 80, 0.66)" :actionStyle="{color: '#fff',padding: '4px 10px',background: '#E82050',borderRadius: '50px',fontSize: '14px'}" @change="searchInputEvent" @custom="searchEvent" :clearabled="true" :showAction="true"></u-search>
 			</view>
 		</view>
 		<u-transition :show="showLoadingHint" mode="fade-down">
@@ -14,19 +19,20 @@
 				<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
 			</view>
 		</u-transition>
-		<!-- <view class="search-init-box">
+		<view class="search-init-box" v-if="isShowSearchInput">
 			<view class="search-history-box">
 				<view class="search-history-title">
 					<view class="search-history-title-left">
 						<text>搜索历史</text>
 					</view>
-					<view class="search-history-title-right" @click="deleteHistorySearchEvent">
+					<view class="search-history-title-right" @click="deleteHistorySearchEvent" v-if="searchHistoryList.length > 0">
 						<u-icon name="trash" color="#101010" size="22"></u-icon>
 					</view>
 				</view>
 				<view class="search-history-content">
 					<view class="search-history-list" :key="index" v-for="(item,index) in searchHistoryList" @click="searchItemClickEvent(item,index,'history')">
 						<text>{{ item }}</text>
+						<u-icon name="close" color="#101010" size="18" @click.native.stop="deleteSingleEvent(item,index)"></u-icon>
 					</view>
 				</view>
 			</view>
@@ -42,10 +48,10 @@
 					</view>
 				</view>
 			</view>
-		</view> -->
-		<view class="service-details-bottom">
+		</view>
+		<view class="service-details-bottom" v-if="!isShowSearchInput">
 			<view class="tabs-area">
-				<u-tabs lineColor="#FF5F83" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
+				<u-tabs :current="current" lineColor="#FF5F83" :inactiveStyle="{color: '#999999',fontSize: '14px'}"
 				 :activeStyle="{color: '#101010',fontSize: '14px',fontWeight:'bold'}"
 				:list="listTabsName" @click="tabClickEvent"></u-tabs>
 			</view>
@@ -173,8 +179,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getNurse, getOrganizationList } from '@/api/user.js'
-	import { getServiceProductCategoryDetails } from '@/api/user.js'
+	import { getNurse, getOrganizationList, getServiceProductCategoryDetails, getSearchPhrase, deleteHisOne, deleteHisAll } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -183,6 +188,8 @@
 		data() {
 			return {
 				searchValue: '',
+				isShowSearchInput: false,
+				deleteSearchShow: false,
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
 				showLoadingHint: false,
@@ -198,8 +205,8 @@
 				fullServiceCategoryDetailsList: [],
 				organizationList: [],
 				coordinate: '',
-				searchHistoryList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
-				searchHotList: ['李云龙','楚云飞','黄疸','母婴护理','疫苗'],
+				searchHistoryList: [],
+				searchHotList: [],
 				current: 0,
 				listTabsName: [
 					{
@@ -246,7 +253,11 @@
 			
 			// 顶部导航返回事件
 			backTo () {
-				uni.navigateBack()
+				if (this.isShowSearchInput) {
+					this.isShowSearchInput = false;
+				} else {
+					uni.navigateBack()
+				}
 			},
 			
 			isGetLocation(a = "scope.userLocation") { //检查当前是否已经授权访问scope属性
@@ -274,7 +285,6 @@
 			
 			//获取当前所在位置的经纬度
 			getLocation() {
-				console.log(1,'weiodu');
 				uni.getLocation({
 					type: 'gcj02',
 					isHighAccuracy: true,
@@ -291,6 +301,95 @@
 					}
 				})
 			},
+			
+			// 搜索框失焦事件
+			searchInputBlurEvent () {
+			},
+			
+			// 搜索框获焦事件
+			searchInputFocusEvent () {
+				this.isShowSearchInput = true;
+				this.getSearchPhraseEvent(this.current === 0 ? 1 : this.current === 1 ? 3 : 2)
+			},
+			
+			// 搜索框值变化事件
+			searchInputEvent () {
+				
+			},
+			
+			// 删除单个搜索记录事件
+			deleteSingleEvent (item,index) {
+				deleteHisOne(this.current === 0 ? 1 : this.current === 1 ? 3 : 2,{name: item}).then((res) => {
+					if ( res && res.data.data) {
+						this.searchHistoryList.splice(index,1)
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					}	
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
+			},
+			
+			// 删除全部历史搜索记录弹框事件
+			deleteHistorySearchEvent () {
+				this.deleteSearchShow = true
+			},
+			
+			// 删除全部历史搜索记录弹框确定事件
+			deleteSearchSureEvent () {
+				deleteHisAll(this.current === 0 ? 1 : this.current === 1 ? 3 : 2).then((res) => {
+					if ( res && res.data.data) {
+						this.deleteSearchShow = false;
+						this.searchHistoryList = []
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					}	
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
+			},
+			
+			// 查询搜索词组事件
+			getSearchPhraseEvent(type) {
+				getSearchPhrase({type}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.searchHistoryList = res.data.data.his;
+						this.searchHotList = res.data.data.hot;
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'center'
+						})
+					}	
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'center'
+					})
+				})
+			},
+			
 			
 			// tab切换事件
 			tabClickEvent (item) {
@@ -572,6 +671,9 @@
 			
 			// 搜索事件
 			searchEvent () {
+				if (this.isShowSearchInput) {
+					this.isShowSearchInput = false
+				};
 				if (this.current == 0) {
 					this.currentPageNum = 1;
 					this.queryServiceProductCategoryDetails({
@@ -594,16 +696,29 @@
 			
 			// 快捷搜索事件
 			searchItemClickEvent(item,index,type) {
-				if (type == 'history') {
-					
-				} else {}
-			},
-			
-			// 删除历史搜索事件
-			deleteHistorySearchEvent () {},
-			
-			// 搜索框值变化事件
-			searchInputEvent () {}
+				if (this.isShowSearchInput) {
+					this.isShowSearchInput = false
+				};
+				this.searchValue = item;
+				if (this.current == 0) {
+					this.currentPageNum = 1;
+					this.queryServiceProductCategoryDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						keyword: item
+					},true)
+				} else if (this.current == 1) {
+					this.currentPageNum = 1;
+					this.queryNurseListByName({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						name: item,
+						userId: this.userInfo.userId
+					})
+				} else if (this.current == 2) {
+					this.getOrganizationListEvent(item,this.coordinate)
+				}
+			}
 		}
 	}
 </script>
@@ -658,6 +773,7 @@
 			box-sizing: border-box;
 			.search-history-box {
 				.search-history-title {
+					position: relative;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -672,14 +788,22 @@
 					display: flex;
 					flex-wrap: wrap;
 					.search-history-list {
+						position: relative;
 						padding: 3px 16px;
 						box-sizing: border-box;
-						margin-right: 8px;
+						margin-right: 10px;
 						margin-bottom: 8px;
 						background: #F4F5F7;
 						border-radius: 20px;
 						font-size: 13px;
-						color: #101010
+						color: #101010;
+						::v-deep {
+							.uicon-close {
+								position: absolute;
+								top: -8px !important;
+								right: -8px !important;
+							}
+						}
 					}
 				}
 			};
