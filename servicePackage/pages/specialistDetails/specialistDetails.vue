@@ -233,7 +233,15 @@
 				if (value <= 0) {
 					return 0
 				} else {
-					return `${value/1000}K`
+					if (value < 1000) {
+						return value
+					} else {
+						if (value < 10000) {
+							return `${value/1000}K`
+						} else {
+							return `${value/10000}W`
+						}
+					}
 				}
 			},
 			
@@ -309,7 +317,8 @@
 				this.infoText = '收藏中···';
 				createNurseFavorite(this.nurseMessage.id).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.isNurseFavorite = true
+						this.isNurseFavorite = true;
+						this.nurseMessage.collect++;
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
@@ -335,7 +344,12 @@
 				this.infoText = '取消收藏中···';
 				deleteNurseFavorite({careId: this.nurseMessage.id }).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.isNurseFavorite = false
+						this.isNurseFavorite = false;
+						if (this.nurseMessage.collect <= 0) {
+							this.nurseMessage.collect = 0
+						} else {
+							this.nurseMessage.collect = this.nurseMessage.collect - 1
+						}
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,
