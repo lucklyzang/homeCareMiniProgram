@@ -220,7 +220,7 @@
 				'storeEditServiceOrderFormSureChooseMessage'
 			]),
 			
-			// 查看更多用户评价事件
+			// 查看更多用户评价事件 
 			viewMoreUserEvaluateEvent () {
 				let mynavData = JSON.stringify(this.nurseMessage);
 				uni.navigateTo({
@@ -249,7 +249,7 @@
 			nurseTitleTransition (title) {
 				if (!title && title !== 0) {
 					return
-				};
+				}; 
 				let titleText = '';
 				titleText = this.nurseRankDictData.filter((item) => { return item.value == title})[0]['label'];
 				return titleText

@@ -88,7 +88,9 @@
 								<text>预约须知</text>
 							</view>
 							<view class="service-content-area">
-								1.每个订单仅为一位用户提供一次服务。 若需在同个时间段下单多个项目，可在护土接单后和护土沟通追加项目，可享受定折扣。<br>
+							<text v-if="!productDetailsMessage.notice">暂无</text>
+							<rich-text v-else class="rich-content" :nodes="productDetailsMessage.notice"></rich-text>
+							<!-- 	1.每个订单仅为一位用户提供一次服务。 若需在同个时间段下单多个项目，可在护土接单后和护土沟通追加项目，可享受定折扣。<br>
 								2.请务必保证提交的信息真实、准确无误。<br>
 								3.下单后请保持电话通畅，工作人员会联系您确认相关信息。<br>
 								4.下单后原则上不支持修改服务时间，如需修改，请联系平台喜服或与服务护土沟通。<br>
@@ -96,7 +98,7 @@
 								6.受限于客观条件，有以下情况者不在服务范围内: 具有攻击性、传染性、易产生过激反应等。<br>
 								7.超时费和超路程费收费规则:<br>
 								(1)超时费: 超出服务标准时长，每超出30分钟，则加收50元，以此类推。<br>
-								(2) 护士已接单未出门，扣除用户订单金额30% <br>
+								(2) 护士已接单未出门，扣除用户订单金额30% --><!-- <br> -->
 							</view>
 						</view>
 						<view class="user-evaluate-box" id="tabContent3">
@@ -778,7 +780,11 @@
 						padding: 10px 10px 20px 10px;
 						box-sizing: border-box;
 						font-size: 14px;
-						color: #101010
+						color: #101010;
+						.rich-content {
+							font-size: 14px;
+							color: #101010;
+						}
 					}	
 				};
 				.user-evaluate-box {
