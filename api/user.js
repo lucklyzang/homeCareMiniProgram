@@ -507,3 +507,31 @@ export function deleteHisAll(type) {
     method: 'delete'
   })
 };
+
+// 获取帮助中心列表
+export function getsystemHelpCenter(data) {
+  return request({
+    url: '/app-api/system/help-center/page',
+    method: 'get',
+		params: data
+  })
+}
+
+// 创建意见反馈
+export function createFeedback(data) {
+  return request({
+    url: '/app-api/hospital/feedback/create',
+    method: 'post',
+		data
+  })
+};
+
+// 更新意见反馈
+export function updateFeedback(data) {
+  return request({
+    url: '/app-api/hospital/feedback/update',
+    method: 'put',
+		data
+  })
+};
+

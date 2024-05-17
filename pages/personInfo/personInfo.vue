@@ -122,6 +122,10 @@
 						iconImg: require("@/static/img/my-service.png")
 					},
 					{
+						name: '帮助和反馈',
+						iconImg: require("@/static/img/help-feedback.png")
+					},
+					{
 						name: '相关协议',
 						iconImg: require("@/static/img/related-agreement.png")
 					}
@@ -231,6 +235,10 @@
 				} else if (name == '初步评估单管理') {
 					uni.navigateTo({
 						url: '/minePackage/pages/mine/index/index'
+					})
+				} else if (name == '帮助和反馈') {
+					uni.navigateTo({
+						url: '/minePackage/pages/helpCenter/helpCenter'
 					})
 				} else if (name == '客服') {
 					this.showSupportStaffBox = true
