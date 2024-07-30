@@ -102,10 +102,10 @@
 			<u-modal :show="remindSendOrdersShow" @confirm="remindSendOrdersShow=false" confirmText="确定" confirmColor="#EB3E67">
 				<view class="slot-content">
 					<view>
-						已提醒派单
+						<u-icon name="checkmark-circle" size="40" color="#11D183"></u-icon>
 					</view>
 					<view>
-						三分钟前已提醒了
+						派单提醒已发送成功！
 					</view>
 				</view>
 			</u-modal>
@@ -1256,7 +1256,9 @@
 									font-size: 18px !important;
 									color: #101010 !important;
 									&:first-child {
-										margin-bottom: 6px
+										display: flex;
+										justify-content: center;
+										margin-bottom: 20px
 									}
 								}
 							}

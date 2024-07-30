@@ -45,6 +45,14 @@
 					<text @click="clearCacheEvent">清除缓存</text>
 				</view>
 			</view>
+			<view class="update-phone-number" @click="setLoginPasswordEvent">
+				<view class="update-phone-number-left">
+					<text>登录密码</text>
+				</view>
+				<view class="update-phone-number-right">
+					<u-icon name="arrow-right" color="#000000" size="18"></u-icon>
+				</view>
+			</view>
 		</view>
 		<view class="quit-login-btn-box">
 			<view class="quit-login-btn" @click="logOutEvent" :class="{'quitLoginBtnStyle' : showLoadingHint }">
@@ -129,6 +137,11 @@
 				  icon: 'success'
 				});
 				this.getStorageInfoSyncEvent()
+			},
+			
+			// 设置登录密码事件
+			setLoginPasswordEvent () {
+				
 			},
 			
 			// 上传图片方法

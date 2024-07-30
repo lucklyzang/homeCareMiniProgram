@@ -38,7 +38,7 @@
 				</view>
 			</view>
 			<view class="center-area-box">
-				<view v-for="(item,index) in functionList" :key="index">
+				<view v-for="(item,index) in functionList" :key="index" @click="functionClickPromptEvent">
 					<image :src="item.iconImg"></image>
 					<text>{{ item.name }}</text>
 				</view>
@@ -55,6 +55,15 @@
 				</view>
 			</view>
 		</view>
+		<!-- 功能未开放点击提示框 -->
+		<u-transition :show="functuonUnopenShow">
+			<view class="functuon-unopen">
+				<view class="left-img">
+					<u-icon name="info-circle" color="#289E8E" size="24"></u-icon>
+				</view>
+				<view class="right-text">该功能暂未开放，敬请期待！</view>
+			</view>
+		</u-transition>
 	</view>
 </template>
 
@@ -78,6 +87,8 @@
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
+				functuonUnopenShow: false,
+				functuonUnopenTimer: null,
 				showLoadingHint: false,
 				showSupportStaffBox: false,
 				personPhotoSource: '',
@@ -159,10 +170,29 @@
 				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 			}
 		},
+		onUnload () {
+			this.clearTimer()
+		},
 		methods: {
 			...mapMutations([
 				'changeUserBasicInfo'
 			]),
+			
+			clearTimer () {
+				if (this.functuonUnopenTimer) {
+					clearTimeout(this.functuonUnopenTimer);
+					this.functuonUnopenTimer = null;    
+				}
+			},
+			
+			// 中部跳转至其它小程序事件
+			functionClickPromptEvent () {
+				if (this.functuonUnopenShow) {
+					return
+				};
+				this.functuonUnopenShow = true;
+				this.functuonUnopenTimer = setTimeout(() => { this.functuonUnopenShow = false },1500)
+			},
 			
 			// 头像和昵称点击事件
 			enterPersonMessagePageEvent () {
@@ -256,6 +286,28 @@
 	};
 	.content-box {
 		@include content-wrapper;
+		.functuon-unopen {
+			position: fixed;
+			top: 60%;
+			left: 50%;
+			transform: translateX(-50%);
+			height: 48px;
+			width: 80%;
+			background: #fff;
+			box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.4);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.left-img {
+				width: 24px;
+				height: 24px;
+				margin-right: 20px;
+			};
+			.right-right {
+				font-size: 14px;
+				color: #101010;
+			}
+		};
 		::v-deep .u-popup {
 			.u-popup__content {
 				width: 90%;

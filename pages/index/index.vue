@@ -1291,7 +1291,6 @@
 							}
 						};
 						.good-territory {
-							display: flex;
 							margin-top: 6px;
 							>text {
 								font-size: 11px;
@@ -1305,9 +1304,7 @@
 								background: #FEB8B7;
 								border-radius: 3px;
 								font-weight: 600;
-								&:nth-child(1) {
-									margin-right: 6px
-								}
+								margin-right: 6px;
 							}
 						}
 					}

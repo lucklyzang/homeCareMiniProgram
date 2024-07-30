@@ -617,8 +617,8 @@
 						};
 						.good-territory {
 							margin-top: 4px;
-							display: flex;
-							align-items: center;
+							// display: flex;
+							// align-items: center;
 							>text {
 								font-size: 12px;
 								color: #fff;
@@ -631,9 +631,7 @@
 								background: #FEB8B7;
 								border-radius: 3px;
 								font-weight: 600;
-								&:nth-child(1) {
-									margin-right: 6px
-								}
+								margin-right: 6px;
 							}
 						};
 						.nurse-practitioner-list-right {
