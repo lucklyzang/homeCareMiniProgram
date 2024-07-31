@@ -187,13 +187,13 @@
 		},
 		data() {
 			return {
-				searchValue: '',
 				isShowSearchInput: false,
 				deleteSearchShow: false,
 				defaultNurseAvatar: require("@/static/img/health-nurse.png"),
 				jaundiceDetectionServicePng: require("@/static/img/jaundice-detection-service.png"),
 				showLoadingHint: false,
 				infoText: '加载中···',
+				searchValue: '',
 				currentPageNum: 1,
 				pageSize: 20,
 				totalCount: 0,

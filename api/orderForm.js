@@ -69,6 +69,14 @@ export function createPayOrder(data) {
   })
 };
 
+// 获得交易订单数量
+export function getTradeOrderCount() {
+  return request({
+    url: '/app-api/trade/order/get-count',
+    method: 'get'
+  })
+};
+
 // 查询服务时间
 export function getServiceTime(data) {
   return request({

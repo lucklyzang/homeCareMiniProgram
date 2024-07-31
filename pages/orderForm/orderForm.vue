@@ -481,7 +481,7 @@
 		removeAllLocalStorage,
 		fenToYuan
 	} from '@/common/js/utils'
-	import { getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder, tradeOrderCancancelcount } from '@/api/orderForm.js'
+	import { getTradeOrderPage, cancelOrder, deleteOrder, reminderOrder, tradeOrderCancancelcount, getTradeOrderCount } from '@/api/orderForm.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -563,6 +563,7 @@
 			}
 		},
 		onShow() {
+			this.getTradeOrderCountEvent();
 			if (this.editServiceOrderFormSureChooseMessage.hasOwnProperty('current')) {
 				this.current = this.editServiceOrderFormSureChooseMessage.current;
 				this.queryTradeOrderPage({
@@ -686,12 +687,71 @@
 				})
 			},
 			
+			// 获取交易订单数量
+			getTradeOrderCountEvent () {
+				getTradeOrderCount().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (JSON.stringify(res.data.data) != '{}') {
+							let allCountIndex = this.list.findIndex((item) => { return item.name == '全部'});
+							let unpaidCountIndex = this.list.findIndex((item) => { return item.name == '待付款'});
+							let unassignCountIndex = this.list.findIndex((item) => { return item.name == '派单中'});
+							let deliveredCountIndex = this.list.findIndex((item) => { return item.name == '服务中'});
+							let uncommentedCountIndex = this.list.findIndex((item) => { return item.name == '待评价'});
+							let cancelCountIndex = this.list.findIndex((item) => { return item.name == '取消|退款'});
+							if (allCountIndex != -1) {
+								if (res.data.data.allCount > 0) {
+									this.list[allCountIndex]['badge']['value'] = res.data.data.allCount
+								}
+							};
+							if (unpaidCountIndex != -1) {
+								if (res.data.data.unpaidCount > 0) {
+									this.list[unpaidCountIndex]['badge']['value'] = res.data.data.unpaidCount
+								}
+							};
+							if (unassignCountIndex != -1) {
+								if (res.data.data.unassignCount > 0) {
+									this.list[unassignCountIndex]['badge']['value'] = res.data.data.unassignCount
+								}
+							};
+							if (deliveredCountIndex != -1) {
+								if (res.data.data.deliveredCount > 0) {
+									this.list[deliveredCountIndex]['badge']['value'] = res.data.data.deliveredCount
+								}
+							};
+							if (uncommentedCountIndex != -1) {
+								if (res.data.data.uncommentedCount > 0) {
+									this.list[uncommentedCountIndex]['badge']['value'] = res.data.data.uncommentedCount
+								}
+							};
+							if (cancelCountIndex != -1) {
+								if (res.data.data.cancelCount > 0) {
+									this.list[cancelCountIndex]['badge']['value'] = res.data.data.cancelCount
+								}
+							}
+						}
+					} else {
+						this.$refs.uToast.show({
+							message: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						message: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			
 			// 查询交易订单
 			queryTradeOrderPage(data,flag) {
 				this.tradeList = [];
 				// 重置所有类型订单数量
-				this.list.forEach((item) => { return item['badge']['value'] = 0 });
+				// this.list.forEach((item) => { return item['badge']['value'] = 0 });
 				if (flag) {
 					this.fullTradeList = [];
 					this.showLoadingHint = true
@@ -720,7 +780,7 @@
 						};
 						this.fullTradeList = this.fullTradeList.concat(this.tradeList);
 						// 展示当期类型订单数量
-						this.list[this.current]['badge']['value'] = this.totalCount;
+						// this.list[this.current]['badge']['value'] = this.totalCount;
 						if (this.fullTradeList.length == 0) {
 							this.isShowNoData = true
 						} else {

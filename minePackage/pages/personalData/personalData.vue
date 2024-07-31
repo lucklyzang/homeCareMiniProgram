@@ -141,7 +141,9 @@
 			
 			// 设置登录密码事件
 			setLoginPasswordEvent () {
-				
+				uni.navigateTo({
+					url: '/minePackage/pages/setLoginPassword/setLoginPassword'
+				})
 			},
 			
 			// 上传图片方法

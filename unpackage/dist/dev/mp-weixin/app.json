@@ -54,6 +54,7 @@
         "pages/myCollect/myCollect",
         "pages/personalData/personalData",
         "pages/setNickName/setNickName",
+        "pages/setLoginPassword/setLoginPassword",
         "pages/feedback/feedback",
         "pages/helpCenter/helpCenter",
         "pages/updatePhoneNumber/updatePhoneNumber",

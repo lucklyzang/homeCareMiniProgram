@@ -309,6 +309,15 @@
 					}
 				},
 				{
+					"path": "pages/setLoginPassword/setLoginPassword",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/feedback/feedback",
 					"style": {
 						"navigationBarTitleText": "",
