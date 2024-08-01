@@ -7,7 +7,7 @@ const instance = axios.create({
   baseURL: 'https://dev.nurse.blinktech.cn/nurse',
 	retry: 3, // 网络请求异常后，重试次数 
 	retryDelay: 1000, // 每次重试间隔时间
-	timeout: 30000,
+	timeout: 30000, 
   headers: {
     // common: {    
     //   'Accept': 'application/json, test/plain,'

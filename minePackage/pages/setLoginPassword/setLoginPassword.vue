@@ -11,25 +11,30 @@
 			<view class="new-password">
 				<u--input
 					placeholder="输入新的密码"
-					border="surround"
-					value="passwordValue"
+					border="none"
+					@change="newPasswordChangeEvent"
+					v-model="passwordValue"
 					type="password"
 					clearable
 				></u--input>
 			</view>
 			<view class="new-password again-new-password">
 				<u--input
-					placeholder="再次输入新的密码"
-					border="surround"
-					value="againPasswordValue"
+					placeholder="再次确认新的密码"
+					border="none"
+					@change="againPasswordChangeEvent"
+					v-model="againPasswordValue"
 					type="password"
 					clearable
 				></u--input>
 			</view>
+			<view class="password-rule">
+				密码长度为6-20位,需包含大小写英文字母、数字、特殊字符。
+			</view>
 		</view>
 		<view class="bottom-btn-area">
-			<view class="sure-btn sureBtnStyle" @click="completeSetPasswordEvent">
-				<text>完成</text>
+			<view class="sure-btn" :class="{'sureBtnStyle': !passwordValueCorrect || !againPasswordValueCorrect || showLoadingHint}" @click="completeSetPasswordEvent">
+				<text>{{ showLoadingHint ? '设置中···' : '完成' }}</text>
 			</view>
 		</view>
 	</view>
@@ -46,6 +51,7 @@
 		removeAllLocalStorage
 	} from '@/common/js/utils'
 	import { updateUserMessage } from '@/api/user.js'
+	import { setPassword } from '@/api/login.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -56,7 +62,9 @@
 				showLoadingHint: false,
 				infoText: '加载中',
 				passwordValue: '',
-				againPasswordValue: ''
+				againPasswordValue: '',
+				passwordValueCorrect: false,
+				againPasswordValueCorrect: false
 			}
 		},
 		computed: {
@@ -80,6 +88,36 @@
 			// 顶部导航返回事件
 			backTo () {
 				uni.navigateBack()
+			},
+			
+			// 新密码输入框值改变事件
+			newPasswordChangeEvent (value) {
+				let regexWidthCharRange = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*)(?=.*[`~!@#$%^&*()_\-+=<>.?:"{}].*).{6,20}$/;
+				if (regexWidthCharRange.test(value)) {
+					if (this.passwordValue === this.againPasswordValue) {
+						this.passwordValueCorrect = true;
+						this.againPasswordValueCorrect = true;
+					} else {
+						this.passwordValueCorrect = false
+					}	
+				} else {
+					this.passwordValueCorrect = false
+				}
+			},
+			
+			// 再次密码输入框值改变事件
+			againPasswordChangeEvent (value) {
+				let regexWidthCharRange = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*)(?=.*[`~!@#$%^&*()_\-+=<>.?:"{}].*).{6,20}$/;
+				if (regexWidthCharRange.test(value)) {
+					if (this.passwordValue === this.againPasswordValue) {
+						this.againPasswordValueCorrect = true;
+						this.passwordValueCorrect = true;
+					} else {
+						this.againPasswordValueCorrect = false
+					}
+				} else {
+					this.againPasswordValueCorrect = false
+				}
 			},
 			
 			// 密码过滤空格函数
@@ -122,13 +160,53 @@
 					});
 					return
 				};
-				if (this.passwordValue.length !== this.againPasswordValue) {
+				if (this.passwordValue !== this.againPasswordValue) {
 					this.$refs.uToast.show({
 						message: '两次输入不一致!',
 						type: 'error',
 						position: 'center'
+					});
+					return;
+				};
+				this.setLoginPasswordPort();
+			},
+			
+			// 设置密码接口
+			setLoginPasswordPort () {
+				this.showLoadingHint = true;
+				let loginMessage = {
+					password: this.passwordValue
+				};
+				setPassword(loginMessage).then((res) => {
+					if ( res && (res.data.code == 0 || res.data.code == 401) ) {
+						this.$refs.uToast.show({
+							message: '密码设置成功!',
+							type: 'success',
+							position: 'bottom'
+						});
+						// 清空store和localStorage
+						this.$store.dispatch('resetLoginState');
+						removeAllLocalStorage();
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: `${res.data.msg}`,
+							type: 'success',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						message: `${err}`,
+						type: 'success',
+						position: 'bottom'
 					})
-				}
+				})
 			}
 		}
 	}
@@ -177,13 +255,26 @@
 			.new-password {
 				::v-deep .u-input {
 					background: #fff;
+					height: 34px;
+					padding: 0 4px !important;
+					box-sizing: border-box;
 				}
 			};
 			.again-new-password {
 				margin-top: 20px;
 				::v-deep .u-input {
 					background: #fff;
+					height: 34px;
+					padding: 0 4px !important;
+					box-sizing: border-box;
 				}
+			};
+			.password-rule {
+				margin-top: 10px;
+				font-size: 12px;
+				color: #c0c0c0;
+				word-break: break-all;
+				text-align: center;
 			}
 		};
 		.bottom-btn-area {
