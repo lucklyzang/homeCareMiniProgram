@@ -105,7 +105,7 @@
 						<u-icon name="checkmark-circle" size="40" color="#11D183"></u-icon>
 					</view>
 					<view>
-						派单提醒已发送成功！
+						{{ deliveryReminderText }}
 					</view>
 				</view>
 			</u-modal>
@@ -340,6 +340,7 @@
 				haveCancelShow: false,
 				currentImgUrl: '',
 				currentFlow: null,
+				deliveryReminderText: '派单提醒已发送成功！',
 				canCancelcount: '',
 				serviceMessage: {
 					id: '',
@@ -948,7 +949,11 @@
 				reminderOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.remindSendOrdersShow = true;
+						this.deliveryReminderText = '派单提醒已发送成功！';
 						this.queryOrderDetail({id:this.editServiceOrderFormSureChooseMessage.orderMessage.id,type: 1})
+					} else if (res.data.code == 1011000034) {
+						this.remindSendOrdersShow = true;
+						this.deliveryReminderText = '派单提醒已发送成功！请在三分钟后再次尝试！';
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,

@@ -12,6 +12,7 @@
 				<u--input
 					placeholder="输入新的密码"
 					border="none"
+					:formatter="formatter" ref="newPasswordInput"
 					@change="newPasswordChangeEvent"
 					v-model="passwordValue"
 					type="password"
@@ -22,6 +23,7 @@
 				<u--input
 					placeholder="再次确认新的密码"
 					border="none"
+					:formatter="formatter" ref="againNewpasswordInput"
 					@change="againPasswordChangeEvent"
 					v-model="againPasswordValue"
 					type="password"
@@ -79,6 +81,8 @@
 		onShow() {
 		},
 		onReady() {
+			this.$refs.newPasswordInput.setFormatter(this.formatter);
+			this.$refs.againNewpasswordInput.setFormatter(this.formatter)
 		},
 		methods: {
 			...mapMutations([

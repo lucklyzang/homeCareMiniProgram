@@ -88,13 +88,13 @@
 						<u-icon name="checkmark-circle" size="40" color="#11D183"></u-icon>
 					</view>
 					<view>
-						派单提醒已发送成功！
+						{{ deliveryReminderText }}
 					</view>
 				</view>
 			</u-modal>
 		</view>
 		<u-toast ref="uToast" />
-		<u-loading-icon :show="showLoadingHint" text="加载中···" size="18" textSize="16"></u-loading-icon>
+		<u-loading-icon :show="showLoadingHint" :text="infoText" size="18" textSize="16"></u-loading-icon>
 		<view class="top-area-box">
 			<view class="nav">
 				<nav-bar :home="false" backState='2000' bgColor="none" title="我的订单">
@@ -496,6 +496,7 @@
 				pageSize: 5,
 				totalCount: 0,
 				status: 'nomore',
+				deliveryReminderText: '派单提醒已发送成功！',
 				tradeList: [],
 				fullTradeList: [],
 				deleteShow: false,
@@ -919,6 +920,7 @@
 				reminderOrder(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.remindSendOrdersShow = true;
+						this.deliveryReminderText = '派单提醒已发送成功！';
 						this.currentPageNum = 1;
 						this.totalCount = 0;
 						this.status = 'nomore';
@@ -929,6 +931,9 @@
 							pageSize: this.pageSize,
 							status: this.transitionOrderStatus(this.current)
 						},true)
+					} else if (res.data.code == 1011000034) {
+						this.remindSendOrdersShow = true;
+						this.deliveryReminderText = '派单提醒已发送成功！请在三分钟后再次尝试！';
 					} else {
 						this.$refs.uToast.show({
 							message: res.data.msg,

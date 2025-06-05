@@ -383,7 +383,7 @@
 								if (res[key] == "accept") {
 									uni.showToast({
 										title: '已允许消息推送'
-									});
+									}); 
 									temporaryTemIdArr.push(key)
 								}
 							};
